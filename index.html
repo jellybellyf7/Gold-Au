@@ -198,7 +198,7 @@ p{ margin:0; } button{ font-family:inherit; } input{ font-family:inherit; }
 .rate-status{ display:inline-block; padding:3px 7px; border-radius:var(--radius-pill); border:1px solid var(--glass-border-strong); background:var(--glass); color:var(--text-2); font-size:10px; line-height:1.3; font-weight:700; white-space:nowrap; }
 .rate-status[data-status="live"],.rate-status[data-status="reference"],.rate-status[data-status="retrieved"]{ color:var(--positive); border-color:var(--pos-border); background:var(--pos-bg); }
 .rate-status[data-status="manual"]{ color:var(--gold-700); }
-.rate-status[data-status="cached"],.rate-status[data-status="stale"]{ color:var(--amber); }
+.rate-status[data-status="cached"],.rate-status[data-status="stale"]{ color:#EF5555; border-color:rgba(239,85,85,.46); background:rgba(239,85,85,.10); }
 .field input::placeholder{ color:var(--text-2); opacity:.72; font-size:12px; font-weight:500; }
 /* segmented / chips */
 .seg{ display:flex; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; background:var(--glass-strong); border:1px solid var(--glass-border); border-radius:var(--radius-pill); padding:4px; gap:4px; }
@@ -1332,6 +1332,100 @@ button, .chip, .seg button{ -webkit-tap-highlight-color:transparent; }
   .app .brand-text h1{letter-spacing:-.023em;}
 }
 
+
+/* Demo 16: align the compact source capsule immediately beside each rate heading. */
+#spotLiveLink.merged-rate-control, #usdinrLiveLink.merged-rate-control {
+  min-height:23px; padding:2px 6px; gap:3px;
+  font-size:10px;
+}
+#spotLiveLink.merged-rate-control .rate-status, #usdinrLiveLink.merged-rate-control .rate-status {
+  font-size:10px;
+}
+#spotLiveLink .merged-rate-chevron, #usdinrLiveLink .merged-rate-chevron {font-size:9px;}
+.rates-body > .field:nth-child(1) > .field-top,
+.rates-body > .field:nth-child(2) > .field-top {
+  justify-content:flex-start; align-items:center; flex-wrap:nowrap; gap:6px;
+}
+.rates-body > .field:nth-child(1) > .field-top > label,
+.rates-body > .field:nth-child(2) > .field-top > label {
+  flex:0 1 auto; min-width:0; white-space:nowrap;
+}
+.rates-body > .field:nth-child(1) > .field-top > .field-top-actions,
+.rates-body > .field:nth-child(2) > .field-top > .field-top-actions {
+  flex:0 0 auto; gap:0;
+}
+
+/* Demo 15: combine live status and quote trigger into one compact capsule. */
+#spotLiveLink.merged-rate-control, #usdinrLiveLink.merged-rate-control {
+  display:inline-flex; align-items:center; justify-content:center; gap:5px;
+  margin:0; padding:3px 9px; min-height:29px; border-radius:999px;
+  border:1px solid var(--pos-border); background:var(--pos-bg);
+  color:var(--positive); cursor:pointer; line-height:1.2;
+}
+#spotLiveLink.merged-rate-control .rate-status, #usdinrLiveLink.merged-rate-control .rate-status {
+  border:0; padding:0; background:transparent; border-radius:0; color:inherit;
+  font-size:11px; line-height:1.2; font-weight:750;
+}
+.merged-rate-control .merged-rate-chevron {font-size:11px; line-height:1; color:inherit; opacity:.9;}
+.merged-rate-control:focus-visible {outline:2px solid var(--gold-700);outline-offset:2px;}
+.merged-rate-control:has(.rate-status[data-status="manual"]) {color:var(--gold-700);border-color:var(--glass-border-strong);background:var(--glass);}
+.merged-rate-control:has(.rate-status[data-status="cached"]),.merged-rate-control:has(.rate-status[data-status="stale"]) {color:#EF5555;border-color:rgba(239,85,85,.46);background:rgba(239,85,85,.10);}
+/* Demo 17: capsule size only; keep the existing heading and page structure. */
+#spotLiveLink.merged-rate-control,
+#usdinrLiveLink.merged-rate-control {
+  min-height:20px;
+  padding:1px 4px;
+  gap:2px;
+  font-size:9px;
+  max-width:100%;
+  flex-shrink:1;
+}
+#spotLiveLink.merged-rate-control .rate-status,
+#usdinrLiveLink.merged-rate-control .rate-status {font-size:9px;white-space:nowrap;}
+#spotLiveLink .merged-rate-chevron,
+#usdinrLiveLink .merged-rate-chevron {font-size:8px;}
+
+/* Demo 18: fluid rate-heading/capsule fit; no markup or JS changes. */
+.rates-body > .field:nth-child(-n+2) > .field-top {
+  display:flex; flex-wrap:nowrap; align-items:center;
+  justify-content:flex-start; gap:8px;
+  min-width:0; width:100%;
+}
+.rates-body > .field:nth-child(-n+2) > .field-top > label {
+  flex:0 1 auto; min-width:0; max-width:100%;
+  white-space:nowrap; font-size:12px;
+  letter-spacing:clamp(-.35px, -.03vw, 0px);
+}
+.rates-body > .field:nth-child(-n+2) > .field-top > label svg {
+  flex:none;
+}
+.rates-body > .field:nth-child(-n+2) > .field-top > .field-top-actions {
+  flex:0 1 auto; min-width:0; max-width:100%;
+}
+#spotLiveLink.merged-rate-control,
+#usdinrLiveLink.merged-rate-control {
+  flex:0 1 auto; min-width:0; max-width:100%;
+  padding-inline:clamp(2px, .75vw, 4px);
+  gap:clamp(1px, .35vw, 2px);
+  font-size:clamp(8px, 1.9vw, 9px);
+  white-space:nowrap;
+}
+#spotLiveLink.merged-rate-control .rate-status,
+#usdinrLiveLink.merged-rate-control .rate-status {
+  font-size:inherit; min-width:0; overflow:hidden; text-overflow:ellipsis;
+}
+
+/* Demo 22: reliable state colours on the merged control itself (no :has dependency). */
+#spotLiveLink.merged-rate-control[data-status="cached"],
+#usdinrLiveLink.merged-rate-control[data-status="cached"],
+#spotLiveLink.merged-rate-control[data-status="stale"],
+#usdinrLiveLink.merged-rate-control[data-status="stale"] {
+  color:#EF5555; border-color:rgba(239,85,85,.46); background:rgba(239,85,85,.10);
+}
+#spotLiveLink.merged-rate-control[data-status="cached"] .rate-status,
+#usdinrLiveLink.merged-rate-control[data-status="cached"] .rate-status,
+#spotLiveLink.merged-rate-control[data-status="stale"] .rate-status,
+#usdinrLiveLink.merged-rate-control[data-status="stale"] .rate-status { color:inherit; }
 </style>
 <style id="toggle-magnetic_liquid_glass">
 
@@ -3700,6 +3794,104 @@ button, [role="button"], [role="tab"] { -webkit-touch-callout:none; }
 :root[data-theme="light"] .bottom-nav .nav-item.active { color:#15110D!important; text-shadow:none!important; }
 :root[data-theme="light"] .bottom-nav .nav-item svg.elite-outline-icon { color:inherit!important; stroke:currentColor!important; opacity:1!important; filter:none!important; }
 </style>
+
+<style id="elite-inline-toolbar-demo-11">
+/* Demo 11: precise, separate, hollow-outline toolbar keys; existing icons/handlers untouched. */
+#tab-market .section-triple-actions,
+#tab-calc .section-triple-actions,
+#tab-bench .section-triple-actions,
+#tab-convert .purity-unified-actions .a6-head-actions{
+  align-items:center!important;
+}
+#tab-market .section-triple-actions>button,
+#tab-calc .section-triple-actions>button,
+#tab-bench .section-triple-actions>button,
+#tab-convert .purity-unified-actions .a6-head-actions>button:not(.reset-toggle){
+  box-sizing:border-box!important;
+  width:34px!important;height:34px!important;min-width:0!important;min-height:0!important;
+  padding:6px!important;
+  border:1px solid rgba(217,169,88,.46)!important;
+  border-radius:50%!important;
+  background:linear-gradient(150deg,rgba(255,235,182,.095),rgba(255,235,182,.015))!important;
+  box-shadow:inset 0 1px 0 rgba(255,239,190,.10)!important;
+  color:#FFF4DF!important;
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  transition:border-color .18s ease,background .18s ease,transform .18s ease!important;
+}
+#tab-market .section-triple-actions>button svg,
+#tab-calc .section-triple-actions>button svg,
+#tab-bench .section-triple-actions>button svg,
+#tab-convert .purity-unified-actions .a6-head-actions>button:not(.reset-toggle) svg{
+  width:19px!important;height:19px!important;stroke-width:1.9!important;stroke-linecap:round!important;stroke-linejoin:round!important;
+}
+#tab-market .section-triple-actions>button:active,
+#tab-calc .section-triple-actions>button:active,
+#tab-bench .section-triple-actions>button:active,
+#tab-convert .purity-unified-actions .a6-head-actions>button:not(.reset-toggle):active{
+  transform:scale(.94)!important;
+}
+#tab-market .section-triple-actions>button:disabled,
+#tab-calc .section-triple-actions>button:disabled,
+#tab-bench .section-triple-actions>button:disabled,
+#tab-convert .purity-unified-actions .a6-head-actions>button:disabled{opacity:.45!important}
+body.light #tab-market .section-triple-actions>button,
+body.light #tab-calc .section-triple-actions>button,
+body.light #tab-bench .section-triple-actions>button,
+body.light #tab-convert .purity-unified-actions .a6-head-actions>button:not(.reset-toggle),
+[data-theme="light"] #tab-market .section-triple-actions>button,
+[data-theme="light"] #tab-calc .section-triple-actions>button,
+[data-theme="light"] #tab-bench .section-triple-actions>button,
+[data-theme="light"] #tab-convert .purity-unified-actions .a6-head-actions>button:not(.reset-toggle){
+  color:#15110D!important;
+  border-color:rgba(115,78,29,.38)!important;
+  background:linear-gradient(150deg,rgba(255,255,255,.52),rgba(211,173,108,.09))!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.60)!important;
+}
+@media(max-width:365px){
+  #tab-market .section-triple-actions>button,
+  #tab-calc .section-triple-actions>button,
+  #tab-bench .section-triple-actions>button,
+  #tab-convert .purity-unified-actions .a6-head-actions>button:not(.reset-toggle){width:30px!important;height:30px!important;padding:5px!important}
+}
+</style>
+
+<style id="elite-toolbar-tab-matched-colors-demo13">
+/* Toolbar icons/text track the selected bottom navigation label in each theme. */
+:root:not([data-theme="light"]) #tab-market .section-triple-actions>button,
+:root:not([data-theme="light"]) #tab-calc .section-triple-actions>button,
+:root:not([data-theme="light"]) #tab-bench .section-triple-actions>button,
+:root:not([data-theme="light"]) #tab-convert .purity-unified-actions .a6-head-actions>button:not(.reset-toggle){color:#FFF4DF!important;}
+:root[data-theme="light"] #tab-market .section-triple-actions>button,
+:root[data-theme="light"] #tab-calc .section-triple-actions>button,
+:root[data-theme="light"] #tab-bench .section-triple-actions>button,
+:root[data-theme="light"] #tab-convert .purity-unified-actions .a6-head-actions>button:not(.reset-toggle){color:#080808!important;text-shadow:none!important;}
+#tab-market .section-triple-actions>button svg,
+#tab-calc .section-triple-actions>button svg,
+#tab-bench .section-triple-actions>button svg,
+#tab-convert .purity-unified-actions .a6-head-actions>button:not(.reset-toggle) svg{color:inherit!important;stroke:currentColor!important;}
+</style>
+<style id="elite-toolbar-frameless-demo14">
+/* Demo 14: remove circular toolbar button frames, preserve icon glyphs, spacing and interactions. */
+#tab-market .section-triple-actions>button,
+#tab-calc .section-triple-actions>button,
+#tab-bench .section-triple-actions>button,
+#tab-convert .purity-unified-actions .a6-head-actions>button:not(.reset-toggle){
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+body.light #tab-market .section-triple-actions>button,
+body.light #tab-calc .section-triple-actions>button,
+body.light #tab-bench .section-triple-actions>button,
+body.light #tab-convert .purity-unified-actions .a6-head-actions>button:not(.reset-toggle),
+:root[data-theme="light"] #tab-market .section-triple-actions>button,
+:root[data-theme="light"] #tab-calc .section-triple-actions>button,
+:root[data-theme="light"] #tab-bench .section-triple-actions>button,
+:root[data-theme="light"] #tab-convert .purity-unified-actions .a6-head-actions>button:not(.reset-toggle){
+  border:0!important;background:transparent!important;box-shadow:none!important;
+}
+</style>
 </head>
 <body>
 <div aria-hidden="true" class="ambient"><div class="orb orb-a"></div><div class="orb orb-b"></div><div class="orb orb-c"></div></div>
@@ -3758,7 +3950,7 @@ button, [role="button"], [role="tab"] { -webkit-touch-callout:none; }
 <div class="field-top">
 <label for="spotInput"><svg aria-hidden="true" class="icon icon-sm" viewbox="0 0 28 28"><use href="#dropBase"></use><circle cx="14" cy="14" fill="none" opacity="0.85" r="5.5" stroke="var(--glyph)" stroke-width="1.5"></circle><ellipse cx="14" cy="14" fill="none" opacity="0.85" rx="2.1" ry="5.5" stroke="var(--glyph)" stroke-width="1.5"></ellipse><path d="M8.7 14h10.6" opacity="0.85" stroke="var(--glyph)" stroke-width="1.5"></path></svg>XAU → U$D</label>
 <div class="field-top-actions">
-<span class="rate-status" id="spotRateStatus">Unavailable</span><button aria-controls="spotQuotePopup" aria-expanded="false" aria-haspopup="dialog" class="live-check usdinr-pop-trigger" id="spotLiveLink" style="margin-left:4px;" title="Show TradingView gold spot and refresh XAU/USD independently from Gold API" type="button">Live ▾</button>
+<button aria-controls="spotQuotePopup" aria-expanded="false" aria-haspopup="dialog" class="live-check usdinr-pop-trigger merged-rate-control" id="spotLiveLink"  title="Show TradingView gold spot and refresh XAU/USD independently from Gold API" type="button" aria-label="Show gold spot live quote and refresh"><span class="rate-status" id="spotRateStatus">Unavailable</span><span class="merged-rate-chevron" aria-hidden="true">▾</span></button>
 </div>
 </div>
 <div class="input-wrap"><span class="prefix">$</span><input autocomplete="off" id="spotInput" inputmode="decimal" placeholder="Awaiting live quote" type="text"/><span class="prefix market-unit">/Oz t</span></div>
@@ -3767,7 +3959,7 @@ button, [role="button"], [role="tab"] { -webkit-touch-callout:none; }
 <div class="field-top">
 <label for="usdinrInput"><svg aria-hidden="true" class="icon icon-sm" viewbox="0 0 28 28"><use href="#dropBase"></use><path d="M8.5 11.5H18M15 8.5l3 3-3 3" fill="none" opacity="0.85" stroke="var(--glyph)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path><path d="M19.5 17H10M13 20l-3-3 3-3" fill="none" opacity="0.85" stroke="var(--glyph)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg>U$D → IN₹</label>
 <div class="field-top-actions">
-<span class="rate-status" id="usdinrRateStatus">Unavailable</span><button aria-controls="usdinrQuotePopup" aria-expanded="false" aria-haspopup="dialog" class="live-check usdinr-pop-trigger" id="usdinrLiveLink" style="margin-left:4px;" title="Show TradingView USD/INR and refresh independent FX reference" type="button">Live ▾</button>
+<button aria-controls="usdinrQuotePopup" aria-expanded="false" aria-haspopup="dialog" class="live-check usdinr-pop-trigger merged-rate-control" id="usdinrLiveLink"  title="Show TradingView USD/INR and refresh independent FX reference" type="button" aria-label="Show USD INR live quote and refresh"><span class="rate-status" id="usdinrRateStatus">Unavailable</span><span class="merged-rate-chevron" aria-hidden="true">▾</span></button>
 </div>
 </div>
 <div class="input-wrap"><span class="prefix">₹</span><input autocomplete="off" id="usdinrInput" inputmode="decimal" placeholder="Awaiting FX rate" type="text"/><span class="prefix market-unit">/$</span></div>
@@ -3937,7 +4129,7 @@ button, [role="button"], [role="tab"] { -webkit-touch-callout:none; }
 <div class="input-wrap"><input id="convKaratInput" placeholder="0" readonly="" style="color: var(--gold-700); font-weight: 800; pointer-events: none; outline: none; background: transparent;" tabindex="-1" type="text"/></div>
 </div>
 </div>
-<div class="section-sub" style="margin-bottom:12px;">Gold Yield</div>
+<div class="section-sub" style="margin-bottom:12px; display:flex; align-items:center; gap:6px;"><svg aria-hidden="true" class="icon icon-sm" focusable="false" viewBox="0 0 28 28"><use href="#dropBase"></use><path d="M7.5 17.5 10.5 10.5h7l3 7-2 2.5h-9z" fill="none" stroke="var(--glyph)" stroke-width="1.5" stroke-linejoin="round"/><path d="M10.5 10.5 12 17.5m5.5-7 1 7M7.5 17.5h13" fill="none" stroke="var(--glyph)" stroke-width="1.1" stroke-linejoin="round"/></svg>Gold Yield</div>
 <style>
           .conv-val { font-family:'Manrope',sans-serif; font-weight:800; letter-spacing:-0.02em; background:linear-gradient(100deg, var(--gold-700), var(--gold-300) 55%, var(--gold-500)); -webkit-background-clip:text; background-clip:text; color:transparent; display:inline-block; vertical-align:middle; line-height:1.1; }
         
@@ -4503,8 +4695,9 @@ button, [role="button"], [role="tab"] { -webkit-touch-callout:none; }
     [['spot','spotRateStatus'],['usdinr','usdinrRateStatus'],['ftbar10g24k','ftbarRateStatus']].forEach(function(entry){
       var badge = $(entry[1]), label = rateLabel(entry[0]);
       if(!badge) return;
-      badge.textContent = label;
+      badge.textContent = (entry[0] === 'usdinr' && label === 'Reference') ? 'Ref' : label;
       badge.setAttribute('data-status',label.toLowerCase());
+      if(entry[0] === 'spot' || entry[0] === 'usdinr'){ var capsule = badge.closest('.merged-rate-control'); if(capsule) capsule.setAttribute('data-status',label.toLowerCase()); }
       var meta = state.rateMeta[entry[0]];
       var failure = badge.getAttribute('data-fetch-error');
       badge.title = (meta && meta.at ? (label + (entry[0] === 'ftbar10g24k' ? ' · last fetched ' : ' · quote time ') + formatTimestamp(new Date(meta.at)) +
