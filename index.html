@@ -3892,6 +3892,180 @@ body.light #tab-convert .purity-unified-actions .a6-head-actions>button:not(.res
   border:0!important;background:transparent!important;box-shadow:none!important;
 }
 </style>
+
+<style id="bullion-matched-top-bottom-capsule-demo-27">
+/* Demo 27: identical outer capsule dimensions, without changing navigation or header content. */
+.topbar {
+  box-sizing:border-box!important;
+  width:min(620px, calc(100vw - 24px))!important;
+  max-width:none!important;
+  height:65px!important;
+  min-height:65px!important;
+  margin-left:calc(50% - min(310px, (100vw - 24px)/2))!important;
+  margin-right:0!important;
+  padding:5px 12px!important;
+  gap:7px!important;
+  border-radius:24px!important;
+}
+.topbar .brand {min-width:0!important;flex:1 1 auto!important;}
+.topbar .brand-text {min-width:0!important;}
+.topbar .brand-text h1 {font-size:clamp(22px, 5.9vw, 30px)!important;line-height:1.03!important;margin:0!important;white-space:nowrap;}
+.topbar .brand-text p {font-size:clamp(12px, 3.3vw, 16px)!important;line-height:1.08!important;margin-top:1px!important;white-space:nowrap;}
+.topbar .bullion-theme-toggle {flex:0 0 auto!important;}
+.topbar #datePill {flex:0 0 auto!important;}
+@media(max-width:390px){
+ .topbar{padding:5px 7px!important;gap:4px!important;}
+ .topbar .brand-text h1{font-size:clamp(19px,5.5vw,24px)!important;}
+ .topbar .brand-text p{font-size:clamp(11px,3vw,13px)!important;}
+ .topbar #datePill{padding:5px 6px!important;}
+}
+@media(max-width:360px){
+ .topbar{width:calc(100vw - 16px)!important;margin-left:calc(50% - (100vw - 16px)/2)!important;border-radius:20px!important;}
+ .topbar .brand-text h1{font-size:19px!important;}
+ .topbar .brand-text p{font-size:11px!important;}
+}
+/* Demo 28: expand the two-line brand lettering into available header space.
+   The timestamp and theme switch keep their original reserved widths. */
+.topbar .brand-text {flex:1 1 auto!important;max-width:100%!important;overflow:visible!important;}
+.topbar .brand-text h1 {font-size:clamp(27px,7.2vw,39px)!important;letter-spacing:.015em!important;line-height:1!important;}
+.topbar .brand-text p {font-size:clamp(13px,3.8vw,19px)!important;letter-spacing:.015em!important;line-height:1.05!important;}
+@media(max-width:390px){
+ .topbar .brand-text h1{font-size:clamp(24px,6.7vw,29px)!important;}
+ .topbar .brand-text p{font-size:clamp(12px,3.3vw,14px)!important;}
+}
+@media(max-width:360px){
+ .topbar .brand-text h1{font-size:clamp(21px,6.4vw,24px)!important;}
+ .topbar .brand-text p{font-size:11.5px!important;}
+}
+</style>
+
+<style id="elite-theme-icon-periodic-motion-demo30">
+/* Theme control: icon-only decorative motion, repeating with the 5.2s capsule shimmer. */
+.bullion-theme-toggle .bullion-theme-icon{display:inline-block;transform-origin:50% 50%;animation:elite-theme-moon-or-sun 5.2s ease-in-out infinite;}
+:root[data-theme="light"] .bullion-theme-toggle .bullion-theme-icon{animation-name:elite-theme-sun-pulse;}
+@keyframes elite-theme-moon-or-sun{0%,17%,100%{transform:rotate(0deg) scale(1)}4%{transform:rotate(-16deg) scale(1.12)}9%{transform:rotate(16deg) scale(1.12)}13%{transform:rotate(-5deg) scale(1.04)}}
+@keyframes elite-theme-sun-pulse{0%,17%,100%{transform:rotate(0deg) scale(1)}5%{transform:rotate(28deg) scale(1.17)}11%{transform:rotate(60deg) scale(1.08)}16%{transform:rotate(0deg) scale(1)}}
+@media(prefers-reduced-motion:reduce){.bullion-theme-toggle .bullion-theme-icon{animation:none!important}}
+</style>
+<style>
+/* Demo 38: half-folded calendar page returns to its resting fold; preserve clock and Earth sweep. */
+#datePill .timestamp-icon{overflow:visible}
+#datePill .timestamp-icon.elite-timestamp-active{will-change:transform}
+/* Calendar page stays half-folded at rest; only its inner sheet turns. */
+#datePill .timestamp-icon:first-of-type .elite-calendar-sheet{transform-box:fill-box;transform-origin:50% 0%;transform:scaleY(.52)}
+#datePill .timestamp-icon:first-of-type .elite-calendar-fold{transform-box:fill-box;transform-origin:50% 0%;opacity:1;transform:scaleY(1)}
+#datePill .timestamp-icon:first-of-type.elite-timestamp-active .elite-calendar-sheet{animation:elite-page-flip 1.05s ease-in-out 1}
+#datePill .timestamp-icon:first-of-type.elite-timestamp-active .elite-calendar-fold{animation:elite-fold-flap 1.05s ease-in-out 1}
+#datePill .timestamp-clock-line>.timestamp-icon:first-child.elite-timestamp-active .elite-clock-hand{transform-box:view-box;transform-origin:12px 12px;animation:elite-clock-sweep 1.05s cubic-bezier(.2,.65,.2,1) 1}
+#datePill .timestamp-zone-icon .elite-earth-longitude{opacity:0;transform:translateX(-11px);transform-box:view-box;pointer-events:none}
+#datePill .timestamp-zone-icon.elite-timestamp-active .elite-earth-longitude{animation:elite-earth-longitude-sweep 1.05s ease-in-out 1}
+@keyframes elite-page-flip{0%,100%{transform:scaleY(.52)}22%{transform:scaleY(1)}47%{transform:scaleY(.04)}66%{transform:scaleY(-.82)}83%{transform:scaleY(.86)}}
+@keyframes elite-fold-flap{0%,100%{opacity:1;transform:scaleY(1)}22%{opacity:0;transform:scaleY(.1)}47%,66%{opacity:0;transform:scaleY(.1)}83%{opacity:.4;transform:scaleY(.5)}}
+@keyframes elite-clock-sweep{0%{transform:rotate(0deg)}75%{transform:rotate(360deg)}100%{transform:rotate(360deg)}}
+@keyframes elite-earth-longitude-sweep{0%{transform:translateX(-11px) scaleX(.35);opacity:0}15%{opacity:.95}50%{transform:translateX(0px) scaleX(1);opacity:1}85%{opacity:.95}100%{transform:translateX(11px) scaleX(.35);opacity:0}}
+@media(prefers-reduced-motion:reduce){#datePill .timestamp-icon.elite-timestamp-active,#datePill .timestamp-icon.elite-timestamp-active *{animation:none!important}}
+</style>
+<style id="bullion-balanced-header-timestamp-demo33">
+/* Demo 33: allocate horizontal room evenly without changing the 65px outer capsule. */
+.topbar{justify-content:space-between!important;gap:clamp(5px,1.6vw,13px)!important;}
+.topbar .brand{flex:1 1 0!important;min-width:0!important;justify-content:flex-start!important;}
+.topbar .brand-text{min-width:0!important;}
+.topbar .bullion-theme-toggle{flex:0 0 auto!important;margin-inline:auto!important;}
+.topbar #datePill{
+ flex:0 1 auto!important;min-width:0!important;
+ padding:8px clamp(10px,2vw,16px)!important;
+ font-size:clamp(10px,2.7vw,12px)!important;
+ line-height:1.3!important;
+ border-radius:15px!important;
+ white-space:nowrap!important;
+}
+.topbar #datePill .timestamp-line{gap:6px!important;}
+.topbar #datePill .timestamp-clock-line{gap:4px!important;}
+.topbar #datePill .timestamp-icon{width:15px!important;height:15px!important;}
+.topbar #datePill .timestamp-zone-icon{width:13px!important;height:13px!important;margin-left:4px!important;}
+.topbar #datePill .timestamp-zone-label{font-size:clamp(9px,2.4vw,11px)!important;}
+@media(max-width:390px){
+ .topbar{gap:5px!important;padding-inline:8px!important;}
+ .topbar #datePill{padding:7px 8px!important;font-size:10px!important;}
+ .topbar #datePill .timestamp-line{gap:4px!important;}
+ .topbar #datePill .timestamp-clock-line{gap:2px!important;}
+ .topbar #datePill .timestamp-icon{width:13px!important;height:13px!important;}
+ .topbar #datePill .timestamp-zone-icon{width:11px!important;height:11px!important;margin-left:2px!important;}
+ .topbar #datePill .timestamp-zone-label{font-size:9px!important;}
+}
+@media(max-width:350px){
+ .topbar{flex-wrap:nowrap!important;gap:3px!important;}
+ .topbar #datePill{padding:6px 5px!important;font-size:9px!important;}
+ .topbar .brand-text h1{font-size:20px!important;}
+ .topbar .brand-text p{font-size:11px!important;}
+}
+</style>
+
+<style id="bullion-even-header-spacing-demo34">
+/* Even free-space distribution between title, theme control, and timestamp. */
+.topbar{display:flex!important;align-items:center!important;justify-content:space-between!important;column-gap:clamp(5px,1.4vw,12px)!important;}
+.topbar .brand{flex:0 1 auto!important;min-width:0!important;margin:0!important;}
+.topbar .brand-text{flex:0 1 auto!important;min-width:0!important;}
+.topbar .bullion-theme-toggle{flex:0 0 auto!important;margin:0!important;}
+.topbar #datePill{flex:0 0 auto!important;margin:0!important;}
+@media(max-width:390px){.topbar{column-gap:4px!important;}}
+@media(max-width:350px){.topbar{column-gap:3px!important;}.topbar .brand-text h1{font-size:clamp(18px,5.7vw,20px)!important;}}
+</style>
+<style id="bullion-calendar-halo-demo39">
+/* Original outline calendar with a clear live date and no glow. */
+#datePill .elite-halo-calendar{overflow:visible;filter:none!important;box-shadow:none!important}
+#datePill .elite-halo-calendar #eliteCalendarDay{font-variant-numeric:tabular-nums;paint-order:stroke;}
+</style>
+<style id="bullion-demo40-calendar-earth-motion">
+/* Calendar outline remains fixed; only its date numeral flips, with no opacity animation. */
+#datePill .elite-halo-calendar.elite-timestamp-active{animation:none!important;transform:none!important}
+#datePill .elite-halo-calendar #eliteCalendarDay{transform-box:view-box;transform-origin:12px 15px}
+#datePill .elite-halo-calendar.elite-timestamp-active #eliteCalendarDay{animation:elite-date-number-flip 1.05s cubic-bezier(.25,.7,.25,1) 1}
+@keyframes elite-date-number-flip{0%,100%{transform:rotateX(0deg) scale(1);}35%{transform:rotateX(85deg) scale(.9)}65%{transform:rotateX(-18deg) scale(1.08)}}
+/* Earth geography spins about its vertical axis while the circular rim remains fixed. */
+#datePill .timestamp-zone-icon.elite-timestamp-active{animation:none!important;transform:none!important}
+#datePill .timestamp-zone-icon .elite-earth-map{transform-box:view-box;transform-origin:12px 12px}
+#datePill .timestamp-zone-icon.elite-timestamp-active .elite-earth-map{animation:elite-earth-axis-turn 1.05s ease-in-out 1}
+@keyframes elite-earth-axis-turn{0%,100%{transform:scaleX(1)}25%{transform:scaleX(.15)}50%{transform:scaleX(-1)}75%{transform:scaleX(-.15)}}
+@media(prefers-reduced-motion:reduce){#datePill .elite-halo-calendar #eliteCalendarDay,#datePill .timestamp-zone-icon .elite-earth-map{animation:none!important}}
+</style>
+
+<style id="demo44-concept-selector-motion">
+/* Demo 44: icon-specific motion; only selected tab, one shot per tap. */
+/* Demo 47: reference-inspired gold atomic icon, electron transition <= 800ms. */
+#purityModeYield .elite-xrf-transition{pointer-events:none}
+#purityModeYield .elite-xrf-electron{opacity:0;transform-box:view-box;transform-origin:center}
+#purityModeYield .elite-xrf-photon{opacity:0;stroke-dasharray:3 3}
+#purityModeYield.demo43-icon-play .elite-xrf-electron{animation:demo46-electron-drop 780ms cubic-bezier(.22,.65,.25,1) 1 both}
+#purityModeYield.demo43-icon-play .elite-xrf-photon{animation:demo46-photon-release 780ms ease-out 1 both}
+#purityModeYield.demo43-icon-play .elite-xrf-core{animation:demo46-core-response 780ms ease-out 1}
+@keyframes demo46-electron-drop{
+  0%,12%{opacity:1;transform:translate(0,0)}
+  40%{opacity:1;transform:translate(-7px,7px)}
+  48%,58%{opacity:1;transform:translate(-9px,9px)}
+  76%,100%{opacity:0;transform:translate(-9px,9px)}
+}
+@keyframes demo46-photon-release{
+  0%,43%{opacity:0;transform:translate(0,0)}
+  52%{opacity:1;transform:translate(0,0)}
+  78%{opacity:1;transform:translate(4px,-4px)}
+  100%{opacity:0;transform:translate(8px,-8px)}
+}
+@keyframes demo46-core-response{0%,42%,100%{transform:scale(1)}55%{transform:scale(1.23)}70%{transform:scale(1)}}
+/* Layer Assembly: three independently descending isometric plates assemble inside the original stationary cube. */
+#purityModeAlloy .elite-alloy-layer{opacity:0;transform:translateY(-9px);transform-box:view-box;transform-origin:center;pointer-events:none}
+#purityModeAlloy.demo43-icon-play .elite-alloy-layer{animation:demo45-layer-assemble 620ms cubic-bezier(.22,.7,.2,1) 1 both}
+#purityModeAlloy.demo43-icon-play .elite-alloy-layer:nth-child(2){animation-delay:70ms}
+#purityModeAlloy.demo43-icon-play .elite-alloy-layer:nth-child(3){animation-delay:140ms}
+@keyframes demo45-layer-assemble{0%{opacity:0;transform:translateY(-11px)}32%{opacity:1}64%{opacity:1;transform:translateY(0)}88%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(0)}}
+#compareModeCompare.demo43-icon-play .elite-balance-left{animation:demo44-left-pan 1050ms ease-in-out 1}
+#compareModeCompare.demo43-icon-play .elite-balance-right{animation:demo44-right-pan 1050ms ease-in-out 1}
+@keyframes demo44-left-pan{0%,100%{transform:translateY(0)}30%{transform:translateY(-4px)}65%{transform:translateY(3px)}}
+@keyframes demo44-right-pan{0%,100%{transform:translateY(0)}30%{transform:translateY(4px)}65%{transform:translateY(-3px)}}
+#compareModeQuick.demo43-icon-play .elite-quick-icon{animation:demo44-quick 950ms cubic-bezier(.18,.7,.24,1) 1;transform-origin:center}
+@keyframes demo44-quick{0%,100%{transform:scale(1) rotate(0)}28%{transform:scale(1.22) rotate(15deg)}55%{transform:scale(.94) rotate(-12deg)}75%{transform:scale(1.1) rotate(5deg)}}
+@media(prefers-reduced-motion:reduce){#purityModeYield.demo43-icon-play .elite-xrf-electron,#purityModeYield.demo43-icon-play .elite-xrf-photon,#purityModeYield.demo43-icon-play .elite-xrf-core,#purityModeAlloy.demo43-icon-play .elite-alloy-layer,#compareModeCompare.demo43-icon-play .elite-balance-left,#compareModeCompare.demo43-icon-play .elite-balance-right,#compareModeQuick.demo43-icon-play .elite-quick-icon{animation:none!important}}
+</style>
 </head>
 <body>
 <div aria-hidden="true" class="ambient"><div class="orb orb-a"></div><div class="orb orb-b"></div><div class="orb orb-c"></div></div>
@@ -3923,19 +4097,19 @@ body.light #tab-convert .purity-unified-actions .a6-head-actions>button:not(.res
 <div class="app" id="appRoot">
 <header class="topbar">
 <div class="brand">
-<div class="brand-text"><h1>Bullion Spot</h1><p>Gold rate calculator</p></div>
+<div class="brand-text"><h1>Gold</h1><p>Calculator</p></div>
 </div>
 <button type="button" id="bullionThemeToggle" class="bullion-theme-toggle" role="switch" aria-checked="true" aria-label="Switch to light mode" title="Switch to light mode"><span class="bullion-theme-icon" aria-hidden="true">☾</span></button>
 <div aria-label="Current date and time" class="date-pill" id="datePill">
-<span class="timestamp-line"><svg aria-hidden="true" class="timestamp-icon" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><rect height="16" rx="2" width="17" x="3.5" y="5"></rect><path d="M7 3.5v4M17 3.5v4M3.5 10h17"></path></svg><span id="dateText">—</span></span>
-<span class="timestamp-line timestamp-clock-line"><svg aria-hidden="true" class="timestamp-icon" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5v5l3.2 2"></path></svg><span id="timeText">—</span><svg aria-hidden="true" class="timestamp-icon timestamp-zone-icon" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="8.5"></circle><path d="M3.5 12h17M12 3.5a13 13 0 0 1 0 17 13 13 0 0 1 0-17"></path></svg><span class="timestamp-zone-label">IST +5:30</span></span>
+<span class="timestamp-line"><svg aria-hidden="true" class="timestamp-icon elite-halo-calendar" fill="none" stroke="currentColor" stroke-width="1.65" viewBox="0 0 24 24"><rect x="3.5" y="4.8" width="17" height="16.6" rx="2.3"/><path d="M7 3.5v4M17 3.5v4M3.5 10h17" stroke-linecap="round"/><text id="eliteCalendarDay" x="12" y="18.05" text-anchor="middle" fill="currentColor" stroke="none" font-size="8.5" font-weight="800" font-family="Arial,sans-serif">1</text></svg><span id="dateText">—</span></span>
+<span class="timestamp-line timestamp-clock-line"><svg aria-hidden="true" class="timestamp-icon" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="8.5"></circle><path class="elite-clock-hand" d="M12 7.5v5l3.2 2"></path></svg><span id="timeText">—</span><svg aria-hidden="true" class="timestamp-icon timestamp-zone-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><g class="elite-earth-map" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.45"><path d="M9.2 4.2 8 7.2l2.4 2.2-.9 2.4-2.8.7-1.1 3.1 2.2 2.5 2.8-.7 1.1-3 2.5-.8 1.6-2.9 2.8-.5 1.1-2.1M13.4 19.9l.3-3.3 2.1-1.4 2.6 1.1"/></g></svg><span class="timestamp-zone-label">IST +5:30</span></span>
 </div>
 </header>
 <div class="tab-pane active" id="tab-market">
 <section aria-label="Today's headline gold rate" class="card hero">
 <div class="hero-grid">
 <div class="hero-stat"><div class="k">XAU → IN₹ · 24K</div><div class="v" id="hero24k">—</div></div>
-<div class="hero-stat"><div class="k">22K · 916</div><div class="v" id="hero22k">—</div></div>
+<div class="hero-stat"><div class="k ready-made-heading"><span>22K · 916</span><button type="button" class="mcx-marketwatch-link ready-made-trigger" id="readyMadeTrigger" aria-haspopup="dialog" aria-controls="readyMadeOverlay" aria-label="Open Jewel floating panel">Jewel ↗</button></div><div class="v" id="hero22k">—</div></div>
 </div>
 </section>
 <section aria-label="Market rate inputs" class="card">
@@ -4091,10 +4265,10 @@ body.light #tab-convert .purity-unified-actions .a6-head-actions>button:not(.res
 </div>
 <div aria-label="Gold purity calculator mode" class="purity-unified-navigation" role="tablist">
 <button aria-controls="purityYieldPane" aria-selected="true" class="purity-unified-tab is-current" data-unified-mode="yield" id="purityModeYield" role="tab" type="button">
-<span aria-hidden="true" class="purity-mode-emblem elite-convert-emblem"><svg fill="none" viewbox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" fill="currentColor" r="3"></circle><ellipse cx="16" cy="16" rx="13" ry="5.5" stroke="currentColor" stroke-width="1.7" transform="rotate(-40 16 16)"></ellipse><ellipse cx="16" cy="16" rx="13" ry="5.5" stroke="currentColor" stroke-width="1.7" transform="rotate(40 16 16)"></ellipse><circle cx="6.5" cy="8.8" fill="currentColor" r="2"></circle><path d="m25 3 1.2 3.8L30 8l-3.8 1.2L25 13l-1.2-3.8L20 8l3.8-1.2L25 3Z" fill="currentColor"></path></svg></span><span>XRF Yield</span>
+<span aria-hidden="true" class="purity-mode-emblem elite-convert-emblem"><svg fill="none" viewbox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><circle class="elite-xrf-core" cx="16" cy="16" fill="currentColor" r="3" style="transform-origin:16px 16px"></circle><ellipse cx="16" cy="16" rx="13" ry="5.5" stroke="currentColor" stroke-width="1.7" transform="rotate(-40 16 16)"></ellipse><ellipse cx="16" cy="16" rx="13" ry="5.5" stroke="currentColor" stroke-width="1.7" transform="rotate(40 16 16)"></ellipse><circle cx="6.5" cy="8.8" fill="currentColor" r="2"></circle><g class="elite-xrf-transition"><circle class="elite-xrf-electron" cx="25" cy="7" r="2.2" fill="currentColor"/><path class="elite-xrf-photon" d="M18 13 L21 10 L23 12 L26 9 L28 11 L31 8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" fill="none"/></g><path d="m25 3 1.2 3.8L30 8l-3.8 1.2L25 13l-1.2-3.8L20 8l3.8-1.2L25 3Z" fill="currentColor"></path></svg></span><span>XRF Yield</span>
 </button>
 <button aria-controls="purityAlloyPane" aria-selected="false" class="purity-unified-tab" data-unified-mode="alloy" id="purityModeAlloy" role="tab" tabindex="-1" type="button">
-<span aria-hidden="true" class="purity-mode-emblem elite-convert-emblem"><svg fill="none" viewbox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="m16 2 12 7v14l-12 7L4 23V9L16 2Z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.8"></path><path d="m4 9 12 7 12-7M16 16v14" stroke="currentColor" stroke-linejoin="round" stroke-width="1.6"></path><path d="m16 2 0 14M10 5.5l12 7" opacity=".7" stroke="currentColor" stroke-width="1.3"></path><circle cx="16" cy="16" fill="currentColor" r="2.6"></circle></svg></span><span>Alloy Composition</span>
+<span aria-hidden="true" class="purity-mode-emblem elite-convert-emblem"><svg fill="none" viewbox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="m16 2 12 7v14l-12 7L4 23V9L16 2Z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.8"></path><path d="m4 9 12 7 12-7M16 16v14" stroke="currentColor" stroke-linejoin="round" stroke-width="1.6"></path><path d="m16 2 0 14M10 5.5l12 7" opacity=".7" stroke="currentColor" stroke-width="1.3"></path><circle cx="16" cy="16" fill="currentColor" r="2.6"></circle><g class="elite-alloy-layers" stroke="currentColor" stroke-width=".9" stroke-linejoin="round"><path class="elite-alloy-layer" d="M6 10 16 4 26 10 16 16Z" fill="#E5B65A"/><path class="elite-alloy-layer" d="M6 15 16 9 26 15 16 21Z" fill="#D5D8DB"/><path class="elite-alloy-layer" d="M6 20 16 14 26 20 16 26Z" fill="#C48A57"/></g></svg></span><span>Alloy Composition</span>
 </button>
 <span aria-hidden="true" class="purity-mode-magnet"></span>
 <span aria-hidden="true" class="purity-unified-tab-glint"></span>
@@ -4294,7 +4468,7 @@ body.light #tab-convert .purity-unified-actions .a6-head-actions>button:not(.res
 <button aria-label="Print compare A6 PDF" class="section-print-shuttle" id="comparePrintA6" title="Print compare · A6 PDF" type="button"><svg aria-hidden="true" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" viewbox="0 0 24 24" width="20"><path d="M7 8V3h10v5M7 17H5a2 2 0 0 1-2-2v-4a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v4a2 2 0 0 1-2 2h-2"></path><rect height="7" rx="1" width="10" x="7" y="14"></rect><path d="M17.5 11.5h.01"></path></svg></button><button aria-label="Save compare PNG screenshot" class="section-shot-shuttle" id="compareShotPng" title="Save compare · PNG" type="button"><svg aria-hidden="true" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" viewbox="0 0 24 24" width="20"><path d="M4 7h3l2-2h6l2 2h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"></path><circle cx="12" cy="13" r="3.5"></circle></svg></button>
 </div></div>
 <div aria-label="Compare calculator view" class="purity-unified-navigation compare-mode-navigation" role="tablist">
-<button aria-controls="compareModeComparePane" aria-selected="true" class="purity-unified-tab is-current" id="compareModeCompare" role="tab" type="button"><span aria-hidden="true" class="purity-mode-emblem elite-nav-emblem"><svg class="elite-compare-icon" fill="none" viewbox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16 5v21M8 9h16M12 26h8M10 29h12" stroke="currentColor" stroke-linecap="round" stroke-width="2"></path><path d="M8 9 3.5 19h9L8 9ZM24 9l-4.5 10h9L24 9Z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.8"></path><path d="M3.5 19a4.5 4.5 0 0 0 9 0M19.5 19a4.5 4.5 0 0 0 9 0" stroke="currentColor" stroke-width="1.7"></path><circle cx="16" cy="6" fill="currentColor" r="2.5"></circle></svg></span><span>Compare</span></button>
+<button aria-controls="compareModeComparePane" aria-selected="true" class="purity-unified-tab is-current" id="compareModeCompare" role="tab" type="button"><span aria-hidden="true" class="purity-mode-emblem elite-nav-emblem"><svg class="elite-compare-icon" fill="none" viewbox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16 5v21M8 9h16M12 26h8M10 29h12" stroke="currentColor" stroke-linecap="round" stroke-width="2"></path><g class="elite-balance-left"><path d="M8 9 3.5 19h9L8 9Z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.8"></path><path d="M3.5 19a4.5 4.5 0 0 0 9 0" stroke="currentColor" stroke-width="1.7"></path></g><g class="elite-balance-right"><path d="M24 9l-4.5 10h9L24 9Z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.8"></path><path d="M19.5 19a4.5 4.5 0 0 0 9 0" stroke="currentColor" stroke-width="1.7"></path></g><circle cx="16" cy="6" fill="currentColor" r="2.5"></circle></svg></span><span>Compare</span></button>
 <button aria-controls="compareModeQuickPane" aria-selected="false" class="purity-unified-tab" id="compareModeQuick" role="tab" tabindex="-1" type="button"><span aria-hidden="true" class="purity-mode-emblem elite-nav-emblem"><svg class="elite-quick-icon" fill="none" viewbox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="m16 2 3.5 10.5L30 16l-10.5 3.5L16 30l-3.5-10.5L2 16l10.5-3.5L16 2Z" fill="currentColor"></path><path d="m25 3 .9 3.1L29 7l-3.1.9L25 11l-.9-3.1L21 7l3.1-.9L25 3Z" fill="currentColor" opacity=".65"></path></svg></span><span>Quick Rates</span></button>
 <span aria-hidden="true" class="purity-mode-magnet"></span><span aria-hidden="true" class="purity-unified-tab-glint"></span>
 </div>
@@ -6062,6 +6236,7 @@ body.light #tab-convert .purity-unified-actions .a6-head-actions>button:not(.res
     function tickClock(){
       var now = new Date();
       $('dateText').textContent = formatDate(now);
+      var calDay = document.getElementById('eliteCalendarDay'); if(calDay) calDay.textContent = String(now.getDate());
       $('timeText').textContent = formatTime(now);
     }
     
@@ -6327,6 +6502,12 @@ body.light #tab-convert .purity-unified-actions .a6-head-actions>button:not(.res
 <button aria-pressed="false" class="mcx-dhan-open ft-preview-tab" data-ft-source="extra5" data-ft-url="https://www.vijaylaxmibullion.com/LiveRates.html" type="button">Vijaylaxmi Bullion</button>
 <button aria-pressed="false" class="mcx-dhan-open ft-preview-tab" data-ft-source="extra7" data-ft-url="https://www.rsbl.in/live-rates/" type="button">RSBL</button>
 <button aria-pressed="false" class="mcx-dhan-open ft-preview-tab" data-ft-source="extra8" data-ft-url="https://www.kartikeybullion.com/" type="button">Kartikey Bullion</button>
+<button aria-pressed="false" class="mcx-dhan-open ft-preview-tab" data-ft-source="extra9" data-ft-url="https://www.amrapalispot.com/" type="button">Amrapali Spot</button>
+<button aria-pressed="false" class="mcx-dhan-open ft-preview-tab" data-ft-source="extra10" data-ft-url="http://www.jmbullion.in/" type="button">JM Bullion</button>
+<button aria-pressed="false" class="mcx-dhan-open ft-preview-tab" data-ft-source="extra11" data-ft-url="https://aaravbullion.com/" type="button">Aarav Bullion</button>
+<button aria-pressed="false" class="mcx-dhan-open ft-preview-tab" data-ft-source="extra12" data-ft-url="https://amsbullion.com/" type="button">AMS Bullion</button>
+<button aria-pressed="false" class="mcx-dhan-open ft-preview-tab" data-ft-source="extra13" data-ft-url="https://www.bullion.com/" type="button">Bullion.com</button>
+<button aria-pressed="false" class="mcx-dhan-open ft-preview-tab" data-ft-source="extra14" data-ft-url="https://www.bombaybullion.co.in/LiveRates.html" type="button">Bombay Bullion</button>
 <button aria-pressed="false" class="mcx-dhan-open ft-preview-tab" data-ft-source="extra1" type="button">IBJA Rates</button>
 <button aria-pressed="false" class="mcx-dhan-open ft-preview-tab" data-ft-source="extra6" type="button">All India Bullion</button>
 </div>
@@ -6363,7 +6544,13 @@ body.light #tab-convert .purity-unified-actions .a6-head-actions>button:not(.res
     extra5:{label:'Vijaylaxmi Bullion',short:'Vijaylaxmi Bullion',url:'https://www.vijaylaxmibullion.com/LiveRates.html'},
     extra6:{label:'All India Bullion',short:'All India Bullion',url:'https://allindiabullion.com/'},
     extra7:{label:'RSBL',short:'RSBL',url:'https://www.rsbl.in/live-rates/'},
-    extra8:{label:'Kartikey Bullion',short:'Kartikey Bullion',url:'https://www.kartikeybullion.com/'}
+    extra8:{label:'Kartikey Bullion',short:'Kartikey Bullion',url:'https://www.kartikeybullion.com/'},
+    extra9:{label:'Amrapali Spot',short:'Amrapali Spot',url:'https://www.amrapalispot.com/'},
+    extra10:{label:'JM Bullion',short:'JM Bullion',url:'http://www.jmbullion.in/'},
+    extra11:{label:'Aarav Bullion',short:'Aarav Bullion',url:'https://aaravbullion.com/'},
+    extra12:{label:'AMS Bullion',short:'AMS Bullion',url:'https://amsbullion.com/'},
+    extra13:{label:'Bullion.com',short:'Bullion.com',url:'https://www.bullion.com/'},
+    extra14:{label:'Bombay Bullion',short:'Bombay Bullion',url:'https://www.bombaybullion.co.in/LiveRates.html'}
   };
   var tabs=Array.from(overlay.querySelectorAll('[data-ft-source]'));
   var active='sangam';
@@ -8851,5 +9038,152 @@ html:root[data-theme="light"],html:root[data-theme="light"] body{
  border-color:rgba(154,106,32,.42)!important;color:#8A5C18!important;
 }
 </style>
+
+<style id="elite-one-shot-nav-icon-motion">
+/* One-shot selection feedback; SVG geometry and navigation logic unchanged. */
+.bottom-nav .nav-item svg.elite-outline-icon { overflow:visible; }
+.bottom-nav .nav-item.icon-motion svg.elite-outline-icon { animation: elite-icon-pop 760ms cubic-bezier(.2,.8,.25,1) 1 both; }
+.bottom-nav .nav-item.icon-motion[data-target="tab-convert"] svg path:nth-child(1),
+.bottom-nav .nav-item.icon-motion[data-target="tab-convert"] svg path:nth-child(2) { animation:elite-arrow-right 820ms ease-in-out 1 both; }
+.bottom-nav .nav-item.icon-motion[data-target="tab-convert"] svg path:nth-child(3),
+.bottom-nav .nav-item.icon-motion[data-target="tab-convert"] svg path:nth-child(4) { animation:elite-arrow-left 820ms ease-in-out 1 both; }
+.bottom-nav .nav-item.icon-motion[data-target="tab-market"] svg path:nth-child(2) { animation:elite-market-rise 820ms ease-out 1 both; }
+.bottom-nav .nav-item.icon-motion[data-target="tab-calc"] svg path { animation:elite-calc-tap 820ms ease-in-out 1 both; }
+.bottom-nav .nav-item.icon-motion[data-target="tab-bench"] svg rect:nth-child(2) { animation:elite-compare-bar-a 820ms ease-in-out 1 both;transform-box:fill-box;transform-origin:center bottom; }
+.bottom-nav .nav-item.icon-motion[data-target="tab-bench"] svg rect:nth-child(3) { animation:elite-compare-bar-b 820ms ease-in-out 1 both;transform-box:fill-box;transform-origin:center bottom; }
+@keyframes elite-icon-pop { 0%{transform:translateY(-2px) scale(1)} 42%{transform:translateY(-3px) scale(1.10)} 100%{transform:translateY(-2px) scale(1)} }
+@keyframes elite-arrow-right { 0%,100%{transform:translateX(0)} 45%{transform:translateX(3.5px)} }
+@keyframes elite-arrow-left { 0%,100%{transform:translateX(0)} 45%{transform:translateX(calc(-1 * 3.5px))} }
+@keyframes elite-market-rise { 0%,100%{transform:translateY(0)} 45%{transform:translateY(-2px)} }
+@keyframes elite-calc-tap { 0%,100%{transform:translateY(0)} 40%{transform:translateY(-1.5px)} 70%{transform:translateY(.5px)} }
+@keyframes elite-compare-bar-a { 0%,100%{transform:scaleY(1)} 48%{transform:scaleY(.78)} }
+@keyframes elite-compare-bar-b { 0%,100%{transform:scaleY(1)} 48%{transform:scaleY(1.13)} }
+@media(prefers-reduced-motion:reduce){.bottom-nav .nav-item.icon-motion svg.elite-outline-icon,.bottom-nav .nav-item.icon-motion svg.elite-outline-icon *{animation:none!important}}
+</style>
+<script id="elite-one-shot-nav-icon-trigger">
+(function(){
+  function init(){
+    document.querySelectorAll('.bottom-nav .nav-item').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        btn.classList.remove('icon-motion');
+        void btn.offsetWidth;
+        btn.classList.add('icon-motion');
+      });
+      var svg=btn.querySelector('svg.elite-outline-icon');
+      if(svg) svg.addEventListener('animationend',function(event){
+        if(event.animationName==='elite-icon-pop') btn.classList.remove('icon-motion');
+      });
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+})();
+</script>
+
+
+<script>
+/* Demo 31: shuffled, nonrepeating calendar/clock/globe animation. */
+(function(){
+  const icons = Array.from(document.querySelectorAll('#datePill .timestamp-icon'));
+  if(icons.length !== 3) return;
+  const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
+  let bag = [], last = -1;
+  function choose(){
+    if(!bag.length){
+      bag = [0,1,2];
+      for(let i=bag.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[bag[i],bag[j]]=[bag[j],bag[i]];}
+      if(bag[0] === last){[bag[0],bag[1]]=[bag[1],bag[0]];}
+    }
+    return bag.shift();
+  }
+  function animate(){
+    const n=choose(); last=n;
+    icons.forEach(el=>el.classList.remove('elite-timestamp-active'));
+    if(reduced && reduced.matches) return;
+    void icons[n].getBoundingClientRect();
+    icons[n].classList.add('elite-timestamp-active');
+  }
+  setInterval(animate,7200);
+})();
+</script>
+
+<script id="demo43-selected-selector-icon-motion-js">
+(function(){
+  const ids=['purityModeYield','purityModeAlloy','compareModeCompare','compareModeQuick'];
+  const timers=new WeakMap();
+  function animate(button){
+    if(!button || !button.classList.contains('is-current')) return;
+    button.classList.remove('demo43-icon-play');
+    void button.offsetWidth;
+    button.classList.add('demo43-icon-play');
+    if(timers.has(button)) clearTimeout(timers.get(button));
+    timers.set(button,setTimeout(()=>button.classList.remove('demo43-icon-play'),800));
+  }
+  document.addEventListener('click',function(event){
+    const button=event.target.closest('button');
+    if(!button || !ids.includes(button.id))return;
+    // Existing controller updates selected state in its click handler.
+    setTimeout(()=>animate(button),0);
+  });
+})();
+</script>
+
+<!-- Demo 53: Jewel supplier links and close button beside instruction text. -->
+<style id="jewel-mcx-matched-style">
+.hero-stat .ready-made-heading{display:flex;align-items:center;justify-content:flex-start;gap:0.3em;min-width:0}
+.hero-stat .ready-made-trigger{min-height:0;padding:0;border:0;border-radius:0;background:transparent!important;box-shadow:none!important;font-size:9px;line-height:1.2;max-width:100%;white-space:nowrap;color:var(--gold-700);font-weight:600;opacity:.65;letter-spacing:0}
+@media(max-width:370px){.hero-stat .ready-made-trigger{font-size:9px;padding:0}.hero-stat .ready-made-heading{gap:0.3em}}
+#readyMadeOverlay[hidden]{display:none!important}
+#readyMadeOverlay{background:rgba(7,12,23,.53);-webkit-backdrop-filter:blur(9px);backdrop-filter:blur(9px)}
+#readyMadeOverlay .mcx-dhan-sheet.mcx-shortcuts-sheet{
+ isolation:isolate;--silver-orbit:0deg;animation:silverOrbit 3.6s linear infinite!important;
+ height:min(81.6dvh,672px)!important;max-height:calc(100dvh - 28px)!important;
+ display:flex!important;flex-direction:column!important;overflow:hidden!important;
+ background:linear-gradient(145deg,rgba(135,150,175,.15),rgba(24,31,44,.28) 50%,rgba(9,14,24,.38))!important;
+ border:1px solid rgba(255,255,255,.32)!important;
+ -webkit-backdrop-filter:blur(22px) saturate(135%);backdrop-filter:blur(22px) saturate(135%);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.34),0 12px 32px rgba(0,0,0,.18)!important;color:#e7edf6;
+}
+#readyMadeOverlay .mcx-dhan-sheet::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.35px;background:conic-gradient(from var(--silver-orbit),transparent 0deg,rgba(240,245,255,.08) 55deg,rgba(255,255,255,.90) 88deg,rgba(171,188,210,.90) 99deg,rgba(255,255,255,.28) 114deg,transparent 145deg,transparent 270deg,rgba(219,230,245,.30) 310deg,transparent 345deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;pointer-events:none;z-index:10}
+#readyMadeOverlay .mcx-dhan-header{justify-content:flex-end!important;padding:5px 8px 2px!important;min-height:0!important;border-bottom:0!important;background:transparent!important;flex:0 0 auto}
+#readyMadeOverlay .mcx-dhan-header>div{display:none!important}
+#readyMadeOverlay .mcx-dhan-header{display:none!important}
+#readyMadeOverlay .mcx-provider-tools-matched .silver-tap-hint{flex:1 1 auto;min-width:0}
+#readyMadeOverlay .mcx-provider-tools-matched #readyMadeClose{display:inline-flex!important;flex:0 0 26px!important;align-items:center;justify-content:center;width:26px!important;height:26px!important;min-width:26px!important;min-height:26px!important;padding:0!important;border-radius:50%;font-size:17px!important;line-height:1}
+#readyMadeOverlay .mcx-dhan-close{color:#e6edf7!important;background:rgba(175,193,220,.12)!important;border:1px solid rgba(229,239,255,.25)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.11);margin:0!important}
+#readyMadeOverlay .mcx-source-actions{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;gap:6px!important;overflow-x:auto!important;overflow-y:hidden!important;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;touch-action:pan-x!important;padding:7px 10px!important;min-height:0!important;max-height:none!important;flex:0 0 auto!important;grid-template-columns:none!important;background:rgba(20,29,45,.14);border-color:rgba(225,234,250,.17)}
+#readyMadeOverlay .mcx-source-actions::-webkit-scrollbar{display:none}
+#readyMadeOverlay .mcx-source-actions .mcx-dhan-open{flex:0 0 auto!important;min-width:0!important;max-width:none!important;width:auto!important;min-height:29px!important;padding:5px 11px!important;border-radius:999px!important;font-size:11px!important;line-height:1.1!important;white-space:nowrap!important;text-align:center!important;color:#e6edf7!important;background:rgba(175,193,220,.12)!important;border:1px solid rgba(229,239,255,.25)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.11)}
+#readyMadeOverlay .mcx-source-actions .mcx-dhan-open.silver-chip-active{color:#fff!important;border-color:rgba(240,245,255,.75)!important;background:rgba(190,207,232,.25)!important;box-shadow:0 0 9px rgba(230,238,255,.3),inset 0 1px 0 rgba(255,255,255,.25)!important}
+#readyMadeOverlay .mcx-provider-tools-matched{display:flex;align-items:center;gap:6px;padding:4px 10px!important;min-height:0!important;flex:0 0 auto!important;background:rgba(20,29,45,.14);border-bottom:1px solid rgba(225,234,250,.17)}
+#readyMadeOverlay .silver-tap-hint{display:inline-flex;align-items:center;flex:1 1 auto;min-width:0;padding:3px 8px;border:1px solid rgba(220,230,245,.22);border-radius:999px;background:linear-gradient(115deg,rgba(236,242,252,.12),rgba(140,158,182,.055));color:rgba(231,238,248,.78)!important;font-size:10px!important;font-weight:600;line-height:1.3;letter-spacing:.015em;white-space:normal;box-shadow:inset 0 1px 0 rgba(255,255,255,.11);pointer-events:none}
+#readyMadeOverlay .mcx-preview-host{flex:1 1 auto!important;min-height:0!important;display:flex;position:relative;background:rgba(8,13,20,.13);border-top:1px solid rgba(220,232,247,.23)}
+#readyMadeOverlay .mcx-preview-frame{width:100%;height:100%;border:0;background:transparent;display:block}
+#readyMadeOverlay .mcx-preview-placeholder{margin:auto;padding:22px;text-align:center;color:rgba(224,233,246,.8);font-size:12px;line-height:1.6}
+@media(max-height:550px){#readyMadeOverlay .mcx-dhan-sheet.mcx-shortcuts-sheet{height:calc(100dvh - 24px)!important}}
+@media(prefers-reduced-motion:reduce){#readyMadeOverlay .mcx-dhan-sheet{animation:none!important}}
+@media(prefers-reduced-transparency:reduce){#readyMadeOverlay .mcx-dhan-sheet{background:#222a37!important}}
+</style>
+<div class="mcx-dhan-overlay" id="readyMadeOverlay" hidden>
+ <section class="mcx-dhan-sheet mcx-shortcuts-sheet" role="dialog" aria-modal="true" aria-labelledby="readyMadeTitle" tabindex="-1">
+  <header class="mcx-dhan-header"><div><div class="mcx-dhan-title" id="readyMadeTitle">Jewel · 22K / 916</div></div></header>
+  <div class="mcx-dhan-actions mcx-source-actions" id="jewelSourceActions"><a href="https://www.cwja.org.in/" target="_blank" rel="noopener noreferrer" class="mcx-dhan-open silver-chip-active" aria-selected="true" data-jewel-preview="true">CWJA</a><a href="https://coimbatorejewellery.org/" target="_blank" rel="noopener noreferrer" class="mcx-dhan-open" aria-selected="false" data-jewel-preview="true">Coimbatore Jewellery</a><a href="https://www.ksjf.in/" target="_blank" rel="noopener noreferrer" class="mcx-dhan-open" aria-selected="false" data-jewel-preview="true">KSJF</a><a href="https://www.thangamayil.com/scheme/index/rateshistory/?srsltid=AYCX9vI3VwyXKfiPC3a7mvLtK-kgdmKSJMPjNLYzuoE0BRdSr2c-Lrff" target="_blank" rel="noopener noreferrer" class="mcx-dhan-open" aria-selected="false" data-jewel-preview="false">Thangamayil · Rate History</a><a href="https://www.malabargoldanddiamonds.com/in/pan-india/en/live-gold-rate.html?srsltid=AYCX9vLPEeO_GFXQbWrOUH7cdGs_251urLdyBhIOgBSB-qJsZweD1vxf" target="_blank" rel="noopener noreferrer" class="mcx-dhan-open" aria-selected="false" data-jewel-preview="false">Malabar Gold · Live Rate</a><a href="https://www.kalyanjewellers.net/kalyan_gold_rates/gold-rate/todays-gold-rate-in-madurai" target="_blank" rel="noopener noreferrer" class="mcx-dhan-open" aria-selected="false" data-jewel-preview="false">Kalyan · Madurai Rate</a><a href="https://www.tanishq.co.in/gold-rate.html?lang=en_IN" target="_blank" rel="noopener noreferrer" class="mcx-dhan-open" aria-selected="false" data-jewel-preview="false">Tanishq · Gold Rate</a><a href="https://thejewellersassociation.org/" target="_blank" rel="noopener noreferrer" class="mcx-dhan-open" aria-selected="false" data-jewel-preview="false">The Jewellers Association</a></div>
+  <div class="mcx-provider-tools-matched"><span class="silver-tap-hint">☞ First 3: tap to preview · All: double tap to open</span><button type="button" class="mcx-dhan-close" id="readyMadeClose" aria-label="Close Jewel panel">×</button></div>
+  <div class="mcx-preview-host" id="jewelPreviewHost" aria-label="Jewel supplier website preview"><div class="mcx-preview-placeholder">Tap CWJA, Coimbatore Jewellery or KSJF to preview. Double tap any source to open its website.</div></div>
+ </section>
+</div>
+<script id="jewel-mcx-panel-controller">
+(function(){'use strict';
+ var button=document.getElementById('readyMadeTrigger'),overlay=document.getElementById('readyMadeOverlay'),close=document.getElementById('readyMadeClose'),rail=document.getElementById('jewelSourceActions'),host=document.getElementById('jewelPreviewHost');
+ if(!button||!overlay||!close||!rail||!host)return;
+ var previousFocus=null,previousOverflow='',lastLink=null,lastAt=0;
+ function preview(link){if(link.dataset.jewelPreview!=='true'){var notice=document.createElement('div');notice.className='mcx-preview-placeholder';notice.textContent=link.textContent.trim()+' — preview disabled. Double tap its shortcut to open the website.';host.replaceChildren(notice);return;}var frame=document.createElement('iframe');frame.className='mcx-preview-frame';frame.title=link.textContent.trim()+' preview';frame.referrerPolicy='strict-origin-when-cross-origin';frame.loading='eager';frame.src=link.href;host.replaceChildren(frame);}
+ function open(){previousFocus=document.activeElement;previousOverflow=document.body.style.overflow;overlay.hidden=false;document.body.style.overflow='hidden';var link=rail.querySelector('a[href]');if(link)preview(link);close.focus({preventScroll:true});}
+ function dismiss(){overlay.hidden=true;document.body.style.overflow=previousOverflow;host.replaceChildren();var placeholder=document.createElement('div');placeholder.className='mcx-preview-placeholder';placeholder.textContent='First three sources support preview. Double tap any source to open its website.';host.appendChild(placeholder);if(previousFocus&&previousFocus.focus)previousFocus.focus({preventScroll:true});}
+ button.addEventListener('click',open);close.addEventListener('click',dismiss);
+ overlay.addEventListener('click',function(e){if(e.target===overlay)dismiss();});
+ rail.addEventListener('click',function(e){var link=e.target.closest('a[href]');if(!link)return;e.preventDefault();var now=Date.now();if(lastLink===link&&now-lastAt<=420){lastLink=null;lastAt=0;window.open(link.href,'_blank','noopener,noreferrer');return;}lastLink=link;lastAt=now;rail.querySelectorAll('a[href]').forEach(function(a){a.classList.toggle('silver-chip-active',a===link);a.setAttribute('aria-selected',a===link?'true':'false');});preview(link);});
+ document.addEventListener('keydown',function(e){if(overlay.hidden)return;if(e.key==='Escape'){e.preventDefault();dismiss();}else if(e.key==='Tab'){e.preventDefault();close.focus();}});
+})();
+</script>
 </body>
 </html>
