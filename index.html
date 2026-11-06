@@ -74,7 +74,7 @@ p{ margin:0; } button{ font-family:inherit; } input{ font-family:inherit; }
 .orb{ position:absolute; border-radius:50%; filter:blur(70px); opacity:0.55; }
 .orb-a{ width:420px; height:420px; left:-140px; top:-80px; background:radial-gradient(circle, var(--gold-500), transparent 70%); }
 .orb-b{ width:380px; height:380px; right:-120px; top:280px; background:radial-gradient(circle, var(--amber), transparent 70%); opacity:0.35; }
-.orb-c{ width:460px; height:460px; left:50%; transform:translateX(-50%); bottom:-220px; background:radial-gradient(circle, var(--gold-700), transparent 72%); opacity:0.3; }
+.orb-c{ width:460px; height:460px; left:50%; transform:translateX(-60%); bottom:-220px; background:radial-gradient(circle, var(--gold-700), transparent 72%); opacity:0.3; }
 .grain{ position:fixed; inset:0; z-index:1; pointer-events:none; opacity:0.035; mix-blend-mode:overlay; }
 .defs-host{ position:absolute; width:0; height:0; overflow:hidden; }
 
@@ -1426,6 +1426,56 @@ button, .chip, .seg button{ -webkit-tap-highlight-color:transparent; }
 #usdinrLiveLink.merged-rate-control[data-status="cached"] .rate-status,
 #spotLiveLink.merged-rate-control[data-status="stale"] .rate-status,
 #usdinrLiveLink.merged-rate-control[data-status="stale"] .rate-status { color:inherit; }
+
+/* Compare live quotes: wide rounded single-ticker format matching the supplied reference. */
+.compare-market-widgets{display:flex;flex-direction:column;gap:12px;margin:16px 0 22px;min-width:0}
+.compare-market-widget{width:100%;min-width:0;height:96px;overflow:hidden;border:1px solid rgba(221,184,112,.55);border-radius:28px;background:linear-gradient(125deg,rgba(77,67,52,.72),rgba(27,23,18,.94));box-shadow:inset 0 1px 0 rgba(255,240,210,.22),0 8px 24px rgba(0,0,0,.22)}
+.compare-market-widget tv-single-ticker{display:block;width:100%;height:100%;min-height:96px;--tv-color-platform-background:transparent}
+@media(max-width:390px){.compare-market-widget{height:86px;border-radius:24px}.compare-market-widget tv-single-ticker{min-height:86px}}
+@media(min-width:700px){.compare-market-widget{height:110px}.compare-market-widget tv-single-ticker{min-height:110px}}
+/* Insights only: mask the embedded TradingView component's own dark edge.
+   Padding on a custom element does not reliably inset its shadow-DOM contents.
+   Instead an overlay rim covers the top/left hairline without changing quotes. */
+#tab-insights .compare-market-widget{
+  position:relative;
+  isolation:isolate;
+  box-sizing:border-box;
+  border:0;
+  overflow:hidden;
+  background:linear-gradient(125deg,rgba(77,67,52,.72),rgba(27,23,18,.94));
+}
+#tab-insights .compare-market-widget tv-single-ticker{
+  display:block;
+  width:100%;
+  height:100%;
+  padding:0;
+  border:0!important;
+  border-radius:inherit;
+  overflow:hidden;
+}
+#tab-insights .compare-market-widget::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+  border-radius:inherit;
+  /* Opaque inner lip masks the 1-2px black TradingView edge, including curves. */
+  box-shadow:inset 0 0 0 1.51875px rgba(86,76,62,.98),inset 0 0 0 2.025px rgba(221,184,112,.38);
+  border:1px solid rgba(221,184,112,.65);
+}
+/* Insights Light Mode: eliminate the dark rectangular haze behind each
+   embedded TradingView card; retain the thin internal Gold Glass rim. */
+:root[data-theme="light"] #tab-insights .compare-market-widget,
+body.light #tab-insights .compare-market-widget{
+  box-shadow:none!important;
+  filter:none!important;
+}
+/* Insights only: reduce all five quote widget heights by exactly 20%. */
+#tab-insights .compare-market-widget{height:76.8px}
+#tab-insights .compare-market-widget tv-single-ticker{min-height:76.8px;height:100%}
+@media(max-width:390px){#tab-insights .compare-market-widget{height:68.8px}#tab-insights .compare-market-widget tv-single-ticker{min-height:68.8px}}
+@media(min-width:700px){#tab-insights .compare-market-widget{height:88px}#tab-insights .compare-market-widget tv-single-ticker{min-height:88px}}
 </style>
 <style id="toggle-magnetic_liquid_glass">
 
@@ -2321,7 +2371,7 @@ button, .chip, .seg button{ -webkit-tap-highlight-color:transparent; }
 #purityDifferenceCard .wheel-lab-options button[data-pdc-wheel-style="whisper"] .wheel-mini-art::before{width:8px;left:11px;border-radius:6px;opacity:.35}
 #purityDifferenceCard .wheel-lab-options button[data-pdc-wheel-style="prism"] .wheel-mini-art::before{width:12px;left:7px;border-radius:12px 4px 4px 12px;opacity:.57}
 #purityDifferenceCard .wheel-lab-options button[data-pdc-wheel-style="ghost"] .wheel-mini-art::before{width:7px;left:12px;border-radius:5px;opacity:.34}
-@media(max-width:760px){#purityDifferenceCard .wheel-lab-options{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}}
+@media(max-width:760px){#purityDifferenceCard .wheel-lab-options{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}}
 @media(max-width:370px){#purityDifferenceCard .wheel-lab-options{gap:5px}}
 @media(prefers-reduced-motion:reduce){
   #purityDifferenceCard #differenceWeightUnitSuffix::after{animation:none!important;opacity:0!important}
@@ -2367,7 +2417,7 @@ button, .chip, .seg button{ -webkit-tap-highlight-color:transparent; }
 #tab-convert .purity-unified-tab{
   position:relative;min-height:43px;min-width:0;display:flex;align-items:center;justify-content:center;gap:8px;
   padding:9px 6px;border:1px solid transparent;border-radius:13px;
-  background:transparent;color:var(--text-1);font:750 12.6px/1.2 'Manrope',sans-serif;
+  background:transparent;color:var(--text-1);font:750 11.3px/1.2 'Manrope',sans-serif;
   white-space:nowrap;cursor:pointer;transition:background .22s ease,border .22s ease,color .22s ease,box-shadow .22s ease;
   -webkit-tap-highlight-color:transparent;
 }
@@ -2951,7 +3001,7 @@ background:none!important;border:0!important;box-shadow:none!important;
 #tab-convert .purity-unified-actions .a6-head-actions{
   width:100%!important;min-width:0!important;
   display:grid!important;
-  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  grid-template-columns:repeat(5,minmax(0,1fr))!important;
   align-items:center!important;justify-items:center!important;
   gap:0!important;column-gap:0!important;
 }
@@ -3186,7 +3236,7 @@ background:none!important;border:0!important;box-shadow:none!important;
 #tab-bench .section-triple-actions{
   width:min(100%,160px)!important;
   display:grid!important;
-  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  grid-template-columns:repeat(5,minmax(0,1fr))!important;
   align-items:center!important;
   justify-items:center!important;
   column-gap:6px!important;
@@ -3271,7 +3321,7 @@ background:none!important;border:0!important;box-shadow:none!important;
 #tab-bench .compare-unified-card{isolation:isolate;overflow:visible}
 #tab-bench .compare-unified-header{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;align-items:center!important;width:100%!important;gap:0!important;margin-bottom:15px!important}
 #tab-bench .compare-unified-header>.section-head{grid-column:1!important;min-width:0!important;margin:0!important}
-#tab-bench .compare-unified-header>.section-triple-actions{grid-column:2!important;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;align-items:center!important;justify-items:center!important;gap:0!important;width:100%!important;min-width:0!important;margin:0!important}
+#tab-bench .compare-unified-header>.section-triple-actions{grid-column:2!important;display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;align-items:center!important;justify-items:center!important;gap:0!important;width:100%!important;min-width:0!important;margin:0!important}
 #tab-bench .compare-unified-header>.section-triple-actions>button{min-width:0!important;margin:0!important}
 #tab-bench .compare-unified-header>.section-triple-actions>button:last-child{justify-self:end!important}
 #tab-bench .compare-unified-divider{height:1px;background:var(--glass-border);margin:18px 0 16px}
@@ -3288,7 +3338,7 @@ background:none!important;border:0!important;box-shadow:none!important;
 #tab-bench .compare-motion-viewport .purity-unified-pane{width:50%;flex:0 0 50%;min-width:0;box-sizing:border-box}
 #tab-bench .compare-unified-subsection{border:0!important;box-shadow:none!important;background:none!important;padding:0!important;margin:0!important}
 #tab-bench .compare-unified-subsection>.section-head-static{display:none!important}
-#tab-bench .compare-unified-card[data-compare-mode="quick"] .compare-motion-viewport .purity-motion-track{transform:translateX(-50%)}
+#tab-bench .compare-unified-card[data-compare-mode="quick"] .compare-motion-viewport .purity-motion-track{transform:translateX(-60%)}
 #tab-bench .compare-unified-card[data-compare-mode="quick"] .compare-mode-navigation .purity-mode-magnet{transform:translateX(100%)}
 @media(prefers-reduced-motion:reduce){#tab-bench .compare-motion-viewport .purity-motion-track,#tab-bench .compare-motion-viewport{transition:none!important}}
 </style>
@@ -3304,7 +3354,7 @@ background:none!important;border:0!important;box-shadow:none!important;
 #tab-bench .purity-unified-tab{
   position:relative;min-height:43px;min-width:0;display:flex;align-items:center;justify-content:center;gap:8px;
   padding:9px 6px;border:1px solid transparent;border-radius:13px;
-  background:transparent;color:var(--text-1);font:750 12.6px/1.2 'Manrope',sans-serif;
+  background:transparent;color:var(--text-1);font:750 11.2px/1.2 'Manrope',sans-serif;
   white-space:nowrap;cursor:pointer;transition:background .22s ease,border .22s ease,color .22s ease,box-shadow .22s ease;
   -webkit-tap-highlight-color:transparent;
 }
@@ -3500,7 +3550,7 @@ button, [role="button"], [role="tab"] { -webkit-touch-callout:none; }
 #purityDifferenceCard #purityAlloyPane .pdc-output .pdc-secondary {font-size:12px!important}
 #purityDifferenceCard #purityAlloyPane .pdc-output .pdc-unit {font-size:12px!important}
 /* Preserve three outputs on one row; give each a legible label and result. */
-#purityDifferenceCard #purityAlloyPane .pdc-details {grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:5px!important;font-size:clamp(10px,2.7vw,12px)!important}
+#purityDifferenceCard #purityAlloyPane .pdc-details {grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:5px!important;font-size:clamp(10px,2.7vw,12px)!important}
 #purityDifferenceCard #purityAlloyPane .pdc-detail-item {display:flex!important;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:3px!important;white-space:nowrap;min-width:0}
 #purityDifferenceCard #purityAlloyPane .pdc-detail-item > .pdc-mark {width:19px!important;height:19px!important;flex-basis:19px!important}
 #purityDifferenceCard #purityAlloyPane .pdc-detail-item strong {font-size:clamp(12px,3.3vw,15px)!important;line-height:1.3}
@@ -4066,6 +4116,23 @@ body.light #tab-convert .purity-unified-actions .a6-head-actions>button:not(.res
 @keyframes demo44-quick{0%,100%{transform:scale(1) rotate(0)}28%{transform:scale(1.22) rotate(15deg)}55%{transform:scale(.94) rotate(-12deg)}75%{transform:scale(1.1) rotate(5deg)}}
 @media(prefers-reduced-motion:reduce){#purityModeYield.demo43-icon-play .elite-xrf-electron,#purityModeYield.demo43-icon-play .elite-xrf-photon,#purityModeYield.demo43-icon-play .elite-xrf-core,#purityModeAlloy.demo43-icon-play .elite-alloy-layer,#compareModeCompare.demo43-icon-play .elite-balance-left,#compareModeCompare.demo43-icon-play .elite-balance-right,#compareModeQuick.demo43-icon-play .elite-quick-icon{animation:none!important}}
 </style>
+
+<style id="xrf-atomic-orbit-animation-700">
+/* XRF Yield: orbital tilt, opposite 9-degree motions with soft deceleration, 700ms; stationary nucleus. */
+#purityModeYield .xrf-atomic-orbit .xrf-atomic-ring{stroke:currentColor;stroke-width:1.7;stroke-linecap:round;transform-box:fill-box;transform-origin:center;}
+#purityModeYield.demo43-icon-play .xrf-atomic-ring-a{animation:xrf-atomic-cw 700ms ease-in-out 1 both;}
+#purityModeYield.demo43-icon-play .xrf-atomic-ring-b{animation:xrf-atomic-ccw 700ms ease-in-out 1 both;}
+@keyframes xrf-atomic-cw{0%,100%{transform:rotate(0deg)}42%{transform:rotate(9deg)}}
+@keyframes xrf-atomic-ccw{0%,100%{transform:rotate(0deg)}42%{transform:rotate(-9deg)}}
+@media(prefers-reduced-motion:reduce){#purityModeYield.demo43-icon-play .xrf-atomic-orbit .xrf-atomic-ring{animation:none!important}}
+</style>
+<style id="forex-heading-native-animation">
+#tab-insights .forex-theme-icon{flex:none;overflow:visible}
+#tab-insights .forex-theme-mark{transform-origin:14px 14px}
+#tab-insights.active .forex-theme-mark{animation:forex-arrows-settle 700ms ease-in-out 1 both}
+@keyframes forex-arrows-settle{0%{opacity:.65;transform:translateX(-1px)}65%,100%{opacity:1;transform:translateX(0)}}
+@media(prefers-reduced-motion:reduce){#tab-insights.active .forex-theme-mark{animation:none!important}}
+</style>
 </head>
 <body>
 <div aria-hidden="true" class="ambient"><div class="orb orb-a"></div><div class="orb orb-b"></div><div class="orb orb-c"></div></div>
@@ -4265,7 +4332,7 @@ body.light #tab-convert .purity-unified-actions .a6-head-actions>button:not(.res
 </div>
 <div aria-label="Gold purity calculator mode" class="purity-unified-navigation" role="tablist">
 <button aria-controls="purityYieldPane" aria-selected="true" class="purity-unified-tab is-current" data-unified-mode="yield" id="purityModeYield" role="tab" type="button">
-<span aria-hidden="true" class="purity-mode-emblem elite-convert-emblem"><svg fill="none" viewbox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><circle class="elite-xrf-core" cx="16" cy="16" fill="currentColor" r="3" style="transform-origin:16px 16px"></circle><ellipse cx="16" cy="16" rx="13" ry="5.5" stroke="currentColor" stroke-width="1.7" transform="rotate(-40 16 16)"></ellipse><ellipse cx="16" cy="16" rx="13" ry="5.5" stroke="currentColor" stroke-width="1.7" transform="rotate(40 16 16)"></ellipse><circle cx="6.5" cy="8.8" fill="currentColor" r="2"></circle><g class="elite-xrf-transition"><circle class="elite-xrf-electron" cx="25" cy="7" r="2.2" fill="currentColor"/><path class="elite-xrf-photon" d="M18 13 L21 10 L23 12 L26 9 L28 11 L31 8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" fill="none"/></g><path d="m25 3 1.2 3.8L30 8l-3.8 1.2L25 13l-1.2-3.8L20 8l3.8-1.2L25 3Z" fill="currentColor"></path></svg></span><span>XRF Yield</span>
+<span aria-hidden="true" class="purity-mode-emblem elite-convert-emblem"><svg class="xrf-atomic-orbit" fill="none" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g class="xrf-atomic-ring xrf-atomic-ring-a"><ellipse cx="16" cy="16" rx="13" ry="5.5" transform="rotate(45 16 16)"/><circle cx="25.2" cy="6.8" r="1.6" fill="currentColor" stroke="none"/></g><g class="xrf-atomic-ring xrf-atomic-ring-b"><ellipse cx="16" cy="16" rx="13" ry="5.5" transform="rotate(-45 16 16)"/><circle cx="6.8" cy="6.8" r="1.6" fill="currentColor" stroke="none"/></g><circle cx="16" cy="16" r="2.6" fill="currentColor" stroke="none"/></svg></span><span>XRF Yield</span>
 </button>
 <button aria-controls="purityAlloyPane" aria-selected="false" class="purity-unified-tab" data-unified-mode="alloy" id="purityModeAlloy" role="tab" tabindex="-1" type="button">
 <span aria-hidden="true" class="purity-mode-emblem elite-convert-emblem"><svg fill="none" viewbox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="m16 2 12 7v14l-12 7L4 23V9L16 2Z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.8"></path><path d="m4 9 12 7 12-7M16 16v14" stroke="currentColor" stroke-linejoin="round" stroke-width="1.6"></path><path d="m16 2 0 14M10 5.5l12 7" opacity=".7" stroke="currentColor" stroke-width="1.3"></path><circle cx="16" cy="16" fill="currentColor" r="2.6"></circle><g class="elite-alloy-layers" stroke="currentColor" stroke-width=".9" stroke-linejoin="round"><path class="elite-alloy-layer" d="M6 10 16 4 26 10 16 16Z" fill="#E5B65A"/><path class="elite-alloy-layer" d="M6 15 16 9 26 15 16 21Z" fill="#D5D8DB"/><path class="elite-alloy-layer" d="M6 20 16 14 26 20 16 26Z" fill="#C48A57"/></g></svg></span><span>Alloy Composition</span>
@@ -4469,7 +4536,7 @@ body.light #tab-convert .purity-unified-actions .a6-head-actions>button:not(.res
 </div></div>
 <div aria-label="Compare calculator view" class="purity-unified-navigation compare-mode-navigation" role="tablist">
 <button aria-controls="compareModeComparePane" aria-selected="true" class="purity-unified-tab is-current" id="compareModeCompare" role="tab" type="button"><span aria-hidden="true" class="purity-mode-emblem elite-nav-emblem"><svg class="elite-compare-icon" fill="none" viewbox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16 5v21M8 9h16M12 26h8M10 29h12" stroke="currentColor" stroke-linecap="round" stroke-width="2"></path><g class="elite-balance-left"><path d="M8 9 3.5 19h9L8 9Z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.8"></path><path d="M3.5 19a4.5 4.5 0 0 0 9 0" stroke="currentColor" stroke-width="1.7"></path></g><g class="elite-balance-right"><path d="M24 9l-4.5 10h9L24 9Z" stroke="currentColor" stroke-linejoin="round" stroke-width="1.8"></path><path d="M19.5 19a4.5 4.5 0 0 0 9 0" stroke="currentColor" stroke-width="1.7"></path></g><circle cx="16" cy="6" fill="currentColor" r="2.5"></circle></svg></span><span>Compare</span></button>
-<button aria-controls="compareModeQuickPane" aria-selected="false" class="purity-unified-tab" id="compareModeQuick" role="tab" tabindex="-1" type="button"><span aria-hidden="true" class="purity-mode-emblem elite-nav-emblem"><svg class="elite-quick-icon" fill="none" viewbox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="m16 2 3.5 10.5L30 16l-10.5 3.5L16 30l-3.5-10.5L2 16l10.5-3.5L16 2Z" fill="currentColor"></path><path d="m25 3 .9 3.1L29 7l-3.1.9L25 11l-.9-3.1L21 7l3.1-.9L25 3Z" fill="currentColor" opacity=".65"></path></svg></span><span>Quick Rates</span></button>
+<button aria-controls="compareModeQuickPane" aria-selected="false" class="purity-unified-tab" id="compareModeQuick" role="tab" tabindex="-1" type="button"><span aria-hidden="true" class="purity-mode-emblem elite-nav-emblem"><svg class="elite-quick-icon intelligence-spark-icon" fill="none" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path class="intelligence-spark-main" d="M32 7L38 26L57 32L38 38L32 57L26 38L7 32L26 26Z" stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"/><path class="intelligence-spark-small" d="M49 7V15M45 11H53" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" opacity=".65"/></svg></span><span>Quick Rates</span></button>
 <span aria-hidden="true" class="purity-mode-magnet"></span><span aria-hidden="true" class="purity-unified-tab-glint"></span>
 </div>
 <div aria-live="polite" class="purity-unified-hint compare-mode-hint" id="compareModeHint">Compare Spot MCX & FT</div>
@@ -4523,6 +4590,57 @@ body.light #tab-convert .purity-unified-actions .a6-head-actions>button:not(.res
 </div>
 </div></div></div>
 </div></section>
+
+</div>
+<div class="tab-pane" id="tab-insights">
+<section class="card insights-unified-card" aria-label="Insights commodities forex bonds crypto and indices" data-insights-mode="commodities">
+<div class="purity-unified-navigation insights-mode-navigation" role="tablist" aria-label="Insights market category">
+<button type="button" role="tab" id="insightsModeCommodities" class="purity-unified-tab is-current" aria-selected="true" aria-controls="insightsCommoditiesPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md commodities-theme-icon" viewBox="0 0 28 28"><g class="commodities-theme-mark" fill="none" stroke="var(--glyph)" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"><path d="M6.7 18.2 9 13.5h6.1l2.3 4.7-1.3 2.3H8z"/><path d="M14.8 18.2 17.1 13.5h4.2l1.9 4.7-1.3 2.3h-5.8"/><path d="M13.8 7.2 17.7 10l-2 3h-4l-2-3z"/></g></svg>Commodities</span></button>
+<button type="button" role="tab" id="insightsModeForex" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsForexPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md forex-theme-icon" viewBox="0 0 28 28"><g class="forex-theme-mark" fill="none" stroke="var(--glyph)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 10.5h15.6M18.4 7.2l3.4 3.3-3.4 3.3M21.8 17.5H6.2m3.4-3.3-3.4 3.3 3.4 3.3"/></g></svg>Forex</span></button>
+<button type="button" role="tab" id="insightsModeBonds" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsBondsPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md bonds-theme-icon" viewBox="0 0 28 28"><g class="bonds-theme-mark" fill="none" stroke="var(--glyph)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="7" width="17" height="14" rx="2"/><path d="M9 11h10M9 14h6M9 17h4"/><circle cx="19" cy="17.5" r="2.2"/></g></svg>Bonds</span></button>
+<button type="button" role="tab" id="insightsModeCrypto" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsCryptoPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md crypto-theme-icon" viewBox="0 0 28 28"><g class="crypto-theme-mark" fill="none" stroke="var(--glyph)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="14" cy="14" r="9"/><path d="M11.2 8.2v11.6M15.2 8.2v11.6M9.5 10.1h6.2a2.5 2.5 0 0 1 0 5h-6.2m0 0h6.7a2.5 2.5 0 0 1 0 5H9.5"/></g></svg>Crypto</span></button>
+<button type="button" role="tab" id="insightsModeIndices" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsIndicesPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md indices-theme-icon" viewBox="0 0 28 28"><g class="indices-theme-mark" fill="none" stroke="var(--glyph)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20.5V15.5h3.5v5M12.2 20.5V12h3.5v8.5M18.4 20.5V8h3.5v12.5"/><path d="M5.5 10.8l6-3.5 5 1.5 5.5-4.2M18.5 4.6H22v3.5"/></g></svg>Indices</span></button>
+<span class="purity-mode-magnet" aria-hidden="true"></span><span class="purity-unified-tab-glint" aria-hidden="true"></span>
+</div>
+<div class="insights-motion-viewport" id="insightsModeViewport"><div class="insights-motion-track" id="insightsModeTrack">
+<div class="insights-unified-pane" id="insightsCommoditiesPane" role="tabpanel" aria-labelledby="insightsModeCommodities"><section class="compare-market-widgets" aria-label="TradingView metals and energy quotes">
+  <script type="module" src="https://widgets.tradingview-widget.com/w/en/tv-single-ticker.js"></script>
+  <div class="compare-market-widget" aria-label="Gold live quote"><tv-single-ticker symbol="TVC:GOLD" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="Silver live quote"><tv-single-ticker symbol="TVC:SILVER" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="Platinum live quote"><tv-single-ticker symbol="TVC:PLATINUM" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="Brent crude live quote"><tv-single-ticker symbol="TVC:UKOIL" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="WTI crude live quote"><tv-single-ticker symbol="TVC:USOIL" theme="dark" transparent></tv-single-ticker></div>
+</section></div>
+<div class="insights-unified-pane" id="insightsForexPane" role="tabpanel" aria-labelledby="insightsModeForex" aria-hidden="true" inert><section class="compare-market-widgets" aria-label="TradingView forex quotes">
+  <div class="compare-market-widget" aria-label="US Dollar Index live forex quote"><tv-single-ticker symbol="PEPPERSTONE:USDX" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="USD/INR live forex quote"><tv-single-ticker symbol="FX:USDINR" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="EUR/USD live forex quote"><tv-single-ticker symbol="OANDA:EURUSD" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="GBP/USD live forex quote"><tv-single-ticker symbol="OANDA:GBPUSD" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="USD/JPY live forex quote"><tv-single-ticker symbol="OANDA:USDJPY" theme="dark" transparent></tv-single-ticker></div>
+</section></div>
+<div class="insights-unified-pane" id="insightsBondsPane" role="tabpanel" aria-labelledby="insightsModeBonds" aria-hidden="true" inert><section class="compare-market-widgets" aria-label="TradingView 10-year government bond yield quotes">
+  <div class="compare-market-widget" aria-label="US 10-year government bond yield"><tv-single-ticker symbol="PYTH:US10Y" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="Japan 10-year government bond yield"><tv-single-ticker symbol="OTCB:JP10Y" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="Australia 10-year government bond yield"><tv-single-ticker symbol="OTCB:AU10Y" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="United Kingdom 10-year government bond yield"><tv-single-ticker symbol="OTCB:GB10Y" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="India 10-year government bond yield"><tv-single-ticker symbol="OTCB:IN10Y" theme="dark" transparent></tv-single-ticker></div>
+</section></div>
+<div class="insights-unified-pane" id="insightsCryptoPane" role="tabpanel" aria-labelledby="insightsModeCrypto" aria-hidden="true" inert><section class="compare-market-widgets" aria-label="TradingView cryptocurrency quotes">
+  <div class="compare-market-widget" aria-label="Bitcoin USD live crypto quote"><tv-single-ticker symbol="CRYPTO:BTCUSD" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="Ethereum USD live crypto quote"><tv-single-ticker symbol="CRYPTO:ETHUSD" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="Tether USD live crypto quote"><tv-single-ticker symbol="CRYPTO:USDTUSD" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="BNB USD live crypto quote"><tv-single-ticker symbol="CRYPTO:BNBUSD" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="XRP USD live crypto quote"><tv-single-ticker symbol="CRYPTO:XRPUSD" theme="dark" transparent></tv-single-ticker></div>
+</section></div>
+<div class="insights-unified-pane" id="insightsIndicesPane" role="tabpanel" aria-labelledby="insightsModeIndices" aria-hidden="true" inert><section class="compare-market-widgets" aria-label="TradingView global indices quotes">
+  <div class="compare-market-widget" aria-label="S&amp;P 500 live index quote"><tv-single-ticker symbol="FOREXCOM:SPXUSD" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="Nasdaq 100 live index quote"><tv-single-ticker symbol="FOREXCOM:NSXUSD" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="Dow Jones live index quote"><tv-single-ticker symbol="FOREXCOM:DJI" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="Nikkei 225 live index quote"><tv-single-ticker symbol="DARWINEX:NI225" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="FTSE 100 live index quote"><tv-single-ticker symbol="FOREXCOM:UKXGBP" theme="dark" transparent></tv-single-ticker></div>
+</section></div>
+</div></div>
+</section>
 </div>
 <div class="tab-pane" id="tab-order">
 <section aria-label="Your order" class="card" id="orderCard">
@@ -4594,6 +4712,10 @@ body.light #tab-convert .purity-unified-actions .a6-head-actions>button:not(.res
 <button class="nav-item" data-target="tab-bench">
 <svg class="elite-outline-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h18"/><rect x="5" y="10" width="5" height="8" rx="1"/><rect x="14" y="5" width="5" height="13" rx="1"/><path d="M7.5 7.5V5M16.5 2.5v-.5"/></svg>
 <span class="nav-lbl">Compare</span>
+</button>
+<button class="nav-item" data-target="tab-insights">
+<svg class="elite-outline-icon elite-insights-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="insights-pulse-path" d="M2.5 13h4l3-6 4.5 11 3-6h4.5"/><path d="M3 20.5h18" opacity=".55"/></svg>
+<span class="nav-lbl">Insights</span>
 </button>
 
 </nav>
@@ -6943,7 +7065,7 @@ body.light #tab-convert .purity-unified-actions .a6-head-actions>button:not(.res
     // Inset the selector inside each tab, with extra corner clearance.
     var corner=5, inner=3;
     var tabIndex=Array.prototype.indexOf.call(nav.querySelectorAll('.nav-item'),active);
-    var inset=(tabIndex===0||tabIndex===3)?corner:inner;
+    var inset=(tabIndex===0||tabIndex===4)?corner:inner;
     var navInnerLeft=navRect.left+nav.clientLeft;
     var x=tabRect.left-navRect.left+inset;
     var width=Math.max(0,tabRect.width-inset*2);
@@ -8818,7 +8940,7 @@ function feedback(message, pngLink){
  var node=document.getElementById('shotPngStatus');
  if(!node){
   node=document.createElement('div');node.id='shotPngStatus';node.setAttribute('role','status');
-  Object.assign(node.style,{position:'fixed',bottom:'100px',left:'50%',transform:'translateX(-50%)',zIndex:'100000',
+  Object.assign(node.style,{position:'fixed',bottom:'100px',left:'50%',transform:'translateX(-60%)',zIndex:'100000',
    background:'rgba(25,22,18,.96)',color:'#f6db97',border:'1px solid #a98242',borderRadius:'12px',
    padding:'10px 16px',font:'600 13px system-ui',maxWidth:'92vw',width:'max-content',textAlign:'center',pointerEvents:'auto'});
   document.body.appendChild(node);
@@ -9051,6 +9173,14 @@ html:root[data-theme="light"],html:root[data-theme="light"] body{
 .bottom-nav .nav-item.icon-motion[data-target="tab-calc"] svg path { animation:elite-calc-tap 820ms ease-in-out 1 both; }
 .bottom-nav .nav-item.icon-motion[data-target="tab-bench"] svg rect:nth-child(2) { animation:elite-compare-bar-a 820ms ease-in-out 1 both;transform-box:fill-box;transform-origin:center bottom; }
 .bottom-nav .nav-item.icon-motion[data-target="tab-bench"] svg rect:nth-child(3) { animation:elite-compare-bar-b 820ms ease-in-out 1 both;transform-box:fill-box;transform-origin:center bottom; }
+
+/* Insights: reference ECG/heartbeat glyph with a single pulse on each tap. */
+.bottom-nav .nav-item[data-target="tab-insights"] .insights-pulse-line{stroke-dasharray:38;stroke-dashoffset:0;stroke-linecap:round;}
+.bottom-nav .nav-item.icon-motion[data-target="tab-insights"] .insights-pulse-line{animation:insights-heartbeat-draw 760ms cubic-bezier(.25,.7,.25,1) 1 both;}
+.bottom-nav .nav-item.icon-motion[data-target="tab-insights"] .insights-pulse-base{animation:insights-heartbeat-base 760ms ease-out 1 both;}
+@keyframes insights-heartbeat-draw{0%{stroke-dashoffset:38;opacity:.35}65%{stroke-dashoffset:0;opacity:1}82%{stroke-dashoffset:-2}100%{stroke-dashoffset:0;opacity:1}}
+@keyframes insights-heartbeat-base{0%,100%{opacity:1}45%{opacity:.55}}
+@media(prefers-reduced-motion:reduce){.bottom-nav .nav-item.icon-motion[data-target="tab-insights"] .insights-pulse-line,.bottom-nav .nav-item.icon-motion[data-target="tab-insights"] .insights-pulse-base{animation:none!important}}
 @keyframes elite-icon-pop { 0%{transform:translateY(-2px) scale(1)} 42%{transform:translateY(-3px) scale(1.10)} 100%{transform:translateY(-2px) scale(1)} }
 @keyframes elite-arrow-right { 0%,100%{transform:translateX(0)} 45%{transform:translateX(3.5px)} }
 @keyframes elite-arrow-left { 0%,100%{transform:translateX(0)} 45%{transform:translateX(calc(-1 * 3.5px))} }
@@ -9116,7 +9246,7 @@ html:root[data-theme="light"],html:root[data-theme="light"] body{
     void button.offsetWidth;
     button.classList.add('demo43-icon-play');
     if(timers.has(button)) clearTimeout(timers.get(button));
-    timers.set(button,setTimeout(()=>button.classList.remove('demo43-icon-play'),800));
+    timers.set(button,setTimeout(()=>button.classList.remove('demo43-icon-play'),button.id==='purityModeYield'?750:800));
   }
   document.addEventListener('click',function(event){
     const button=event.target.closest('button');
@@ -9185,5 +9315,196 @@ html:root[data-theme="light"],html:root[data-theme="light"] body{
  document.addEventListener('keydown',function(e){if(overlay.hidden)return;if(e.key==='Escape'){e.preventDefault();dismiss();}else if(e.key==='Tab'){e.preventDefault();close.focus();}});
 })();
 </script>
+
+
+<style id="insights-demo60-nav-animation">
+.bottom-nav .nav-item.icon-motion[data-target="tab-insights"] .insights-pulse-path{stroke-dasharray:44;stroke-dashoffset:44;animation:insights-pulse-draw 780ms ease-out 1 forwards}
+@keyframes insights-pulse-draw{0%{stroke-dashoffset:44}100%{stroke-dashoffset:0}}
+@media(prefers-reduced-motion:reduce){.bottom-nav .nav-item.icon-motion[data-target="tab-insights"] .insights-pulse-path{animation:none;stroke-dashoffset:0}}
+</style>
+
+<style id="market-intelligence-heading-animation">
+#tab-insights .market-intelligence-heading{display:inline-flex;align-items:center;gap:9px}
+/* Match the native section-heading glyphs: dropBase, icon-md, and theme-aware --glyph. */
+#tab-insights .commodities-theme-icon{flex:none;overflow:visible}
+#tab-insights .commodities-theme-mark{transform-origin:14px 14px}
+#tab-insights.active .commodities-theme-mark{animation:commodities-native-settle 700ms ease-in-out 1 both}
+@keyframes commodities-native-settle{0%{opacity:.65;transform:translateY(1px)}65%,100%{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){#tab-insights.active .commodities-theme-mark{animation:none!important}}
+</style>
+<style id="insights-magnetic-slide-tabs">
+/* Insights uses the same magnetic Gold Glass selection language as Compare. */
+#tab-insights .insights-unified-card{overflow:hidden}
+#tab-insights .insights-mode-navigation{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;isolation:isolate;position:relative;overflow:hidden;padding:5px;border-radius:18px;margin-bottom:12px;background:color-mix(in srgb,var(--glass-strong) 82%,transparent);border:1px solid var(--glass-border-strong);box-shadow:inset 0 1px 0 rgba(255,249,223,.12),0 4px 14px rgba(18,12,3,.10)}
+#tab-insights .insights-mode-navigation .purity-unified-tab{position:relative;z-index:3;display:flex;align-items:center;justify-content:center;min-height:43px;min-width:0;padding:9px 5px;border:1px solid transparent!important;border-radius:13px;background:transparent!important;box-shadow:none!important;color:var(--text-1);font:750 11.2px/1.2 'Manrope',sans-serif;cursor:pointer;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+#tab-insights .insights-mode-navigation .purity-unified-tab.is-current{color:var(--text-0)}
+#tab-insights .insights-mode-navigation .purity-unified-tab:focus-visible{outline:2px solid var(--gold-500);outline-offset:-3px}
+#tab-insights .insights-mode-navigation .insights-tab-label{display:inline-flex;align-items:center;justify-content:center;gap:2px;min-width:0}
+#tab-insights .insights-mode-navigation .market-intelligence-heading{display:inline-flex;align-items:center;gap:6px;font:inherit;margin:0}
+#tab-insights .insights-mode-navigation .icon-md{width:18px;height:18px;flex:none}
+#tab-insights .insights-mode-navigation .purity-mode-magnet{position:absolute;top:5px;bottom:5px;left:5px;width:calc((100% - 30px)/5);z-index:1;border-radius:999px;border:1.5px solid rgba(215,158,44,.90);background:radial-gradient(ellipse at 50% 50%,rgba(226,170,63,.16),transparent 100%),linear-gradient(135deg,rgba(255,235,173,.27),rgba(210,157,56,.14) 52%,rgba(255,244,208,.22));box-shadow:inset 0 1px 0 rgba(255,255,255,.64),inset 0 -1px 0 rgba(164,111,26,.13),inset 0 0 11px rgba(209,151,46,.13);pointer-events:none;transition:transform 620ms cubic-bezier(.21,1.04,.25,1)}
+#tab-insights .insights-unified-card[data-insights-mode="forex"] .purity-mode-magnet{transform:translateX(calc(100% + 5px))}
+#tab-insights .insights-motion-viewport{overflow:hidden;width:100%;transition:height 320ms cubic-bezier(.22,1,.36,1)}
+#tab-insights .insights-motion-track{display:flex;width:500%;align-items:flex-start;transform:translateX(0);transition:transform 620ms cubic-bezier(.21,1.04,.25,1)}
+#tab-insights .insights-unified-pane{width:20%;flex:0 0 20%;min-width:0;box-sizing:border-box}
+#tab-insights .insights-unified-card[data-insights-mode="forex"] .insights-motion-track{transform:translateX(-20%)}
+#tab-insights .insights-unified-card[data-insights-mode="bonds"] .insights-motion-track{transform:translateX(-40%)}
+#tab-insights .insights-unified-card[data-insights-mode="crypto"] .insights-motion-track{transform:translateX(-60%)}
+#tab-insights .insights-unified-card[data-insights-mode="indices"] .insights-motion-track{transform:translateX(-80%)}
+#tab-insights .insights-unified-card[data-insights-mode="bonds"] .purity-mode-magnet{transform:translateX(calc(200% + 10px))}
+#tab-insights .insights-unified-card[data-insights-mode="crypto"] .purity-mode-magnet{transform:translateX(calc(300% + 15px))}
+#tab-insights .insights-unified-card[data-insights-mode="indices"] .purity-mode-magnet{transform:translateX(calc(400% + 20px))}
+@media(prefers-reduced-motion:reduce){#tab-insights .insights-motion-track,#tab-insights .insights-motion-viewport,#tab-insights .purity-mode-magnet{transition:none!important}}
+</style>
+<style id="insights-selector-icon-motion">
+/* Theme-native, one-shot icon motion; only the selected Insights category animates. */
+#tab-insights .insights-mode-navigation .commodities-theme-mark,
+#tab-insights .insights-mode-navigation .forex-theme-mark,
+#tab-insights .insights-mode-navigation .bonds-theme-mark,
+#tab-insights .insights-mode-navigation .crypto-theme-mark,
+#tab-insights .insights-mode-navigation .indices-theme-mark{transform-box:view-box;transform-origin:50% 50%}
+#insightsModeCommodities.insights-icon-play .commodities-theme-mark{animation:insights-commodity-rise 760ms cubic-bezier(.25,.1,.25,1) 1 both}
+#insightsModeForex.insights-icon-play .forex-theme-mark{animation:insights-forex-exchange 760ms cubic-bezier(.25,.1,.25,1) 1 both}
+#insightsModeBonds.insights-icon-play .bonds-theme-mark{animation:insights-bonds-reveal 760ms cubic-bezier(.25,.1,.25,1) 1 both}
+#insightsModeCrypto.insights-icon-play .crypto-theme-mark{animation:insights-crypto-pulse 760ms cubic-bezier(.25,.1,.25,1) 1 both}
+#insightsModeIndices.insights-icon-play .indices-theme-mark{animation:insights-indices-rise 760ms cubic-bezier(.25,.1,.25,1) 1 both}
+@keyframes insights-commodity-rise{0%{transform:translateY(1.8px);opacity:.72}55%{transform:translateY(-.8px);opacity:1}100%{transform:translateY(0);opacity:1}}
+@keyframes insights-bonds-reveal{0%{transform:translateY(1.5px);opacity:.72}55%{transform:translateY(-.5px);opacity:1}100%{transform:translateY(0);opacity:1}}
+@keyframes insights-crypto-pulse{0%{transform:scale(.94);opacity:.7}55%{transform:scale(1.035);opacity:1}100%{transform:scale(1);opacity:1}}
+@keyframes insights-indices-rise{0%{transform:translateY(1.5px);opacity:.7}55%{transform:translateY(-.6px);opacity:1}100%{transform:translateY(0);opacity:1}}
+@keyframes insights-forex-exchange{0%{transform:translateX(-1.5px);opacity:.75}52%{transform:translateX(1px);opacity:1}100%{transform:translateX(0);opacity:1}}
+@media(prefers-reduced-motion:reduce){#insightsModeCommodities.insights-icon-play .commodities-theme-mark,#insightsModeForex.insights-icon-play .forex-theme-mark,#insightsModeCrypto.insights-icon-play .crypto-theme-mark,#insightsModeIndices.insights-icon-play .indices-theme-mark{animation:none!important}}
+</style>
+
+<style id="insights-horizontal-scrollable-tabs-fix">
+/* Single-row horizontally scrollable Gold Glass category strip. */
+#tab-insights .insights-mode-navigation{
+ display:flex!important;flex-wrap:nowrap!important;grid-template-columns:none!important;
+ gap:6px!important;overflow-x:auto!important;overflow-y:hidden!important;
+ -webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;
+ scrollbar-width:none;scroll-snap-type:x proximity;
+ touch-action:pan-x;justify-content:flex-start!important;
+}
+#tab-insights .insights-mode-navigation::-webkit-scrollbar{display:none}
+#tab-insights .insights-mode-navigation .purity-unified-tab{
+ flex:0 0 auto!important;min-width:max-content!important;
+ padding:9px 13px!important;white-space:nowrap!important;
+ scroll-snap-align:nearest;
+}
+#tab-insights .insights-mode-navigation .insights-tab-label{gap:6px!important;white-space:nowrap!important}
+#tab-insights .insights-mode-navigation .purity-mode-magnet{
+ width:var(--insights-active-width,140px)!important;
+ left:var(--insights-active-left,5px)!important;
+ transform:none!important;
+ transition:left 620ms cubic-bezier(.21,1.04,.25,1),width 620ms cubic-bezier(.21,1.04,.25,1)!important;
+}
+#tab-insights .insights-unified-card[data-insights-mode] .insights-mode-navigation .purity-mode-magnet{transform:none!important}
+@media(prefers-reduced-motion:reduce){#tab-insights .insights-mode-navigation .purity-mode-magnet{transition:none!important}}
+</style>
+
+<style id="insights-compare-exact-selector-look">
+/* Use the same clean, unbadged outline-icon selector language as Compare / Quick Rates. */
+#tab-insights .insights-mode-navigation{
+  align-items:stretch!important;gap:5px!important;padding:5px!important;
+  border-radius:18px!important;
+  background:color-mix(in srgb,var(--glass-strong) 82%,transparent)!important;
+  border:1px solid var(--glass-border-strong)!important;
+  box-shadow:inset 0 1px 0 rgba(255,249,223,.12),0 4px 14px rgba(18,12,3,.10)!important;
+}
+#tab-insights .insights-mode-navigation .purity-unified-tab{
+  min-height:43px!important;min-width:max-content!important;
+  padding:9px 16px!important;gap:8px!important;
+  border:1px solid transparent!important;border-radius:13px!important;
+  background:transparent!important;box-shadow:none!important;
+  color:var(--text-1)!important;font:750 11.2px/1.2 'Manrope',sans-serif!important;
+}
+#tab-insights .insights-mode-navigation .insights-tab-label{
+  display:inline-flex!important;align-items:center!important;gap:8px!important;
+  white-space:nowrap!important;
+}
+#tab-insights .insights-mode-navigation .insights-tab-label svg{
+  width:23px!important;height:23px!important;flex:0 0 23px!important;
+  overflow:visible!important;background:none!important;
+  border:none!important;border-radius:0!important;
+  box-shadow:none!important;filter:none!important;
+  color:var(--text-1)!important;
+}
+#tab-insights .insights-mode-navigation .insights-tab-label svg g{
+  stroke:currentColor!important;fill:none!important;
+}
+#tab-insights .insights-mode-navigation .purity-unified-tab.is-current,
+#tab-insights .insights-mode-navigation .purity-unified-tab.is-current svg{
+  color:var(--text-0)!important;
+}
+#tab-insights .insights-mode-navigation .purity-mode-magnet{
+  top:5px!important;bottom:5px!important;
+  border-radius:13px!important;
+  border:1px solid rgba(171,117,33,.62)!important;
+  background:linear-gradient(135deg,#ffe09a 0%,#f6c45e 48%,#e9ab3c 100%)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.56),inset 0 -1px 0 rgba(142,91,13,.13)!important;
+  pointer-events:none!important;
+}
+/* Align with Compare's selected text/line icon colors in both themes. */
+#tab-insights .insights-mode-navigation .purity-unified-tab.is-current,
+#tab-insights .insights-mode-navigation .purity-unified-tab.is-current svg{
+  color:#38280f!important;
+}
+#tab-insights .insights-mode-navigation .purity-unified-tab-glint{display:none!important}
+@media(prefers-reduced-motion:reduce){#tab-insights .insights-mode-navigation .purity-mode-magnet{transition:none!important}}
+</style>
+<script id="insights-magnetic-slide-controller">
+(function(){
+ const root=document.querySelector('#tab-insights .insights-unified-card');if(!root)return;
+ const viewport=document.getElementById('insightsModeViewport');
+ const tabs=[document.getElementById('insightsModeCommodities'),document.getElementById('insightsModeForex'),document.getElementById('insightsModeBonds'),document.getElementById('insightsModeCrypto'),document.getElementById('insightsModeIndices')];
+ const panes=[document.getElementById('insightsCommoditiesPane'),document.getElementById('insightsForexPane'),document.getElementById('insightsBondsPane'),document.getElementById('insightsCryptoPane'),document.getElementById('insightsIndicesPane')];
+ let current=0;
+ function resize(){const pane=panes[current];if(pane&&viewport)viewport.style.height=pane.scrollHeight+'px'}
+ function choose(index,focus){
+  current=index;root.dataset.insightsMode=['commodities','forex','bonds','crypto','indices'][index];
+  tabs.forEach((tab,i)=>{tab.classList.toggle('is-current',i===index);tab.setAttribute('aria-selected',String(i===index));tab.tabIndex=i===index?0:-1;});
+  panes.forEach((pane,i)=>{pane.setAttribute('aria-hidden',String(i!==index));if(i===index)pane.removeAttribute('inert');else pane.setAttribute('inert','');});
+  const nav=tabs[index].parentElement;
+  if(nav){
+   nav.style.setProperty('--insights-active-left',tabs[index].offsetLeft+'px');
+   nav.style.setProperty('--insights-active-width',tabs[index].offsetWidth+'px');
+   const start=tabs[index].offsetLeft, end=start+tabs[index].offsetWidth;
+   const left=nav.scrollLeft, right=left+nav.clientWidth;
+   if(start<left+8 || end>right-8){
+    const target=Math.max(0,start-(nav.clientWidth-tabs[index].offsetWidth)/2);
+    nav.scrollTo({left:target,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+   }
+  }
+  resize();if(focus)tabs[index].focus();
+ }
+ function animateIcon(index){const tab=tabs[index];tab.classList.remove('insights-icon-play');void tab.offsetWidth;tab.classList.add('insights-icon-play');}
+ tabs.forEach((tab,i)=>{tab.addEventListener('click',()=>{choose(i,false);animateIcon(i)});tab.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();const target=(i+(e.key==='ArrowRight'?1:tabs.length-1))%tabs.length;choose(target,true);animateIcon(target)}})});
+ if(typeof ResizeObserver!=='undefined'){const observer=new ResizeObserver(()=>resize());panes.forEach(p=>observer.observe(p));}
+ window.addEventListener('resize',resize);
+ choose(0,false);
+})();
+</script>
+
+<style id="insights-compare-dark-mode-selector-match">
+/* Dark mode: mirror Compare / Quick Rates translucent outline magnet, not light-mode amber fill. */
+:root[data-theme="dark"] #tab-insights .insights-mode-navigation{
+ background:radial-gradient(ellipse 67% 120% at 14% 50%,rgba(219,170,68,.09),transparent 92%),linear-gradient(110deg,rgba(38,27,15,.60),rgba(28,20,12,.72) 50%,rgba(38,27,15,.60))!important;
+ border:1px solid rgba(190,143,69,.55)!important;
+ box-shadow:inset 0 1px 0 rgba(255,245,211,.07),0 4px 14px rgba(0,0,0,.08)!important;
+}
+:root[data-theme="dark"] #tab-insights .insights-mode-navigation .purity-mode-magnet{
+ background:radial-gradient(ellipse at 50% 50%,rgba(226,170,63,.16),transparent 100%),linear-gradient(135deg,rgba(255,235,173,.14),rgba(210,157,56,.07) 52%,rgba(255,244,208,.10))!important;
+ border:1.5px solid rgba(215,158,44,.90)!important;
+ border-radius:999px!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1px 0 rgba(164,111,26,.13),inset 0 0 11px rgba(209,151,46,.10)!important;
+}
+:root[data-theme="dark"] #tab-insights .insights-mode-navigation .purity-unified-tab{
+ color:#e6d9c4!important;background:transparent!important;box-shadow:none!important;
+}
+:root[data-theme="dark"] #tab-insights .insights-mode-navigation .insights-tab-label svg{color:#e4b969!important;filter:none!important}
+:root[data-theme="dark"] #tab-insights .insights-mode-navigation .purity-unified-tab.is-current{color:#fff8ed!important}
+:root[data-theme="dark"] #tab-insights .insights-mode-navigation .purity-unified-tab.is-current svg{color:#f3c46d!important}
+</style>
+
 </body>
 </html>
