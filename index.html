@@ -1461,7 +1461,7 @@ button, .chip, .seg button{ -webkit-tap-highlight-color:transparent; }
   pointer-events:none;
   border-radius:inherit;
   /* Opaque inner lip masks the 1-2px black TradingView edge, including curves. */
-  box-shadow:inset 0 0 0 1.51875px rgba(86,76,62,.98),inset 0 0 0 2.025px rgba(221,184,112,.38);
+  box-shadow:inset 0 0 0 1.370671875px rgba(86,76,62,.98),inset 0 0 0 1.8275625px rgba(221,184,112,.38);
   border:1px solid rgba(221,184,112,.65);
 }
 /* Insights Light Mode: eliminate the dark rectangular haze behind each
@@ -4133,6 +4133,76 @@ body.light #tab-convert .purity-unified-actions .a6-head-actions>button:not(.res
 @keyframes forex-arrows-settle{0%{opacity:.65;transform:translateX(-1px)}65%,100%{opacity:1;transform:translateX(0)}}
 @media(prefers-reduced-motion:reduce){#tab-insights.active .forex-theme-mark{animation:none!important}}
 </style>
+
+<style id="calculate-compare-even-right-half-toolbars">
+/* Calculate and Compare: left 50% heading, right 50% evenly spaced actions. */
+#tab-calc .section-three-header[data-section="calculate"],
+#tab-bench .compare-unified-header[data-section="compare"]{
+  display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  gap:0!important;align-items:center!important;width:100%!important;
+}
+#tab-calc .section-three-header[data-section="calculate"]>.section-head,
+#tab-bench .compare-unified-header[data-section="compare"]>.section-head{
+  grid-column:1!important;min-width:0!important;justify-self:start!important;
+}
+#tab-calc .section-three-header[data-section="calculate"]>.section-triple-actions,
+#tab-bench .compare-unified-header[data-section="compare"]>.section-triple-actions{
+  grid-column:2!important;display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  width:100%!important;max-width:none!important;min-width:0!important;
+  gap:0!important;margin:0!important;padding:0!important;
+  justify-items:center!important;align-items:center!important;justify-self:stretch!important;
+}
+#tab-calc .section-three-header[data-section="calculate"]>.section-triple-actions>button,
+#tab-bench .compare-unified-header[data-section="compare"]>.section-triple-actions>button{
+  grid-row:1!important;justify-self:center!important;margin:0!important;
+}
+#tab-calc .section-three-header[data-section="calculate"]>.section-triple-actions>button:nth-child(1),
+#tab-bench .compare-unified-header[data-section="compare"]>.section-triple-actions>button:nth-child(1){grid-column:1!important}
+#tab-calc .section-three-header[data-section="calculate"]>.section-triple-actions>button:nth-child(2),
+#tab-bench .compare-unified-header[data-section="compare"]>.section-triple-actions>button:nth-child(2){grid-column:2!important}
+#tab-calc .section-three-header[data-section="calculate"]>.section-triple-actions>button:nth-child(3),
+#tab-bench .compare-unified-header[data-section="compare"]>.section-triple-actions>button:nth-child(3){grid-column:3!important;justify-self:center!important}
+</style>
+<style id="insights-even-right-half-toolbar">
+/* Match native Calculate/Compare inline shuttle toolbar without decorative button circles. */
+#tab-insights .insights-section-header{
+ display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+ gap:0!important;align-items:center!important;width:100%!important;
+}
+#tab-insights .insights-section-header>.section-head{
+ grid-column:1!important;min-width:0!important;justify-self:start!important;
+}
+#tab-insights .insights-section-header>.insights-double-actions{
+ grid-column:2!important;display:grid!important;
+ grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ gap:0!important;width:100%!important;max-width:none!important;min-width:0!important;
+ margin:0!important;padding:0!important;align-items:center!important;
+ justify-items:center!important;justify-self:stretch!important;
+}
+#tab-insights .insights-section-header>.insights-double-actions>button{
+ grid-row:1!important;justify-self:center!important;margin:0!important;
+ width:34px!important;height:34px!important;min-width:34px!important;
+ padding:6px!important;display:inline-grid!important;place-items:center!important;
+ border:0!important;border-radius:0!important;background:transparent!important;
+ box-shadow:none!important;color:inherit!important;
+}
+#tab-insights .insights-double-actions>button:nth-child(1){grid-column:1!important}
+#tab-insights .insights-double-actions>button:nth-child(2){grid-column:2!important}
+#tab-insights .insights-double-actions>button svg{width:20px!important;height:20px!important;display:block!important}
+</style>
+<style id="insights-header-exact-peer-alignment-final">
+/* Match Calculate/Compare header baseline, dimensions and native toolbar palette. */
+#tab-insights .insights-section-header{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;align-items:center!important;column-gap:5px!important;margin-bottom:12px!important;min-height:34px!important}
+#tab-insights .insights-section-header>.section-head{display:flex!important;align-items:center!important;align-self:center!important;min-width:0!important;margin:0!important;padding:0!important}
+#tab-insights .insights-section-header>.section-head h2{display:flex!important;flex-direction:row!important;align-items:center!important;gap:7px!important;margin:0!important;padding:0!important;line-height:1.25!important;white-space:nowrap!important;font-size:clamp(14px,4.4vw,22px)!important;letter-spacing:-.02em!important}
+#tab-insights .insights-section-header>.section-head h2>.icon{display:block!important;width:clamp(22px,6vw,28px)!important;height:clamp(22px,6vw,28px)!important;flex:0 0 auto!important;vertical-align:middle!important}
+#tab-insights .insights-section-header>.insights-double-actions{align-self:center!important;min-height:34px!important;align-items:center!important}
+#tab-insights .insights-section-header>.insights-double-actions>button{align-self:center!important;vertical-align:middle!important;line-height:1!important;color:#FFF4DF!important;text-shadow:none!important}
+#tab-insights .insights-section-header>.insights-double-actions>button svg{stroke:currentColor!important;color:inherit!important;opacity:1!important;filter:none!important}
+:root[data-theme="light"] #tab-insights .insights-section-header>.insights-double-actions>button,
+body.light #tab-insights .insights-section-header>.insights-double-actions>button{color:#080808!important;text-shadow:none!important}
+</style>
 </head>
 <body>
 <div aria-hidden="true" class="ambient"><div class="orb orb-a"></div><div class="orb orb-b"></div><div class="orb orb-c"></div></div>
@@ -4454,9 +4524,9 @@ body.light #tab-convert .purity-unified-actions .a6-head-actions>button:not(.res
 </div>
 </div>
 <div class="pdc-details">
-<span class="pdc-detail-item"><svg aria-hidden="true" class="icon icon-sm pdc-mark" focusable="false" viewbox="0 0 28 28"><use href="#dropBase"></use><circle cx="10.3" cy="10.3" fill="none" r="2" stroke="var(--glyph)" stroke-width="1.4"></circle><circle cx="17.7" cy="17.7" fill="none" r="2" stroke="var(--glyph)" stroke-width="1.4"></circle><path d="M9.2 18.8 18.8 9.2" fill="none" stroke="var(--glyph)" stroke-linecap="round" stroke-width="1.5"></path></svg><span>Purity: <strong id="differencePurityPercent">99.99%</strong></span></span>
-<span class="pdc-detail-item"><svg aria-hidden="true" class="icon icon-sm pdc-mark" focusable="false" viewbox="0 0 28 28"><use href="#dropBase"></use><path d="M8 8h12M8 14h12M8 20h12" fill="none" stroke="var(--glyph)" stroke-linecap="round" stroke-width="1.4"></path></svg><span>Karat: <strong id="differenceKaratDisplay">—</strong></span></span>
-<span class="pdc-detail-item"><svg aria-hidden="true" class="icon icon-sm pdc-mark" focusable="false" viewbox="0 0 28 28"><use href="#dropBase"></use><path d="M9 8.5h10M9 13.2h10M9 17.9h10" fill="none" stroke="var(--glyph)" stroke-linecap="round" stroke-width="1.4"></path><path d="M12.2 7v3M15 11.7v3M18 16.4v3" fill="none" stroke="var(--glyph)" stroke-linecap="round" stroke-width="1.15"></path></svg><span>Fineness: <strong id="differenceFinenessDisplay">999.9‰</strong></span></span>
+<span class="pdc-detail-item"><svg aria-hidden="true" class="icon icon-sm pdc-mark" focusable="false" viewbox="0 0 28 28"><use href="#dropBase"></use><circle cx="10.3" cy="10.3" fill="none" r="2" stroke="var(--glyph)" stroke-width="1.4"></circle><circle cx="17.7" cy="17.7" fill="none" r="2" stroke="var(--glyph)" stroke-width="1.4"></circle><path d="M9.2 18.8 18.8 9.2" fill="none" stroke="var(--glyph)" stroke-linecap="round" stroke-width="1.5"></path></svg><span class="pdc-detail-heading">Purity</span><strong class="pdc-detail-result" id="differencePurityPercent">99.99%</strong></span>
+<span class="pdc-detail-item"><svg aria-hidden="true" class="icon icon-sm pdc-mark" focusable="false" viewbox="0 0 28 28"><use href="#dropBase"></use><path d="M8 8h12M8 14h12M8 20h12" fill="none" stroke="var(--glyph)" stroke-linecap="round" stroke-width="1.4"></path></svg><span class="pdc-detail-heading">Karat</span><strong class="pdc-detail-result" id="differenceKaratDisplay">—</strong></span>
+<span class="pdc-detail-item"><svg aria-hidden="true" class="icon icon-sm pdc-mark" focusable="false" viewbox="0 0 28 28"><use href="#dropBase"></use><path d="M9 8.5h10M9 13.2h10M9 17.9h10" fill="none" stroke="var(--glyph)" stroke-linecap="round" stroke-width="1.4"></path><path d="M12.2 7v3M15 11.7v3M18 16.4v3" fill="none" stroke="var(--glyph)" stroke-linecap="round" stroke-width="1.15"></path></svg><span class="pdc-detail-heading">Fineness</span><strong class="pdc-detail-result" id="differenceFinenessDisplay">999.9‰</strong></span>
 </div>
 <p class="pdc-error" hidden="" id="differenceError" role="status"></p>
 </div>
@@ -4593,13 +4663,19 @@ body.light #tab-convert .purity-unified-actions .a6-head-actions>button:not(.res
 
 </div>
 <div class="tab-pane" id="tab-insights">
-<section class="card insights-unified-card" aria-label="Insights commodities forex bonds crypto and indices" data-insights-mode="commodities">
+<section class="card insights-unified-card" aria-label="Insights commodities forex bonds crypto indices and XAU" data-insights-mode="commodities">
+<div class="section-head-static section-three-header insights-section-header" data-section="insights"><span class="section-head"><h2><svg aria-hidden="true" class="icon icon-md" viewBox="0 0 28 28"><use href="#dropBase"></use><path d="M5 17h4l3.2-7 4.2 10 3-6H23" fill="none" stroke="var(--glyph)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 23h18" stroke="var(--glyph)" stroke-width="1.3" opacity=".65"/></svg>Insights</h2></span><div class="section-triple-actions insights-double-actions" role="group" aria-label="Insights Print and Screenshot"><button type="button" class="section-print-shuttle" id="insightsPrintA6" title="Print Insights" aria-label="Print Insights"><svg aria-hidden="true" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" viewBox="0 0 24 24" width="20"><path d="M7 8V3h10v5M7 17H5a2 2 0 0 1-2-2v-4a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v4a2 2 0 0 1-2 2h-2"/><rect height="7" rx="1" width="10" x="7" y="14"/><path d="M17.5 11.5h.01"/></svg></button><button type="button" class="section-shot-shuttle" id="insightsShotPng" title="Save Insights PNG" aria-label="Save Insights PNG screenshot"><svg aria-hidden="true" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" viewBox="0 0 24 24" width="20"><path d="M4 7h3l2-2h6l2 2h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"/><circle cx="12" cy="13" r="3.5"/></svg></button></div></div>
+
 <div class="purity-unified-navigation insights-mode-navigation" role="tablist" aria-label="Insights market category">
 <button type="button" role="tab" id="insightsModeCommodities" class="purity-unified-tab is-current" aria-selected="true" aria-controls="insightsCommoditiesPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md commodities-theme-icon" viewBox="0 0 28 28"><g class="commodities-theme-mark" fill="none" stroke="var(--glyph)" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"><path d="M6.7 18.2 9 13.5h6.1l2.3 4.7-1.3 2.3H8z"/><path d="M14.8 18.2 17.1 13.5h4.2l1.9 4.7-1.3 2.3h-5.8"/><path d="M13.8 7.2 17.7 10l-2 3h-4l-2-3z"/></g></svg>Commodities</span></button>
 <button type="button" role="tab" id="insightsModeForex" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsForexPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md forex-theme-icon" viewBox="0 0 28 28"><g class="forex-theme-mark" fill="none" stroke="var(--glyph)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 10.5h15.6M18.4 7.2l3.4 3.3-3.4 3.3M21.8 17.5H6.2m3.4-3.3-3.4 3.3 3.4 3.3"/></g></svg>Forex</span></button>
 <button type="button" role="tab" id="insightsModeBonds" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsBondsPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md bonds-theme-icon" viewBox="0 0 28 28"><g class="bonds-theme-mark" fill="none" stroke="var(--glyph)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="7" width="17" height="14" rx="2"/><path d="M9 11h10M9 14h6M9 17h4"/><circle cx="19" cy="17.5" r="2.2"/></g></svg>Bonds</span></button>
 <button type="button" role="tab" id="insightsModeCrypto" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsCryptoPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md crypto-theme-icon" viewBox="0 0 28 28"><g class="crypto-theme-mark" fill="none" stroke="var(--glyph)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="14" cy="14" r="9"/><path d="M11.2 8.2v11.6M15.2 8.2v11.6M9.5 10.1h6.2a2.5 2.5 0 0 1 0 5h-6.2m0 0h6.7a2.5 2.5 0 0 1 0 5H9.5"/></g></svg>Crypto</span></button>
 <button type="button" role="tab" id="insightsModeIndices" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsIndicesPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md indices-theme-icon" viewBox="0 0 28 28"><g class="indices-theme-mark" fill="none" stroke="var(--glyph)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20.5V15.5h3.5v5M12.2 20.5V12h3.5v8.5M18.4 20.5V8h3.5v12.5"/><path d="M5.5 10.8l6-3.5 5 1.5 5.5-4.2M18.5 4.6H22v3.5"/></g></svg>Indices</span></button>
+
+<button type="button" role="tab" id="insightsModeMetalInr" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsMetalInrPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md" viewBox="0 0 28 28"><g fill="none" stroke="var(--glyph)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19.5h18M7 16h14l-2.8-7H9.8L7 16Z"/><path d="M12 11.5h4M14 9v7M18 5.5h6M21 3v5"/></g></svg>Metal INR</span></button>
+<button type="button" role="tab" id="insightsModeXauFx" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsXauFxPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md" viewBox="0 0 28 28"><g fill="none" stroke="var(--glyph)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="14" r="5"/><circle cx="19" cy="14" r="5"/><path d="M12 10l4 8M12 18l4-8"/></g></svg>XAUFX</span></button>
+<button type="button" role="tab" id="insightsModeXau" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsXauPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md" viewBox="0 0 28 28"><g fill="none" stroke="var(--glyph)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="14" cy="14" r="9"/><path d="M8.5 18.5 12 9.5l3.5 9M9.8 15.5h4.4M17 10v5.5a2.5 2.5 0 0 0 5 0V10"/></g></svg>XAU</span></button>
 <span class="purity-mode-magnet" aria-hidden="true"></span><span class="purity-unified-tab-glint" aria-hidden="true"></span>
 </div>
 <div class="insights-motion-viewport" id="insightsModeViewport"><div class="insights-motion-track" id="insightsModeTrack">
@@ -4638,6 +4714,38 @@ body.light #tab-convert .purity-unified-actions .a6-head-actions>button:not(.res
   <div class="compare-market-widget" aria-label="Dow Jones live index quote"><tv-single-ticker symbol="FOREXCOM:DJI" theme="dark" transparent></tv-single-ticker></div>
   <div class="compare-market-widget" aria-label="Nikkei 225 live index quote"><tv-single-ticker symbol="DARWINEX:NI225" theme="dark" transparent></tv-single-ticker></div>
   <div class="compare-market-widget" aria-label="FTSE 100 live index quote"><tv-single-ticker symbol="FOREXCOM:UKXGBP" theme="dark" transparent></tv-single-ticker></div>
+</section></div>
+
+<div class="insights-unified-pane" id="insightsMetalInrPane" role="tabpanel" aria-labelledby="insightsModeMetalInr" aria-hidden="true" inert><section class="compare-market-widgets" aria-label="TradingView metal INR quotes">
+  <div class="compare-market-widget" aria-label="XAUINR live quote"><tv-single-ticker symbol="FX_IDC:XAUINR" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="XAGINR live quote"><tv-single-ticker symbol="FX_IDC:XAGINR" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="XPTINR live quote"><tv-single-ticker symbol="FX_IDC:XPTINR" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="XAUINRG live quote"><tv-single-ticker symbol="FX_IDC:XAUINRG" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="XAGINRG live quote"><tv-single-ticker symbol="FX_IDC:XAGINRG" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="XPTINRG live quote"><tv-single-ticker symbol="FX_IDC:XPTINRG" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="XAUINRK live quote"><tv-single-ticker symbol="FX_IDC:XAUINRK" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="XAGINRK live quote"><tv-single-ticker symbol="FX_IDC:XAGINRK" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="XPTINRK live quote"><tv-single-ticker symbol="FX_IDC:XPTINRK" theme="dark" transparent></tv-single-ticker></div>
+</section></div>
+<div class="insights-unified-pane" id="insightsXauFxPane" role="tabpanel" aria-labelledby="insightsModeXauFx" aria-hidden="true" inert><section class="compare-market-widgets" aria-label="TradingView XAUFX quotes">
+  <div class="compare-market-widget" aria-label="XAUEUR live quote"><tv-single-ticker symbol="OANDA:XAUEUR" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="XAUGBP live quote"><tv-single-ticker symbol="OANDA:XAUGBP" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="XAUJPY live quote"><tv-single-ticker symbol="OANDA:XAUJPY" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="XAUCHF live quote"><tv-single-ticker symbol="OANDA:XAUCHF" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="XAUAUD live quote"><tv-single-ticker symbol="OANDA:XAUAUD" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="XAUNZD live quote"><tv-single-ticker symbol="OANDA:XAUNZD" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="XAUCAD live quote"><tv-single-ticker symbol="OANDA:XAUCAD" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="XAUSGD live quote"><tv-single-ticker symbol="OANDA:XAUSGD" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="XAUHKD live quote"><tv-single-ticker symbol="OANDA:XAUHKD" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="XAUXAG live quote"><tv-single-ticker symbol="OANDA:XAUXAG" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="XAUAED live quote"><tv-single-ticker symbol="EQUITI:XAUAED" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="XAUCNH live quote"><tv-single-ticker symbol="PEPPERSTONE:XAUCNH" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="XAUTHB live quote"><tv-single-ticker symbol="FX_IDC:XAUTHB" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="XAUMYR live quote"><tv-single-ticker symbol="FX_IDC:XAUMYR" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="XAUBTC live quote"><tv-single-ticker symbol="TVC:XAUBTC" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget" aria-label="XAUETH live quote"><tv-single-ticker symbol="TVC:XAUETH" theme="dark" transparent></tv-single-ticker></div>
+</section></div>
+<div class="insights-unified-pane" id="insightsXauPane" role="tabpanel" aria-labelledby="insightsModeXau" aria-hidden="true" inert><section class="compare-market-widgets" aria-label="TradingView XAU cross rates">
 </section></div>
 </div></div>
 </section>
@@ -8640,6 +8748,7 @@ var captures=[
  ['marketShotPng','market','tab-market'],
  ['calculateShotPng','calculate','tab-calc'],
  ['compareShotPng','compare','tab-bench'],
+ ['insightsShotPng','insights','tab-insights'],
  ['shotPurityConverterPng','purity-converter','purityDifferenceCard'],
  ['shotPurityCalculatorPng','purity-calculator','purityDifferenceCard']
 ];
@@ -9345,12 +9454,15 @@ html:root[data-theme="light"],html:root[data-theme="light"] body{
 #tab-insights .insights-mode-navigation .purity-mode-magnet{position:absolute;top:5px;bottom:5px;left:5px;width:calc((100% - 30px)/5);z-index:1;border-radius:999px;border:1.5px solid rgba(215,158,44,.90);background:radial-gradient(ellipse at 50% 50%,rgba(226,170,63,.16),transparent 100%),linear-gradient(135deg,rgba(255,235,173,.27),rgba(210,157,56,.14) 52%,rgba(255,244,208,.22));box-shadow:inset 0 1px 0 rgba(255,255,255,.64),inset 0 -1px 0 rgba(164,111,26,.13),inset 0 0 11px rgba(209,151,46,.13);pointer-events:none;transition:transform 620ms cubic-bezier(.21,1.04,.25,1)}
 #tab-insights .insights-unified-card[data-insights-mode="forex"] .purity-mode-magnet{transform:translateX(calc(100% + 5px))}
 #tab-insights .insights-motion-viewport{overflow:hidden;width:100%;transition:height 320ms cubic-bezier(.22,1,.36,1)}
-#tab-insights .insights-motion-track{display:flex;width:500%;align-items:flex-start;transform:translateX(0);transition:transform 620ms cubic-bezier(.21,1.04,.25,1)}
-#tab-insights .insights-unified-pane{width:20%;flex:0 0 20%;min-width:0;box-sizing:border-box}
-#tab-insights .insights-unified-card[data-insights-mode="forex"] .insights-motion-track{transform:translateX(-20%)}
-#tab-insights .insights-unified-card[data-insights-mode="bonds"] .insights-motion-track{transform:translateX(-40%)}
-#tab-insights .insights-unified-card[data-insights-mode="crypto"] .insights-motion-track{transform:translateX(-60%)}
-#tab-insights .insights-unified-card[data-insights-mode="indices"] .insights-motion-track{transform:translateX(-80%)}
+#tab-insights .insights-motion-track{display:flex;width:800%;align-items:flex-start;transform:translateX(0);transition:transform 620ms cubic-bezier(.21,1.04,.25,1)}
+#tab-insights .insights-unified-pane{width:12.5%;flex:0 0 12.5%;min-width:0;box-sizing:border-box}
+#tab-insights .insights-unified-card[data-insights-mode="forex"] .insights-motion-track{transform:translateX(-12.5%)}
+#tab-insights .insights-unified-card[data-insights-mode="bonds"] .insights-motion-track{transform:translateX(-25.0%)}
+#tab-insights .insights-unified-card[data-insights-mode="crypto"] .insights-motion-track{transform:translateX(-37.5%)}
+#tab-insights .insights-unified-card[data-insights-mode="indices"] .insights-motion-track{transform:translateX(-50.0%)}
+#tab-insights .insights-unified-card[data-insights-mode="xau"] .insights-motion-track{transform:translateX(-87.5%)}
+#tab-insights .insights-unified-card[data-insights-mode="metal-inr"] .insights-motion-track{transform:translateX(-62.5%)}
+#tab-insights .insights-unified-card[data-insights-mode="xaufx"] .insights-motion-track{transform:translateX(-75.0%)}
 #tab-insights .insights-unified-card[data-insights-mode="bonds"] .purity-mode-magnet{transform:translateX(calc(200% + 10px))}
 #tab-insights .insights-unified-card[data-insights-mode="crypto"] .purity-mode-magnet{transform:translateX(calc(300% + 15px))}
 #tab-insights .insights-unified-card[data-insights-mode="indices"] .purity-mode-magnet{transform:translateX(calc(400% + 20px))}
@@ -9456,12 +9568,12 @@ html:root[data-theme="light"],html:root[data-theme="light"] body{
 (function(){
  const root=document.querySelector('#tab-insights .insights-unified-card');if(!root)return;
  const viewport=document.getElementById('insightsModeViewport');
- const tabs=[document.getElementById('insightsModeCommodities'),document.getElementById('insightsModeForex'),document.getElementById('insightsModeBonds'),document.getElementById('insightsModeCrypto'),document.getElementById('insightsModeIndices')];
- const panes=[document.getElementById('insightsCommoditiesPane'),document.getElementById('insightsForexPane'),document.getElementById('insightsBondsPane'),document.getElementById('insightsCryptoPane'),document.getElementById('insightsIndicesPane')];
+ const tabs=[document.getElementById('insightsModeCommodities'),document.getElementById('insightsModeForex'),document.getElementById('insightsModeBonds'),document.getElementById('insightsModeCrypto'),document.getElementById('insightsModeIndices'),document.getElementById('insightsModeMetalInr'),document.getElementById('insightsModeXauFx'),document.getElementById('insightsModeXau')];
+ const panes=[document.getElementById('insightsCommoditiesPane'),document.getElementById('insightsForexPane'),document.getElementById('insightsBondsPane'),document.getElementById('insightsCryptoPane'),document.getElementById('insightsIndicesPane'),document.getElementById('insightsMetalInrPane'),document.getElementById('insightsXauFxPane'),document.getElementById('insightsXauPane')];
  let current=0;
  function resize(){const pane=panes[current];if(pane&&viewport)viewport.style.height=pane.scrollHeight+'px'}
  function choose(index,focus){
-  current=index;root.dataset.insightsMode=['commodities','forex','bonds','crypto','indices'][index];
+  current=index;root.dataset.insightsMode=['commodities','forex','bonds','crypto','indices','metal-inr','xaufx','xau'][index];
   tabs.forEach((tab,i)=>{tab.classList.toggle('is-current',i===index);tab.setAttribute('aria-selected',String(i===index));tab.tabIndex=i===index?0:-1;});
   panes.forEach((pane,i)=>{pane.setAttribute('aria-hidden',String(i!==index));if(i===index)pane.removeAttribute('inert');else pane.setAttribute('inert','');});
   const nav=tabs[index].parentElement;
@@ -9506,5 +9618,342 @@ html:root[data-theme="light"],html:root[data-theme="light"] body{
 :root[data-theme="dark"] #tab-insights .insights-mode-navigation .purity-unified-tab.is-current svg{color:#f3c46d!important}
 </style>
 
+
+<style id="alloy-three-result-overlap-fix">
+/* Alloy results: icon + heading on first line; numeric result on second line. */
+#purityDifferenceCard #purityAlloyPane .pdc-details{
+ display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ gap:8px!important;width:100%!important;box-sizing:border-box!important;
+ align-items:start!important;
+}
+#purityDifferenceCard #purityAlloyPane .pdc-detail-item{
+ display:grid!important;grid-template-columns:auto minmax(0,1fr)!important;
+ grid-template-rows:auto auto!important;column-gap:4px!important;row-gap:7px!important;
+ align-items:center!important;justify-content:center!important;min-width:0!important;
+ max-width:100%!important;text-align:center!important;white-space:nowrap!important;
+}
+#purityDifferenceCard #purityAlloyPane .pdc-detail-item > .pdc-mark{
+ grid-column:1!important;grid-row:1!important;width:clamp(12px,3.4vw,17px)!important;
+ height:clamp(12px,3.4vw,17px)!important;flex:none!important;
+}
+#purityDifferenceCard #purityAlloyPane .pdc-detail-item > .pdc-detail-heading{
+ grid-column:2!important;grid-row:1!important;display:block!important;
+ width:auto!important;min-width:0!important;white-space:nowrap!important;
+ font-size:clamp(9px,2.6vw,12px)!important;line-height:1.35!important;
+ letter-spacing:-.025em!important;
+}
+#purityDifferenceCard #purityAlloyPane .pdc-detail-item > .pdc-detail-result{
+ grid-column:1 / -1!important;grid-row:2!important;display:block!important;
+ width:100%!important;max-width:100%!important;white-space:nowrap!important;
+ font-size:clamp(13px,3.6vw,18px)!important;line-height:1.3!important;
+ font-variant-numeric:tabular-nums!important;text-align:center!important;
+}
+</style>
+<style id="alloy-all-metrics-one-line-final">
+/* One row: [icon Purity 99.99%] [icon Karat 24k] [icon Fineness 999.9‰]. */
+#purityDifferenceCard #purityAlloyPane .pdc-details{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:2px!important;width:100%!important;align-items:center!important;box-sizing:border-box!important}
+#purityDifferenceCard #purityAlloyPane .pdc-detail-item{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;justify-content:center!important;gap:clamp(1px,.5vw,4px)!important;min-width:0!important;width:100%!important;max-width:100%!important;white-space:nowrap!important;text-align:center!important}
+#purityDifferenceCard #purityAlloyPane .pdc-detail-item > .pdc-mark{display:block!important;flex:0 0 auto!important;width:clamp(10px,2.8vw,14px)!important;height:clamp(10px,2.8vw,14px)!important}
+#purityDifferenceCard #purityAlloyPane .pdc-detail-item > .pdc-detail-heading{display:inline!important;width:auto!important;min-width:0!important;white-space:nowrap!important;font-size:clamp(8px,2.25vw,11px)!important;letter-spacing:-.045em!important;line-height:1.2!important}
+#purityDifferenceCard #purityAlloyPane .pdc-detail-item > .pdc-detail-result{display:inline!important;width:auto!important;max-width:none!important;white-space:nowrap!important;font-size:clamp(9px,2.5vw,12px)!important;letter-spacing:-.045em!important;line-height:1.2!important;font-variant-numeric:tabular-nums!important}
+</style>
+<style id="alloy-one-line-slightly-larger">
+/* Slightly larger one-line Alloy Composition metrics, without wrapping. */
+#purityDifferenceCard #purityAlloyPane .pdc-detail-item > .pdc-mark{width:clamp(11px,3.1vw,16px)!important;height:clamp(11px,3.1vw,16px)!important}
+#purityDifferenceCard #purityAlloyPane .pdc-detail-item > .pdc-detail-heading{font-size:clamp(9px,2.45vw,12px)!important}
+#purityDifferenceCard #purityAlloyPane .pdc-detail-item > .pdc-detail-result{font-size:clamp(10px,2.75vw,13px)!important}
+</style>
+<script id="insights-print-selected-pane">
+(function(){
+function init(){var b=document.getElementById('insightsPrintA6');if(!b)return;b.addEventListener('click',function(){
+var card=document.querySelector('#tab-insights .insights-unified-card');if(!card)return;var mode=card.getAttribute('data-insights-mode')||'commodities';var pane=document.getElementById(mode==='metal-inr'?'insightsMetalInrPane':'insights'+mode.charAt(0).toUpperCase()+mode.slice(1)+'Pane');if(!pane)return;
+var symbols=Array.from(pane.querySelectorAll('tv-single-ticker')).map(function(el){return el.getAttribute('symbol')||'';});
+var title=mode.charAt(0).toUpperCase()+mode.slice(1);var w=window.open('','_blank');if(!w){window.print();return;}
+var esc=function(t){return String(t).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});};
+w.document.open();w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Bullion Spot — Insights</title><style>@page{size:A6;margin:10mm}body{font:12px Arial;color:#332516}h1{font-size:19px;color:#a57927}h2{font-size:14px}li{padding:6px 0;border-bottom:1px solid #ddd}small{color:#666}</style></head><body><h1>Bullion Spot · Insights</h1><h2>'+esc(title)+'</h2><small>'+esc(new Date().toLocaleString())+'</small><ul>'+symbols.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul><small>Market quotes are live widgets; verify current prices in the app.</small></body></html>');w.document.close();w.focus();setTimeout(function(){w.print();},250);
+});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
+<style id="insights-metal-inr-left-edge-artifact-fix">
+/* Metal INR only: clip the embedded TradingView left edge to the same rounded
+   silhouette as the Gold Glass card. Do not change card dimensions or scroll. */
+#tab-insights #insightsMetalInrPane .compare-market-widget{
+  position:relative!important;
+  overflow:hidden!important;
+  isolation:isolate;
+  -webkit-clip-path:inset(0 round 24px);
+  clip-path:inset(0 round 24px);
+}
+#tab-insights #insightsMetalInrPane .compare-market-widget tv-single-ticker{
+  border:0!important;
+  outline:0!important;
+  -webkit-mask-image:linear-gradient(to right,transparent 0,black 2.5px,black 100%);
+  mask-image:linear-gradient(to right,transparent 0,black 2.5px,black 100%);
+}
+/* Cover residual subpixel seams while retaining the existing gold rim. */
+#tab-insights #insightsMetalInrPane .compare-market-widget::before{
+  content:"";
+  position:absolute;
+  z-index:1;
+  pointer-events:none;
+  left:0;top:0;bottom:0;width:2px;
+  background:linear-gradient(180deg,rgba(77,67,52,.72),rgba(27,23,18,.94));
+}
+</style>
+<style id="insights-widget-top-and-bottom-height-minus-five-percent">
+/* Restore 5% at each edge: crop only 5% top and 5% bottom of each widget. */
+#tab-insights .compare-market-widget{height:69.12px!important;min-height:0!important;overflow:hidden!important}
+#tab-insights .compare-market-widget tv-single-ticker{height:76.8px!important;min-height:76.8px!important;display:block!important;transform:translateY(-3.84px)!important}
+@media(max-width:390px){#tab-insights .compare-market-widget{height:61.92px!important}#tab-insights .compare-market-widget tv-single-ticker{height:68.8px!important;min-height:68.8px!important;transform:translateY(-3.44px)!important}}
+@media(min-width:700px){#tab-insights .compare-market-widget{height:79.2px!important}#tab-insights .compare-market-widget tv-single-ticker{height:88px!important;min-height:88px!important;transform:translateY(-4.4px)!important}}
+</style>
+
+<style id="insights-disable-widget-external-links">
+/* Block TradingView ticker taps while preserving live updates and strip scrolling. */
+#tab-insights .compare-market-widget tv-single-ticker {pointer-events:none!important;}
+</style>
+
+<script id="initial-selector-visibility-repair">
+/* Keep the active selector visible on first load, before any user interaction.
+   Re-measure after tabs become visible, fonts settle, or layout changes. */
+(function(){
+  var queued=false;
+  function position(hostId, selector, indicatorClass, xVar, wVar, readyClass){
+    var host=document.getElementById(hostId);
+    if(!host || !host.getClientRects().length)return;
+    var active=host.querySelector(selector), indicator=host.querySelector('.'+indicatorClass);
+    if(!active || !indicator || !active.offsetWidth)return;
+    host.style.setProperty(xVar,active.offsetLeft+'px');
+    host.style.setProperty(wVar,active.offsetWidth+'px');
+    host.classList.add(readyClass);
+  }
+  function refresh(){
+    queued=false;
+    position('puritySeg','button[aria-pressed="true"]','purity-indicator','--purity-indicator-x','--purity-indicator-width','purity-indicator-ready');
+    position('unitChips','button[aria-pressed="true"]','unit-indicator','--unit-indicator-x','--unit-indicator-width','unit-indicator-ready');
+    var nav=document.querySelector('#tab-insights .insights-mode-navigation');
+    if(nav && nav.getClientRects().length){
+      var active=nav.querySelector('.purity-unified-tab.is-current, .purity-unified-tab[aria-selected="true"]');
+      if(active && active.offsetWidth){
+        nav.style.setProperty('--insights-active-left',active.offsetLeft+'px');
+        nav.style.setProperty('--insights-active-width',active.offsetWidth+'px');
+      }
+    }
+  }
+  function schedule(){if(!queued){queued=true;requestAnimationFrame(refresh)}}
+  function initialize(){
+    schedule();requestAnimationFrame(function(){requestAnimationFrame(refresh)});
+    window.addEventListener('load',schedule);
+    window.addEventListener('resize',schedule);
+    document.addEventListener('visibilitychange',function(){if(!document.hidden)schedule()});
+    document.querySelectorAll('.nav-item, #puritySeg button, #unitChips button, #tab-insights .insights-mode-navigation button').forEach(function(el){el.addEventListener('click',function(){requestAnimationFrame(schedule)})});
+    if(document.fonts && document.fonts.ready)document.fonts.ready.then(schedule);
+    if(window.ResizeObserver){
+      var ro=new ResizeObserver(schedule);
+      ['puritySeg','unitChips'].forEach(function(id){var el=document.getElementById(id);if(el)ro.observe(el)});
+      var ins=document.querySelector('#tab-insights .insights-mode-navigation');if(ins)ro.observe(ins);
+    }
+    if(window.MutationObserver){
+      var mo=new MutationObserver(schedule);
+      ['puritySeg','unitChips'].forEach(function(id){var el=document.getElementById(id);if(el)mo.observe(el,{childList:true,subtree:true,attributes:true,attributeFilter:['aria-pressed','class']})});
+      var ins=document.querySelector('#tab-insights .insights-mode-navigation');if(ins)mo.observe(ins,{attributes:true,subtree:true,attributeFilter:['aria-selected','class']});
+      document.querySelectorAll('#tab-calc,#tab-insights').forEach(function(el){mo.observe(el,{attributes:true,attributeFilter:['class','style','hidden']})});
+    }
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initialize,{once:true});else initialize();
+})();
+</script>
+<script id="calculate-linked-chip-scroll-repair">
+/* Keep the selected XRF/karat and weight chip inside its own horizontally
+   scrollable rail, including selections changed by the other rail. */
+(function(){
+  var pending=false;
+  function align(id,force){
+    var rail=document.getElementById(id);
+    if(!rail || !rail.getClientRects().length)return;
+    var active=rail.querySelector('button[aria-pressed="true"]');
+    if(!active || !active.offsetWidth)return;
+    var left=active.offsetLeft, right=left+active.offsetWidth;
+    var viewLeft=rail.scrollLeft, viewRight=viewLeft+rail.clientWidth;
+    var margin=8, target=viewLeft;
+    if(left<viewLeft+margin)target=Math.max(0,left-margin);
+    else if(right>viewRight-margin)target=right-rail.clientWidth+margin;
+    if(Math.abs(target-viewLeft)>1)rail.scrollLeft=target;
+    var prefix=id==='puritySeg'?'purity':'unit';
+    rail.style.setProperty('--'+prefix+'-indicator-x',left+'px');
+    rail.style.setProperty('--'+prefix+'-indicator-width',active.offsetWidth+'px');
+    rail.classList.add(prefix+'-indicator-ready');
+  }
+  function update(){pending=false;align('puritySeg');align('unitChips');}
+  function queue(){if(pending)return;pending=true;requestAnimationFrame(function(){requestAnimationFrame(update)});}
+  function start(){
+    queue();window.addEventListener('load',queue);window.addEventListener('resize',queue);
+    ['puritySeg','unitChips'].forEach(function(id){
+      var el=document.getElementById(id);if(!el)return;
+      el.addEventListener('click',queue);
+      if(window.MutationObserver)new MutationObserver(queue).observe(el,{subtree:true,childList:true,attributes:true,attributeFilter:['aria-pressed']});
+    });
+    if(document.fonts&&document.fonts.ready)document.fonts.ready.then(queue);
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
+})();
+</script>
+
+
+<style id="insights-xau-five-visible-scroll-fixed">
+/* Scroll only the XAU quotes, keeping exactly five cards visible. */
+#tab-insights #insightsXauPane .compare-market-widgets{
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  overscroll-behavior-y:contain;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(204,161,85,.45) transparent;
+  min-height:0;
+}
+#tab-insights #insightsXauPane .compare-market-widgets > .compare-market-widget{
+  flex-shrink:0;
+}
+</style>
+<script id="insights-xau-five-visible-height-controller">
+(function(){
+  var rail=document.querySelector('#insightsXauPane .compare-market-widgets');
+  if(!rail)return;
+  function update(){
+    var cards=rail.querySelectorAll(':scope > .compare-market-widget');
+    if(cards.length<5)return;
+    var style=getComputedStyle(rail);
+    var gap=parseFloat(style.rowGap||style.gap)||0;
+    var h=0;
+    for(var i=0;i<5;i++)h+=cards[i].getBoundingClientRect().height;
+    h+=gap*4;
+    if(h>0)rail.style.setProperty('max-height',h+'px','important');
+  }
+  update();
+  window.addEventListener('load',update);
+  window.addEventListener('resize',update);
+  if(window.ResizeObserver){
+    var ro=new ResizeObserver(update);
+    var cards=rail.querySelectorAll(':scope > .compare-market-widget');
+    for(var i=0;i<Math.min(5,cards.length);i++)ro.observe(cards[i]);
+  }
+  requestAnimationFrame(update);
+})();
+</script>
+
+<style id="insights-metal-inr-five-visible-scroll">
+/* Match XAU: only five Metal INR tickers visible, then independent vertical scroll. */
+#tab-insights #insightsMetalInrPane .compare-market-widgets{
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  overscroll-behavior-y:contain;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(204,161,85,.45) transparent;
+  min-height:0;
+}
+#tab-insights #insightsMetalInrPane .compare-market-widgets > .compare-market-widget{flex-shrink:0}
+</style>
+<script id="insights-metal-inr-five-visible-height-controller">
+(function(){
+  var rail=document.querySelector('#insightsMetalInrPane .compare-market-widgets');
+  if(!rail)return;
+  function update(){
+    var cards=rail.querySelectorAll(':scope > .compare-market-widget');
+    if(cards.length<5)return;
+    var style=getComputedStyle(rail);
+    var gap=parseFloat(style.rowGap||style.gap)||0;
+    var h=0;
+    for(var i=0;i<5;i++)h+=cards[i].getBoundingClientRect().height;
+    h+=gap*4;
+    if(h>0)rail.style.setProperty('max-height',h+'px','important');
+  }
+  update();
+  window.addEventListener('load',update);
+  window.addEventListener('resize',update);
+  if(window.ResizeObserver){
+    var ro=new ResizeObserver(update);
+    var cards=rail.querySelectorAll(':scope > .compare-market-widget');
+    for(var i=0;i<Math.min(5,cards.length);i++)ro.observe(cards[i]);
+  }
+  requestAnimationFrame(update);
+})();
+</script>
+<style id="insights-xaufx-five-visible-scroll">
+/* Match XAU: only five XAUFX tickers visible, then independent vertical scroll. */
+#tab-insights #insightsXauFxPane .compare-market-widgets{
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  overscroll-behavior-y:contain;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(204,161,85,.45) transparent;
+  min-height:0;
+}
+#tab-insights #insightsXauFxPane .compare-market-widgets > .compare-market-widget{flex-shrink:0}
+</style>
+<script id="insights-xaufx-five-visible-height-controller">
+(function(){
+  var rail=document.querySelector('#insightsXauFxPane .compare-market-widgets');
+  if(!rail)return;
+  function update(){
+    var cards=rail.querySelectorAll(':scope > .compare-market-widget');
+    if(cards.length<5)return;
+    var style=getComputedStyle(rail);
+    var gap=parseFloat(style.rowGap||style.gap)||0;
+    var h=0;
+    for(var i=0;i<5;i++)h+=cards[i].getBoundingClientRect().height;
+    h+=gap*4;
+    if(h>0)rail.style.setProperty('max-height',h+'px','important');
+  }
+  update();
+  window.addEventListener('load',update);
+  window.addEventListener('resize',update);
+  if(window.ResizeObserver){
+    var ro=new ResizeObserver(update);
+    var cards=rail.querySelectorAll(':scope > .compare-market-widget');
+    for(var i=0;i<Math.min(5,cards.length);i++)ro.observe(cards[i]);
+  }
+  requestAnimationFrame(update);
+})();
+</script>
+<style id="insights-metal-inr-xaufx-scrollbar-and-edge-final">
+/* Hide scroll indicators, not scrolling, on both five-visible widget lists. */
+#tab-insights #insightsMetalInrPane .compare-market-widgets,
+#tab-insights #insightsXauFxPane .compare-market-widgets{
+  scrollbar-width:none!important;
+  -ms-overflow-style:none!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
+}
+#tab-insights #insightsMetalInrPane .compare-market-widgets::-webkit-scrollbar,
+#tab-insights #insightsXauFxPane .compare-market-widgets::-webkit-scrollbar{
+  display:none!important;width:0!important;height:0!important;
+}
+/* Metal INR: suppress the 1px TradingView host seam at the left edge.
+   Use the existing outer card's rounded clip; no opaque rectangular overlay. */
+#tab-insights #insightsMetalInrPane .compare-market-widget{
+  overflow:hidden!important;
+  isolation:isolate;
+  -webkit-mask-image:-webkit-radial-gradient(white,black);
+}
+#tab-insights #insightsMetalInrPane .compare-market-widget tv-single-ticker{
+  box-sizing:border-box!important;
+  width:calc(100% + 3px)!important;
+  max-width:none!important;
+  margin-left:-3px!important;
+  border:0!important;
+  outline:0!important;
+}
+/* Preserve the original rounded gold rim and eliminate any earlier square edge mask. */
+#tab-insights #insightsMetalInrPane .compare-market-widget::before{
+  content:none!important;
+}
+</style>
 </body>
 </html>
