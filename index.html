@@ -9935,24 +9935,38 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
 #tab-insights #insightsXauFxPane .compare-market-widgets::-webkit-scrollbar{
   display:none!important;width:0!important;height:0!important;
 }
-/* Metal INR: suppress the 1px TradingView host seam at the left edge.
-   Use the existing outer card's rounded clip; no opaque rectangular overlay. */
+/* Metal INR, Android: the ticker's 1px left border was shifted outside the card.
+   Clip it inside the rounded card instead of pulling it into the gutter. */
 #tab-insights #insightsMetalInrPane .compare-market-widget{
   overflow:hidden!important;
   isolation:isolate;
-  -webkit-mask-image:-webkit-radial-gradient(white,black);
+  border-radius:28px!important;
+  -webkit-mask-image:none!important;
+  mask-image:none!important;
+  -webkit-clip-path:inset(0 round 28px)!important;
+  clip-path:inset(0 round 28px)!important;
 }
 #tab-insights #insightsMetalInrPane .compare-market-widget tv-single-ticker{
   box-sizing:border-box!important;
-  width:calc(100% + 3px)!important;
-  max-width:none!important;
-  margin-left:-3px!important;
+  width:100%!important;
+  max-width:100%!important;
+  margin-left:0!important;
   border:0!important;
   outline:0!important;
+  -webkit-mask-image:none!important;
+  mask-image:none!important;
+  -webkit-clip-path:inset(0 0 0 3px)!important;
+  clip-path:inset(0 0 0 3px)!important;
 }
-/* Preserve the original rounded gold rim and eliminate any earlier square edge mask. */
 #tab-insights #insightsMetalInrPane .compare-market-widget::before{
   content:none!important;
+}
+@media(max-width:390px){
+  #tab-insights #insightsMetalInrPane .compare-market-widget{
+    border-radius:24px!important;
+    -webkit-clip-path:inset(0 round 24px)!important;
+    clip-path:inset(0 round 24px)!important;
+  }
 }
 </style>
 </body>
