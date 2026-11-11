@@ -8,6 +8,53 @@
 <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
 <meta content="Bullion Spot" name="apple-mobile-web-app-title"/>
 <meta content="telephone=no" name="format-detection"/>
+<meta name="theme-color" content="#000000"/>
+<style id="bullion-ios-first-paint-style">
+/* Paint a matching root canvas before any remote fonts/widgets are requested. */
+html {background-color:#000000;color-scheme:dark}
+html[data-theme="light"]{background-color:#F9F6EF;color-scheme:light}
+/* During iPhone Safari's initial layout, avoid sliding the floating chrome. */
+html.bs-ios-first-paint .topbar,
+html.bs-ios-first-paint .bottom-nav,
+html.bs-ios-first-paint .purity-mode-magnet,
+html.bs-ios-first-paint .insights-motion-track,
+html.bs-ios-first-paint .purity-motion-track{transition:none!important}
+/* Safari input-focus zoom occurs when the focused editor renders below 16px. */
+@media screen and (max-width:700px){
+ html.bs-ios-safari input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):focus,
+ html.bs-ios-safari select:focus,
+ html.bs-ios-safari textarea:focus{font-size:16px!important}
+}
+/* Keep composited floating glass bars stable while Safari's viewport UI changes. */
+html.bs-ios-safari .topbar,html.bs-ios-safari .bottom-nav{
+ -webkit-backface-visibility:hidden;backface-visibility:hidden;
+}
+</style>
+<script id="bullion-ios-first-paint-bootstrap">
+(function(){
+ 'use strict';
+ var root=document.documentElement, theme='dark';
+ try{if(localStorage.getItem('bullionSpotManualTheme')==='light')theme='light'}catch(e){}
+ root.setAttribute('data-theme',theme);
+ var meta=document.querySelector('meta[name="theme-color"]');
+ if(meta)meta.setAttribute('content',theme==='dark'?'#000000':'#F9F6EF');
+ var ua=navigator.userAgent||'';
+ var ios=/iPhone|iPad|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+ if(!ios)return;
+ root.classList.add('bs-ios-safari','bs-ios-first-paint');
+ function finish(){
+   requestAnimationFrame(function(){requestAnimationFrame(function(){
+     root.classList.remove('bs-ios-first-paint');
+   })});
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',finish,{once:true});
+ else finish();
+ window.addEventListener('pageshow',function(e){
+   /* Back-forward cache restores should not inherit a stale first-paint guard. */
+   if(e.persisted)root.classList.remove('bs-ios-first-paint');
+ });
+})();
+</script>
 <title>Bullion Spot — Prism Wheel &amp; Shimmer</title>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -58,6 +105,7 @@
 }
 *,*::before,*::after{ box-sizing:border-box; }
 html{ scroll-padding-top: calc(76px + env(safe-area-inset-top,0px)); scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+html{background-color:var(--bg-0);}
 body{
   margin:0; min-height:100%; font-family:'Inter',system-ui,-apple-system,sans-serif; color:var(--text-0); background:var(--bg-0);
   -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
@@ -4569,7 +4617,7 @@ body.light #tab-insights .insights-section-header>.insights-double-actions>butto
 <button type="button" id="bullionThemeToggle" class="bullion-theme-toggle" role="switch" aria-checked="true" aria-label="Switch to light mode" title="Switch to light mode"><span class="bullion-theme-icon" aria-hidden="true">☾</span></button>
 <div aria-label="Current date and time" class="date-pill" id="datePill">
 <span class="timestamp-line"><svg aria-hidden="true" class="timestamp-icon elite-halo-calendar" fill="none" stroke="currentColor" stroke-width="1.65" viewBox="0 0 24 24"><rect x="3.5" y="4.8" width="17" height="16.6" rx="2.3"/><path d="M7 3.5v4M17 3.5v4M3.5 10h17" stroke-linecap="round"/><text id="eliteCalendarDay" x="12" y="18.05" text-anchor="middle" fill="currentColor" stroke="none" font-size="8.5" font-weight="800" font-family="Arial,sans-serif">1</text></svg><span id="dateText">—</span></span>
-<span class="timestamp-line timestamp-clock-line"><svg aria-hidden="true" class="timestamp-icon" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="8.5"></circle><path class="elite-clock-hand" d="M12 7.5v5l3.2 2"></path></svg><span id="timeText">—</span><svg aria-hidden="true" class="timestamp-icon timestamp-zone-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><g class="elite-earth-map" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.45"><path d="M9.2 4.2 8 7.2l2.4 2.2-.9 2.4-2.8.7-1.1 3.1 2.2 2.5 2.8-.7 1.1-3 2.5-.8 1.6-2.9 2.8-.5 1.1-2.1M13.4 19.9l.3-3.3 2.1-1.4 2.6 1.1"/></g></svg><span class="timestamp-zone-label">IST +5:30</span></span>
+<span class="timestamp-line timestamp-clock-line"><svg aria-hidden="true" class="timestamp-icon" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="8.5"></circle><path class="elite-clock-hand" d="M12 7.5v5l3.2 2"></path></svg><span id="timeText">—</span><svg aria-hidden="true" class="timestamp-icon timestamp-zone-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><g class="elite-earth-map" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.45"><path d="M9.2 4.2 8 7.2l2.4 2.2-.9 2.4-2.8.7-1.1 3.1 2.2 2.5 2.8-.7 1.1-3 2.5-.8 1.6-2.9 2.8-.5 1.1-2.1M13.4 19.9l.3-3.3 2.1-1.4 2.6 1.1"/></g></svg><span class="timestamp-zone-label">IST +5:30</span><span class="web-clock-status" aria-hidden="true"></span></span>
 </div>
 </header>
 <div class="tab-pane active" id="tab-market">
@@ -5213,9 +5261,9 @@ body.light #tab-insights .insights-section-header>.insights-double-actions>butto
 <div aria-live="polite" class="toast" id="toast" role="status"></div>
 
 <style id="bullion-web-time-status-20261112">
-/* Status indicator overlays the existing date pill: no header width or height changes. */
+/* Status dot follows the IST timezone text with a small inline gap. */
 #datePill{position:relative}
-#datePill .web-clock-status{position:absolute;right:3px;bottom:3px;width:5px;height:5px;border-radius:50%;background:#c88b4b;opacity:.94;pointer-events:none}
+#datePill .web-clock-status{position:static;display:inline-block;flex:0 0 5px;width:5px;height:5px;margin-left:2px;border-radius:50%;background:#c88b4b;opacity:.94;pointer-events:none}
 #datePill[data-web-time="synced"] .web-clock-status{background:#55bc8d}
 #datePill[data-web-time="holdover"] .web-clock-status{background:#e1b35e}
 #datePill[data-web-time="device"] .web-clock-status{background:#d17e59}
@@ -9642,7 +9690,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
    root.setAttribute('data-theme',theme);
    var button=document.getElementById('bullionThemeToggle');
    if(button){var isDark=theme==='dark';button.setAttribute('aria-checked',String(isDark));button.setAttribute('aria-label',isDark?'Switch to light mode':'Switch to dark mode');button.title=isDark?'Switch to light mode':'Switch to dark mode';button.querySelector('.bullion-theme-icon').textContent=isDark?'☾':'☀';}
-   var meta=document.querySelector('meta[name="theme-color"]');if(!meta){meta=document.createElement('meta');meta.name='theme-color';document.head.appendChild(meta)}meta.content=theme==='dark'?'#000000':'#F8F1DE';
+   var meta=document.querySelector('meta[name="theme-color"]');if(!meta){meta=document.createElement('meta');meta.name='theme-color';document.head.appendChild(meta)}meta.content=theme==='dark'?'#000000':'#F9F6EF';
  }
  apply(getSaved()==='light'?'light':'dark');
  function init(){var button=document.getElementById('bullionThemeToggle');if(button)button.addEventListener('click',function(){var next=root.getAttribute('data-theme')==='dark'?'light':'dark';apply(next);save(next)});apply(getSaved()==='light'?'light':'dark')}
@@ -10510,7 +10558,7 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
   if(window.ResizeObserver){
     var ro=new ResizeObserver(update);
     var cards=rail.querySelectorAll(':scope > .compare-market-widget');
-    for(var i=1;i<Math.min(5,cards.length);i++)ro.observe(cards[i]);
+    for(var i=0;i<Math.min(5,cards.length);i++)ro.observe(cards[i]);
   }
   requestAnimationFrame(update);
 })();
