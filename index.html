@@ -10510,7 +10510,7 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
   if(window.ResizeObserver){
     var ro=new ResizeObserver(update);
     var cards=rail.querySelectorAll(':scope > .compare-market-widget');
-    for(var i=0;i<Math.min(5,cards.length);i++)ro.observe(cards[i]);
+    for(var i=1;i<Math.min(5,cards.length);i++)ro.observe(cards[i]);
   }
   requestAnimationFrame(update);
 })();
