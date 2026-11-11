@@ -4203,6 +4203,244 @@ body.light #tab-convert .purity-unified-actions .a6-head-actions>button:not(.res
 :root[data-theme="light"] #tab-insights .insights-section-header>.insights-double-actions>button,
 body.light #tab-insights .insights-section-header>.insights-double-actions>button{color:#080808!important;text-shadow:none!important}
 </style>
+<style id="insights-commodities-energy-flame-AD-20261111">
+/* Selected Option AD — the exact lively flame glyph, 23px like Quick Rates.
+   Runs once on category selection; never loops or changes the tab slider timing. */
+#insightsModeCommodities .commodities-energy-flame{overflow:visible;fill:none;stroke:currentColor;stroke-width:3.1;stroke-linecap:round;stroke-linejoin:round;shape-rendering:geometricPrecision}
+#insightsModeCommodities .commodities-energy-flame .flame-core .detail{stroke-width:2.25;opacity:.88}
+#insightsModeCommodities .commodities-energy-flame .ember{stroke-width:2.7;opacity:0}
+#insightsModeCommodities .commodities-energy-flame g{transform-box:fill-box}
+#insightsModeCommodities.insights-icon-play .commodities-energy-flame .outer-flame{transform-origin:50% 98%;animation:bs-energy-flameDance 1550ms ease-in-out 1 both}
+#insightsModeCommodities.insights-icon-play .commodities-energy-flame .flame-core{transform-origin:50% 100%;animation:bs-energy-flameCore 1550ms ease-in-out 1 both}
+#insightsModeCommodities.insights-icon-play .commodities-energy-flame .ember{animation:bs-energy-emberFly 1550ms ease-out 1 both}
+@keyframes bs-energy-flameDance{0%{transform:scale(.83) rotate(-7deg)}22%{transform:scale(1.1,1.18) rotate(6deg)}45%{transform:scale(.95,1.02) rotate(-5deg)}67%{transform:scale(1.06,1.1) rotate(4deg)}84%,100%{transform:scale(1) rotate(0)}}
+@keyframes bs-energy-flameCore{0%{transform:scale(.45) translateY(6px);opacity:.3}32%{transform:scale(1.18) translateY(-3px);opacity:1}52%{transform:scale(.85)}75%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+@keyframes bs-energy-emberFly{0%,13%{opacity:0;transform:translateY(7px) scale(.25)}38%{opacity:1;transform:translate(-2px,-3px) scale(1)}72%{opacity:.85;transform:translate(3px,-11px) scale(.85)}100%{opacity:0;transform:translate(5px,-17px) scale(.3)}}
+@media(prefers-reduced-motion:reduce){
+ #insightsModeCommodities.insights-icon-play .commodities-energy-flame g{animation:none!important}
+}
+</style>
+<style id="insights-forex-f2-usdinr-pair-20261111">
+/* Forex option F2 from approved motion demo. Same 23px icon slot as Quick Rates.
+   Two currency coins arrive as an FX pair, overshoot and settle; exchange hints flash. */
+#insightsModeForex .forex-usdinr-pair{
+  overflow:visible;fill:none;stroke:currentColor;stroke-width:3.1;
+  stroke-linecap:round;stroke-linejoin:round;shape-rendering:geometricPrecision;
+}
+#insightsModeForex .forex-usdinr-pair .detail{stroke-width:2.25;opacity:.89}
+#insightsModeForex .forex-usdinr-pair .pair-arrows{stroke-width:2.7;opacity:0}
+#insightsModeForex .forex-usdinr-pair g{transform-box:fill-box;transform-origin:center}
+#insightsModeForex.insights-icon-play .forex-usdinr-pair .coin-usd{
+  animation:bs-forex-pair-usd-arrive 1480ms cubic-bezier(.2,.86,.22,1) 1 both;
+}
+#insightsModeForex.insights-icon-play .forex-usdinr-pair .coin-inr{
+  animation:bs-forex-pair-inr-arrive 1480ms cubic-bezier(.2,.86,.22,1) 1 both;
+}
+#insightsModeForex.insights-icon-play .forex-usdinr-pair .pair-arrows{
+  animation:bs-forex-pair-flash 1480ms ease-out 1 both;
+}
+@keyframes bs-forex-pair-usd-arrive{
+  0%{transform:translate(10px,-4px) scale(.8);opacity:.35}
+  42%{transform:translate(-4px,1px) scale(1.12);opacity:1}
+  67%{transform:translate(2px,0) scale(.97)}
+  100%{transform:translate(0) scale(1)}
+}
+@keyframes bs-forex-pair-inr-arrive{
+  0%{transform:translate(-10px,4px) scale(.8);opacity:.35}
+  42%{transform:translate(4px,-1px) scale(1.12);opacity:1}
+  67%{transform:translate(-2px,0) scale(.97)}
+  100%{transform:translate(0) scale(1)}
+}
+@keyframes bs-forex-pair-flash{
+  0%,20%,77%,100%{opacity:0;transform:scale(.3)}
+  47%,62%{opacity:1;transform:scale(1.2)}
+}
+@media(prefers-reduced-motion:reduce){
+  #insightsModeForex.insights-icon-play .forex-usdinr-pair g{animation:none!important}
+}
+</style>
+<style id="insights-bonds-yield-curve-B4-20261111">
+/* B4 Yield Curve: 23px sharp vector; one-shot 1530ms draw on category selection. */
+#insightsModeBonds .bonds-yield-curve{overflow:visible;fill:none;stroke:currentColor;stroke-width:3.1;stroke-linecap:round;stroke-linejoin:round;shape-rendering:geometricPrecision}
+#insightsModeBonds .bonds-yield-curve .yield-axis{stroke-width:2.3;opacity:.91}
+#insightsModeBonds .bonds-yield-curve .yield-curve-line{stroke-dasharray:160;stroke-dashoffset:0}
+#insightsModeBonds .bonds-yield-curve .yield-curve-dot{transform-box:fill-box;transform-origin:center}
+#insightsModeBonds.insights-icon-play .bonds-yield-curve .yield-curve-line{animation:bs-bonds-yield-draw 1530ms ease-out 1 both}
+#insightsModeBonds.insights-icon-play .bonds-yield-curve .yield-curve-dot{animation:bs-bonds-yield-dot 1530ms ease-out 1 both}
+@keyframes bs-bonds-yield-draw{0%{stroke-dashoffset:160;opacity:.15}65%,100%{stroke-dashoffset:0;opacity:1}}
+@keyframes bs-bonds-yield-dot{0%,31%{transform:translate(-24px,21px) scale(.3);opacity:0}68%{transform:translate(2px,-3px) scale(1.22);opacity:1}100%{transform:none;opacity:1}}
+@media(prefers-reduced-motion:reduce){#insightsModeBonds.insights-icon-play .bonds-yield-curve .yield-curve-line,#insightsModeBonds.insights-icon-play .bonds-yield-curve .yield-curve-dot{animation:none!important}}
+</style>
+<style id="insights-crypto-blockchain-blocks-C3-20261111">
+/* C3 Blockchain Blocks from the Crypto concept demo: three distributed blocks
+   appear in sequence; their connections draw on last. One-shot 1620ms.
+   Keep the parent category magnet animation at 620ms unchanged. */
+#insightsModeCrypto .crypto-blockchain-blocks{
+  overflow:visible;fill:none;stroke:currentColor;stroke-width:3.1;
+  stroke-linecap:round;stroke-linejoin:round;shape-rendering:geometricPrecision;
+}
+#insightsModeCrypto .crypto-blockchain-blocks .detail{stroke-width:2.3;opacity:.91}
+#insightsModeCrypto .crypto-blockchain-blocks .chain-links{stroke-dasharray:90;stroke-dashoffset:0}
+#insightsModeCrypto .crypto-blockchain-blocks g{transform-box:fill-box;transform-origin:center}
+#insightsModeCrypto.insights-icon-play .crypto-blockchain-blocks .block-one{
+  animation:bs-c3-block-one 1620ms ease-out 1 both;
+}
+#insightsModeCrypto.insights-icon-play .crypto-blockchain-blocks .block-two{
+  animation:bs-c3-block-two 1620ms ease-out 1 both;
+}
+#insightsModeCrypto.insights-icon-play .crypto-blockchain-blocks .block-three{
+  animation:bs-c3-block-three 1620ms ease-out 1 both;
+}
+#insightsModeCrypto.insights-icon-play .crypto-blockchain-blocks .chain-links{
+  animation:bs-c3-chain-link 1620ms ease-out 1 both;
+}
+@keyframes bs-c3-block-one{
+  0%{transform:translate(-10px,9px) scale(.7);opacity:.1}
+  32%,100%{transform:none;opacity:1}
+}
+@keyframes bs-c3-block-two{
+  0%,22%{transform:translate(0,10px) scale(.6);opacity:0}
+  52%,100%{transform:none;opacity:1}
+}
+@keyframes bs-c3-block-three{
+  0%,43%{transform:translate(12px,-9px) scale(.7);opacity:0}
+  71%,100%{transform:none;opacity:1}
+}
+@keyframes bs-c3-chain-link{
+  0%,23%{stroke-dashoffset:90;opacity:.1}
+  75%,100%{stroke-dashoffset:0;opacity:1}
+}
+@media(prefers-reduced-motion:reduce){
+  #insightsModeCrypto.insights-icon-play .crypto-blockchain-blocks g{
+    animation:none!important;
+  }
+}
+</style>
+<style id="insights-indices-bond-ladder-B6-20261111">
+/* B6 Bond Ladder geometry and motion from the approved Bonds icon demo.
+   Retargeted to Indices only; the 620 ms selector transition remains intact. */
+#insightsModeIndices .indices-bond-ladder{
+  overflow:visible;fill:none;stroke:currentColor;stroke-width:3.1;
+  stroke-linecap:round;stroke-linejoin:round;shape-rendering:geometricPrecision;
+}
+#insightsModeIndices .indices-bond-ladder .detail{stroke-width:2.3;opacity:.91}
+#insightsModeIndices .indices-bond-ladder g{transform-box:fill-box;transform-origin:center}
+#insightsModeIndices.insights-icon-play .indices-bond-ladder .ladder-one{
+  animation:bs-indices-ladder-one 1520ms cubic-bezier(.2,.8,.2,1) 1 both;
+}
+#insightsModeIndices.insights-icon-play .indices-bond-ladder .ladder-two{
+  animation:bs-indices-ladder-two 1520ms cubic-bezier(.2,.8,.2,1) 1 both;
+}
+#insightsModeIndices.insights-icon-play .indices-bond-ladder .ladder-three{
+  animation:bs-indices-ladder-three 1520ms cubic-bezier(.2,.8,.2,1) 1 both;
+}
+@keyframes bs-indices-ladder-one{
+  0%{transform:translateY(21px);opacity:.1}
+  36%,100%{transform:none;opacity:1}
+}
+@keyframes bs-indices-ladder-two{
+  0%,15%{transform:translateY(21px);opacity:.1}
+  51%,100%{transform:none;opacity:1}
+}
+@keyframes bs-indices-ladder-three{
+  0%,30%{transform:translateY(21px);opacity:.1}
+  66%,100%{transform:none;opacity:1}
+}
+@media(prefers-reduced-motion:reduce){
+  #insightsModeIndices.insights-icon-play .indices-bond-ladder g{animation:none!important}
+}
+</style>
+<style id="insights-xau-gold-element-au-X7-20261111">
+/* X7 Gold Element Au from the approved XAU demo.
+   Periodic Au / 79 tile springs into place in 1570ms, one-shot on selection.
+   Keep the two-category rail and 620ms slider transition unchanged. */
+#insightsModeXau .xau-gold-element-au{
+  overflow:visible;fill:none;stroke:currentColor;stroke-width:3.1;
+  stroke-linecap:round;stroke-linejoin:round;shape-rendering:geometricPrecision;
+}
+#insightsModeXau .xau-gold-element-au .tile-outline{stroke-width:2.6}
+#insightsModeXau .xau-gold-element-au .tile-highlight{stroke-width:1.6;opacity:.55}
+#insightsModeXau .xau-gold-element-au .periodic-au,
+#insightsModeXau .xau-gold-element-au .periodic-79{
+  fill:currentColor;stroke:none;font-family:Inter, Manrope, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-rendering:geometricPrecision;
+}
+#insightsModeXau .xau-gold-element-au .periodic-au{font-size:9px;font-weight:800;letter-spacing:-.03em}
+#insightsModeXau .xau-gold-element-au .periodic-79{font-size:4.2px;font-weight:700;opacity:.9}
+#insightsModeXau .xau-gold-element-au g{transform-box:fill-box;transform-origin:center}
+#insightsModeXau.insights-icon-play .xau-gold-element-au .au-tile{
+  animation:bs-x7-au-tile-spring 1570ms cubic-bezier(.2,.86,.22,1) 1 both;
+}
+#insightsModeXau.insights-icon-play .xau-gold-element-au .periodic-79{
+  animation:bs-x7-au-79 1570ms ease-out 1 both;
+}
+#insightsModeXau.insights-icon-play .xau-gold-element-au .periodic-au{
+  animation:bs-x7-au-text 1570ms ease-out 1 both;
+}
+#insightsModeXau.insights-icon-play .xau-gold-element-au .tile-highlight{
+  animation:bs-x7-au-glint 1570ms ease-out 1 both;
+}
+@keyframes bs-x7-au-tile-spring{
+  0%{transform:translateY(10px) scale(.72) rotate(-7deg);opacity:.18}
+  34%{transform:translateY(-2px) scale(1.12) rotate(2deg);opacity:1}
+  55%{transform:translateY(1px) scale(.96) rotate(-1deg)}
+  74%{transform:translateY(0) scale(1.03)}
+  100%{transform:none;opacity:1}
+}
+@keyframes bs-x7-au-79{
+  0%,16%{opacity:0;transform:translate(-3px,-2px) scale(.55)}
+  43%{opacity:1;transform:translate(0,0) scale(1.08)}
+  100%{opacity:.9;transform:none}
+}
+@keyframes bs-x7-au-text{
+  0%,28%{opacity:0;transform:scale(.45)}
+  58%{opacity:1;transform:scale(1.14)}
+  78%{transform:scale(.97)}
+  100%{opacity:1;transform:scale(1)}
+}
+@keyframes bs-x7-au-glint{
+  0%,34%{opacity:0;transform:translateX(-3px)}
+  56%{opacity:.9;transform:translateX(0)}
+  100%{opacity:.25;transform:translateX(2px)}
+}
+@media(prefers-reduced-motion:reduce){
+  #insightsModeXau.insights-icon-play .xau-gold-element-au .au-tile,
+  #insightsModeXau.insights-icon-play .xau-gold-element-au .periodic-79,
+  #insightsModeXau.insights-icon-play .xau-gold-element-au .periodic-au,
+  #insightsModeXau.insights-icon-play .xau-gold-element-au .tile-highlight{animation:none!important}
+}
+</style>
+<style id="insights-metal-inr-m11-rate-grid-20261111">
+/* M11 — Au, Ag, Pt and INR quote tiles illuminate in sequence, 1560ms one shot. */
+#insightsModeMetalInr .metal-inr-rate-grid{overflow:visible;fill:none;stroke:currentColor;stroke-width:3.1;stroke-linecap:round;stroke-linejoin:round;shape-rendering:geometricPrecision}
+#insightsModeMetalInr .metal-inr-rate-grid text{fill:currentColor;stroke:none;text-anchor:middle;font:700 12px Inter,Manrope,system-ui,sans-serif}
+#insightsModeMetalInr .metal-inr-rate-grid g{transform-box:fill-box;transform-origin:center}
+#insightsModeMetalInr.insights-icon-play .metal-inr-rate-grid .cell-one{animation:bs-m11-tile-one 1560ms ease 1 both}
+#insightsModeMetalInr.insights-icon-play .metal-inr-rate-grid .cell-two{animation:bs-m11-tile-two 1560ms ease 1 both}
+#insightsModeMetalInr.insights-icon-play .metal-inr-rate-grid .cell-three{animation:bs-m11-tile-three 1560ms ease 1 both}
+#insightsModeMetalInr.insights-icon-play .metal-inr-rate-grid .cell-inr{animation:bs-m11-tile-four 1560ms ease 1 both}
+@keyframes bs-m11-tile-one{0%{transform:scale(.3);opacity:0}25%,100%{transform:none;opacity:1}}
+@keyframes bs-m11-tile-two{0%,17%{transform:scale(.3);opacity:0}42%,100%{transform:none;opacity:1}}
+@keyframes bs-m11-tile-three{0%,34%{transform:scale(.3);opacity:0}59%,100%{transform:none;opacity:1}}
+@keyframes bs-m11-tile-four{0%,50%{transform:scale(.3);opacity:0}75%,100%{transform:none;opacity:1}}
+@media(prefers-reduced-motion:reduce){#insightsModeMetalInr.insights-icon-play .metal-inr-rate-grid g{animation:none!important}}
+</style>
+<style id="insights-xaufx-f8-price-candles-20261111">
+/* F8 FX Price Candles: approved SVG geometry and animation timing, 1590ms one-shot. */
+#insightsModeXauFx .xaufx-f8-price-candles{overflow:visible;fill:none;stroke:currentColor;stroke-width:3.1;stroke-linecap:round;stroke-linejoin:round;shape-rendering:geometricPrecision}
+#insightsModeXauFx .xaufx-f8-price-candles .detail{stroke-width:2.25;opacity:.88}
+#insightsModeXauFx .xaufx-f8-price-candles .small-text{fill:currentColor;stroke:none;font:700 12px Inter,Manrope,system-ui,sans-serif;text-anchor:middle}
+#insightsModeXauFx .xaufx-f8-price-candles g{transform-box:fill-box;transform-origin:center}
+#insightsModeXauFx.insights-icon-play .xaufx-f8-price-candles .candle-one{animation:bs-xaufx-f8-candle1 1590ms ease 1 both}
+#insightsModeXauFx.insights-icon-play .xaufx-f8-price-candles .candle-two{animation:bs-xaufx-f8-candle2 1590ms ease 1 both}
+#insightsModeXauFx.insights-icon-play .xaufx-f8-price-candles .candle-three{animation:bs-xaufx-f8-candle3 1590ms ease 1 both}
+#insightsModeXauFx.insights-icon-play .xaufx-f8-price-candles .au{animation:bs-xaufx-f8-au 1590ms ease 1 both}
+@keyframes bs-xaufx-f8-candle1{0%{transform:scaleY(.05);opacity:0}29%,100%{transform:scaleY(1);opacity:1}}
+@keyframes bs-xaufx-f8-candle2{0%,15%{transform:scaleY(.05);opacity:0}49%,100%{transform:scaleY(1);opacity:1}}
+@keyframes bs-xaufx-f8-candle3{0%,30%{transform:scaleY(.05);opacity:0}68%,100%{transform:scaleY(1);opacity:1}}
+@keyframes bs-xaufx-f8-au{0%,48%{transform:scale(.25);opacity:0}76%{transform:scale(1.2);opacity:1}100%{transform:none;opacity:1}}
+@media(prefers-reduced-motion:reduce){#insightsModeXauFx.insights-icon-play .xaufx-f8-price-candles g{animation:none!important}}
+</style>
 </head>
 <body>
 <div aria-hidden="true" class="ambient"><div class="orb orb-a"></div><div class="orb orb-b"></div><div class="orb orb-c"></div></div>
@@ -4667,15 +4905,14 @@ body.light #tab-insights .insights-section-header>.insights-double-actions>butto
 <div class="section-head-static section-three-header insights-section-header" data-section="insights"><span class="section-head"><h2><svg aria-hidden="true" class="icon icon-md" viewBox="0 0 28 28"><use href="#dropBase"></use><path d="M5 17h4l3.2-7 4.2 10 3-6H23" fill="none" stroke="var(--glyph)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 23h18" stroke="var(--glyph)" stroke-width="1.3" opacity=".65"/></svg>Insights</h2></span><div class="section-triple-actions insights-double-actions" role="group" aria-label="Insights Print and Screenshot"><button type="button" class="section-print-shuttle" id="insightsPrintA6" title="Print Insights" aria-label="Print Insights"><svg aria-hidden="true" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" viewBox="0 0 24 24" width="20"><path d="M7 8V3h10v5M7 17H5a2 2 0 0 1-2-2v-4a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v4a2 2 0 0 1-2 2h-2"/><rect height="7" rx="1" width="10" x="7" y="14"/><path d="M17.5 11.5h.01"/></svg></button><button type="button" class="section-shot-shuttle" id="insightsShotPng" title="Save Insights PNG" aria-label="Save Insights PNG screenshot"><svg aria-hidden="true" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" viewBox="0 0 24 24" width="20"><path d="M4 7h3l2-2h6l2 2h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"/><circle cx="12" cy="13" r="3.5"/></svg></button></div></div>
 
 <div class="purity-unified-navigation insights-mode-navigation" role="tablist" aria-label="Insights market category">
-<button type="button" role="tab" id="insightsModeCommodities" class="purity-unified-tab is-current" aria-selected="true" aria-controls="insightsCommoditiesPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md commodities-theme-icon" viewBox="0 0 28 28"><g class="commodities-theme-mark" fill="none" stroke="var(--glyph)" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round"><path d="M6.7 18.2 9 13.5h6.1l2.3 4.7-1.3 2.3H8z"/><path d="M14.8 18.2 17.1 13.5h4.2l1.9 4.7-1.3 2.3h-5.8"/><path d="M13.8 7.2 17.7 10l-2 3h-4l-2-3z"/></g></svg>Commodities</span></button>
-<button type="button" role="tab" id="insightsModeForex" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsForexPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md forex-theme-icon" viewBox="0 0 28 28"><g class="forex-theme-mark" fill="none" stroke="var(--glyph)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 10.5h15.6M18.4 7.2l3.4 3.3-3.4 3.3M21.8 17.5H6.2m3.4-3.3-3.4 3.3 3.4 3.3"/></g></svg>Forex</span></button>
-<button type="button" role="tab" id="insightsModeBonds" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsBondsPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md bonds-theme-icon" viewBox="0 0 28 28"><g class="bonds-theme-mark" fill="none" stroke="var(--glyph)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="7" width="17" height="14" rx="2"/><path d="M9 11h10M9 14h6M9 17h4"/><circle cx="19" cy="17.5" r="2.2"/></g></svg>Bonds</span></button>
-<button type="button" role="tab" id="insightsModeCrypto" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsCryptoPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md crypto-theme-icon" viewBox="0 0 28 28"><g class="crypto-theme-mark" fill="none" stroke="var(--glyph)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="14" cy="14" r="9"/><path d="M11.2 8.2v11.6M15.2 8.2v11.6M9.5 10.1h6.2a2.5 2.5 0 0 1 0 5h-6.2m0 0h6.7a2.5 2.5 0 0 1 0 5H9.5"/></g></svg>Crypto</span></button>
-<button type="button" role="tab" id="insightsModeIndices" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsIndicesPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md indices-theme-icon" viewBox="0 0 28 28"><g class="indices-theme-mark" fill="none" stroke="var(--glyph)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20.5V15.5h3.5v5M12.2 20.5V12h3.5v8.5M18.4 20.5V8h3.5v12.5"/><path d="M5.5 10.8l6-3.5 5 1.5 5.5-4.2M18.5 4.6H22v3.5"/></g></svg>Indices</span></button>
-
-<button type="button" role="tab" id="insightsModeMetalInr" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsMetalInrPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md" viewBox="0 0 28 28"><g fill="none" stroke="var(--glyph)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19.5h18M7 16h14l-2.8-7H9.8L7 16Z"/><path d="M12 11.5h4M14 9v7M18 5.5h6M21 3v5"/></g></svg>Metal INR</span></button>
-<button type="button" role="tab" id="insightsModeXauFx" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsXauFxPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md" viewBox="0 0 28 28"><g fill="none" stroke="var(--glyph)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="14" r="5"/><circle cx="19" cy="14" r="5"/><path d="M12 10l4 8M12 18l4-8"/></g></svg>XAUFX</span></button>
-<button type="button" role="tab" id="insightsModeXau" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsXauPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md" viewBox="0 0 28 28"><g fill="none" stroke="var(--glyph)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="14" cy="14" r="9"/><path d="M8.5 18.5 12 9.5l3.5 9M9.8 15.5h4.4M17 10v5.5a2.5 2.5 0 0 0 5 0V10"/></g></svg>XAU</span></button>
+<button type="button" role="tab" id="insightsModeCommodities" class="purity-unified-tab is-current" aria-selected="true" aria-controls="insightsCommoditiesPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md commodities-theme-icon commodities-energy-flame" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round" shape-rendering="geometricPrecision"><g class="outer-flame"><path d="M35 6c5 13-7 17 6 27 3-9 3-10 4-15 10 12 15 21 10 32-7 15-36 14-43 1-6-11 0-23 13-36-2 13 1 16 10 21 2-9 2-18 0-30Z"/></g><g class="flame-core"><path class="detail" d="M30 39c-7 8-6 15 3 17 7 1 10-5 7-11-3 4-4 5-6 7-1-5 0-8-4-13Z"/></g><g class="ember spark-accent"><path d="M13 18l-3-4M46 6l2-4"/></g></svg>Commodities</span></button>
+<button type="button" role="tab" id="insightsModeForex" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsForexPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md forex-theme-icon forex-usdinr-pair" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round" shape-rendering="geometricPrecision"><g class="coin-usd"><circle cx="20" cy="24" r="14"/><path class="detail" d="M20 15v18M25 19c-7-5-13 3-5 5s10 10-5 7"/></g><g class="coin-inr"><circle cx="44" cy="40" r="14"/><path class="detail" d="M39 34h10m-10 4h10m-10-4c10 0 9 9 0 9l6 6"/></g><g class="pair-arrows"><path d="m35 10 5 0-2-3m-8 47-5 0 2 3"/></g></svg>Forex</span></button>
+<button type="button" role="tab" id="insightsModeBonds" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsBondsPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md bonds-theme-icon bonds-yield-curve" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round" shape-rendering="geometricPrecision"><path class="yield-axis" d="M9 10v44h47"/><path class="yield-curve-line" d="M14 47Q21 22 34 19T54 16"/><g class="yield-curve-dot"><circle cx="54" cy="16" r="4"/></g></svg>Bonds</span></button>
+<button type="button" role="tab" id="insightsModeCrypto" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsCryptoPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md crypto-theme-icon crypto-blockchain-blocks" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round" shape-rendering="geometricPrecision"><g class="chain-links detail"><path d="M25 25 35 19M25 40l12-1"/></g><g class="block-one"><rect x="7" y="23" width="18" height="19" rx="4"/><path class="detail" d="M11 28h10"/></g><g class="block-two"><rect x="35" y="7" width="20" height="20" rx="4"/><path class="detail" d="M40 13h10"/></g><g class="block-three"><rect x="37" y="36" width="20" height="20" rx="4"/><path class="detail" d="M42 42h10"/></g></svg>Crypto</span></button>
+<button type="button" role="tab" id="insightsModeIndices" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsIndicesPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md indices-theme-icon indices-bond-ladder" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round" shape-rendering="geometricPrecision"><path class="ladder-baseline detail" d="M7 55h50"/><g class="ladder-one"><rect x="10" y="38" width="12" height="17" rx="2"/></g><g class="ladder-two"><rect x="26" y="27" width="12" height="28" rx="2"/></g><g class="ladder-three"><rect x="42" y="14" width="12" height="41" rx="2"/></g></svg>Indices</span></button>
+<button type="button" role="tab" id="insightsModeXau" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsXauPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md xau-gold-element-au" viewBox="0 0 28 28"><g class="au-tile"><rect class="tile-outline" x="6.2" y="5.6" width="15.6" height="16.8" rx="3.4" ry="3.4"></rect><path class="tile-highlight" d="M9.2 9h9.6"></path><text class="periodic-79" x="10.1" y="11.1">79</text><text class="periodic-au" x="9.25" y="19.15">Au</text></g></svg>XAU</span></button>
+<button type="button" role="tab" id="insightsModeMetalInr" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsMetalInrPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md metal-inr-rate-grid" viewBox="0 0 64 64"><g class="cell-one"><rect x="7" y="10" width="22" height="20" rx="4"/><text x="18" y="24">Au</text></g><g class="cell-two"><rect x="35" y="10" width="22" height="20" rx="4"/><text x="46" y="24">Ag</text></g><g class="cell-three"><rect x="7" y="35" width="22" height="20" rx="4"/><text x="18" y="49">Pt</text></g><g class="cell-inr"><rect x="35" y="35" width="22" height="20" rx="4"/><text x="46" y="49">₹</text></g></svg>Metal_INR</span></button>
+<button type="button" role="tab" id="insightsModeXauFx" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsXauFxPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md xaufx-f8-price-candles" viewBox="0 0 64 64"><g class="candle-one"><path d="M12 15v36" class="detail"/><rect x="8" y="27" width="8" height="15" rx="2"/></g><g class="candle-two"><path d="M28 10v45" class="detail"/><rect x="24" y="17" width="8" height="26" rx="2"/></g><g class="candle-three"><path d="M45 7v38" class="detail"/><rect x="41" y="12" width="8" height="20" rx="2"/></g><g class="au"><circle cx="50" cy="47" r="12"/><text class="small-text" x="50" y="52">Au</text></g></svg>XAU_FX</span></button>
 <span class="purity-mode-magnet" aria-hidden="true"></span><span class="purity-unified-tab-glint" aria-hidden="true"></span>
 </div>
 <div class="insights-motion-viewport" id="insightsModeViewport"><div class="insights-motion-track" id="insightsModeTrack">
@@ -4715,7 +4952,8 @@ body.light #tab-insights .insights-section-header>.insights-double-actions>butto
   <div class="compare-market-widget" aria-label="Nikkei 225 live index quote"><tv-single-ticker symbol="DARWINEX:NI225" theme="dark" transparent></tv-single-ticker></div>
   <div class="compare-market-widget" aria-label="FTSE 100 live index quote"><tv-single-ticker symbol="FOREXCOM:UKXGBP" theme="dark" transparent></tv-single-ticker></div>
 </section></div>
-
+<div class="insights-unified-pane" id="insightsXauPane" role="tabpanel" aria-labelledby="insightsModeXau" aria-hidden="true" inert><section class="compare-market-widgets" aria-label="TradingView XAU cross rates">
+</section></div>
 <div class="insights-unified-pane" id="insightsMetalInrPane" role="tabpanel" aria-labelledby="insightsModeMetalInr" aria-hidden="true" inert><section class="compare-market-widgets" aria-label="TradingView metal INR quotes">
   <div class="compare-market-widget" aria-label="XAUINR live quote"><tv-single-ticker symbol="FX_IDC:XAUINR" theme="dark" transparent></tv-single-ticker></div>
   <div class="compare-market-widget" aria-label="XAGINR live quote"><tv-single-ticker symbol="FX_IDC:XAGINR" theme="dark" transparent></tv-single-ticker></div>
@@ -4744,8 +4982,6 @@ body.light #tab-insights .insights-section-header>.insights-double-actions>butto
   <div class="compare-market-widget" aria-label="XAUMYR live quote"><tv-single-ticker symbol="FX_IDC:XAUMYR" theme="dark" transparent></tv-single-ticker></div>
   <div class="compare-market-widget" aria-label="XAUBTC live quote"><tv-single-ticker symbol="TVC:XAUBTC" theme="dark" transparent></tv-single-ticker></div>
   <div class="compare-market-widget" aria-label="XAUETH live quote"><tv-single-ticker symbol="TVC:XAUETH" theme="dark" transparent></tv-single-ticker></div>
-</section></div>
-<div class="insights-unified-pane" id="insightsXauPane" role="tabpanel" aria-labelledby="insightsModeXau" aria-hidden="true" inert><section class="compare-market-widgets" aria-label="TradingView XAU cross rates">
 </section></div>
 </div></div>
 </section>
@@ -9460,9 +9696,9 @@ html:root[data-theme="light"],html:root[data-theme="light"] body{
 #tab-insights .insights-unified-card[data-insights-mode="bonds"] .insights-motion-track{transform:translateX(-25.0%)}
 #tab-insights .insights-unified-card[data-insights-mode="crypto"] .insights-motion-track{transform:translateX(-37.5%)}
 #tab-insights .insights-unified-card[data-insights-mode="indices"] .insights-motion-track{transform:translateX(-50.0%)}
-#tab-insights .insights-unified-card[data-insights-mode="xau"] .insights-motion-track{transform:translateX(-87.5%)}
-#tab-insights .insights-unified-card[data-insights-mode="metal-inr"] .insights-motion-track{transform:translateX(-62.5%)}
-#tab-insights .insights-unified-card[data-insights-mode="xaufx"] .insights-motion-track{transform:translateX(-75.0%)}
+#tab-insights .insights-unified-card[data-insights-mode="xau"] .insights-motion-track{transform:translateX(-62.5%)}
+#tab-insights .insights-unified-card[data-insights-mode="metal-inr"] .insights-motion-track{transform:translateX(-75.0%)}
+#tab-insights .insights-unified-card[data-insights-mode="xaufx"] .insights-motion-track{transform:translateX(-87.5%)}
 #tab-insights .insights-unified-card[data-insights-mode="bonds"] .purity-mode-magnet{transform:translateX(calc(200% + 10px))}
 #tab-insights .insights-unified-card[data-insights-mode="crypto"] .purity-mode-magnet{transform:translateX(calc(300% + 15px))}
 #tab-insights .insights-unified-card[data-insights-mode="indices"] .purity-mode-magnet{transform:translateX(calc(400% + 20px))}
@@ -9564,27 +9800,63 @@ html:root[data-theme="light"],html:root[data-theme="light"] body{
 #tab-insights .insights-mode-navigation .purity-unified-tab-glint{display:none!important}
 @media(prefers-reduced-motion:reduce){#tab-insights .insights-mode-navigation .purity-mode-magnet{transition:none!important}}
 </style>
+<style id="insights-two-equal-visible-category-rail">
+/* Insights only: exactly two equal-width category headings per viewport.
+   The strip remains swipeable; all existing category buttons remain intact. */
+#tab-insights .insights-mode-navigation{
+  display:flex!important;
+  flex-wrap:nowrap!important;
+  gap:5px!important;
+  overflow-x:auto!important;
+  overflow-y:hidden!important;
+  scroll-snap-type:x mandatory!important;
+  scroll-padding-inline:5px;
+  scrollbar-width:none!important;
+}
+#tab-insights .insights-mode-navigation::-webkit-scrollbar{display:none!important}
+#tab-insights .insights-mode-navigation .purity-unified-tab{
+  flex:0 0 calc((100% - 5px)/2)!important;
+  width:calc((100% - 5px)/2)!important;
+  max-width:calc((100% - 5px)/2)!important;
+  min-width:0!important;
+  padding:9px 5px!important;
+  text-align:center!important;
+  scroll-snap-align:start;
+  scroll-snap-stop:always;
+}
+#tab-insights .insights-mode-navigation .insights-tab-label{
+  max-width:100%!important;
+  gap:5px!important;
+}
+</style>
 <script id="insights-magnetic-slide-controller">
 (function(){
  const root=document.querySelector('#tab-insights .insights-unified-card');if(!root)return;
  const viewport=document.getElementById('insightsModeViewport');
- const tabs=[document.getElementById('insightsModeCommodities'),document.getElementById('insightsModeForex'),document.getElementById('insightsModeBonds'),document.getElementById('insightsModeCrypto'),document.getElementById('insightsModeIndices'),document.getElementById('insightsModeMetalInr'),document.getElementById('insightsModeXauFx'),document.getElementById('insightsModeXau')];
- const panes=[document.getElementById('insightsCommoditiesPane'),document.getElementById('insightsForexPane'),document.getElementById('insightsBondsPane'),document.getElementById('insightsCryptoPane'),document.getElementById('insightsIndicesPane'),document.getElementById('insightsMetalInrPane'),document.getElementById('insightsXauFxPane'),document.getElementById('insightsXauPane')];
+ const tabs=[document.getElementById('insightsModeCommodities'),document.getElementById('insightsModeForex'),document.getElementById('insightsModeBonds'),document.getElementById('insightsModeCrypto'),document.getElementById('insightsModeIndices'),document.getElementById('insightsModeXau'),document.getElementById('insightsModeMetalInr'),document.getElementById('insightsModeXauFx')];
+ const panes=[document.getElementById('insightsCommoditiesPane'),document.getElementById('insightsForexPane'),document.getElementById('insightsBondsPane'),document.getElementById('insightsCryptoPane'),document.getElementById('insightsIndicesPane'),document.getElementById('insightsXauPane'),document.getElementById('insightsMetalInrPane'),document.getElementById('insightsXauFxPane')];
  let current=0;
  function resize(){const pane=panes[current];if(pane&&viewport)viewport.style.height=pane.scrollHeight+'px'}
  function choose(index,focus){
-  current=index;root.dataset.insightsMode=['commodities','forex','bonds','crypto','indices','metal-inr','xaufx','xau'][index];
+  current=index;root.dataset.insightsMode=['commodities','forex','bonds','crypto','indices','xau','metal-inr','xaufx'][index];
   tabs.forEach((tab,i)=>{tab.classList.toggle('is-current',i===index);tab.setAttribute('aria-selected',String(i===index));tab.tabIndex=i===index?0:-1;});
   panes.forEach((pane,i)=>{pane.setAttribute('aria-hidden',String(i!==index));if(i===index)pane.removeAttribute('inert');else pane.setAttribute('inert','');});
   const nav=tabs[index].parentElement;
   if(nav){
-   nav.style.setProperty('--insights-active-left',tabs[index].offsetLeft+'px');
-   nav.style.setProperty('--insights-active-width',tabs[index].offsetWidth+'px');
-   const start=tabs[index].offsetLeft, end=start+tabs[index].offsetWidth;
-   const left=nav.scrollLeft, right=left+nav.clientWidth;
-   if(start<left+8 || end>right-8){
-    const target=Math.max(0,start-(nav.clientWidth-tabs[index].offsetWidth)/2);
-    nav.scrollTo({left:target,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+   if(tabs[index].offsetWidth){
+    nav.style.setProperty('--insights-active-left',tabs[index].offsetLeft+'px');
+    nav.style.setProperty('--insights-active-width',tabs[index].offsetWidth+'px');
+   }
+   // Exactly two visible headings: the tapped right heading moves to the left,
+   // revealing the next category; the tapped left heading moves to the right,
+   // revealing the previous category. Preserve the first and last pairs.
+   const step=tabs.length>1?tabs[1].offsetLeft-tabs[0].offsetLeft:0;
+   const visibleLeft=Math.max(0,Math.min(tabs.length-2,Math.round(nav.scrollLeft/Math.max(1,step))));
+   const leftmost=index<=visibleLeft?Math.max(0,index-1):Math.min(index,tabs.length-2);
+   const target=Math.max(0,tabs[leftmost].offsetLeft-tabs[0].offsetLeft);
+   if(Math.abs(nav.scrollLeft-target)>1){
+    const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    nav.scrollTo({left:target,behavior:reduced?'auto':'smooth'});
    }
   }
   resize();if(focus)tabs[index].focus();
@@ -9618,6 +9890,99 @@ html:root[data-theme="light"],html:root[data-theme="light"] body{
 :root[data-theme="dark"] #tab-insights .insights-mode-navigation .purity-unified-tab.is-current svg{color:#f3c46d!important}
 </style>
 
+
+<style id="insights-exact-compare-reference-dark-light-20261111">
+/* Insights category selector: match the existing Compare / Quick Rates rail.
+   Preserve the two visible 50/50 tabs, native horizontal scrolling, and icon motion. */
+#tab-insights .insights-mode-navigation,
+:root[data-theme="dark"] #tab-insights .insights-mode-navigation{
+  position:relative!important;
+  display:flex!important;flex-wrap:nowrap!important;justify-content:flex-start!important;
+  align-items:stretch!important;gap:5px!important;padding:5px!important;
+  height:56px!important;min-height:56px!important;
+  border-radius:18px!important;
+  border:1px solid rgba(188,143,63,.72)!important;
+  background:linear-gradient(115deg,#20180e,#171109 55%,#130e08)!important;
+  box-shadow:none!important;
+  isolation:isolate!important;
+  overflow-x:auto!important;overflow-y:hidden!important;
+  scrollbar-width:none!important;-ms-overflow-style:none!important;
+  -webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;
+  scroll-snap-type:x mandatory!important;scroll-padding-inline:5px;
+  touch-action:pan-x;
+  -webkit-clip-path:inset(0 round 18px);clip-path:inset(0 round 18px);
+}
+#tab-insights .insights-mode-navigation::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}
+#tab-insights .insights-mode-navigation .purity-unified-tab,
+:root[data-theme="dark"] #tab-insights .insights-mode-navigation .purity-unified-tab{
+  position:relative!important;z-index:3!important;
+  flex:0 0 calc((100% - 5px)/2)!important;
+  width:calc((100% - 5px)/2)!important;
+  max-width:calc((100% - 5px)/2)!important;
+  min-width:0!important;min-height:44px!important;height:44px!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  gap:8px!important;padding:9px 6px!important;
+  border:1px solid transparent!important;border-radius:13px!important;
+  background:transparent!important;box-shadow:none!important;
+  color:#DDD2C0!important;
+  font:800 11.2px/1.2 'Manrope',sans-serif!important;
+  -webkit-font-smoothing:antialiased;text-shadow:0 1px 1px rgba(0,0,0,.45);
+  scroll-snap-align:start;scroll-snap-stop:always;
+  white-space:nowrap!important;
+}
+#tab-insights .insights-mode-navigation .insights-tab-label{gap:8px!important;white-space:nowrap!important;min-width:0!important}
+#tab-insights .insights-mode-navigation .insights-tab-label svg,
+:root[data-theme="dark"] #tab-insights .insights-mode-navigation .insights-tab-label svg{
+  display:block!important;width:23px!important;height:23px!important;flex:0 0 23px!important;
+  color:#E9B34E!important;filter:none!important;
+  stroke-linecap:round;stroke-linejoin:round;shape-rendering:geometricPrecision;
+}
+#tab-insights .insights-mode-navigation .purity-unified-tab.is-current,
+:root[data-theme="dark"] #tab-insights .insights-mode-navigation .purity-unified-tab.is-current{
+  color:#FFF4DF!important;
+  text-shadow:0 1px 2px rgba(0,0,0,.45),0 0 8px rgba(250,202,116,.10)!important;
+}
+#tab-insights .insights-mode-navigation .purity-mode-magnet,
+:root[data-theme="dark"] #tab-insights .insights-mode-navigation .purity-mode-magnet{
+  position:absolute!important;z-index:1!important;
+  top:5px!important;bottom:5px!important;
+  left:var(--insights-active-left,5px)!important;
+  width:var(--insights-active-width,calc((100% - 15px)/2))!important;
+  height:auto!important;box-sizing:border-box!important;
+  transform:none!important;border-radius:999px!important;
+  border:1.2px solid #DDA638!important;
+  background:radial-gradient(ellipse 38% 70% at 55% 15%,rgba(221,177,98,.15) 0%,transparent 100%),linear-gradient(180deg,#20180d 0%,#1b140b 45%,#160f08 100%)!important;
+  box-shadow:none!important;outline:0!important;filter:none!important;
+  pointer-events:none!important;
+  transition:left 620ms cubic-bezier(.21,1.04,.25,1),width 620ms cubic-bezier(.21,1.04,.25,1)!important;
+}
+#tab-insights .insights-mode-navigation .purity-mode-magnet::before,
+#tab-insights .insights-mode-navigation .purity-mode-magnet::after{content:none!important;display:none!important}
+#tab-insights .insights-mode-navigation .purity-unified-tab-glint{display:none!important}
+/* Exact existing Compare/Quick Rates light Champagne rail and magnetic fill. */
+:root[data-theme="light"] #tab-insights .insights-mode-navigation{
+  background:linear-gradient(110deg,#FFF9EB,#EEDDBD 55%,#FFF9EB)!important;
+  border:1px solid rgba(161,111,38,.40)!important;
+  box-shadow:inset 0 1px 0 #FFFDF7!important;
+}
+:root[data-theme="light"] #tab-insights .insights-mode-navigation .purity-mode-magnet{
+  background:linear-gradient(160deg,#FFE8AD 0%,#E9BF69 50%,#D5A14A 100%)!important;
+  border:1px solid rgba(149,98,26,.75)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.75)!important;
+}
+:root[data-theme="light"] #tab-insights .insights-mode-navigation .purity-unified-tab{
+  color:#654A26!important;text-shadow:none!important;
+}
+:root[data-theme="light"] #tab-insights .insights-mode-navigation .purity-unified-tab.is-current{
+  color:#33240F!important;text-shadow:none!important;
+}
+:root[data-theme="light"] #tab-insights .insights-mode-navigation .insights-tab-label svg{
+  color:#15110D!important;filter:none!important;
+}
+@media(prefers-reduced-motion:reduce){
+ #tab-insights .insights-mode-navigation .purity-mode-magnet{transition:none!important}
+}
+</style>
 
 <style id="alloy-three-result-overlap-fix">
 /* Alloy results: icon + heading on first line; numeric result on second line. */
@@ -9674,32 +10039,6 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
 });}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
-<style id="insights-metal-inr-left-edge-artifact-fix">
-/* Metal INR only: clip the embedded TradingView left edge to the same rounded
-   silhouette as the Gold Glass card. Do not change card dimensions or scroll. */
-#tab-insights #insightsMetalInrPane .compare-market-widget{
-  position:relative!important;
-  overflow:hidden!important;
-  isolation:isolate;
-  -webkit-clip-path:inset(0 round 24px);
-  clip-path:inset(0 round 24px);
-}
-#tab-insights #insightsMetalInrPane .compare-market-widget tv-single-ticker{
-  border:0!important;
-  outline:0!important;
-  -webkit-mask-image:linear-gradient(to right,transparent 0,black 2.5px,black 100%);
-  mask-image:linear-gradient(to right,transparent 0,black 2.5px,black 100%);
-}
-/* Cover residual subpixel seams while retaining the existing gold rim. */
-#tab-insights #insightsMetalInrPane .compare-market-widget::before{
-  content:"";
-  position:absolute;
-  z-index:1;
-  pointer-events:none;
-  left:0;top:0;bottom:0;width:2px;
-  background:linear-gradient(180deg,rgba(77,67,52,.72),rgba(27,23,18,.94));
-}
-</style>
 <style id="insights-widget-top-and-bottom-height-minus-five-percent">
 /* Restore 5% at each edge: crop only 5% top and 5% bottom of each widget. */
 #tab-insights .compare-market-widget{height:69.12px!important;min-height:0!important;overflow:hidden!important}
@@ -9850,11 +10189,16 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
   overscroll-behavior-y:contain;
   -webkit-overflow-scrolling:touch;
   touch-action:pan-y;
-  scrollbar-width:thin;
+  scrollbar-width:none;
   scrollbar-color:rgba(204,161,85,.45) transparent;
   min-height:0;
 }
 #tab-insights #insightsMetalInrPane .compare-market-widgets > .compare-market-widget{flex-shrink:0}
+#tab-insights #insightsMetalInrPane .compare-market-widgets::-webkit-scrollbar{
+  display:none;
+  width:0;
+  height:0;
+}
 </style>
 <script id="insights-metal-inr-five-visible-height-controller">
 (function(){
@@ -9889,11 +10233,16 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
   overscroll-behavior-y:contain;
   -webkit-overflow-scrolling:touch;
   touch-action:pan-y;
-  scrollbar-width:thin;
+  scrollbar-width:none;
   scrollbar-color:rgba(204,161,85,.45) transparent;
   min-height:0;
 }
 #tab-insights #insightsXauFxPane .compare-market-widgets > .compare-market-widget{flex-shrink:0}
+#tab-insights #insightsXauFxPane .compare-market-widgets::-webkit-scrollbar{
+  display:none;
+  width:0;
+  height:0;
+}
 </style>
 <script id="insights-xaufx-five-visible-height-controller">
 (function(){
@@ -9920,54 +10269,4 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
   requestAnimationFrame(update);
 })();
 </script>
-<style id="insights-metal-inr-xaufx-scrollbar-and-edge-final">
-/* Hide scroll indicators, not scrolling, on both five-visible widget lists. */
-#tab-insights #insightsMetalInrPane .compare-market-widgets,
-#tab-insights #insightsXauFxPane .compare-market-widgets{
-  scrollbar-width:none!important;
-  -ms-overflow-style:none!important;
-  overflow-y:auto!important;
-  overflow-x:hidden!important;
-  -webkit-overflow-scrolling:touch;
-  touch-action:pan-y;
-}
-#tab-insights #insightsMetalInrPane .compare-market-widgets::-webkit-scrollbar,
-#tab-insights #insightsXauFxPane .compare-market-widgets::-webkit-scrollbar{
-  display:none!important;width:0!important;height:0!important;
-}
-/* Metal INR, Android: the ticker's 1px left border was shifted outside the card.
-   Clip it inside the rounded card instead of pulling it into the gutter. */
-#tab-insights #insightsMetalInrPane .compare-market-widget{
-  overflow:hidden!important;
-  isolation:isolate;
-  border-radius:28px!important;
-  -webkit-mask-image:none!important;
-  mask-image:none!important;
-  -webkit-clip-path:inset(0 round 28px)!important;
-  clip-path:inset(0 round 28px)!important;
-}
-#tab-insights #insightsMetalInrPane .compare-market-widget tv-single-ticker{
-  box-sizing:border-box!important;
-  width:100%!important;
-  max-width:100%!important;
-  margin-left:0!important;
-  border:0!important;
-  outline:0!important;
-  -webkit-mask-image:none!important;
-  mask-image:none!important;
-  -webkit-clip-path:inset(0 0 0 3px)!important;
-  clip-path:inset(0 0 0 3px)!important;
-}
-#tab-insights #insightsMetalInrPane .compare-market-widget::before{
-  content:none!important;
-}
-@media(max-width:390px){
-  #tab-insights #insightsMetalInrPane .compare-market-widget{
-    border-radius:24px!important;
-    -webkit-clip-path:inset(0 round 24px)!important;
-    clip-path:inset(0 round 24px)!important;
-  }
-}
-</style>
-</body>
 </html>
