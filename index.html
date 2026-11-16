@@ -29,15 +29,25 @@ html.bs-ios-first-paint .purity-motion-track{transition:none!important}
 html.bs-ios-safari .topbar,html.bs-ios-safari .bottom-nav{
  -webkit-backface-visibility:hidden;backface-visibility:hidden;
 }
+
+/* Final spacing refinement: Calculate Purity and Weight headings sit clearly
+   above their selector strips without changing the controls or calculations. */
+#tab-calc .purity-heading-row{margin-bottom:15px!important}
+#tab-calc #purityGroupTabs{margin-top:2px;margin-bottom:15px}
+#tab-calc #puritySeg{margin-bottom:18px}
+#tab-calc .weight-heading-row{margin:20px 0 15px!important}
+#tab-calc #weightGroupTabs{margin-bottom:15px}
+#tab-calc #unitChips{margin-bottom:2px}
 </style>
 <script id="bullion-ios-first-paint-bootstrap">
 (function(){
  'use strict';
  var root=document.documentElement, theme='dark';
- try{if(localStorage.getItem('bullionSpotManualTheme')==='light')theme='light'}catch(e){}
+ try{var savedBoot=localStorage.getItem('bullionSpotManualTheme');if(savedBoot==='light')theme=savedBoot}catch(e){}
  root.setAttribute('data-theme',theme);
+ var isDarkBoot=theme==='dark';
  var meta=document.querySelector('meta[name="theme-color"]');
- if(meta)meta.setAttribute('content',theme==='dark'?'#000000':'#F9F6EF');
+ if(meta)meta.setAttribute('content',isDarkBoot?'#000000':'#F9F6EF');
  var ua=navigator.userAgent||'';
  var ios=/iPhone|iPad|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
  if(!ios)return;
@@ -4166,63 +4176,63 @@ body.light #tab-convert .purity-unified-actions .a6-head-actions>button:not(.res
 </style>
 
 
-<style id="alloy-layer-stack-b4-one-shot-20261112">
-/* B4 — Alloy Layer Stack: three hollow metal sheets glide, interlock and settle.
-   Native selected-tab animation trigger, 1850ms, one shot, no repeating motion. */
-#purityModeAlloy .alloy-layer-stack-b4 {
+<style id="alloy-iso-cube-b1-one-shot-20261115">
+/* B1 — Isometric Cube: three hollow facets click into place as one box.
+   Native selected-tab animation trigger, 1580ms, one shot, no repeating motion. */
+#purityModeAlloy .alloy-iso-cube {
   display:block; width:23px; height:23px; overflow:visible;
   fill:none; stroke:currentColor; stroke-width:4.25;
   stroke-linejoin:round; stroke-linecap:round; shape-rendering:geometricPrecision;
 }
-#purityModeAlloy .alloy-layer-stack-b4 path { fill:none; stroke:currentColor; }
-#purityModeAlloy .alloy-layer-stack-b4 .alloy-layer {
+#purityModeAlloy .alloy-iso-cube path { fill:none; stroke:currentColor; }
+#purityModeAlloy .alloy-iso-cube .alloy-face {
   transform-box:view-box; transform-origin:32px 32px;
 }
-#purityModeAlloy.demo43-icon-play .alloy-layer-b4-top {
-  animation:bs-b4-top-glide 1850ms cubic-bezier(.16,.87,.23,1) 1 both;
+#purityModeAlloy.demo43-icon-play .alloy-face-top {
+  animation:bs-alloy-b1-top 1580ms ease 1 both;
 }
-#purityModeAlloy.demo43-icon-play .alloy-layer-b4-middle {
-  animation:bs-b4-middle-interlock 1850ms cubic-bezier(.16,.87,.23,1) 1 both;
+#purityModeAlloy.demo43-icon-play .alloy-face-left {
+  animation:bs-alloy-b1-left 1580ms ease 1 both;
 }
-#purityModeAlloy.demo43-icon-play .alloy-layer-b4-bottom {
-  animation:bs-b4-bottom-settle 1850ms cubic-bezier(.16,.87,.23,1) 1 both;
+#purityModeAlloy.demo43-icon-play .alloy-face-right {
+  animation:bs-alloy-b1-right 1580ms ease 1 both;
 }
-@keyframes bs-b4-top-glide {
-  0% {transform:translate(-17px,-26px) rotate(-18deg) scale(.76);opacity:0}
-  56% {transform:translate(3px,3px) rotate(4deg) scale(1.05);opacity:1}
-  77% {transform:translate(-1px,-2px) rotate(-1deg)}
+@keyframes bs-alloy-b1-top {
+  0% {transform:translateY(-20px) scale(.75);opacity:0}
+  52% {transform:translateY(2px) scale(1.06);opacity:1}
   100% {transform:none;opacity:1}
 }
-@keyframes bs-b4-middle-interlock {
-  0%,10% {transform:translate(22px,1px) rotate(17deg) scale(.66);opacity:0}
-  58% {transform:translate(-4px,0) rotate(-5deg) scale(1.06);opacity:1}
-  77% {transform:translate(2px,0) rotate(2deg)}
+@keyframes bs-alloy-b1-left {
+  0%,16% {transform:translate(-20px,10px) scale(.75);opacity:0}
+  68% {transform:translate(2px,-1px);opacity:1}
   100% {transform:none;opacity:1}
 }
-@keyframes bs-b4-bottom-settle {
-  0%,22% {transform:translate(-18px,25px) rotate(-16deg) scale(.72);opacity:0}
-  71% {transform:translate(3px,-3px) rotate(4deg) scale(1.04);opacity:1}
-  86% {transform:translate(-1px,1px) rotate(-1deg)}
+@keyframes bs-alloy-b1-right {
+  0%,32% {transform:translate(20px,10px) scale(.75);opacity:0}
+  84% {transform:translate(-2px,-1px);opacity:1}
   100% {transform:none;opacity:1}
 }
 @media(max-width:360px) {
-  /* Keep the requested B4 icon sharp at 23px even on narrow mobile screens. */
+  /* Keep the Isometric Cube icon sharp at 23px even on narrow mobile screens. */
   #tab-convert #purityModeAlloy .elite-convert-emblem {width:24px;height:24px;flex-basis:24px}
-  #tab-convert #purityModeAlloy .alloy-layer-stack-b4 {width:23px;height:23px}
+  #tab-convert #purityModeAlloy .alloy-iso-cube {width:23px;height:23px}
 }
 @media(prefers-reduced-motion:reduce) {
-  #purityModeAlloy.demo43-icon-play .alloy-layer-stack-b4 .alloy-layer {animation:none!important}
+  #purityModeAlloy.demo43-icon-play .alloy-iso-cube .alloy-face {animation:none!important}
 }
 </style>
 
-<style id="xrf-atomic-orbit-animation-700">
-/* XRF Yield: orbital tilt, opposite 9-degree motions with soft deceleration, 700ms; stationary nucleus. */
+<style id="xrf-atomic-orbit-b1-one-shot-20261115">
+/* XRF Yield — Atomic Orbit (finalized): the two rings assemble into position and the nucleus pops in. 1420ms, one shot. */
 #purityModeYield .xrf-atomic-orbit .xrf-atomic-ring{stroke:currentColor;stroke-width:1.7;stroke-linecap:round;transform-box:fill-box;transform-origin:center;}
-#purityModeYield.demo43-icon-play .xrf-atomic-ring-a{animation:xrf-atomic-cw 700ms ease-in-out 1 both;}
-#purityModeYield.demo43-icon-play .xrf-atomic-ring-b{animation:xrf-atomic-ccw 700ms ease-in-out 1 both;}
-@keyframes xrf-atomic-cw{0%,100%{transform:rotate(0deg)}42%{transform:rotate(9deg)}}
-@keyframes xrf-atomic-ccw{0%,100%{transform:rotate(0deg)}42%{transform:rotate(-9deg)}}
-@media(prefers-reduced-motion:reduce){#purityModeYield.demo43-icon-play .xrf-atomic-orbit .xrf-atomic-ring{animation:none!important}}
+#purityModeYield .xrf-atomic-orbit .xrf-nucleus{transform-box:fill-box;transform-origin:center;}
+#purityModeYield.demo43-icon-play .xrf-atomic-ring-a{animation:bs-xrf-b1-ring-a 1420ms ease 1 both;}
+#purityModeYield.demo43-icon-play .xrf-atomic-ring-b{animation:bs-xrf-b1-ring-b 1420ms ease 1 both;}
+#purityModeYield.demo43-icon-play .xrf-nucleus{animation:bs-xrf-b1-core 1420ms ease 1 both;}
+@keyframes bs-xrf-b1-ring-a{0%{transform:rotate(-70deg) scale(.6);opacity:0}60%{transform:rotate(8deg) scale(1.06);opacity:1}100%{transform:none;opacity:1}}
+@keyframes bs-xrf-b1-ring-b{0%,12%{transform:rotate(70deg) scale(.6);opacity:0}68%{transform:rotate(-8deg) scale(1.06);opacity:1}100%{transform:none;opacity:1}}
+@keyframes bs-xrf-b1-core{0%,30%{transform:scale(.2);opacity:0}70%{transform:scale(1.3);opacity:1}100%{transform:none;opacity:1}}
+@media(prefers-reduced-motion:reduce){#purityModeYield.demo43-icon-play .xrf-atomic-orbit .xrf-atomic-ring,#purityModeYield.demo43-icon-play .xrf-atomic-orbit .xrf-nucleus{animation:none!important}}
 </style>
 <style id="forex-heading-native-animation">
 #tab-insights .forex-theme-icon{flex:none;overflow:visible}
@@ -4357,43 +4367,51 @@ body.light #tab-insights .insights-section-header>.insights-double-actions>butto
  #insightsModeCommodities.insights-icon-play .commodities-energy-flame g{animation:none!important}
 }
 </style>
-<style id="insights-forex-f2-usdinr-pair-20261111">
-/* Forex option F2 from approved motion demo. Same 23px icon slot as Quick Rates.
-   Two currency coins arrive as an FX pair, overshoot and settle; exchange hints flash. */
-#insightsModeForex .forex-usdinr-pair{
-  overflow:visible;fill:none;stroke:currentColor;stroke-width:3.1;
+<style id="insights-forex-currency-ring-depth-orbit-20261115">
+/* Forex category icon — Currency Ring, Depth Orbit: the ring draws, then four world currencies
+   swing in from different sides, swell as if closer, and settle to rest size around the ring. */
+#insightsModeForex .forex-currency-ring{
+  overflow:visible;fill:none;stroke:currentColor;stroke-width:3.5;
   stroke-linecap:round;stroke-linejoin:round;shape-rendering:geometricPrecision;
 }
-#insightsModeForex .forex-usdinr-pair .detail{stroke-width:2.25;opacity:.89}
-#insightsModeForex .forex-usdinr-pair .pair-arrows{stroke-width:2.7;opacity:0}
-#insightsModeForex .forex-usdinr-pair g{transform-box:fill-box;transform-origin:center}
-#insightsModeForex.insights-icon-play .forex-usdinr-pair .coin-usd{
-  animation:bs-forex-pair-usd-arrive 1480ms cubic-bezier(.2,.86,.22,1) 1 both;
+#insightsModeForex .forex-currency-ring .ring{stroke-width:2.2}
+#insightsModeForex .forex-currency-ring text{
+  fill:currentColor;stroke:none;font-family:Manrope,system-ui,sans-serif;
+  font-weight:800;text-anchor:middle;dominant-baseline:middle;
 }
-#insightsModeForex.insights-icon-play .forex-usdinr-pair .coin-inr{
-  animation:bs-forex-pair-inr-arrive 1480ms cubic-bezier(.2,.86,.22,1) 1 both;
+#insightsModeForex .forex-currency-ring .orbit-top,
+#insightsModeForex .forex-currency-ring .orbit-right,
+#insightsModeForex .forex-currency-ring .orbit-bottom,
+#insightsModeForex .forex-currency-ring .orbit-left{transform-box:view-box;transform-origin:32px 32px}
+#insightsModeForex.insights-icon-play .forex-currency-ring .ring{
+  stroke-dasharray:132;animation:bs-fxring-draw 1600ms ease 1 both;
 }
-#insightsModeForex.insights-icon-play .forex-usdinr-pair .pair-arrows{
-  animation:bs-forex-pair-flash 1480ms ease-out 1 both;
+#insightsModeForex.insights-icon-play .forex-currency-ring .orbit-top{
+  animation:bs-fxring-top-depth 1600ms ease 1 both;
 }
-@keyframes bs-forex-pair-usd-arrive{
-  0%{transform:translate(10px,-4px) scale(.8);opacity:.35}
-  42%{transform:translate(-4px,1px) scale(1.12);opacity:1}
-  67%{transform:translate(2px,0) scale(.97)}
-  100%{transform:translate(0) scale(1)}
+#insightsModeForex.insights-icon-play .forex-currency-ring .orbit-right{
+  animation:bs-fxring-right-depth 1600ms ease 1 both;
 }
-@keyframes bs-forex-pair-inr-arrive{
-  0%{transform:translate(-10px,4px) scale(.8);opacity:.35}
-  42%{transform:translate(4px,-1px) scale(1.12);opacity:1}
-  67%{transform:translate(-2px,0) scale(.97)}
-  100%{transform:translate(0) scale(1)}
+#insightsModeForex.insights-icon-play .forex-currency-ring .orbit-bottom{
+  animation:bs-fxring-bottom-depth 1600ms ease 1 both;
 }
-@keyframes bs-forex-pair-flash{
-  0%,20%,77%,100%{opacity:0;transform:scale(.3)}
-  47%,62%{opacity:1;transform:scale(1.2)}
+#insightsModeForex.insights-icon-play .forex-currency-ring .orbit-left{
+  animation:bs-fxring-left-depth 1600ms ease 1 both;
+}
+@keyframes bs-fxring-draw{0%{stroke-dashoffset:132;opacity:.2}44%,100%{stroke-dashoffset:0;opacity:1}}
+@keyframes bs-fxring-top-depth{0%,34%{transform:rotate(-70deg) scale(.5);opacity:0}64%{transform:rotate(-10deg) scale(1.4);opacity:1}80%{transform:rotate(6deg) scale(1)}100%{transform:none;opacity:1}}
+@keyframes bs-fxring-right-depth{0%,42%{transform:rotate(70deg) scale(.5);opacity:0}70%{transform:rotate(10deg) scale(1.4);opacity:1}86%{transform:rotate(-6deg) scale(1)}100%{transform:none;opacity:1}}
+@keyframes bs-fxring-bottom-depth{0%,50%{transform:rotate(-70deg) scale(.5);opacity:0}76%{transform:rotate(-10deg) scale(1.4);opacity:1}91%{transform:rotate(6deg) scale(1)}100%{transform:none;opacity:1}}
+@keyframes bs-fxring-left-depth{0%,58%{transform:rotate(70deg) scale(.5);opacity:0}82%{transform:rotate(10deg) scale(1.4);opacity:1}96%{transform:rotate(-6deg) scale(1)}100%{transform:none;opacity:1}}
+@media(max-width:360px){
+  #insightsModeForex .forex-currency-ring{width:23px;height:23px}
 }
 @media(prefers-reduced-motion:reduce){
-  #insightsModeForex.insights-icon-play .forex-usdinr-pair g{animation:none!important}
+  #insightsModeForex.insights-icon-play .forex-currency-ring .ring,
+  #insightsModeForex.insights-icon-play .forex-currency-ring .orbit-top,
+  #insightsModeForex.insights-icon-play .forex-currency-ring .orbit-right,
+  #insightsModeForex.insights-icon-play .forex-currency-ring .orbit-bottom,
+  #insightsModeForex.insights-icon-play .forex-currency-ring .orbit-left{animation:none!important}
 }
 </style>
 <style id="insights-bonds-yield-curve-B4-20261111">
@@ -4581,6 +4599,11 @@ body.light #tab-insights .insights-section-header>.insights-double-actions>butto
 @keyframes bs-xaufx-f8-au{0%,48%{transform:scale(.25);opacity:0}76%{transform:scale(1.2);opacity:1}100%{transform:none;opacity:1}}
 @media(prefers-reduced-motion:reduce){#insightsModeXauFx.insights-icon-play .xaufx-f8-price-candles g{animation:none!important}}
 </style>
+<style id="bullion-hide-scrollbars-20261116">
+/* No visible scroll indicator anywhere in the app; scrolling itself is unchanged. */
+html,body,*{scrollbar-width:none!important;-ms-overflow-style:none!important}
+html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:none!important;width:0!important;height:0!important;background:transparent!important}
+</style>
 </head>
 <body>
 <div aria-hidden="true" class="ambient"><div class="orb orb-a"></div><div class="orb orb-b"></div><div class="orb orb-c"></div></div>
@@ -4615,7 +4638,7 @@ body.light #tab-insights .insights-section-header>.insights-double-actions>butto
 <div class="brand-text"><h1>Gold</h1><p>Calculator</p></div>
 </div>
 <button type="button" id="bullionThemeToggle" class="bullion-theme-toggle" role="switch" aria-checked="true" aria-label="Switch to light mode" title="Switch to light mode"><span class="bullion-theme-icon" aria-hidden="true">☾</span></button>
-<div aria-label="Current date and time" class="date-pill" id="datePill">
+<div aria-label="Current date and time. Tap for New York and London time." class="date-pill" id="datePill" role="button" tabindex="0" aria-haspopup="dialog" aria-expanded="false" aria-controls="worldClockPopover">
 <span class="timestamp-line"><svg aria-hidden="true" class="timestamp-icon elite-halo-calendar" fill="none" stroke="currentColor" stroke-width="1.65" viewBox="0 0 24 24"><rect x="3.5" y="4.8" width="17" height="16.6" rx="2.3"/><path d="M7 3.5v4M17 3.5v4M3.5 10h17" stroke-linecap="round"/><text id="eliteCalendarDay" x="12" y="18.05" text-anchor="middle" fill="currentColor" stroke="none" font-size="8.5" font-weight="800" font-family="Arial,sans-serif">1</text></svg><span id="dateText">—</span></span>
 <span class="timestamp-line timestamp-clock-line"><svg aria-hidden="true" class="timestamp-icon" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="8.5"></circle><path class="elite-clock-hand" d="M12 7.5v5l3.2 2"></path></svg><span id="timeText">—</span><svg aria-hidden="true" class="timestamp-icon timestamp-zone-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><g class="elite-earth-map" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.45"><path d="M9.2 4.2 8 7.2l2.4 2.2-.9 2.4-2.8.7-1.1 3.1 2.2 2.5 2.8-.7 1.1-3 2.5-.8 1.6-2.9 2.8-.5 1.1-2.1M13.4 19.9l.3-3.3 2.1-1.4 2.6 1.1"/></g></svg><span class="timestamp-zone-label">IST +5:30</span><span class="web-clock-status" aria-hidden="true"></span></span>
 </div>
@@ -4780,19 +4803,19 @@ body.light #tab-insights .insights-section-header>.insights-double-actions>butto
 </div>
 <div aria-label="Gold purity calculator mode" class="purity-unified-navigation" role="tablist">
 <button aria-controls="purityYieldPane" aria-selected="true" class="purity-unified-tab is-current" data-unified-mode="yield" id="purityModeYield" role="tab" type="button">
-<span aria-hidden="true" class="purity-mode-emblem elite-convert-emblem"><svg class="xrf-atomic-orbit" fill="none" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g class="xrf-atomic-ring xrf-atomic-ring-a"><ellipse cx="16" cy="16" rx="13" ry="5.5" transform="rotate(45 16 16)"/><circle cx="25.2" cy="6.8" r="1.6" fill="currentColor" stroke="none"/></g><g class="xrf-atomic-ring xrf-atomic-ring-b"><ellipse cx="16" cy="16" rx="13" ry="5.5" transform="rotate(-45 16 16)"/><circle cx="6.8" cy="6.8" r="1.6" fill="currentColor" stroke="none"/></g><circle cx="16" cy="16" r="2.6" fill="currentColor" stroke="none"/></svg></span><span>XRF Yield</span>
+<span aria-hidden="true" class="purity-mode-emblem elite-convert-emblem"><svg class="xrf-atomic-orbit" fill="none" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g class="xrf-atomic-ring xrf-atomic-ring-a"><ellipse cx="16" cy="16" rx="13" ry="5.5" transform="rotate(45 16 16)"/><circle cx="25.2" cy="6.8" r="1.6" fill="currentColor" stroke="none"/></g><g class="xrf-atomic-ring xrf-atomic-ring-b"><ellipse cx="16" cy="16" rx="13" ry="5.5" transform="rotate(-45 16 16)"/><circle cx="6.8" cy="6.8" r="1.6" fill="currentColor" stroke="none"/></g><circle class="xrf-nucleus" cx="16" cy="16" r="2.6" fill="currentColor" stroke="none"/></svg></span><span>XRF Yield</span>
 </button>
 <button aria-controls="purityAlloyPane" aria-selected="false" class="purity-unified-tab" data-unified-mode="alloy" id="purityModeAlloy" role="tab" tabindex="-1" type="button">
-<span aria-hidden="true" class="purity-mode-emblem elite-convert-emblem"><svg class="alloy-layer-stack-b4" fill="none" stroke="currentColor" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-<g class="alloy-layer alloy-layer-b4-top"><path d="M32 4 55 16 32 28 9 16Z"/></g>
-<g class="alloy-layer alloy-layer-b4-middle"><path d="M32 20 55 32 32 44 9 32Z"/></g>
-<g class="alloy-layer alloy-layer-b4-bottom"><path d="M32 36 55 48 32 60 9 48Z"/></g>
+<span aria-hidden="true" class="purity-mode-emblem elite-convert-emblem"><svg class="alloy-iso-cube" fill="none" stroke="currentColor" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<g class="alloy-face alloy-face-top"><path d="M32 5 57 19 32 33 7 19Z"/></g>
+<g class="alloy-face alloy-face-left"><path d="M7 19 32 33v27L7 46Z"/></g>
+<g class="alloy-face alloy-face-right"><path d="M57 19 32 33v27l25-14Z"/></g>
 </svg></span><span>Alloy Composition</span>
 </button>
 <span aria-hidden="true" class="purity-mode-magnet"></span>
 <span aria-hidden="true" class="purity-unified-tab-glint"></span>
 </div>
-<div aria-live="polite" class="purity-unified-hint" id="purityModeHint">XRF assay → 999.9, 999, 920 and 916 gold yield</div>
+<div aria-live="polite" class="purity-unified-hint" id="purityModeHint" hidden style="display:none!important"></div>
 <div aria-label="Gold purity calculator views" class="purity-motion-viewport" id="purityModeViewport">
 <div class="purity-motion-track" id="purityModeTrack">
 <div aria-labelledby="purityModeYield" class="purity-unified-pane" id="purityYieldPane" role="tabpanel">
@@ -4846,7 +4869,7 @@ body.light #tab-insights .insights-section-header>.insights-double-actions>butto
 </div>
 </div>
 </div>
-<button class="purity-link-bridge" id="puritySendToAlloy" title="Transfer XRF purity and melted gold weight to alloy composition" type="button">
+<button class="purity-link-bridge" id="puritySendToAlloy" title="Transfer XRF purity and melted gold weight to alloy composition" type="button" hidden style="display:none!important">
 <span aria-hidden="true">⟶</span><span>Analyze these XRF values in Composition</span>
 </button>
 <div aria-live="polite" class="purity-unified-feedback" hidden="" id="purityBridgeFeedback" role="status"></div>
@@ -4925,9 +4948,9 @@ body.light #tab-insights .insights-section-header>.insights-double-actions>butto
 <button aria-label="Print calculate A6 PDF" class="section-print-shuttle" id="calculatePrintA6" title="Print calculate · A6 PDF" type="button"><svg aria-hidden="true" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" viewbox="0 0 24 24" width="20"><path d="M7 8V3h10v5M7 17H5a2 2 0 0 1-2-2v-4a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v4a2 2 0 0 1-2 2h-2"></path><rect height="7" rx="1" width="10" x="7" y="14"></rect><path d="M17.5 11.5h.01"></path></svg></button><button aria-label="Save calculate PNG screenshot" class="section-shot-shuttle" id="calculateShotPng" title="Save calculate · PNG" type="button"><svg aria-hidden="true" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" viewbox="0 0 24 24" width="20"><path d="M4 7h3l2-2h6l2 2h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"></path><circle cx="12" cy="13" r="3.5"></circle></svg></button>
 </div></div>
 <div class="section-body" id="calculateBody">
-<div class="section-sub purity-heading-row" style="margin-bottom:8px; display:flex; align-items:center; gap:6px;"><svg aria-hidden="true" class="icon icon-sm" viewbox="0 0 28 28"><use href="#dropBase"></use><path d="M10 11 12.2 7.3h3.6L18 11 14 21.5z" fill="none" opacity="0.85" stroke="var(--glyph)" stroke-linejoin="round" stroke-width="1.4"></path><path d="M10 11h8" opacity="0.85" stroke="var(--glyph)" stroke-width="1.4"></path></svg><span class="calc-heading-text">Purity &amp; fineness</span><span aria-live="polite" class="selected-purity-heading" id="selectedPuritySummary"><svg aria-hidden="true" class="heading-result-icon" focusable="false" viewbox="0 0 28 28"><circle cx="14" cy="14" fill="url(#coinGrad)" r="11" stroke="var(--gold-700)" stroke-width="1.2"></circle><circle cx="14" cy="14" fill="none" r="8.2" stroke="rgba(255,250,225,.74)" stroke-width="1"></circle><path d="M14 7.7l1.5 4.8 4.8 1.5-4.8 1.5-1.5 4.8-1.5-4.8-4.8-1.5 4.8-1.5z" fill="var(--glyph)" opacity=".88"></path></svg><span class="purity-heading-muted">24k · 999.9‰  ·  </span><span class="purity-heading-percent">99.99%</span></span></div>
+<div class="section-sub purity-heading-row" style="margin-bottom:8px; display:flex; align-items:center; gap:6px;"><svg aria-hidden="true" class="icon icon-sm" viewbox="0 0 28 28"><use href="#dropBase"></use><path d="M10 11 12.2 7.3h3.6L18 11 14 21.5z" fill="none" opacity="0.85" stroke="var(--glyph)" stroke-linejoin="round" stroke-width="1.4"></path><path d="M10 11h8" opacity="0.85" stroke="var(--glyph)" stroke-width="1.4"></path></svg><span class="calc-heading-text">Purity</span><span aria-live="polite" class="selected-purity-heading" id="selectedPuritySummary"><svg aria-hidden="true" class="heading-result-icon" focusable="false" viewbox="0 0 28 28"><circle cx="14" cy="14" fill="url(#coinGrad)" r="11" stroke="var(--gold-700)" stroke-width="1.2"></circle><circle cx="14" cy="14" fill="none" r="8.2" stroke="rgba(255,250,225,.74)" stroke-width="1"></circle><path d="M14 7.7l1.5 4.8 4.8 1.5-4.8 1.5-1.5 4.8-1.5-4.8-4.8-1.5 4.8-1.5z" fill="var(--glyph)" opacity=".88"></path></svg><span class="purity-heading-muted">24k · 999.9‰  ·  </span><span class="purity-heading-percent">99.99%</span></span></div>
 <div aria-label="Purity category" class="weight-group-tabs" id="purityGroupTabs" role="group"><button aria-pressed="true" data-purity-group="custom" type="button">Custom</button><button aria-pressed="false" data-purity-group="bis" type="button">BIS</button><button aria-pressed="false" data-purity-group="refining" type="button">Bullion</button><button aria-pressed="false" data-purity-group="international" type="button">International</button></div><div aria-label="Select purity" class="seg" id="puritySeg" role="group"></div><div class="custom-weight-editor" hidden="" id="customPurityEditor"><label class="custom-purity-accessible-label" for="customPurityValue">Custom purity value</label><div class="custom-weight-input-wrap"><input id="customPurityValue" inputmode="decimal" max="1000" min="0.0001" step="any" type="number" value="91.74"/><span id="customPuritySuffix">%</span></div><small id="customPurityHelp">Enter gold purity as a percentage (0–100).</small></div>
-<div class="section-sub" style="margin:16px 0 8px; display:flex; align-items:center; gap:6px;"><svg aria-hidden="true" class="icon icon-sm" viewbox="0 0 28 28"><use href="#dropBase"></use><path d="M11.3 12.6a2.7 2.7 0 0 1 5.4 0v1.1h-5.4z" fill="none" opacity="0.85" stroke="var(--glyph)" stroke-linejoin="round" stroke-width="1.4"></path><rect fill="none" height="6.3" opacity="0.85" rx="2.4" stroke="var(--glyph)" stroke-width="1.4" width="8.8" x="9.6" y="13.5"></rect></svg><span class="calc-heading-text">Weight measures</span><span aria-live="polite" class="selected-weight-heading" id="selectedWeightSummary"><svg aria-hidden="true" class="heading-result-icon" focusable="false" viewbox="0 0 28 28"><circle cx="14" cy="14" fill="url(#coinGrad)" r="11" stroke="var(--gold-700)" stroke-width="1.2"></circle><path d="M9.2 12.6h9.6l1.7 6.6h-13z" fill="var(--gold-700)" stroke="var(--glyph)" stroke-linejoin="round" stroke-width=".8"></path><path d="M11 14.7h6M12.2 17h3.6" stroke="var(--gold-100)" stroke-linecap="round" stroke-width="1.1"></path><path d="M11.3 10h5.4" stroke="var(--glyph)" stroke-linecap="round" stroke-width="1.2"></path></svg><span class="weight-heading-muted">Gram · </span><span class="weight-heading-gold">1 g</span></span></div>
+<div class="section-sub weight-heading-row" style="margin:16px 0 8px; display:flex; align-items:center; gap:6px;"><svg aria-hidden="true" class="icon icon-sm" viewbox="0 0 28 28"><use href="#dropBase"></use><path d="M11.3 12.6a2.7 2.7 0 0 1 5.4 0v1.1h-5.4z" fill="none" opacity="0.85" stroke="var(--glyph)" stroke-linejoin="round" stroke-width="1.4"></path><rect fill="none" height="6.3" opacity="0.85" rx="2.4" stroke="var(--glyph)" stroke-width="1.4" width="8.8" x="9.6" y="13.5"></rect></svg><span class="calc-heading-text">Weight</span><span aria-live="polite" class="selected-weight-heading" id="selectedWeightSummary"><svg aria-hidden="true" class="heading-result-icon" focusable="false" viewbox="0 0 28 28"><circle cx="14" cy="14" fill="url(#coinGrad)" r="11" stroke="var(--gold-700)" stroke-width="1.2"></circle><path d="M9.2 12.6h9.6l1.7 6.6h-13z" fill="var(--gold-700)" stroke="var(--glyph)" stroke-linejoin="round" stroke-width=".8"></path><path d="M11 14.7h6M12.2 17h3.6" stroke="var(--gold-100)" stroke-linecap="round" stroke-width="1.1"></path><path d="M11.3 10h5.4" stroke="var(--glyph)" stroke-linecap="round" stroke-width="1.2"></path></svg><span class="weight-heading-muted">Gram · </span><span class="weight-heading-gold">1 g</span></span></div>
 <div aria-label="Weight unit category" class="weight-group-tabs" id="weightGroupTabs" role="group"><button aria-pressed="true" data-weight-group="everyday" type="button">Custom</button><button aria-pressed="false" data-weight-group="bullion" type="button">Bullion</button><button aria-pressed="false" data-weight-group="precision" type="button">Precision</button></div><div aria-label="Select weight unit" class="chip-row" id="unitChips" role="group"></div>
 <div class="custom-weight-editor" hidden="" id="customWeightEditor">
 <label for="customWeightGrams">Custom weight in grams</label>
@@ -4991,7 +5014,7 @@ body.light #tab-insights .insights-section-header>.insights-double-actions>butto
 <button aria-controls="compareModeQuickPane" aria-selected="false" class="purity-unified-tab" id="compareModeQuick" role="tab" tabindex="-1" type="button"><span aria-hidden="true" class="purity-mode-emblem elite-nav-emblem"><svg class="elite-quick-icon intelligence-spark-icon" fill="none" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path class="intelligence-spark-main" d="M32 7L38 26L57 32L38 38L32 57L26 38L7 32L26 26Z" stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"/><path class="intelligence-spark-small" d="M49 7V15M45 11H53" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" opacity=".65"/></svg></span><span>Quick Rates</span></button>
 <span aria-hidden="true" class="purity-mode-magnet"></span><span aria-hidden="true" class="purity-unified-tab-glint"></span>
 </div>
-<div aria-live="polite" class="purity-unified-hint compare-mode-hint" id="compareModeHint">Compare Spot MCX & FT</div>
+<div aria-live="polite" class="purity-unified-hint compare-mode-hint" id="compareModeHint" hidden style="display:none!important"></div>
 <div class="purity-motion-viewport compare-motion-viewport" id="compareModeViewport"><div class="purity-motion-track" id="compareModeTrack"><div aria-labelledby="compareModeCompare" class="purity-unified-pane" id="compareModeComparePane" role="tabpanel"><div class="section-body" id="benchmarksBody">
 <div class="mcx-strip" id="mcxStrip">
 <div>
@@ -5046,11 +5069,11 @@ body.light #tab-insights .insights-section-header>.insights-double-actions>butto
 </div>
 <div class="tab-pane" id="tab-insights">
 <section class="card insights-unified-card" aria-label="Insights Commodities, Forex, Bonds, Crypto, Indices, Stock's, ETF, Metal_INR and XAU_FX" data-insights-mode="commodities">
-<div class="section-head-static section-three-header insights-section-header" data-section="insights"><span class="section-head"><h2><svg aria-hidden="true" class="icon icon-md" viewBox="0 0 28 28"><use href="#dropBase"></use><path d="M5 17h4l3.2-7 4.2 10 3-6H23" fill="none" stroke="var(--glyph)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 23h18" stroke="var(--glyph)" stroke-width="1.3" opacity=".65"/></svg>Insights</h2></span><div class="section-triple-actions insights-double-actions" role="group" aria-label="Insights Print and Screenshot"><button type="button" class="section-print-shuttle" id="insightsPrintA6" title="Print Insights" aria-label="Print Insights"><svg aria-hidden="true" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" viewBox="0 0 24 24" width="20"><path d="M7 8V3h10v5M7 17H5a2 2 0 0 1-2-2v-4a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v4a2 2 0 0 1-2 2h-2"/><rect height="7" rx="1" width="10" x="7" y="14"/><path d="M17.5 11.5h.01"/></svg></button><button type="button" class="section-shot-shuttle" id="insightsShotPng" title="Save Insights PNG" aria-label="Save Insights PNG screenshot"><svg aria-hidden="true" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" viewBox="0 0 24 24" width="20"><path d="M4 7h3l2-2h6l2 2h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"/><circle cx="12" cy="13" r="3.5"/></svg></button></div></div>
+<div class="section-head-static section-three-header insights-section-header" data-section="insights"><span class="section-head"><h2><svg aria-hidden="true" class="icon icon-md" viewBox="0 0 28 28"><use href="#dropBase"></use><path d="M5 17h4l3.2-7 4.2 10 3-6H23" fill="none" stroke="var(--glyph)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 23h18" stroke="var(--glyph)" stroke-width="1.3" opacity=".65"/></svg>Insights</h2></span></div>
 
 <div class="purity-unified-navigation insights-mode-navigation" role="tablist" aria-label="Insights market category">
 <button type="button" role="tab" id="insightsModeCommodities" class="purity-unified-tab is-current" aria-selected="true" aria-controls="insightsCommoditiesPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md commodities-theme-icon commodities-energy-flame" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round" shape-rendering="geometricPrecision"><g class="outer-flame"><path d="M35 6c5 13-7 17 6 27 3-9 3-10 4-15 10 12 15 21 10 32-7 15-36 14-43 1-6-11 0-23 13-36-2 13 1 16 10 21 2-9 2-18 0-30Z"/></g><g class="flame-core"><path class="detail" d="M30 39c-7 8-6 15 3 17 7 1 10-5 7-11-3 4-4 5-6 7-1-5 0-8-4-13Z"/></g><g class="ember spark-accent"><path d="M13 18l-3-4M46 6l2-4"/></g></svg>Commodities</span></button>
-<button type="button" role="tab" id="insightsModeForex" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsForexPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md forex-theme-icon forex-usdinr-pair" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round" shape-rendering="geometricPrecision"><g class="coin-usd"><circle cx="20" cy="24" r="14"/><path class="detail" d="M20 15v18M25 19c-7-5-13 3-5 5s10 10-5 7"/></g><g class="coin-inr"><circle cx="44" cy="40" r="14"/><path class="detail" d="M39 34h10m-10 4h10m-10-4c10 0 9 9 0 9l6 6"/></g><g class="pair-arrows"><path d="m35 10 5 0-2-3m-8 47-5 0 2 3"/></g></svg>Forex</span></button>
+<button type="button" role="tab" id="insightsModeForex" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsForexPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md forex-theme-icon forex-currency-ring" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" shape-rendering="geometricPrecision"><circle class="ring" cx="32" cy="32" r="21"/><g class="orbit-top"><text x="32" y="15" font-size="13">$</text></g><g class="orbit-right"><text x="50" y="33" font-size="13">€</text></g><g class="orbit-bottom"><text x="32" y="51" font-size="13">¥</text></g><g class="orbit-left"><text x="14" y="33" font-size="13">£</text></g></svg>Forex</span></button>
 <button type="button" role="tab" id="insightsModeBonds" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsBondsPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md bonds-theme-icon bonds-yield-curve" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round" shape-rendering="geometricPrecision"><path class="yield-axis" d="M9 10v44h47"/><path class="yield-curve-line" d="M14 47Q21 22 34 19T54 16"/><g class="yield-curve-dot"><circle cx="54" cy="16" r="4"/></g></svg>Bonds</span></button>
 <button type="button" role="tab" id="insightsModeCrypto" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsCryptoPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md crypto-theme-icon crypto-blockchain-blocks" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round" shape-rendering="geometricPrecision"><g class="chain-links detail"><path d="M25 25 35 19M25 40l12-1"/></g><g class="block-one"><rect x="7" y="23" width="18" height="19" rx="4"/><path class="detail" d="M11 28h10"/></g><g class="block-two"><rect x="35" y="7" width="20" height="20" rx="4"/><path class="detail" d="M40 13h10"/></g><g class="block-three"><rect x="37" y="36" width="20" height="20" rx="4"/><path class="detail" d="M42 42h10"/></g></svg>Crypto</span></button>
 <button type="button" role="tab" id="insightsModeIndices" class="purity-unified-tab" aria-selected="false" tabindex="-1" aria-controls="insightsIndicesPane"><span class="insights-tab-label"><svg aria-hidden="true" class="icon icon-md indices-theme-icon indices-bond-ladder" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round" shape-rendering="geometricPrecision"><path class="ladder-baseline detail" d="M7 55h50"/><g class="ladder-one"><rect x="10" y="38" width="12" height="17" rx="2"/></g><g class="ladder-two"><rect x="26" y="27" width="12" height="28" rx="2"/></g><g class="ladder-three"><rect x="42" y="14" width="12" height="41" rx="2"/></g></svg>Indices</span></button>
@@ -5259,17 +5282,66 @@ body.light #tab-insights .insights-section-header>.insights-double-actions>butto
 <p class="p-foot">No sample quotes. XAU/USD and USD/INR are fetched when Rates is ON. Enter MCX Gold Mini manually (₹/10g); no MCX data connector is included. FT lookups are best effort. Confirm all rates before transacting.</p>
 </div>
 <div aria-live="polite" class="toast" id="toast" role="status"></div>
+<div class="world-clock-popover" id="worldClockPopover" role="dialog" aria-label="World clock" aria-hidden="true">
+<div class="world-clock-row"><span class="wc-city">New York</span><span class="wc-time" id="wcNewYorkTime">—</span></div>
+<div class="world-clock-row"><span class="wc-city">London</span><span class="wc-time" id="wcLondonTime">—</span></div>
+</div>
 
 <style id="bullion-web-time-status-20261112">
-/* Status dot follows the IST timezone text with a small inline gap. */
+/* Status dot follows the IST timezone text with a small inline gap.
+   synced = live internet time sync (green, glassy hollow ring, subtle pulse).
+   device = fallen back to the device clock / no internet verification (red).
+   holdover/syncing = in-between states, kept amber. */
 #datePill{position:relative}
-#datePill .web-clock-status{position:static;display:inline-block;flex:0 0 5px;width:5px;height:5px;margin-left:2px;border-radius:50%;background:#c88b4b;opacity:.94;pointer-events:none}
-#datePill[data-web-time="synced"] .web-clock-status{background:#55bc8d}
-#datePill[data-web-time="holdover"] .web-clock-status{background:#e1b35e}
-#datePill[data-web-time="device"] .web-clock-status{background:#d17e59}
-#datePill[data-web-time="syncing"] .web-clock-status{background:#e0b65c;animation:bs-clock-sync-blink 1.3s ease-in-out infinite}
+#datePill .web-clock-status{box-sizing:border-box;position:static;display:inline-block;vertical-align:middle;flex:0 0 8px;width:8px;height:8px;margin-left:3px;border-radius:50%;border:1.5px solid #c88b4b;background:rgba(200,139,75,.22);opacity:.94;pointer-events:none}
+#datePill[data-web-time="synced"] .web-clock-status{
+  border-color:#4fbf85;
+  background:radial-gradient(circle at 34% 30%, rgba(255,255,255,.38), rgba(79,191,133,.20) 55%, transparent 82%);
+  box-shadow:0 0 0 1.5px rgba(79,191,133,.12), 0 0 3px rgba(79,191,133,.35);
+  animation:bs-clock-live-pulse 2.6s ease-in-out infinite;
+}
+#datePill[data-web-time="holdover"] .web-clock-status{border-color:#e1b35e;background:rgba(225,179,94,.22);box-shadow:none;animation:none}
+#datePill[data-web-time="device"] .web-clock-status{
+  border-color:#ff5c5c;
+  background:radial-gradient(circle at 34% 30%, rgba(255,255,255,.35), rgba(255,92,92,.22) 55%, transparent 82%);
+  box-shadow:0 0 0 2px rgba(255,92,92,.14);
+  animation:none;
+}
+#datePill[data-web-time="syncing"] .web-clock-status{border-color:#e0b65c;background:rgba(224,182,92,.22);box-shadow:none;animation:bs-clock-sync-blink 1.3s ease-in-out infinite}
 @keyframes bs-clock-sync-blink{50%{opacity:.28}}
+@keyframes bs-clock-live-pulse{
+  0%,100%{opacity:.92;box-shadow:0 0 0 1.5px rgba(79,191,133,.12),0 0 3px rgba(79,191,133,.3);}
+  50%{opacity:.78;box-shadow:0 0 0 2px rgba(79,191,133,.16),0 0 5px rgba(79,191,133,.5);}
+}
 @media(prefers-reduced-motion:reduce){#datePill .web-clock-status{animation:none!important}}
+</style>
+<style id="bullion-world-clock-popover-20261115">
+/* Tap the date/time pill to reveal New York and London times. Top bar itself is unchanged. */
+#datePill{cursor:pointer}
+#worldClockPopover{
+  /* Lives outside .topbar entirely (not nested under #datePill) so it is never
+     affected by .topbar's overflow:hidden/isolation, which caused rendering
+     glitches when a position:fixed element sat inside that container.
+     position:fixed; top/left are set inline by JS from the pill's on-screen position. */
+  position:fixed;z-index:200;
+  min-width:172px;padding:10px 14px;border-radius:14px;
+  background:var(--glass-strong);border:1px solid var(--glass-border-strong);
+  -webkit-backdrop-filter:blur(18px) saturate(150%);backdrop-filter:blur(18px) saturate(150%);
+  box-shadow:0 14px 34px -14px var(--shadow), inset 0 1px 0 rgba(255,255,255,.14);
+  opacity:0;visibility:hidden;transform:translateY(-4px) scale(.97);
+  transition:opacity .18s ease,transform .18s ease,visibility 0s linear .18s;
+  pointer-events:none;cursor:default;
+}
+#worldClockPopover.is-open{
+  opacity:1;visibility:visible;transform:translateY(0) scale(1);pointer-events:auto;
+  transition:opacity .18s ease,transform .18s ease,visibility 0s linear 0s;
+}
+#worldClockPopover .world-clock-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:5px 0;font-size:12px;font-weight:700;color:var(--text-1);white-space:nowrap}
+#worldClockPopover .world-clock-row + .world-clock-row{border-top:1px dashed var(--glass-border)}
+#worldClockPopover .wc-city{color:var(--text-2);font-weight:600}
+#worldClockPopover .wc-time{color:var(--text-0);font-variant-numeric:tabular-nums;font-weight:800}
+@media(max-width:360px){#worldClockPopover{min-width:150px;padding:8px 12px}#worldClockPopover .world-clock-row{font-size:11px}}
+@media(prefers-reduced-motion:reduce){#worldClockPopover{transition:none!important}}
 </style>
 <script id="bullion-verified-web-clock-20261112">
 /* Bullion Spot independent web time. Fixed calculator zone: Asia/Kolkata (IST UTC+05:30).
@@ -6646,7 +6718,8 @@ body.light #tab-insights .insights-section-header>.insights-double-actions>butto
       if(raw && /^\d*\.?\d+$/.test(raw)){
         if(raw.indexOf('.')===-1 && (raw.length===3||raw.length===4))raw=raw.slice(0,2)+'.'+raw.slice(2);
         var xrfPercent=Number(raw);
-        karat=Number.isFinite(xrfPercent) && xrfPercent>0 ? Math.min(xrfPercent,100)*24/100 : NaN;
+        if(Number.isFinite(xrfPercent) && xrfPercent>99.9999) xrfPercent=99.9999;
+        karat=Number.isFinite(xrfPercent) && xrfPercent>0 ? xrfPercent*24/100 : NaN;
       }else karat=NaN;
     }else if(p.key==='custompercent'){
       karat=24*Number(state.customPurityPercent)/100;
@@ -6994,6 +7067,10 @@ body.light #tab-insights .insights-section-header>.insights-double-actions>butto
     $('convMeltedWt').value = '10.500';
     var convP = $('convPurityInput'), convK = $('convKaratInput');
     if(state.xrfPurity) { convP.value = state.xrfPurity; }
+    // Raw digit buffer backing the live XX.XX formatter below: just the
+    // digits the person has actually typed (no dot, 4 max — 2 before the
+    // point, 2 after), independent of the padded text shown in the field.
+    var xrfRawDigits = String(convP.value || '').replace(/[^0-9]/g, '').slice(0, 4);
     updateKarat();
     
     if(state.xrfWeight) { $('convWeightInput').value = state.xrfWeight; }
@@ -7009,30 +7086,32 @@ body.light #tab-insights .insights-section-header>.insights-double-actions>butto
         return str;
     }
 
-    function getInternalPurity(val) {
-        if(!val) return 0;
-        val = val.replace(/[^0-9.]/g, '');
-        if(!val.includes('.')) {
-            if(val.length === 3) val = val.substring(0, 2) + '.' + val.substring(2);
-            else if(val.length === 4) val = val.substring(0, 2) + '.' + val.substring(2);
-        }
-        var n = parseFloat(val);
-        return (isNaN(n) ? 0 : (n > 100 ? 100 : n));
+    // Live XRF Purity formatter: every digit typed is placed immediately —
+    // the first two digits form the whole-percent part, the next two form
+    // the decimal part, each padded with zeros as soon as it is typed
+    // (no waiting for blur). Typing 9 -> 09.00, 91 -> 91.00, 916 -> 91.60,
+    // 9167 -> 91.67. Capped at 4 digits, so the highest reachable value is
+    // 99.99%.
+    function xrfFormatFromDigits(raw) {
+        raw = String(raw || '').replace(/[^0-9]/g, '').slice(0, 4);
+        if(!raw) return '';
+        var whole, frac;
+        if(raw.length <= 2) { whole = raw.padStart(2, '0'); frac = '00'; }
+        else { whole = raw.slice(0, 2); frac = (raw.slice(2) + '00').slice(0, 2); }
+        return whole + '.' + frac;
     }
 
-    function fmtPurityValue(val) {
-        if(!val) return "";
-        val = val.replace(/[^0-9.]/g, '');
-        if(!val.includes('.')) {
-            if(val.length === 3) val = val.substring(0, 2) + '.' + val.substring(2);
-            else if(val.length === 4) val = val.substring(0, 2) + '.' + val.substring(2);
-        }
+    function renderXrfPurityLive() {
+        convP.value = xrfFormatFromDigits(xrfRawDigits);
+    }
+
+    function getInternalPurity(val) {
         var n = parseFloat(val);
-        if(isNaN(n)) return "";
-        if(n > 100) n = 100;
-        var str = n.toFixed(2);
-        if(str.endsWith('.00')) return n.toString();
-        return str;
+        if(isNaN(n) || n < 0) return 0;
+        // The live formatter above never produces more than two whole and
+        // two decimal digits, so 99.99% is the highest it can type — this
+        // is only a defensive clamp against values set some other way.
+        return n > 99.99 ? 99.99 : n;
     }
 
     var weightInputs = [$('convMeltedWt'), $('convWeightInput')];
@@ -7079,19 +7158,59 @@ body.light #tab-insights .insights-section-header>.insights-double-actions>butto
       $('convMeltedWt').value = '';
       $('convWeightInput').value = '';
       $('convPurityInput').value = '';
+      xrfRawDigits = '';
       updateKarat();
       updateXrfWeight();
       calcConv();
       var rb = $('resetConvertBtn'); rb.classList.add('flipped'); setTimeout(function(){ rb.classList.remove('flipped'); }, 450);
     });
 
+    function xrfPurityDigitsChanged() {
+        renderXrfPurityLive();
+        updateKarat();
+        calcConv();
+        // Let other listeners (undo/redo history, etc.) see a normal input
+        // event even though the edit itself was handled by hand below.
+        convP.dispatchEvent(new Event('input', { bubbles: true, cancelable: false }));
+    }
+
+    // beforeinput fires for both physical and on-screen/mobile keyboards and
+    // carries the inserted/deleted text, so the digit buffer stays correct
+    // (and correctly padded) with every keystroke rather than only on blur.
+    convP.addEventListener('beforeinput', function(e) {
+        var type = e.inputType || '';
+        if(type.indexOf('delete') === 0) {
+            e.preventDefault();
+            xrfRawDigits = xrfRawDigits.slice(0, -1);
+            xrfPurityDigitsChanged();
+            return;
+        }
+        if(type === 'insertText' || type === 'insertFromPaste' || type === 'insertCompositionText' || type === 'insertReplacementText') {
+            e.preventDefault();
+            var incoming = String(e.data || '').replace(/[^0-9]/g, '');
+            if(!incoming) return;
+            xrfRawDigits = (xrfRawDigits + incoming).slice(0, 4);
+            xrfPurityDigitsChanged();
+            return;
+        }
+        // Anything else (formatting commands, etc.) is not a digit edit —
+        // block it so the field never drifts out of the XX.XX shape.
+        e.preventDefault();
+    });
+    // Safety net for environments that set convPurityInput.value directly
+    // (the undo/redo history restore below does this) rather than going
+    // through beforeinput: resync the digit buffer from whatever is there.
     convP.addEventListener('input', function() {
-        this.value = this.value.replace(/[^0-9.]/g, '');
+        var expected = xrfFormatFromDigits(xrfRawDigits);
+        if(this.value !== expected) {
+            xrfRawDigits = this.value.replace(/[^0-9]/g, '').slice(0, 4);
+            renderXrfPurityLive();
+        }
         updateKarat();
         calcConv();
     });
     convP.addEventListener('blur', function() {
-        this.value = fmtPurityValue(this.value);
+        renderXrfPurityLive();
         updateKarat();
         calcConv();
     });
@@ -8880,7 +8999,7 @@ body.light #tab-insights .insights-section-header>.insights-double-actions>butto
         feedback.hidden=true;
         handoffToAlloy();
       }else{
-        feedback.textContent='Enter a positive melted weight and XRF purity from 91.6% to 99.9999% to transfer.';
+        feedback.textContent='Enter a positive melted weight and XRF purity from 91.6% to 99.99% to transfer.';
         feedback.hidden=false;
       }
     });
@@ -9596,7 +9715,7 @@ async function run(name,id){
   await new Promise(function(resolve){setTimeout(resolve,80);});
   var png=await capture(target);
   var link=await save(png,name);
-  feedback(link.shared?'PNG ready · Use Save Image or Save to Files in the share sheet':'PNG created · Check Downloads',link);
+  feedback(link.shared?'PNG ready · Use Save Image or Save to Files in the share sheet':(window.AndroidBridge?'PNG saved · Gallery › Pictures › Gold Calculator':'PNG created · Check Downloads'),link);
  }catch(err){
   console.error('[Bullion Spot PNG]',err);
   feedback('PNG capture issue: '+(err && err.message || 'Unsupported browser')); 
@@ -9683,17 +9802,34 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 (function(){
  var key='bullionSpotManualTheme';
  var root=document.documentElement;
+ var order=['dark','light'];
  function getSaved(){try{return localStorage.getItem(key)}catch(e){return null}}
  function save(value){try{localStorage.setItem(key,value)}catch(e){}}
+ function normalize(value){return order.indexOf(value)!==-1?value:'dark'}
  function apply(value){
-   var theme=value==='light'?'light':'dark';
+   var theme=normalize(value);
    root.setAttribute('data-theme',theme);
+   var isDark=theme==='dark';
    var button=document.getElementById('bullionThemeToggle');
-   if(button){var isDark=theme==='dark';button.setAttribute('aria-checked',String(isDark));button.setAttribute('aria-label',isDark?'Switch to light mode':'Switch to dark mode');button.title=isDark?'Switch to light mode':'Switch to dark mode';button.querySelector('.bullion-theme-icon').textContent=isDark?'☾':'☀';}
-   var meta=document.querySelector('meta[name="theme-color"]');if(!meta){meta=document.createElement('meta');meta.name='theme-color';document.head.appendChild(meta)}meta.content=theme==='dark'?'#000000':'#F9F6EF';
+   if(button){
+     var icon=theme==='dark'?'☾':'☀';
+     var label=theme==='dark'?'Theme: Dark. Tap for light mode.':'Theme: Light. Tap for dark mode.';
+     button.removeAttribute('role');button.removeAttribute('aria-checked');
+     button.setAttribute('aria-label',label);button.title=label;
+     var iconEl=button.querySelector('.bullion-theme-icon');if(iconEl)iconEl.textContent=icon;
+   }
+   var meta=document.querySelector('meta[name="theme-color"]');if(!meta){meta=document.createElement('meta');meta.name='theme-color';document.head.appendChild(meta)}meta.content=isDark?'#000000':'#F9F6EF';
  }
- apply(getSaved()==='light'?'light':'dark');
- function init(){var button=document.getElementById('bullionThemeToggle');if(button)button.addEventListener('click',function(){var next=root.getAttribute('data-theme')==='dark'?'light':'dark';apply(next);save(next)});apply(getSaved()==='light'?'light':'dark')}
+ apply(normalize(getSaved()));
+ function init(){
+   var button=document.getElementById('bullionThemeToggle');
+   if(button)button.addEventListener('click',function(){
+     var current=normalize(root.getAttribute('data-theme'));
+     var next=order[(order.indexOf(current)+1)%order.length];
+     apply(next);save(next);
+   });
+   apply(normalize(getSaved()));
+ }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
@@ -9873,7 +10009,7 @@ html:root[data-theme="light"],html:root[data-theme="light"] body{
     void button.offsetWidth;
     button.classList.add('demo43-icon-play');
     if(timers.has(button)) clearTimeout(timers.get(button));
-    timers.set(button,setTimeout(()=>button.classList.remove('demo43-icon-play'),button.id==='purityModeYield'?750:(button.id==='purityModeAlloy'?1950:800)));
+    timers.set(button,setTimeout(()=>button.classList.remove('demo43-icon-play'),button.id==='purityModeYield'?1420:(button.id==='purityModeAlloy'?1580:800)));
   }
   document.addEventListener('click',function(event){
     const button=event.target.closest('button');
@@ -10538,6 +10674,61 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
   height:0;
 }
 </style>
+<style id="convert-compare-nav-strip-spacing-20261115">
+/* Give the Convert (XRF Yield / Alloy Composition) and Compare (Quick Rates)
+   selection tab strips more breathing room before the content strip below them. */
+#tab-convert .purity-unified-navigation{margin-bottom:18px!important}
+#tab-bench .compare-mode-navigation{margin-bottom:18px!important}
+</style>
+<script id="bullion-world-clock-popover-script-20261115">
+(function(){
+  var pill=document.getElementById('datePill');
+  if(!pill)return;
+  var popover=document.getElementById('worldClockPopover');
+  var nyEl=document.getElementById('wcNewYorkTime');
+  var ldnEl=document.getElementById('wcLondonTime');
+  function cityTime(now, zone){
+    try{
+      return now.toLocaleString('en-US',{timeZone:zone,weekday:'short',hour:'numeric',minute:'2-digit',hour12:true});
+    }catch(e){return '—'}
+  }
+  function update(){
+    var now=(window.BullionClock&&window.BullionClock.now)?window.BullionClock.now():new Date();
+    if(nyEl)nyEl.textContent=cityTime(now,'America/New_York');
+    if(ldnEl)ldnEl.textContent=cityTime(now,'Europe/London');
+  }
+  function positionPopover(){
+    if(!popover)return;
+    var rect=pill.getBoundingClientRect();
+    popover.style.left='-9999px';popover.style.top='0px'; // measure width without flashing in the wrong spot
+    var w=popover.offsetWidth||172;
+    var left=Math.min(Math.max(8,rect.right-w), window.innerWidth-w-8);
+    var top=Math.min(rect.bottom+8, window.innerHeight-16);
+    popover.style.left=left+'px';
+    popover.style.top=top+'px';
+  }
+  var isOpen=false;
+  function setOpen(open){
+    isOpen=open;
+    if(popover)popover.classList.toggle('is-open',open);
+    pill.setAttribute('aria-expanded',String(open));
+    if(popover)popover.setAttribute('aria-hidden',String(!open));
+    if(open){update();positionPopover();}
+  }
+  pill.addEventListener('click',function(){setOpen(!isOpen)});
+  pill.addEventListener('keydown',function(e){
+    if(e.key==='Enter'||e.key===' '){e.preventDefault();setOpen(!isOpen);}
+    else if(e.key==='Escape'){setOpen(false);}
+  });
+  document.addEventListener('click',function(e){
+    if(isOpen && !pill.contains(e.target) && !(popover && popover.contains(e.target)))setOpen(false);
+  },true);
+  setInterval(function(){if(isOpen)update()},1000);
+  window.addEventListener('resize',function(){if(isOpen)positionPopover()});
+  window.addEventListener('scroll',function(){if(isOpen)positionPopover()},true);
+  update();
+})();
+</script>
 <script id="insights-xaufx-five-visible-height-controller">
 (function(){
   var rail=document.querySelector('#insightsXauFxPane .compare-market-widgets');
@@ -10563,4 +10754,5 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
   requestAnimationFrame(update);
 })();
 </script>
+</body>
 </html>
