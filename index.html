@@ -4599,6 +4599,27 @@ body.light #tab-insights .insights-section-header>.insights-double-actions>butto
 @keyframes bs-xaufx-f8-au{0%,48%{transform:scale(.25);opacity:0}76%{transform:scale(1.2);opacity:1}100%{transform:none;opacity:1}}
 @media(prefers-reduced-motion:reduce){#insightsModeXauFx.insights-icon-play .xaufx-f8-price-candles g{animation:none!important}}
 </style>
+<style id="market-even-grid-20261117">
+/* Market card: one even two-column grid on every phone width.
+   Both columns are exactly equal, the label and its switch always share one line,
+   and the input boxes of a row sit on the same baseline even if a label is long. */
+.rates-body{grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:12px;align-items:stretch}
+.rates-body>.field{min-width:0}
+.rates-body>.field>.input-wrap{margin-top:auto}
+#ftMakingRow .ft-making-split{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:12px!important;align-items:stretch!important}
+#ftMakingRow .making-only-row{display:flex;flex-direction:column;min-width:0}
+#ftMakingRow #makingField,#ftMakingRow #ftbarField{flex:1 1 auto;min-width:0;gap:6px}
+#ftMakingRow #ftbarField .mcx-manual-row,#ftMakingRow #makingField .input-wrap{margin-top:auto}
+#dutyField .field-top,#gstField .field-top,#makingField .field-top,#ftbarField .field-top{flex-wrap:nowrap;align-items:center;min-height:30px;gap:6px}
+#dutyField .field-top label,#gstField .field-top label,#makingField .field-top label{flex:1 1 auto;min-width:0;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#dutyField .field-top label svg,#gstField .field-top label svg,#makingField .field-top label svg{flex:none}
+#dutyField .ios-toggle,#gstField .ios-toggle,#makingField .ios-toggle{flex:none;width:34px;height:20px;transform:none}
+#dutyField .ios-toggle .knob,#gstField .ios-toggle .knob,#makingField .ios-toggle .knob{width:14px;height:14px;top:2px;left:2px}
+#dutyField .ios-toggle[aria-checked="true"] .knob,#gstField .ios-toggle[aria-checked="true"] .knob,#makingField .ios-toggle[aria-checked="true"] .knob{transform:translateX(14px)}
+#ftMakingRow #makingField .input-wrap{padding:0 12px;border-radius:var(--radius-sm)}
+#ftMakingRow #makingField input{font-size:15px}
+@media(max-width:340px){#dutyField .field-top label,#gstField .field-top label,#makingField .field-top label{font-size:11px;gap:4px}}
+</style>
 <style id="bullion-hide-scrollbars-20261116">
 /* No visible scroll indicator anywhere in the app; scrolling itself is unchanged. */
 html,body,*{scrollbar-width:none!important;-ms-overflow-style:none!important}
