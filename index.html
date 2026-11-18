@@ -4599,6 +4599,23 @@ body.light #tab-insights .insights-section-header>.insights-double-actions>butto
 @keyframes bs-xaufx-f8-au{0%,48%{transform:scale(.25);opacity:0}76%{transform:scale(1.2);opacity:1}100%{transform:none;opacity:1}}
 @media(prefers-reduced-motion:reduce){#insightsModeXauFx.insights-icon-play .xaufx-f8-price-candles g{animation:none!important}}
 </style>
+<style id="market-pairs-20261118">
+/* Market: MCX | FT on one row, Jewel | Making on the next — equal columns, aligned boxes. */
+#mcxFtRow .ft-making-split,#ftMakingRow .ft-making-split{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:12px!important;align-items:stretch!important}
+.market-pair-row .ft-making-split>.field,.market-pair-row .making-only-row{display:flex;flex-direction:column;min-width:0;width:100%;max-width:none;gap:6px}
+.market-pair-row .field-top{min-height:30px;flex-wrap:nowrap;align-items:center}
+.market-pair-row .mcx-manual-row{display:block;width:100%!important;max-width:none!important;margin-top:auto}
+.market-pair-row .mcx-manual-row .input-wrap{height:46px;width:100%;min-width:0;padding-inline:10px}
+.market-pair-row .mcx-manual-row input{font-size:15px}
+#jewelField .field-top label,#mcxField .field-top label{display:inline-flex;align-items:center;gap:6px;min-width:0;white-space:nowrap}
+#jewelField .jewel-link-slot{display:inline-flex;align-items:center;flex:none}
+#jewelField .jewel-purity-text{white-space:nowrap}
+#jewelField #readyMadeTrigger{width:auto;min-height:0;margin:0;padding:2px 0;border:0;border-radius:0;background:transparent;box-shadow:none;color:var(--gold-700);font-size:inherit;font-weight:800;line-height:1.2;white-space:nowrap;opacity:1;text-decoration:none}
+#jewelField #readyMadeTrigger:hover{background:transparent;text-decoration:underline}
+#jewelField #readyMadeTrigger:active{transform:none;opacity:.75}
+@media(max-width:360px){.market-pair-row .field-top label{font-size:11px!important;gap:4px!important}.market-pair-row .mcx-manual-row .input-wrap{padding-inline:8px}}
+@media(max-width:340px){.market-pair-row .field-top label{font-size:10px!important;gap:3px!important}.market-pair-row .field-top label svg{width:16px;height:16px}}
+</style>
 <style id="ft-heading-link-20261118">
 /* FT heading: the "FT ↗" link button stands in for the word FT, so the strip reads [icon] FT ↗ 24k/.999‰ */
 #ftbarField .ft-heading-group label{display:inline-flex;align-items:center;gap:6px;min-width:0}
@@ -4680,7 +4697,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
 <section aria-label="Today's headline gold rate" class="card hero">
 <div class="hero-grid">
 <div class="hero-stat"><div class="k">XAU → IN₹ · 24K</div><div class="v" id="hero24k">—</div></div>
-<div class="hero-stat"><div class="k ready-made-heading"><span>22K · 916</span><button type="button" class="mcx-marketwatch-link ready-made-trigger" id="readyMadeTrigger" aria-haspopup="dialog" aria-controls="readyMadeOverlay" aria-label="Open Jewel floating panel">Jewel ↗</button></div><div class="v" id="hero22k">—</div></div>
+<div class="hero-stat"><div class="k ready-made-heading"><span>22K · 916</span></div><div class="v" id="hero22k">—</div></div>
 </div>
 </section>
 <section aria-label="Market rate inputs" class="card">
@@ -4723,7 +4740,9 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
 </div>
 <div class="input-wrap"><input autocomplete="off" id="gstInput" inputmode="decimal" type="text"/><span class="prefix">%</span></div>
 </div>
-<div class="field full" id="mcxField">
+<div class="field full market-pair-row" id="mcxFtRow">
+<div class="ft-making-split">
+<div class="field" id="mcxField">
 <div class="field-top">
 <label for="mcxInput"><svg aria-hidden="true" class="icon icon-sm" viewbox="0 0 28 28"><use href="#dropBase"></use><path d="M7.5 20.5h13" opacity="0.85" stroke="var(--glyph)" stroke-linecap="round" stroke-width="1.5"></path><path d="M14 6.5 21 11.5H7z" fill="none" opacity="0.85" stroke="var(--glyph)" stroke-linejoin="round" stroke-width="1.4"></path><path d="M9.5 11.5v7M14 11.5v7M18.5 11.5v7" opacity="0.85" stroke="var(--glyph)" stroke-width="1.4"></path></svg><span class="mcx-link-slot"><button aria-controls="mcxDhanOverlay" aria-haspopup="dialog" aria-label="MCX: show MCX reference links in a floating panel" class="mcx-marketwatch-link" id="mcxWatchlistLink" title="Open MCX market references" type="button">MCX ↗</button></span><span id="mcxLabelText">Gold Mini</span></label>
 </div>
@@ -4731,14 +4750,24 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
 <div class="input-wrap"><span class="prefix">₹</span><input aria-label="Enter MCX Gold Mini price per 10 grams" autocomplete="off" id="mcxInput" inputmode="decimal" placeholder="" type="text"/><span class="prefix market-unit">/10g</span></div>
 </div>
 </div>
-<div class="field full" id="ftMakingRow">
-<div class="ft-making-split">
 <div class="field" id="ftbarField">
 <div class="field-top">
 <div class="ft-heading-group"><label for="ftbarInput"><svg aria-hidden="true" class="icon icon-sm" viewbox="0 0 28 28"><use href="#dropBase"></use><rect fill="none" height="8" opacity="0.85" rx="1.5" stroke="var(--glyph)" stroke-width="1.4" width="15" x="6.5" y="10"></rect><path d="M9 13h10M9 16h7" opacity="0.85" stroke="var(--glyph)" stroke-linecap="round" stroke-width="1.3"></path></svg><span class="ft-link-slot"><span class="rate-status" id="ftbarRateStatus">Unavailable</span><button aria-controls="ftSangamOverlay" aria-haspopup="dialog" aria-label="FT: show FT bullion live rates" class="mcx-marketwatch-link" id="ftSangamShortcut" title="View FT bullion reference rates" type="button">FT ↗</button></span><span class="ft-purity-text">24k/.999‰</span></label></div>
 </div>
 <div class="mcx-manual-row">
 <div class="input-wrap"><span class="prefix">₹</span><input autocomplete="off" id="ftbarInput" inputmode="decimal" type="text"/><span class="prefix market-unit">/10g</span></div>
+</div>
+</div>
+</div>
+</div>
+<div class="field full market-pair-row" id="ftMakingRow">
+<div class="ft-making-split">
+<div class="field" id="jewelField">
+<div class="field-top">
+<label for="jewelInput"><svg aria-hidden="true" class="icon icon-sm" viewbox="0 0 28 28"><use href="#dropBase"></use><circle cx="14" cy="16.2" fill="none" opacity="0.85" r="4.6" stroke="var(--glyph)" stroke-width="1.5"></circle><path d="M11.6 8.4h4.8l1.4 2-3.8 2.6-3.8-2.6z" fill="none" opacity="0.85" stroke="var(--glyph)" stroke-linejoin="round" stroke-width="1.2"></path></svg><span class="jewel-link-slot"><button type="button" class="mcx-marketwatch-link ready-made-trigger" id="readyMadeTrigger" aria-haspopup="dialog" aria-controls="readyMadeOverlay" aria-label="Jewel: open Jewel floating panel" title="Open Jewel supplier rates">Jewel ↗</button></span><span class="jewel-purity-text">22k/916‰</span></label>
+</div>
+<div class="mcx-manual-row">
+<div class="input-wrap"><span class="prefix">₹</span><input aria-label="Enter Jewel 22K 916 rate per gram" autocomplete="off" id="jewelInput" inputmode="decimal" type="text"/><span class="prefix market-unit">/g</span></div>
 </div>
 </div>
 <div class="making-only-row">
@@ -9318,6 +9347,7 @@ function snapshotPrint(name){
   rows.push(row('💱 USD → INR',val('usdinrInput',' ₹/$')));
   rows.push(row('🏛️ MCX Gold Mini',val('mcxInput',' ₹/10g')));
   rows.push(row('🪙 FT 24K',val('ftbarInput',' ₹/10g')));
+  rows.push(row('💍 Jewel 22K',val('jewelInput',' ₹/g')));
   rows.push(row('📦 Import duty',val('dutyInput','%')));
   rows.push(row('🧾 GST',val('gstInput','%')));
   rows.push(row('🔨 Making',val('makingInput','%')));
@@ -10783,6 +10813,36 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
     for(var i=0;i<Math.min(5,cards.length);i++)ro.observe(cards[i]);
   }
   requestAnimationFrame(update);
+})();
+</script>
+<script id="jewel-rate-field-20261118">
+/* Jewel 22K/916 rate (₹ per gram): manual entry, Indian digit grouping, kept on this device, cleared by Reset. */
+(function(){
+ var KEY='bullionSpotJewel22kRate', el=document.getElementById('jewelInput');
+ if(!el) return;
+ function fmt(v){
+  var raw=v, clean=String(raw).replace(/[^0-9.]/g,''), dot=clean.indexOf('.');
+  if(dot!==-1) clean=clean.slice(0,dot+1)+clean.slice(dot+1).replace(/\./g,'').slice(0,2);
+  var parts=clean.split('.'), integer=parts[0].replace(/^0+(?=\d)/,'');
+  if(integer.length>3){ var tail=integer.slice(-3); integer=integer.slice(0,-3).replace(/\B(?=(\d{2})+(?!\d))/g,',')+','+tail; }
+  return integer+(parts.length>1?'.'+parts[1]:'');
+ }
+ function save(){ try{ var v=el.value.trim(); if(v) localStorage.setItem(KEY,v); else localStorage.removeItem(KEY); }catch(e){} }
+ try{ var saved=localStorage.getItem(KEY); if(saved) el.value=fmt(saved); }catch(e){}
+ el.addEventListener('input',function(e){
+  if(e.isComposing) return;
+  var before=el.value.slice(0,el.selectionStart==null?el.value.length:el.selectionStart).replace(/[^0-9.]/g,'').length;
+  var out=fmt(el.value);
+  if(out!==el.value){
+   el.value=out; var pos=0,seen=0;
+   while(pos<out.length&&seen<before){ if(/[0-9.]/.test(out[pos])) seen++; pos++; }
+   try{ el.setSelectionRange(pos,pos); }catch(_){}
+  }
+  save();
+ });
+ el.addEventListener('blur',function(){ el.value=fmt(el.value).replace(/\.$/,''); save(); });
+ var reset=document.getElementById('resetRatesBtn');
+ if(reset) reset.addEventListener('click',function(){ el.value=''; save(); });
 })();
 </script>
 </body>
