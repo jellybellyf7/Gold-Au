@@ -4599,6 +4599,7 @@ body.light #tab-insights .insights-section-header>.insights-double-actions>butto
 @keyframes bs-xaufx-f8-au{0%,48%{transform:scale(.25);opacity:0}76%{transform:scale(1.2);opacity:1}100%{transform:none;opacity:1}}
 @media(prefers-reduced-motion:reduce){#insightsModeXauFx.insights-icon-play .xaufx-f8-price-candles g{animation:none!important}}
 </style>
+<style id="jewel-vs-spot-strip-css-20261118">#jewelVsSpotStrip .l,#jewelVsSpotStrip .v{white-space:nowrap}#jewelVsSpotStrip .ref{white-space:nowrap}#jewelVsSpotStrip>div:last-child{min-width:0}@media(max-width:380px){#jewelVsSpotStrip .v{white-space:normal;text-align:right;font-size:12px}#jewelVsSpotStrip .l{font-size:12px}}</style>
 <style id="market-pairs-20261118">
 /* Market: MCX | FT on one row, Jewel | Making on the next — equal columns, aligned boxes. */
 #mcxFtRow .ft-making-split,#ftMakingRow .ft-making-split{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:12px!important;align-items:stretch!important}
@@ -5107,6 +5108,15 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
 <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
 <span class="v" id="ftbarCompareText">—</span>
 <span id="ftbarResultValue" style="font-size: 10px; font-weight: 600; color: var(--text-2); display: none; white-space: nowrap;"></span>
+</div>
+</div>
+<div class="mcx-strip" id="jewelVsSpotStrip">
+<div>
+<span class="l"><svg aria-hidden="true" class="icon icon-sm" viewbox="0 0 28 28"><use href="#dropBase"></use><circle cx="14" cy="16.2" fill="none" opacity="0.85" r="4.6" stroke="var(--glyph)" stroke-width="1.5"></circle><path d="M11.6 8.4h4.8l1.4 2-3.8 2.6-3.8-2.6z" fill="none" opacity="0.85" stroke="var(--glyph)" stroke-linejoin="round" stroke-width="1.2"></path></svg>Jewel vs Spot</span>
+<div class="ref" id="jewelVsSpotStatusRef"></div>
+</div>
+<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+<span class="v" id="jewelVsSpotText">—</span>
 </div>
 </div>
 </div>
@@ -9371,6 +9381,7 @@ function snapshotPrint(name){
   rows.push(row('📈 Spot vs MCX',text('mcxCompareText')));
   rows.push(row('📊 MCX vs FT',text('mcxVsFtText')));
   rows.push(row('⚖️ FT vs Spot',text('ftbarCompareText')));
+  rows.push(row('💍 Jewel vs Spot 22K',text('jewelVsSpotText')));
   rows.push(row('Purity reference',text('quickPurityLabel')));
   var selected=document.querySelector('#quickWeightGroupTabs button[aria-pressed="true"]');
   rows.push(row('Quick Rates category',selected?selected.textContent.trim():'—'));
@@ -10919,6 +10930,39 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
  apply();
  // Let the app finish restoring the Rates switch before the first fetch.
  setTimeout(function(){ apply(); fetchAuto(false); },400);
+})();
+</script>
+<script id="jewel-vs-spot-strip-20261118">
+/* Compare: Jewel 22K rate (Market › Jewel box, ₹/g) against the top card's Spot 22K rate (₹/g, with duty).
+   Shows Jewel − Spot and the % difference; "—" until both values are present. */
+(function(){
+ 'use strict';
+ var hero=document.getElementById('hero22k'), jewel=document.getElementById('jewelInput');
+ var out=document.getElementById('jewelVsSpotText'), ref=document.getElementById('jewelVsSpotStatusRef');
+ if(!hero||!jewel||!out||!ref) return;
+ function num(t){ var n=Number(String(t||'').replace(/[^0-9.]/g,'')); return isFinite(n)&&n>0?n:0; }
+ function inr(n){ return '₹'+Math.round(n).toLocaleString('en-IN'); }
+ function arrow(up){ return '<svg class="trend-icon" viewBox="0 0 10 10" fill="currentColor" aria-hidden="true"><polygon points="'+(up?'5,1.5 9,8.5 1,8.5':'5,8.5 9,1.5 1,1.5')+'"/></svg>'; }
+ var last='';
+ function update(){
+  var spot=num(hero.textContent), j=num(jewel.value), key=spot+'|'+j;
+  if(key===last) return; last=key;
+  if(!spot||!j){
+   out.className='v'; out.textContent='—';
+   ref.style.color=''; ref.textContent=!j?'Add the Jewel rate in Market':'Waiting for the Spot rate';
+   return;
+  }
+  var diff=j-spot, pct=diff/spot*100, up=diff>=0;
+  out.className='v '+(up?'up':'down');
+  out.innerHTML=(up?'+':'−')+inr(Math.abs(diff))+' ('+(up?'+':'−')+Math.abs(pct).toFixed(2)+'%)<div class="v-value">Jewel '+inr(j)+'/g</div>';
+  ref.innerHTML=arrow(up)+' Jewel '+(up?'Premium':'Discount');
+  ref.style.color=up?'var(--positive)':'var(--negative)';
+ }
+ try{ new MutationObserver(update).observe(hero,{childList:true,characterData:true,subtree:true}); }catch(e){}
+ jewel.addEventListener('input',update);
+ /* The Jewel box can also be filled by code (auto rate), which fires no event. */
+ setInterval(function(){ if(!document.hidden) update(); },1000);
+ update();
 })();
 </script>
 </body>
