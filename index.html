@@ -4599,6 +4599,13 @@ body.light #tab-insights .insights-section-header>.insights-double-actions>butto
 @keyframes bs-xaufx-f8-au{0%,48%{transform:scale(.25);opacity:0}76%{transform:scale(1.2);opacity:1}100%{transform:none;opacity:1}}
 @media(prefers-reduced-motion:reduce){#insightsModeXauFx.insights-icon-play .xaufx-f8-price-candles g{animation:none!important}}
 </style>
+<style id="ft-heading-link-20261118">
+/* FT heading: the "FT ↗" link button stands in for the word FT, so the strip reads [icon] FT ↗ . 24k/999 */
+#ftbarField .ft-heading-group label{display:inline-flex;align-items:center;gap:6px;min-width:0}
+#ftbarField .ft-link-slot{display:inline-flex;align-items:center}
+#ftbarField .ft-purity-text{white-space:nowrap}
+#ftbarField #ftSangamShortcut{font-size:inherit;line-height:1.2}
+</style>
 <style id="market-even-grid-20261117">
 /* Market card: one even two-column grid on every phone width.
    Both columns are exactly equal, the label and its switch always share one line,
@@ -4724,8 +4731,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
 <div class="ft-making-split">
 <div class="field" id="ftbarField">
 <div class="field-top">
-<div class="ft-heading-group"><label for="ftbarInput"><svg aria-hidden="true" class="icon icon-sm" viewbox="0 0 28 28"><use href="#dropBase"></use><rect fill="none" height="8" opacity="0.85" rx="1.5" stroke="var(--glyph)" stroke-width="1.4" width="15" x="6.5" y="10"></rect><path d="M9 13h10M9 16h7" opacity="0.85" stroke="var(--glyph)" stroke-linecap="round" stroke-width="1.3"></path></svg>FT . 24k/999</label>
-<div class="field-top-actions"><span class="rate-status" id="ftbarRateStatus">Unavailable</span><button aria-controls="ftSangamOverlay" aria-haspopup="dialog" aria-label="Show FT bullion live rates" class="mcx-marketwatch-link" id="ftSangamShortcut" title="View FT bullion reference rates" type="button">FT ↗</button></div></div>
+<div class="ft-heading-group"><label for="ftbarInput"><svg aria-hidden="true" class="icon icon-sm" viewbox="0 0 28 28"><use href="#dropBase"></use><rect fill="none" height="8" opacity="0.85" rx="1.5" stroke="var(--glyph)" stroke-width="1.4" width="15" x="6.5" y="10"></rect><path d="M9 13h10M9 16h7" opacity="0.85" stroke="var(--glyph)" stroke-linecap="round" stroke-width="1.3"></path></svg><span class="ft-link-slot"><span class="rate-status" id="ftbarRateStatus">Unavailable</span><button aria-controls="ftSangamOverlay" aria-haspopup="dialog" aria-label="FT: show FT bullion live rates" class="mcx-marketwatch-link" id="ftSangamShortcut" title="View FT bullion reference rates" type="button">FT ↗</button></span><span class="ft-purity-text">. 24k/999</span></label></div>
 </div>
 <div class="mcx-manual-row">
 <div class="input-wrap"><span class="prefix">₹</span><input autocomplete="off" id="ftbarInput" inputmode="decimal" type="text"/><span class="prefix market-unit">/10g</span></div>
