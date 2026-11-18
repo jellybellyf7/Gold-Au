@@ -4599,7 +4599,7 @@ body.light #tab-insights .insights-section-header>.insights-double-actions>butto
 @keyframes bs-xaufx-f8-au{0%,48%{transform:scale(.25);opacity:0}76%{transform:scale(1.2);opacity:1}100%{transform:none;opacity:1}}
 @media(prefers-reduced-motion:reduce){#insightsModeXauFx.insights-icon-play .xaufx-f8-price-candles g{animation:none!important}}
 </style>
-<style id="jewel-vs-spot-strip-css-20261118">#jewelVsSpotStrip .l,#jewelVsSpotStrip .v{white-space:nowrap}#jewelVsSpotStrip .ref{white-space:nowrap}#jewelVsSpotStrip>div:last-child{min-width:0}@media(max-width:380px){#jewelVsSpotStrip .v{white-space:normal;text-align:right;font-size:12px}#jewelVsSpotStrip .l{font-size:12px}}</style>
+<style id="jewel-vs-spot-strip-css-20261118">#jewelVsSpotStrip .l,#jewelVsSpotStrip .v{white-space:nowrap}#jewelVsSpotStrip .ref{white-space:nowrap}#jewelVsSpotStrip>div:last-child{min-width:0}@media(max-width:380px){#jewelVsSpotStrip .v{white-space:normal;text-align:right;font-size:12px}#jewelVsSpotStrip .l{font-size:12px}}#jewelVsSpotStrip{gap:10px}#jewelVsSpotStrip>div:first-child{min-width:0}@media(max-width:340px){#jewelVsSpotStrip .l{white-space:normal;line-height:1.25}#jewelVsSpotStrip .ref{white-space:normal;margin-left:0}}</style>
 <style id="market-pairs-20261118">
 /* Market: MCX | FT on one row, Jewel | Making on the next — equal columns, aligned boxes. */
 #mcxFtRow .ft-making-split,#ftMakingRow .ft-making-split{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:12px!important;align-items:stretch!important}
@@ -4620,7 +4620,7 @@ body.light #tab-insights .insights-section-header>.insights-double-actions>butto
 @media(max-width:340px){.market-pair-row .field-top label{font-size:10px!important;gap:3px!important}.market-pair-row .field-top label svg{width:16px;height:16px}}
 </style>
 <style id="ft-heading-link-20261118">
-/* FT heading: the "FT ↗" link button stands in for the word FT, so the strip reads [icon] FT ↗ 24k•999‰ */
+/* FT heading: the "FT ↗" link button stands in for the word FT, so the strip reads [icon] FT ↗ 24k/999‰ */
 #ftbarField .ft-heading-group label{display:inline-flex;align-items:center;gap:6px;min-width:0}
 #ftbarField .ft-link-slot{display:inline-flex;align-items:center}
 #ftbarField .ft-purity-text{white-space:nowrap}
@@ -4755,7 +4755,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
 </div>
 <div class="field" id="ftbarField">
 <div class="field-top">
-<div class="ft-heading-group"><label for="ftbarInput"><svg aria-hidden="true" class="icon icon-sm" viewbox="0 0 28 28"><use href="#dropBase"></use><rect fill="none" height="8" opacity="0.85" rx="1.5" stroke="var(--glyph)" stroke-width="1.4" width="15" x="6.5" y="10"></rect><path d="M9 13h10M9 16h7" opacity="0.85" stroke="var(--glyph)" stroke-linecap="round" stroke-width="1.3"></path></svg><span class="ft-link-slot"><span class="rate-status" id="ftbarRateStatus">Unavailable</span><button aria-controls="ftSangamOverlay" aria-haspopup="dialog" aria-label="FT: show FT bullion live rates" class="mcx-marketwatch-link" id="ftSangamShortcut" title="View FT bullion reference rates" type="button">FT ↗</button></span><span class="ft-purity-text">24k•999‰</span></label></div>
+<div class="ft-heading-group"><label for="ftbarInput"><svg aria-hidden="true" class="icon icon-sm" viewbox="0 0 28 28"><use href="#dropBase"></use><rect fill="none" height="8" opacity="0.85" rx="1.5" stroke="var(--glyph)" stroke-width="1.4" width="15" x="6.5" y="10"></rect><path d="M9 13h10M9 16h7" opacity="0.85" stroke="var(--glyph)" stroke-linecap="round" stroke-width="1.3"></path></svg><span class="ft-link-slot"><span class="rate-status" id="ftbarRateStatus">Unavailable</span><button aria-controls="ftSangamOverlay" aria-haspopup="dialog" aria-label="FT: show FT bullion live rates" class="mcx-marketwatch-link" id="ftSangamShortcut" title="View FT bullion reference rates" type="button">FT ↗</button></span><span class="ft-purity-text">24k/999‰</span></label></div>
 </div>
 <div class="mcx-manual-row">
 <div class="input-wrap"><span class="prefix">₹</span><input autocomplete="off" id="ftbarInput" inputmode="decimal" type="text"/><span class="prefix market-unit">/10g</span></div>
@@ -4767,7 +4767,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
 <div class="ft-making-split">
 <div class="field" id="jewelField">
 <div class="field-top">
-<label for="jewelInput"><svg aria-hidden="true" class="icon icon-sm" viewbox="0 0 28 28"><use href="#dropBase"></use><circle cx="14" cy="16.2" fill="none" opacity="0.85" r="4.6" stroke="var(--glyph)" stroke-width="1.5"></circle><path d="M11.6 8.4h4.8l1.4 2-3.8 2.6-3.8-2.6z" fill="none" opacity="0.85" stroke="var(--glyph)" stroke-linejoin="round" stroke-width="1.2"></path></svg><span class="jewel-link-slot"><button type="button" class="mcx-marketwatch-link ready-made-trigger" id="readyMadeTrigger" aria-haspopup="dialog" aria-controls="readyMadeOverlay" aria-label="Jewel: open Jewel floating panel" title="Open Jewel supplier rates">Jewel ↗</button></span><span class="jewel-purity-text">22k•916‰</span></label>
+<label for="jewelInput"><svg aria-hidden="true" class="icon icon-sm" viewbox="0 0 28 28"><use href="#dropBase"></use><circle cx="14" cy="16.2" fill="none" opacity="0.85" r="4.6" stroke="var(--glyph)" stroke-width="1.5"></circle><path d="M11.6 8.4h4.8l1.4 2-3.8 2.6-3.8-2.6z" fill="none" opacity="0.85" stroke="var(--glyph)" stroke-linejoin="round" stroke-width="1.2"></path></svg><span class="jewel-link-slot"><button type="button" class="mcx-marketwatch-link ready-made-trigger" id="readyMadeTrigger" aria-haspopup="dialog" aria-controls="readyMadeOverlay" aria-label="Jewel: open Jewel floating panel" title="Open Jewel supplier rates">Jewel ↗</button></span><span class="jewel-purity-text">22k/916‰</span></label>
 </div>
 <div class="mcx-manual-row">
 <div class="input-wrap"><span class="prefix">₹</span><input aria-label="Enter Jewel 22K 916 rate per gram" autocomplete="off" id="jewelInput" inputmode="decimal" type="text"/><span class="prefix market-unit">/g</span></div>
@@ -5112,7 +5112,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
 </div>
 <div class="mcx-strip" id="jewelVsSpotStrip">
 <div>
-<span class="l"><svg aria-hidden="true" class="icon icon-sm" viewbox="0 0 28 28"><use href="#dropBase"></use><circle cx="14" cy="16.2" fill="none" opacity="0.85" r="4.6" stroke="var(--glyph)" stroke-width="1.5"></circle><path d="M11.6 8.4h4.8l1.4 2-3.8 2.6-3.8-2.6z" fill="none" opacity="0.85" stroke="var(--glyph)" stroke-linejoin="round" stroke-width="1.2"></path></svg>Jewel vs Spot</span>
+<span class="l"><svg aria-hidden="true" class="icon icon-sm" viewbox="0 0 28 28"><use href="#dropBase"></use><circle cx="14" cy="16.2" fill="none" opacity="0.85" r="4.6" stroke="var(--glyph)" stroke-width="1.5"></circle><path d="M11.6 8.4h4.8l1.4 2-3.8 2.6-3.8-2.6z" fill="none" opacity="0.85" stroke="var(--glyph)" stroke-linejoin="round" stroke-width="1.2"></path></svg>Jewel vs Spot ₹ 22k</span>
 <div class="ref" id="jewelVsSpotStatusRef"></div>
 </div>
 <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
@@ -9381,7 +9381,7 @@ function snapshotPrint(name){
   rows.push(row('📈 Spot vs MCX',text('mcxCompareText')));
   rows.push(row('📊 MCX vs FT',text('mcxVsFtText')));
   rows.push(row('⚖️ FT vs Spot',text('ftbarCompareText')));
-  rows.push(row('💍 Jewel vs Spot 22K',text('jewelVsSpotText')));
+  rows.push(row('💍 Jewel vs Spot ₹ 22k',text('jewelVsSpotText')));
   rows.push(row('Purity reference',text('quickPurityLabel')));
   var selected=document.querySelector('#quickWeightGroupTabs button[aria-pressed="true"]');
   rows.push(row('Quick Rates category',selected?selected.textContent.trim():'—'));
