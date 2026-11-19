@@ -6425,6 +6425,8 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     var r22 = computeLine(1, 22, 1, state);
     var gstFactor = state.gstEnabled ? 1 + (Number(state.gst)||0)/100 : 1;
     $('hero24k').textContent = haveRequiredRates() ? fmtINR(r24.afterDuty * gstFactor, 0) : '—';
+    // Spot 22K without GST (duty as toggled), kept for Compare › Jewel vs Spot.
+    $('hero22k').setAttribute('data-ex-gst', haveRequiredRates() ? String(r22.afterDuty) : '');
     $('hero22k').textContent = haveRequiredRates() ? fmtINR(r22.afterDuty * gstFactor, 0) : '—';
     var inc = $('heroIncludesNote');
     if(inc){ var t = heroIncludesLabel(); inc.textContent = t; inc.hidden = !t; }
@@ -10882,7 +10884,8 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
 })();
 </script>
 <script id="jewel-vs-spot-strip-20261118">
-/* Compare: Jewel 22K rate (Market › Jewel box, ₹/g) against the top card's Spot 22K rate (₹/g, with duty).
+/* Compare: Jewel 22K rate (Market › Jewel box, ₹/g) against Spot 22K (₹/g, duty as toggled, always WITHOUT GST,
+   even when the GST toggle adds GST to the top card).
    Shows Jewel − Spot and the % difference; "—" until both values are present. */
 (function(){
  'use strict';
@@ -10894,7 +10897,8 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
  function arrow(up){ return '<svg class="trend-icon" viewBox="0 0 10 10" fill="currentColor" aria-hidden="true"><polygon points="'+(up?'5,1.5 9,8.5 1,8.5':'5,8.5 9,1.5 1,1.5')+'"/></svg>'; }
  var last='';
  function update(){
-  var spot=num(hero.textContent), j=num(jewel.value), key=spot+'|'+j;
+  var exGst=Number(hero.getAttribute('data-ex-gst'));
+  var spot=hero.hasAttribute('data-ex-gst') ? (isFinite(exGst)&&exGst>0?Math.round(exGst):0) : num(hero.textContent), j=num(jewel.value), key=spot+'|'+j;
   if(key===last) return; last=key;
   if(!spot||!j){
    out.className='v'; out.textContent='—';
@@ -10907,7 +10911,7 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
   ref.innerHTML=arrow(up)+' Jewel '+(up?'Premium':'Discount');
   ref.style.color=up?'var(--positive)':'var(--negative)';
  }
- try{ new MutationObserver(update).observe(hero,{childList:true,characterData:true,subtree:true}); }catch(e){}
+ try{ new MutationObserver(update).observe(hero,{childList:true,characterData:true,subtree:true,attributes:true,attributeFilter:['data-ex-gst']}); }catch(e){}
  jewel.addEventListener('input',update);
  /* The Jewel box can also be filled by code (auto rate), which fires no event. */
  setInterval(function(){ if(!document.hidden) update(); },1000);
