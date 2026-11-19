@@ -10965,5 +10965,211 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
  update();
 })();
 </script>
+<style id="a4-full-report-css-20261119">
+#a4ReportMount{display:none}
+@media print{
+ html.a4-report-print{background:#fff!important;background-color:#fff!important;color-scheme:light!important}
+ body.a4-report-print{margin:0!important;padding:0!important;background:#fff!important;min-height:0!important}
+ body.a4-report-print > :not(#a4ReportMount){display:none!important}
+ body.a4-report-print #a4ReportMount{display:block!important}
+}
+#a4ReportMount,#a4ReportMount *{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+#a4ReportMount{color:#1b1712;background:#fff;font-family:'Inter','Noto Sans','Noto Sans Tamil',system-ui,-apple-system,sans-serif;font-size:8.3pt;line-height:1.3;font-variant-numeric:tabular-nums}
+#a4ReportMount .r-head{display:flex;justify-content:space-between;align-items:flex-end;gap:6mm;padding-bottom:2.2mm;border-bottom:.6mm solid #bd872f;margin-bottom:3.2mm}
+#a4ReportMount .r-brand{font-family:'Manrope','Inter',sans-serif;font-size:7.4pt;font-weight:800;letter-spacing:.9pt;color:#97651b;text-transform:uppercase}
+#a4ReportMount .r-title{font-family:'Manrope','Inter',sans-serif;font-size:17pt;font-weight:800;letter-spacing:-.3pt;margin:.6mm 0 0;line-height:1.1}
+#a4ReportMount .r-meta{text-align:right;font-size:7.6pt;color:#6f6152;line-height:1.45}
+#a4ReportMount .r-hero{display:grid;grid-template-columns:1fr 1fr;gap:3.2mm;margin-bottom:3.2mm}
+#a4ReportMount .r-hero div{border:.3mm solid #d3b782;border-radius:2.2mm;padding:1.8mm 3mm}
+#a4ReportMount .r-hero span{display:block;font-size:7.4pt;color:#6f6152;font-weight:700}
+#a4ReportMount .r-hero b{display:block;font-family:'Manrope','Inter',sans-serif;font-size:13.5pt;color:#9c691d;margin-top:.3mm}
+#a4ReportMount .r-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:3.2mm;align-items:start}
+#a4ReportMount .r-col{display:flex;flex-direction:column;gap:3.2mm;min-width:0}
+#a4ReportMount .r-sec{border:.3mm solid #e2d8c8;border-radius:2.2mm;padding:2.2mm 3mm 1.8mm;break-inside:avoid;page-break-inside:avoid;min-width:0}
+#a4ReportMount .r-sec.full{grid-column:1/-1}
+#a4ReportMount h2{font-family:'Manrope','Inter',sans-serif;font-size:10pt;font-weight:800;color:#8a621f;margin:0 0 1.6mm;letter-spacing:.2pt}
+#a4ReportMount h3{font-size:7.2pt;font-weight:800;letter-spacing:.7pt;text-transform:uppercase;color:#8a621f;margin:2.4mm 0 .8mm}
+#a4ReportMount table{width:100%;border-collapse:collapse;table-layout:fixed}
+#a4ReportMount td{padding:.72mm 0;border-bottom:.2mm solid #eee5d6;vertical-align:top;overflow-wrap:anywhere}
+#a4ReportMount td.k{width:46%;color:#4d4236;padding-right:2mm}
+#a4ReportMount td.v{text-align:right;font-weight:700;color:#1b1712}
+#a4ReportMount td .s{display:block;font-weight:500;font-size:7.3pt;color:#7a6b59;margin-top:.3mm}
+#a4ReportMount td .t{display:inline-block;font-size:6.8pt;font-weight:700;color:#7a6b59;margin-left:1mm}
+#a4ReportMount tr.hl td{border-top:.35mm solid #bd872f;border-bottom:none;font-size:9.6pt;padding-top:1.6mm}
+#a4ReportMount tr.hl td.v{color:#9c691d;font-weight:800}
+#a4ReportMount tr.on td.k:after{content:'';}
+#a4ReportMount .up{color:#0b7d68!important}#a4ReportMount .down{color:#c62f3b!important}
+#a4ReportMount .note{font-size:7.2pt;color:#7a6b59;margin:1.2mm 0 0;line-height:1.4}
+#a4ReportMount .r-foot{margin-top:2.6mm;padding-top:2mm;border-top:.25mm solid #e2d8c8;font-size:7pt;color:#7a6b59;display:flex;justify-content:space-between;gap:4mm}
+</style>
+<script id="a4-full-report-20261119">
+/* Every print button prints one ISO A4 report of the whole calculator, using the values exactly as shown. */
+(function(){
+ 'use strict';
+ function $(id){return document.getElementById(id);}
+ function esc(t){return String(t==null?'':t).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+ function clean(t){return String(t==null?'':t).replace(/\s+/g,' ').trim();}
+ function plain(e){if(!e)return '';var c=e.cloneNode(true);c.querySelectorAll('svg,script,style').forEach(function(n){n.remove();});return clean(c.textContent);}
+ function txt(id){return plain($(id));}
+ function inp(id){var e=$(id);return e?clean(e.value):'';}
+ function on(id){var e=$(id);return !!e&&e.getAttribute('aria-checked')==='true';}
+ function shown(e){if(!e)return false;for(var n=e;n&&n.nodeType===1;n=n.parentElement){if(n.style&&n.style.display==='none')return false;if(n.hidden)return false;}return true;}
+ function dash(v){return v?v:'—';}
+ function withUnit(v,u){return v?v+u:'—';}
+ /* main text and secondary text of a value element (secondary = small/div children) */
+ function split(e){
+  if(!e)return {main:'',sub:''};
+  var c=e.cloneNode(true),subs=[];
+  c.querySelectorAll('svg').forEach(function(n){n.remove();});
+  c.querySelectorAll('small,.v-value,div,.s').forEach(function(n){var t=clean(n.textContent);if(t)subs.push(t);n.remove();});
+  return {main:clean(c.textContent),sub:subs.join(' · ')};
+ }
+ function row(k,v,o){
+  o=o||{};
+  return '<tr class="'+(o.hl?'hl':'')+'"><td class="k">'+esc(k)+(o.tag?'<span class="t">'+esc(o.tag)+'</span>':'')+'</td><td class="v'+(o.cls?' '+o.cls:'')+'">'+esc(dash(v))+(o.sub?'<span class="s">'+esc(o.sub)+'</span>':'')+'</td></tr>';
+ }
+ function table(rows){return '<table>'+rows.join('')+'</table>';}
+ function sec(title,body,full){return '<section class="r-sec'+(full?' full':'')+'"><h2>'+esc(title)+'</h2>'+body+'</section>';}
+
+ function market(){
+  var rows=[];
+  rows.push(row('XAU → U$D',withUnit(inp('spotInput'),' $/oz t'),{tag:txt('spotRateStatus')}));
+  rows.push(row('U$D → IN₹',withUnit(inp('usdinrInput'),' ₹/$'),{tag:txt('usdinrRateStatus')}));
+  rows.push(row('Import duty',withUnit(inp('dutyInput'),'%'),{tag:on('dutyToggle')?'ON':'OFF'}));
+  rows.push(row('GST',withUnit(inp('gstInput'),'%'),{tag:on('gstToggle')?'ON':'OFF'}));
+  rows.push(row('MCX Gold Mini',inp('mcxInput')?'₹'+inp('mcxInput')+' /10g':'—'));
+  rows.push(row('FT 24k/999‰',inp('ftbarInput')?'₹'+inp('ftbarInput')+' /10g':'—'));
+  rows.push(row('Jewel 22k/916‰',inp('jewelInput')?'₹'+inp('jewelInput')+' /g':'—'));
+  rows.push(row('Making',withUnit(inp('makingInput'),'%'),{tag:on('makingToggle')?'ON':'OFF'}));
+  rows.push(row('Rates',on('marketRatesToggle')?'ON · automatic':'OFF · manual'));
+  var notes=[];['updatedNote','jewelUpdatedNote'].forEach(function(id){var e=$(id);if(!e||!shown(e))return;String(e.textContent||'').split(/\n+/).forEach(function(l){l=clean(l);if(l)notes.push(l);});});
+  return table(rows)+(notes.length?'<p class="note">'+notes.map(esc).join('<br>')+'</p>':'');
+ }
+ function calculate(){
+  var rows=[];
+  rows.push(row('Purity',txt('selectedPuritySummary')));
+  rows.push(row('Weight',txt('selectedWeightSummary')));
+  var qn=$('qtyWeightNote'),ql=[];
+  if(qn)qn.querySelectorAll('div').forEach(function(d){if(!d.querySelector('div')){var t=plain(d);if(t)ql.push(t);}});
+  rows.push(row('Quantity',inp('qtyInput'),{sub:ql.length?'= '+ql.join(' · '):''}));
+  ['Pure','Duty','AfterDuty','Making','Gst'].forEach(function(k){
+   var r=$('row'+k);if(!r||!shown(r))return;
+   var l=r.querySelector('.l'),lab=l?l.cloneNode(true):null;
+   if(lab)lab.querySelectorAll('.row-ref').forEach(function(n){n.remove();});
+   var v=split($('bd'+k));
+   rows.push(row(clean(lab?lab.textContent:k),v.main,{tag:txt('ref'+k),sub:v.sub}));
+  });
+  var fin=split($('bdFinal'));
+  rows.push(row('Total',fin.main,{hl:true,sub:txt('bdFinalSecondary')}));
+  var oh=txt('overheadNote');
+  return table(rows)+(oh?'<p class="note">Overhead over metal value: '+esc(oh.replace(/\s*overhead$/,''))+'</p>':'');
+ }
+ function compare(){
+  var rows=[];
+  [['mcxStrip','mcxStatusRef','mcxCompareText','mcxResultValue'],['mcxVsFtStrip','mcxVsFtStatusRef','mcxVsFtText','mcxVsFtResultValue'],['ftbarStrip','ftbarStatusRef','ftbarCompareText','ftbarResultValue'],['jewelVsSpotStrip','jewelVsSpotStatusRef','jewelVsSpotText','']].forEach(function(s){
+   var strip=$(s[0]);if(!strip||!shown(strip))return;
+   var lab=strip.querySelector('.l'),v=split($(s[2])),extra=s[3]&&shown($(s[3]))?txt(s[3]):'';
+   var cls=$(s[2])&&$(s[2]).classList.contains('up')?'up':($(s[2])&&$(s[2]).classList.contains('down')?'down':'');
+   rows.push(row(clean(lab?lab.textContent:''),v.main,{tag:txt(s[1]),sub:[v.sub,extra].filter(Boolean).join(' · '),cls:cls}));
+  });
+  var q=[];
+  var grp=document.querySelector('#quickWeightGroupTabs button[aria-pressed="true"]');
+  document.querySelectorAll('#quickGrid .quick-tile').forEach(function(t){
+   var k=t.querySelector('.k'),g=k&&k.querySelector('.g'),kc=k?k.cloneNode(true):null;
+   if(kc)kc.querySelectorAll('.g,.quick-selected-tag').forEach(function(n){n.remove();});
+   var v=split(t.querySelector('.v'));
+   q.push(row(clean(kc?kc.textContent:''),v.main,{tag:g?clean(g.textContent):'',sub:(t.classList.contains('quick-selected')?'Current unit':'')+(v.sub?(t.classList.contains('quick-selected')?' · ':'')+v.sub:'')}));
+  });
+  return table(rows)+'<h3>Quick Rates · '+esc(grp?clean(grp.textContent):'')+' '+esc(txt('quickPurityLabel'))+'</h3>'+table(q.length?q:[row('Quick Rates','—')]);
+ }
+ function convert(){
+  var a=[];
+  a.push(row('Melted Weight',withUnit(inp('convMeltedWt'),' g')));
+  a.push(row('XRF Weight',withUnit(inp('convWeightInput'),' g')));
+  a.push(row('XRF Purity',withUnit(inp('convPurityInput'),'%')));
+  a.push(row('XRF Karat',inp('convKaratInput')));
+  ['out-24k','out-999','out-920','out-22k'].forEach(function(id){
+   var e=$(id),k=e&&e.parentNode.querySelector('.k');
+   a.push(row(k?clean(k.textContent):id,txt(id)));
+  });
+  var b=[];
+  b.push(row('Fineness',withUnit(inp('differenceFineness'),'‰')));
+  b.push(row('Total Gold Alloy',withUnit(inp('differenceWeightInput'),' '+txt('differenceWeightUnitSuffix'))));
+  function u(id,unit){var t=txt(id);return t?t+' '+unit:'';}
+  b.push(row('Pure Gold',u('differencePureKg','kg'),{sub:u('differencePureG','g')}));
+  b.push(row('Impurities',u('differenceImpurityMg','mg'),{sub:[u('differenceImpurityG','g'),u('differenceImpurityUg','µg')].filter(Boolean).join(' · ')}));
+  b.push(row('Purity',txt('differencePurityPercent')));
+  b.push(row('Karat',txt('differenceKaratDisplay')));
+  b.push(row('Fineness',txt('differenceFinenessDisplay')));
+  var err=$('differenceError'),errT=err&&shown(err)?txt('differenceError'):'';
+  return '<h3>XRF Yield</h3>'+table(a)+'<h3>Alloy Composition</h3>'+table(b)+(errT?'<p class="note">'+esc(errT)+'</p>':'');
+ }
+ function order(){
+  var items=document.querySelectorAll('#basketList .basket-item');
+  if(!items.length)return '<p class="note">No items in the order.</p>';
+  var rows=[];
+  items.forEach(function(it){rows.push(row(clean((it.querySelector('.name')||{}).textContent),clean((it.querySelector('.price')||{}).textContent),{sub:clean((it.querySelector('.meta')||{}).textContent)}));});
+  rows.push(row('Total weight',txt('totWeight')));
+  rows.push(row('Metal Value',txt('totPure')));
+  rows.push(row('Overhead',txt('totOverhead'),{tag:txt('basketOverheadRef')}));
+  rows.push(row('Grand total',txt('totFinal'),{hl:true}));
+  return table(rows);
+ }
+ function stamp(){
+  var d;try{d=window.BullionClock&&window.BullionClock.now?window.BullionClock.now():new Date();}catch(e){d=new Date();}
+  try{return d.toLocaleString('en-IN',{timeZone:'Asia/Kolkata',weekday:'short',day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit'})+' IST';}catch(e){return d.toString();}
+ }
+ function build(){
+  var ts=stamp();
+  return '<header class="r-head"><div><div class="r-brand">Gold Calculator</div><h1 class="r-title">Full Calculator Report</h1></div>'
+   +'<div class="r-meta">'+esc(ts)+'<br>ISO A4 · 210 × 297 mm</div></header>'
+   +'<div class="r-hero"><div><span>XAU → IN₹ · 24K · per gram</span><b>'+esc(dash(txt('hero24k')))+'</b></div><div><span>22K · 916 · per gram</span><b>'+esc(dash(txt('hero22k')))+'</b></div></div>'
+   +'<div class="r-grid"><div class="r-col">'+sec('Market',market())+sec('Compare',compare())+sec('Order',order())+'</div><div class="r-col">'+sec('Calculate',calculate())+sec('Convert',convert())+'</div></div>'
+   +'<footer class="r-foot"><span>Gold Calculator · values exactly as shown in the calculator at print time. Confirm rates before transacting.</span><span>'+esc(ts)+'</span></footer>';
+ }
+ var mount=null,pageStyle=null,active=false,title=document.title;
+ function cleanup(e){
+  if(!active)return;
+  active=false;
+  document.body.classList.remove('a4-report-print');document.documentElement.classList.remove('a4-report-print');
+  if(mount){mount.remove();mount=null;}
+  if(pageStyle){pageStyle.remove();pageStyle=null;}
+  document.title=title;
+ }
+ function printA4(){
+  cleanup();
+  /* make sure the calculator itself is freshly rendered */
+  try{document.dispatchEvent(new Event('bullion:before-report'));}catch(e){}
+  title=document.title;
+  mount=document.createElement('div');mount.id='a4ReportMount';mount.setAttribute('aria-hidden','true');
+  mount.innerHTML=build();
+  document.body.appendChild(mount);
+  pageStyle=document.createElement('style');pageStyle.id='a4-report-page-size';
+  pageStyle.textContent='@page{size:A4 portrait;margin:11mm 11mm 10mm}';
+  document.head.appendChild(pageStyle);
+  document.body.classList.add('a4-report-print');document.documentElement.classList.add('a4-report-print');
+  document.title='Gold Calculator - Full Report - A4';
+  active=true;
+  window.print();
+ }
+ window.addEventListener('afterprint',function(){setTimeout(cleanup,60);});
+ window.addEventListener('pagehide',cleanup);
+ var IDS=['printBtn','marketPrintA6','calculatePrintA6','comparePrintA6','printPurityConverterA6','printPurityCalculatorA6','insightsPrintA6'];
+ /* capture phase: runs before each button's older A6 handler and replaces it */
+ window.addEventListener('click',function(e){
+  var b=e.target&&e.target.closest?e.target.closest('button'):null;
+  if(!b||IDS.indexOf(b.id)===-1)return;
+  e.preventDefault();e.stopImmediatePropagation();
+  var icon=b.querySelector('svg');
+  if(icon&&b.classList.contains('section-print-shuttle')){icon.classList.remove('print-shuttle-active');void icon.offsetWidth;icon.classList.add('print-shuttle-active');}
+  printA4();
+ },true);
+ function relabel(){
+  IDS.forEach(function(id){var b=$(id);if(!b)return;b.setAttribute('aria-label','Print full calculator report · A4');b.title='Print full calculator report · A4';});
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',relabel);else relabel();
+ window.__gcBuildA4Report=build;
+})();
+</script>
 </body>
 </html>
