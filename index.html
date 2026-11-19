@@ -5175,7 +5175,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
   <div class="compare-market-widget" aria-label="USD/JPY live forex quote"><tv-single-ticker symbol="OANDA:USDJPY" theme="dark" transparent></tv-single-ticker></div>
 </section></div>
 <div class="insights-unified-pane" id="insightsBondsPane" role="tabpanel" aria-labelledby="insightsModeBonds" aria-hidden="true" inert><section class="compare-market-widgets" aria-label="TradingView XAU/USD chart">
-  <div class="compare-market-widget insights-chart-widget" id="insightsXauChartCard" aria-label="Gold spot XAU/USD weekly chart"><tv-advanced-chart symbol="OANDA:XAUUSD" interval="1W" time-frame="ALL" hide-legend timezone="Asia/Kolkata" extended-hours hide-volume allow-symbol-change hide-snapshot-button theme="dark"></tv-advanced-chart></div>
+  <div class="compare-market-widget insights-chart-widget" id="insightsXauChartCard" aria-label="Gold spot XAU/USD weekly chart"><tv-advanced-chart symbol="OANDA:XAUUSD" interval="1W" time-frame="ALL" hide-legend timezone="Asia/Kolkata" extended-hours hide-volume allow-symbol-change hide-snapshot-button theme="dark" transparent></tv-advanced-chart></div>
 </section></div>
 <div class="insights-unified-pane" id="insightsCryptoPane" role="tabpanel" aria-labelledby="insightsModeCrypto" aria-hidden="true" inert><section class="compare-market-widgets" aria-label="TradingView cryptocurrency quotes">
   <div class="compare-market-widget" aria-label="Bitcoin USD live crypto quote"><tv-single-ticker symbol="CRYPTO:BTCUSD" theme="dark" transparent></tv-single-ticker></div>
@@ -10933,6 +10933,11 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
 @media(max-width:390px){#tab-insights #insightsXauChartCard.compare-market-widget{height:342px!important}#tab-insights #insightsXauChartCard tv-advanced-chart{height:360px!important}}
 @media(min-width:700px){#tab-insights #insightsXauChartCard.compare-market-widget{height:437px!important}#tab-insights #insightsXauChartCard tv-advanced-chart{height:460px!important}}
 #tab-insights #insightsXauChartCard{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+/* Translucent: the chart draws no background of its own; the card is see-through gold glass. */
+#tab-insights #insightsXauChartCard{--tv-widget-background-color:transparent;--tv-widget-popup-background-color:rgba(27,23,18,.72);--tv-color-platform-background:transparent;--tv-color-pane-background:transparent;
+ background:linear-gradient(125deg,rgba(77,67,52,.34),rgba(27,23,18,.46))!important;-webkit-backdrop-filter:blur(14px) saturate(1.15);backdrop-filter:blur(14px) saturate(1.15)}
+#tab-insights #insightsXauChartCard tv-advanced-chart{background:transparent!important}
+:root[data-theme="light"] #tab-insights #insightsXauChartCard,body.light #tab-insights #insightsXauChartCard{background:linear-gradient(125deg,rgba(255,250,240,.38),rgba(240,228,205,.48))!important}
 #tab-insights #insightsXauChartCard::after{z-index:3}
 </style>
 <script id="insights-bonds-xau-chart-loader-20261119">
