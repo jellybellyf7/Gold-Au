@@ -4727,20 +4727,6 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
 </div>
 <div class="input-wrap"><span class="prefix">₹</span><input autocomplete="off" id="usdinrInput" inputmode="decimal" placeholder="Awaiting FX rate" type="text"/><span class="prefix market-unit">/$</span></div>
 </div>
-<div class="field" id="dutyField">
-<div class="field-top">
-<label for="dutyInput"><svg aria-hidden="true" class="icon icon-sm" viewbox="0 0 28 28"><use href="#dropBase"></use><circle cx="10.5" cy="10.5" fill="none" opacity="0.85" r="1.9" stroke="var(--glyph)" stroke-width="1.5"></circle><circle cx="17.5" cy="17.5" fill="none" opacity="0.85" r="1.9" stroke="var(--glyph)" stroke-width="1.5"></circle><path d="M9.5 18.5 18.5 9.5" opacity="0.85" stroke="var(--glyph)" stroke-linecap="round" stroke-width="1.5"></path></svg>Import duty</label>
-<button aria-checked="true" aria-label="Include import duty" class="ios-toggle" id="dutyToggle" role="switch" type="button"><span class="knob"></span></button>
-</div>
-<div class="input-wrap"><input autocomplete="off" id="dutyInput" inputmode="decimal" type="text"/><span class="prefix">%</span></div>
-</div>
-<div class="field" id="gstField">
-<div class="field-top">
-<label for="gstInput"><svg aria-hidden="true" class="icon icon-sm" viewbox="0 0 28 28"><use href="#dropBase"></use><path d="M10 7.5h8v13.5l-2-1.3-2 1.3-2-1.3-2 1.3z" fill="none" opacity="0.85" stroke="var(--glyph)" stroke-linejoin="round" stroke-width="1.4"></path><path d="M12 11h4M12 14h4" opacity="0.85" stroke="var(--glyph)" stroke-linecap="round" stroke-width="1.3"></path></svg>GST</label>
-<button aria-checked="false" aria-label="Include GST" class="ios-toggle" id="gstToggle" role="switch" type="button"><span class="knob"></span></button>
-</div>
-<div class="input-wrap"><input autocomplete="off" id="gstInput" inputmode="decimal" type="text"/><span class="prefix">%</span></div>
-</div>
 <div class="field full market-pair-row" id="mcxFtRow">
 <div class="ft-making-split">
 <div class="field" id="mcxField">
@@ -4751,6 +4737,17 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
 <div class="input-wrap"><span class="prefix">₹</span><input aria-label="Enter MCX Gold Mini price per 10 grams" autocomplete="off" id="mcxInput" inputmode="decimal" placeholder="" type="text"/><span class="prefix market-unit">/10g</span></div>
 </div>
 </div>
+<div class="field" id="dutyField">
+<div class="field-top">
+<label for="dutyInput"><svg aria-hidden="true" class="icon icon-sm" viewbox="0 0 28 28"><use href="#dropBase"></use><circle cx="10.5" cy="10.5" fill="none" opacity="0.85" r="1.9" stroke="var(--glyph)" stroke-width="1.5"></circle><circle cx="17.5" cy="17.5" fill="none" opacity="0.85" r="1.9" stroke="var(--glyph)" stroke-width="1.5"></circle><path d="M9.5 18.5 18.5 9.5" opacity="0.85" stroke="var(--glyph)" stroke-linecap="round" stroke-width="1.5"></path></svg>Import duty</label>
+<button aria-checked="true" aria-label="Include import duty" class="ios-toggle" id="dutyToggle" role="switch" type="button"><span class="knob"></span></button>
+</div>
+<div class="input-wrap"><input autocomplete="off" id="dutyInput" inputmode="decimal" type="text"/><span class="prefix">%</span></div>
+</div>
+</div>
+</div>
+<div class="field full market-pair-row" id="ftGstRow">
+<div class="ft-making-split">
 <div class="field" id="ftbarField">
 <div class="field-top">
 <div class="ft-heading-group"><label for="ftbarInput"><svg aria-hidden="true" class="icon icon-sm" viewbox="0 0 28 28"><use href="#dropBase"></use><rect fill="none" height="8" opacity="0.85" rx="1.5" stroke="var(--glyph)" stroke-width="1.4" width="15" x="6.5" y="10"></rect><path d="M9 13h10M9 16h7" opacity="0.85" stroke="var(--glyph)" stroke-linecap="round" stroke-width="1.3"></path></svg><span class="ft-link-slot"><span class="rate-status" id="ftbarRateStatus">Unavailable</span><button aria-controls="ftSangamOverlay" aria-haspopup="dialog" aria-label="FT: show FT bullion live rates" class="mcx-marketwatch-link" id="ftSangamShortcut" title="View FT bullion reference rates" type="button">FT ↗</button></span><span class="ft-purity-text">24k/999‰</span></label></div>
@@ -4758,6 +4755,13 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
 <div class="mcx-manual-row">
 <div class="input-wrap"><span class="prefix">₹</span><input autocomplete="off" id="ftbarInput" inputmode="decimal" type="text"/><span class="prefix market-unit">/10g</span></div>
 </div>
+</div>
+<div class="field" id="gstField">
+<div class="field-top">
+<label for="gstInput"><svg aria-hidden="true" class="icon icon-sm" viewbox="0 0 28 28"><use href="#dropBase"></use><path d="M10 7.5h8v13.5l-2-1.3-2 1.3-2-1.3-2 1.3z" fill="none" opacity="0.85" stroke="var(--glyph)" stroke-linejoin="round" stroke-width="1.4"></path><path d="M12 11h4M12 14h4" opacity="0.85" stroke="var(--glyph)" stroke-linecap="round" stroke-width="1.3"></path></svg>GST</label>
+<button aria-checked="false" aria-label="Include GST" class="ios-toggle" id="gstToggle" role="switch" type="button"><span class="knob"></span></button>
+</div>
+<div class="input-wrap"><input autocomplete="off" id="gstInput" inputmode="decimal" type="text"/><span class="prefix">%</span></div>
 </div>
 </div>
 </div>
@@ -10906,6 +10910,16 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
  update();
 })();
 </script>
+<style id="market-column-order-20261119">
+/* Market rows: XAU|USD-INR, MCX|Import duty, FT|GST, Jewel|Making */
+#ftGstRow .ft-making-split{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:12px!important;align-items:stretch!important}
+#ftGstRow #ftbarField .ft-heading-group{gap:5px;min-width:0}
+#ftGstRow #ftbarField #ftSangamShortcut{white-space:nowrap}
+.market-pair-row #dutyField,.market-pair-row #gstField{border-top:0;padding-top:0}
+.market-pair-row #dutyField .input-wrap,.market-pair-row #gstField .input-wrap{height:46px;width:100%;min-width:0;margin-top:auto;padding:0 12px;border-radius:var(--radius-sm)}
+.market-pair-row #dutyField input,.market-pair-row #gstField input{font-size:15px}
+@media(max-width:360px){#ftGstRow #ftbarField .ft-heading-group{gap:3px}}
+</style>
 <style id="a4-section-report-css-20261119">
 #a4ReportMount{display:none}
 @media print{
