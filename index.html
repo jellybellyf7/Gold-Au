@@ -10920,15 +10920,42 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
 .market-pair-row #dutyField input,.market-pair-row #gstField input{font-size:15px}
 @media(max-width:360px){#ftGstRow #ftbarField .ft-heading-group{gap:3px}}
 </style>
+<style id="print-paper-picker-css-20261119">
+#printPaperPicker{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55);padding:0 12px calc(12px + env(safe-area-inset-bottom))}
+#printPaperPicker[hidden]{display:none!important}
+#printPaperPicker .ppp-card{width:min(100%,420px);background:#1d1914;border:1px solid rgba(214,170,92,.35);border-radius:20px;padding:18px 16px 14px;color:#f3e7d2;box-shadow:0 18px 50px rgba(0,0,0,.5);font-family:inherit}
+#printPaperPicker h3{margin:0 0 2px;font-size:17px;font-weight:800}
+#printPaperPicker .ppp-sub{margin:0 0 14px;font-size:12.5px;color:#bfae93}
+#printPaperPicker .ppp-label{font-size:11.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#d6aa5c;margin:0 0 8px}
+#printPaperPicker .ppp-sizes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:14px}
+#printPaperPicker .ppp-size{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px;min-height:104px;padding:10px 4px;border-radius:14px;border:1.5px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:inherit;font:inherit;cursor:pointer}
+#printPaperPicker .ppp-size[aria-checked="true"]{border-color:#d6aa5c;background:rgba(214,170,92,.16)}
+#printPaperPicker .ppp-page{display:block;border:1.5px solid currentColor;border-radius:2px;opacity:.85;background:rgba(255,255,255,.06)}
+#printPaperPicker .ppp-size b{font-size:15px}
+#printPaperPicker .ppp-size small{font-size:10.5px;color:#bfae93}
+#printPaperPicker .ppp-orient{display:flex;align-items:center;justify-content:space-between;font-size:13.5px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.04);margin-bottom:14px}
+#printPaperPicker .ppp-orient b{color:#d6aa5c}
+#printPaperPicker .ppp-actions{display:grid;grid-template-columns:1fr 1.4fr;gap:10px}
+#printPaperPicker .ppp-actions button{height:46px;border-radius:14px;font:inherit;font-size:15px;font-weight:800;cursor:pointer}
+#printPaperPicker .ppp-cancel{background:transparent;border:1.5px solid rgba(255,255,255,.18);color:#f3e7d2}
+#printPaperPicker .ppp-go{background:linear-gradient(180deg,#e2b766,#b8862f);border:0;color:#1d1408}
+</style>
 <style id="a4-section-report-css-20261119">
 #a4ReportMount{display:none}
 @media print{
  html.a4-report-print{background:#fff!important;background-color:#fff!important;color-scheme:light!important}
- body.a4-report-print{margin:0!important;padding:0!important;background:#fff!important;min-height:0!important}
+ html.a4-report-print,body.a4-report-print{margin:0!important;padding:0!important;width:auto!important;min-width:0!important;max-width:none!important;min-height:0!important;height:auto!important;overflow:visible!important;transform:none!important}
+ body.a4-report-print{background:#fff!important}
  body.a4-report-print > :not(#a4ReportMount){display:none!important}
  body.a4-report-print #a4ReportMount{display:block!important}
 }
 #a4ReportMount,#a4ReportMount *{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+#a4ReportMount{width:100%;margin:0;padding:0}
+/* One sheet. Designed at A4 (210 x 297 mm) and zoomed for A5 / A6; all three share the same proportions.
+   The margins live inside the sheet because Android's print view ignores @page margins. */
+#a4ReportMount .r-sheet{width:100%;aspect-ratio:210/296;display:flex;flex-direction:column;padding:13mm 14mm 11mm;overflow:visible}
+#a4ReportMount .r-body{flex:1 1 auto}
+#a4ReportMount .r-sheet>.r-foot{margin-top:auto}
 #a4ReportMount{color:#1b1712;background:#fff;font-family:'Inter','Noto Sans','Noto Sans Tamil',system-ui,-apple-system,sans-serif;font-size:10pt;line-height:1.35;font-variant-numeric:tabular-nums}
 #a4ReportMount .e{font-family:'Noto Color Emoji','Apple Color Emoji','Segoe UI Emoji',sans-serif;font-style:normal;display:inline-block;width:1.45em;text-align:center;margin-right:.35em;font-size:1.08em;line-height:1}
 #a4ReportMount .r-head{display:flex;justify-content:space-between;align-items:flex-end;gap:6mm;padding-bottom:3mm;border-bottom:.7mm solid #bd872f;margin-bottom:4mm}
@@ -10956,7 +10983,7 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
 #a4ReportMount tr.hl td.v{color:#9c691d;font-weight:800}
 #a4ReportMount .up{color:#0b7d68!important}#a4ReportMount .down{color:#c62f3b!important}
 #a4ReportMount .note{font-size:8.4pt;color:#6f6152;margin:2mm 0 0;line-height:1.5}
-#a4ReportMount .r-foot{margin-top:4mm;padding-top:2.2mm;border-top:.25mm solid #e2d8c8;font-size:7.8pt;color:#7a6b59;display:flex;justify-content:space-between;gap:4mm}
+#a4ReportMount .r-foot{margin-top:4mm;flex:none;padding-top:2.2mm;border-top:.25mm solid #e2d8c8;font-size:7.8pt;color:#7a6b59;display:flex;justify-content:space-between;gap:4mm}
 #a4ReportMount .r-foot span:last-child{white-space:nowrap}
 </style>
 <script id="a4-section-report-20261119">
@@ -11106,12 +11133,14 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
       row('💰','Grand total',txt('totFinal'),{hl:true})]));
   }}
  };
+ var PAPERS={A4:{mm:'210 × 297 mm',page:'210mm 297mm',zoom:1},A5:{mm:'148 × 210 mm',page:'148mm 210mm',zoom:(148/210).toFixed(4)},A6:{mm:'105 × 148 mm',page:'105mm 148mm',zoom:(105/210).toFixed(4)}};
+ var paper='A4';
  function build(key){
-  var s=SECTIONS[key],ts=stamp();
-  return '<header class="r-head"><div><div class="r-brand">'+em('🪙')+'Gold Calculator</div><h1 class="r-title">'+em(s.icon)+esc(s.title)+'</h1></div>'
-   +'<div class="r-meta">'+em('🕒')+esc(ts)+'<br>'+em('📄')+'ISO A4 · 210 × 297 mm</div></header>'
-   +s.build()
-   +'<footer class="r-foot"><span>'+esc('Gold Calculator · '+s.title+' · as shown in the calculator; confirm rates before transacting.')+'</span><span>'+esc(ts)+'</span></footer>';
+  var s=SECTIONS[key],ts=stamp(),pp=PAPERS[paper]||PAPERS.A4;
+  return '<div class="r-sheet" style="zoom:'+pp.zoom+'"><header class="r-head"><div><div class="r-brand">'+em('🪙')+'Gold Calculator</div><h1 class="r-title">'+em(s.icon)+esc(s.title)+'</h1></div>'
+   +'<div class="r-meta">'+em('🕒')+esc(ts)+'<br>'+em('📄')+'ISO '+paper+' · '+pp.mm+' · Portrait</div></header>'
+   +'<main class="r-body">'+s.build()+'</main>'
+   +'<footer class="r-foot"><span>'+esc('Gold Calculator · '+s.title+' · as shown in the calculator; confirm rates before transacting.')+'</span><span>'+esc(ts)+'</span></footer></div>';
  }
  var mount=null,pageStyle=null,active=false,title=document.title;
  function cleanup(){
@@ -11120,19 +11149,22 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
   document.body.classList.remove('a4-report-print');document.documentElement.classList.remove('a4-report-print');
   if(mount){mount.remove();mount=null;}
   if(pageStyle){pageStyle.remove();pageStyle=null;}
+  try{delete window.__gcPaperSize;}catch(e){window.__gcPaperSize=undefined;}
   document.title=title;
  }
- function printSection(key){
+ function printSection(key,size){
   cleanup();
+  paper=PAPERS[size]?size:'A4';
   title=document.title;
   mount=document.createElement('div');mount.id='a4ReportMount';mount.setAttribute('aria-hidden','true');
   mount.innerHTML=build(key);
   document.body.appendChild(mount);
   pageStyle=document.createElement('style');pageStyle.id='a4-report-page-size';
-  pageStyle.textContent='@page{size:A4 portrait;margin:12mm 13mm 11mm}';
+  pageStyle.textContent='@page{size:'+PAPERS[paper].page+';margin:0}';
   document.head.appendChild(pageStyle);
   document.body.classList.add('a4-report-print');document.documentElement.classList.add('a4-report-print');
-  document.title='Gold Calculator - '+SECTIONS[key].title+' - A4';
+  document.title='Gold Calculator - '+SECTIONS[key].title+' - '+paper;
+  window.__gcPaperSize=paper;
   active=true;
   window.print();
  }
@@ -11146,13 +11178,44 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
   e.preventDefault();e.stopImmediatePropagation();
   var icon=b.querySelector('svg');
   if(icon&&b.classList.contains('section-print-shuttle')){icon.classList.remove('print-shuttle-active');void icon.offsetWidth;icon.classList.add('print-shuttle-active');}
-  printSection(BUTTONS[b.id]);
+  openPicker(BUTTONS[b.id]);
  },true);
+ var KEY='gcPrintPaperSize',picker=null,pickKey=null;
+ function saved(){try{var v=localStorage.getItem(KEY);return PAPERS[v]?v:'A4';}catch(e){return 'A4';}}
+ function choose(v){picker.querySelectorAll('.ppp-size').forEach(function(x){x.setAttribute('aria-checked',x.dataset.size===v?'true':'false');});}
+ function closePicker(){if(picker)picker.hidden=true;}
+ function ensurePicker(){
+  if(picker)return picker;
+  picker=document.createElement('div');picker.id='printPaperPicker';picker.hidden=true;
+  picker.setAttribute('role','dialog');picker.setAttribute('aria-modal','true');picker.setAttribute('aria-labelledby','pppTitle');
+  var sizes=[['A4',30,42],['A5',24,34],['A6',18,26]].map(function(z){return '<button type="button" class="ppp-size" role="radio" data-size="'+z[0]+'" aria-checked="false"><i class="ppp-page" style="width:'+z[1]+'px;height:'+z[2]+'px"></i><b>'+z[0]+'</b><small>'+PAPERS[z[0]].mm.replace(' mm','')+'</small></button>';}).join('');
+  picker.innerHTML='<div class="ppp-card"><h3 id="pppTitle">Print</h3><p class="ppp-sub" id="pppSub"></p><p class="ppp-label">Sheet size</p><div class="ppp-sizes" role="radiogroup" aria-label="Sheet size">'+sizes+'</div><div class="ppp-orient"><span>Orientation</span><b>Portrait</b></div><div class="ppp-actions"><button type="button" class="ppp-cancel">Cancel</button><button type="button" class="ppp-go" id="pppGo">Print</button></div></div>';
+  document.body.appendChild(picker);
+  picker.addEventListener('click',function(e){
+   var sz=e.target.closest('.ppp-size');if(sz){choose(sz.dataset.size);return;}
+   if(e.target.closest('.ppp-cancel')||e.target===picker){closePicker();return;}
+   if(e.target.closest('.ppp-go')){
+    var c=picker.querySelector('.ppp-size[aria-checked="true"]'),v=c?c.dataset.size:'A4';
+    try{localStorage.setItem(KEY,v);}catch(_){}
+    closePicker();var k=pickKey;setTimeout(function(){printSection(k,v);},30);
+   }
+  });
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&picker&&!picker.hidden)closePicker();});
+  return picker;
+ }
+ function openPicker(key){
+  ensurePicker();pickKey=key;
+  picker.querySelector('#pppTitle').textContent='Print '+SECTIONS[key].title;
+  picker.querySelector('#pppSub').textContent='Choose the sheet size. The report keeps margins, a header and a footer.';
+  choose(saved());picker.hidden=false;
+  try{picker.querySelector('#pppGo').focus();}catch(e){}
+ }
  function relabel(){
-  Object.keys(BUTTONS).forEach(function(id){var b=$(id);if(!b)return;var t='Print '+SECTIONS[BUTTONS[id]].title+' · A4';b.setAttribute('aria-label',t);b.title=t;});
+  Object.keys(BUTTONS).forEach(function(id){var b=$(id);if(!b)return;var t='Print '+SECTIONS[BUTTONS[id]].title+' · A4 / A5 / A6';b.setAttribute('aria-label',t);b.title=t;});
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',relabel);else relabel();
  window.__gcBuildSectionReport=build;
+ window.__gcPrintSection=printSection;
 })();
 </script>
 </body>
