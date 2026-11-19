@@ -5180,6 +5180,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
   <div class="compare-market-widget" aria-label="Australia 10-year government bond yield"><tv-single-ticker symbol="OTCB:AU10Y" theme="dark" transparent></tv-single-ticker></div>
   <div class="compare-market-widget" aria-label="United Kingdom 10-year government bond yield"><tv-single-ticker symbol="OTCB:GB10Y" theme="dark" transparent></tv-single-ticker></div>
   <div class="compare-market-widget" aria-label="India 10-year government bond yield"><tv-single-ticker symbol="OTCB:IN10Y" theme="dark" transparent></tv-single-ticker></div>
+  <div class="compare-market-widget insights-chart-widget" id="insightsXauChartCard" aria-label="Gold spot XAU/USD weekly chart"><tv-advanced-chart symbol="OANDA:XAUUSD" interval="1W" time-frame="ALL" hide-legend timezone="Asia/Kolkata" extended-hours hide-volume allow-symbol-change hide-snapshot-button theme="dark"></tv-advanced-chart></div>
 </section></div>
 <div class="insights-unified-pane" id="insightsCryptoPane" role="tabpanel" aria-labelledby="insightsModeCrypto" aria-hidden="true" inert><section class="compare-market-widgets" aria-label="TradingView cryptocurrency quotes">
   <div class="compare-market-widget" aria-label="Bitcoin USD live crypto quote"><tv-single-ticker symbol="CRYPTO:BTCUSD" theme="dark" transparent></tv-single-ticker></div>
@@ -10928,6 +10929,43 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
 .market-pair-row #dutyField input,.market-pair-row #gstField input{font-size:15px}
 @media(max-width:360px){#ftGstRow #ftbarField .ft-heading-group{gap:3px}}
 </style>
+<style id="insights-bonds-xau-chart-20261119">
+/* Bonds: XAU/USD weekly chart, same gold glass card as the quote widgets, taller and interactive. */
+#tab-insights #insightsXauChartCard.compare-market-widget{height:400px!important;min-height:400px!important;border-radius:24px}
+#tab-insights #insightsXauChartCard tv-advanced-chart{display:block!important;width:100%!important;height:100%!important;min-height:0!important;transform:none!important;pointer-events:auto!important;border-radius:inherit;overflow:hidden;--tv-color-platform-background:transparent}
+@media(max-width:390px){#tab-insights #insightsXauChartCard.compare-market-widget{height:360px!important;min-height:360px!important}}
+@media(min-width:700px){#tab-insights #insightsXauChartCard.compare-market-widget{height:460px!important;min-height:460px!important}}
+#tab-insights #insightsXauChartCard::after{z-index:3}
+</style>
+<script id="insights-bonds-xau-chart-loader-20261119">
+/* Load TradingView's advanced chart script only when the Bonds category is first opened. */
+(function(){
+ 'use strict';
+ var tab=document.getElementById('insightsModeBonds'), card=document.getElementById('insightsXauChartCard');
+ if(!tab||!card) return;
+ var SRC='https://widgets.tradingview-widget.com/w/en/tv-advanced-chart.js', loaded=false;
+ function load(){
+  if(loaded) return; loaded=true;
+  var fb=card.querySelector('.insights-chart-fallback'); if(fb) fb.remove();
+  if(window.customElements&&customElements.get('tv-advanced-chart')) return;
+  if(document.querySelector('script[data-tv-advanced-chart]')) return;
+  var sc=document.createElement('script'); sc.type='module'; sc.src=SRC; sc.dataset.tvAdvancedChart='true';
+  sc.addEventListener('error',function(){
+   sc.remove(); loaded=false;
+   if(!card.querySelector('.insights-chart-fallback')){
+    var m=document.createElement('div'); m.className='usdinr-quote-loading insights-chart-fallback';
+    m.style.cssText='position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:16px;z-index:1';
+    m.textContent='Chart unavailable. Check the connection and open Bonds again.'; card.appendChild(m);
+   }
+  });
+  document.head.appendChild(sc);
+ }
+ function check(){ if(tab.getAttribute('aria-selected')==='true') load(); }
+ try{ new MutationObserver(check).observe(tab,{attributes:true,attributeFilter:['aria-selected']}); }catch(e){ load(); }
+ tab.addEventListener('click',function(){ setTimeout(check,0); });
+ check();
+})();
+</script>
 <style id="hero-includes-note-20261119">
 /* Sits in the hero card's existing bottom padding: absolutely placed, so the card keeps its size. */
 .card.hero .hero-includes-note{position:absolute;left:24px;right:20px;bottom:4px;margin:0;font-size:10px;line-height:14px;font-weight:500;letter-spacing:.2px;color:var(--text-3,var(--muted,#a8987f));opacity:.6;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
