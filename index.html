@@ -5174,12 +5174,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
   <div class="compare-market-widget" aria-label="GBP/USD live forex quote"><tv-single-ticker symbol="OANDA:GBPUSD" theme="dark" transparent></tv-single-ticker></div>
   <div class="compare-market-widget" aria-label="USD/JPY live forex quote"><tv-single-ticker symbol="OANDA:USDJPY" theme="dark" transparent></tv-single-ticker></div>
 </section></div>
-<div class="insights-unified-pane" id="insightsBondsPane" role="tabpanel" aria-labelledby="insightsModeBonds" aria-hidden="true" inert><section class="compare-market-widgets" aria-label="TradingView 10-year government bond yield quotes">
-  <div class="compare-market-widget" aria-label="US 10-year government bond yield"><tv-single-ticker symbol="PYTH:US10Y" theme="dark" transparent></tv-single-ticker></div>
-  <div class="compare-market-widget" aria-label="Japan 10-year government bond yield"><tv-single-ticker symbol="OTCB:JP10Y" theme="dark" transparent></tv-single-ticker></div>
-  <div class="compare-market-widget" aria-label="Australia 10-year government bond yield"><tv-single-ticker symbol="OTCB:AU10Y" theme="dark" transparent></tv-single-ticker></div>
-  <div class="compare-market-widget" aria-label="United Kingdom 10-year government bond yield"><tv-single-ticker symbol="OTCB:GB10Y" theme="dark" transparent></tv-single-ticker></div>
-  <div class="compare-market-widget" aria-label="India 10-year government bond yield"><tv-single-ticker symbol="OTCB:IN10Y" theme="dark" transparent></tv-single-ticker></div>
+<div class="insights-unified-pane" id="insightsBondsPane" role="tabpanel" aria-labelledby="insightsModeBonds" aria-hidden="true" inert><section class="compare-market-widgets" aria-label="TradingView XAU/USD chart">
   <div class="compare-market-widget insights-chart-widget" id="insightsXauChartCard" aria-label="Gold spot XAU/USD weekly chart"><tv-advanced-chart symbol="OANDA:XAUUSD" interval="1W" time-frame="ALL" hide-legend timezone="Asia/Kolkata" extended-hours hide-volume allow-symbol-change hide-snapshot-button theme="dark"></tv-advanced-chart></div>
 </section></div>
 <div class="insights-unified-pane" id="insightsCryptoPane" role="tabpanel" aria-labelledby="insightsModeCrypto" aria-hidden="true" inert><section class="compare-market-widgets" aria-label="TradingView cryptocurrency quotes">
@@ -10930,11 +10925,14 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
 @media(max-width:360px){#ftGstRow #ftbarField .ft-heading-group{gap:3px}}
 </style>
 <style id="insights-bonds-xau-chart-20261119">
-/* Bonds: XAU/USD weekly chart, same gold glass card as the quote widgets, taller and interactive. */
-#tab-insights #insightsXauChartCard.compare-market-widget{height:400px!important;min-height:400px!important;border-radius:24px}
-#tab-insights #insightsXauChartCard tv-advanced-chart{display:block!important;width:100%!important;height:100%!important;min-height:0!important;transform:none!important;pointer-events:auto!important;border-radius:inherit;overflow:hidden;--tv-color-platform-background:transparent}
-@media(max-width:390px){#tab-insights #insightsXauChartCard.compare-market-widget{height:360px!important;min-height:360px!important}}
-@media(min-width:700px){#tab-insights #insightsXauChartCard.compare-market-widget{height:460px!important;min-height:460px!important}}
+/* Bonds: XAU/USD weekly chart only, in the same gold glass card style as the Insights quote widgets. */
+/* Card is 5% shorter than the chart: the chart keeps its full height and only its bottom 5% is clipped.
+   Touch is blocked so taps cannot open TradingView links. */
+#tab-insights #insightsXauChartCard.compare-market-widget{height:380px!important;min-height:0!important;border-radius:24px;overflow:hidden!important}
+#tab-insights #insightsXauChartCard tv-advanced-chart{display:block!important;width:100%!important;height:400px!important;min-height:0!important;transform:none!important;pointer-events:none!important;border-radius:inherit;overflow:hidden;--tv-color-platform-background:transparent}
+@media(max-width:390px){#tab-insights #insightsXauChartCard.compare-market-widget{height:342px!important}#tab-insights #insightsXauChartCard tv-advanced-chart{height:360px!important}}
+@media(min-width:700px){#tab-insights #insightsXauChartCard.compare-market-widget{height:437px!important}#tab-insights #insightsXauChartCard tv-advanced-chart{height:460px!important}}
+#tab-insights #insightsXauChartCard{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 #tab-insights #insightsXauChartCard::after{z-index:3}
 </style>
 <script id="insights-bonds-xau-chart-loader-20261119">
