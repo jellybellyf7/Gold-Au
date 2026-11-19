@@ -4614,8 +4614,6 @@ body.light #tab-insights .insights-section-header>.insights-double-actions>butto
 #jewelField #readyMadeTrigger{width:auto;min-height:0;margin:0;padding:2px 0;border:0;border-radius:0;background:transparent;box-shadow:none;color:var(--gold-700);font-size:inherit;font-weight:800;line-height:1.2;white-space:nowrap;opacity:1;text-decoration:none}
 #jewelField #readyMadeTrigger:hover{background:transparent;text-decoration:underline}
 #jewelField #readyMadeTrigger:active{transform:none;opacity:.75}
-.rates-actions #jewelUpdatedNote{margin-top:-8px}
-#jewelUpdatedNote[hidden]{display:none!important}
 @media(max-width:360px){.market-pair-row .field-top label{font-size:11px!important;gap:4px!important}.market-pair-row .mcx-manual-row .input-wrap{padding-inline:8px}}
 @media(max-width:340px){.market-pair-row .field-top label{font-size:10px!important;gap:3px!important}.market-pair-row .field-top label svg{width:16px;height:16px}}
 </style>
@@ -4794,7 +4792,6 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
 <div class="market-action"><span class="market-action-label">Reset</span><button aria-label="Clear market quotes and reset options" class="reset-toggle" id="resetRatesBtn" type="button"><span class="reset-knob"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 28 28"><path d="M9.3 9.8A6.3 6.3 0 1 1 8.3 16"></path><path d="M9.3 6.2v4.2h4.2"></path></svg></span></button></div>
 </div>
 <span class="updated-note" id="updatedNote">Updated —</span>
-<span class="updated-note" id="jewelUpdatedNote" hidden></span>
 </div>
 </div>
 </section>
@@ -10830,24 +10827,16 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
 })();
 </script>
 <script id="jewel-rate-field-20261118">
-/* Jewel 22K/916 rate (₹ per gram).
-   Rates ON  -> read-only, filled automatically with the Tamil Nadu (Chennai) 22K jewellery rate
-               from the app's own /api/jewel22k service (public rate pages, fetched server-side).
-   Rates OFF -> manual entry, kept on this device.
-   Reset clears both; Live Sync refreshes it. */
+/* Jewel 22K/916 rate (₹ per gram) — manual entry only, kept on this device.
+   Rates ON -> shows the saved value read-only; Rates OFF -> editable. Reset clears it. */
 (function(){
  'use strict';
- var KEY_MANUAL='bullionSpotJewel22kRate', KEY_AUTO='bullionSpotJewel22kAuto';
+ var KEY_MANUAL='bullionSpotJewel22kRate';
  var el=document.getElementById('jewelInput'), toggle=document.getElementById('marketRatesToggle');
- var note=document.getElementById('jewelUpdatedNote');
  if(!el||!toggle) return;
- var host=location.hostname||'';
- var API=/\.vercel\.app$/i.test(host)?'/api/jewel22k':'https://goldau.vercel.app/api/jewel22k';
- var FRESH_MS=10*60*1000, busy=false, lastStatus='';
-
+ try{ localStorage.removeItem('bullionSpotJewel22kAuto'); }catch(e){}
  function get(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
  function put(k,v){ try{ if(v==null||v==='') localStorage.removeItem(k); else localStorage.setItem(k,v); }catch(e){} }
- function readAuto(){ try{ var o=JSON.parse(get(KEY_AUTO)||'null'); return o&&o.rate>0?o:null; }catch(e){ return null; } }
  function fmt(v){
   var clean=String(v==null?'':v).replace(/[^0-9.]/g,''), dot=clean.indexOf('.');
   if(dot!==-1) clean=clean.slice(0,dot+1)+clean.slice(dot+1).replace(/\./g,'').slice(0,2);
@@ -10856,57 +10845,15 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
   return integer+(parts.length>1?'.'+parts[1]:'');
  }
  function ratesOn(){ return toggle.getAttribute('aria-checked')==='true'; }
- function clock(iso){ try{ return new Date(iso).toLocaleTimeString('en-IN',{hour:'numeric',minute:'2-digit'}); }catch(e){ return ''; } }
- function setNote(text){ if(!note) return; note.textContent=text||''; note.hidden=!text; }
-
  function apply(){
-  var on=ratesOn(), auto=readAuto();
+  var on=ratesOn();
   el.readOnly=on;
   el.setAttribute('aria-readonly',on?'true':'false');
   el.parentNode.classList.toggle('market-rate-locked',on);
-  if(on){
-   el.value=auto?fmt(auto.rate):'';
-   el.placeholder=busy?'Fetching…':(auto?'':'Unavailable');
-   el.title='Rates ON — Tamil Nadu 22K rate is filled automatically. Switch Rates OFF to type your own.';
-   if(busy) setNote('Jewel 22K Fetching');
-   else if(auto) setNote('Jewel 22K '+(lastStatus==='failed'?'Cached':'Auto')+' · '+auto.source+' · '+clock(auto.at));
-   else setNote(lastStatus==='failed'?'Jewel 22K Unavailable':'');
-  }else{
-   if(document.activeElement!==el){
-    var manual=get(KEY_MANUAL);
-    el.value=manual?fmt(manual):(auto?fmt(auto.rate):'');
-   }
-   el.placeholder='';
-   el.title='Rates OFF — enter the Jewel 22K rate (₹/g) manually';
-   setNote('');
-  }
+  if(document.activeElement!==el){ var m=get(KEY_MANUAL); el.value=m?fmt(m):''; }
+  el.placeholder='';
+  el.title=on?'Rates ON — switch Rates OFF to enter the Jewel 22K rate':'Enter the Jewel 22K rate (₹/g)';
  }
-
- function plausible(rate){
-  if(!(rate>=3000&&rate<=60000)) return false;
-  var h=document.getElementById('hero22k'), ref=h?Number(String(h.textContent).replace(/[^0-9.]/g,'')):0;
-  if(ref>1000&&(rate<ref*0.7||rate>ref*1.4)) return false;
-  return true;
- }
-
- function fetchAuto(force){
-  if(!ratesOn()||busy) return;
-  var auto=readAuto();
-  if(!force&&auto&&Date.now()-new Date(auto.at).getTime()<FRESH_MS){ apply(); return; }
-  busy=true; apply();
-  var ctrl=('AbortController' in window)?new AbortController():null;
-  var timer=setTimeout(function(){ if(ctrl) ctrl.abort(); },15000);
-  fetch(API+(force?'?t='+Date.now():''),{cache:force?'no-store':'default',signal:ctrl?ctrl.signal:undefined})
-   .then(function(r){ return r.json(); })
-   .then(function(d){
-    if(!d||!d.ok||!plausible(Number(d.rate))) throw new Error('no rate');
-    put(KEY_AUTO,JSON.stringify({rate:Number(d.rate),source:d.source||'Tamil Nadu',asOf:d.asOf||null,at:new Date().toISOString()}));
-    lastStatus='ok';
-   })
-   .catch(function(){ lastStatus='failed'; })
-   .then(function(){ clearTimeout(timer); busy=false; apply(); });
- }
-
  el.addEventListener('input',function(e){
   if(el.readOnly||e.isComposing) return;
   var before=el.value.slice(0,el.selectionStart==null?el.value.length:el.selectionStart).replace(/[^0-9.]/g,'').length;
@@ -10919,17 +10866,11 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
   put(KEY_MANUAL,el.value.trim());
  });
  el.addEventListener('blur',function(){ if(el.readOnly) return; el.value=fmt(el.value).replace(/\.$/,''); put(KEY_MANUAL,el.value.trim()); });
-
- try{ new MutationObserver(function(){ apply(); if(ratesOn()) fetchAuto(false); }).observe(toggle,{attributes:true,attributeFilter:['aria-checked']}); }catch(e){}
- var sync=document.getElementById('forceSyncBtn'); if(sync) sync.addEventListener('click',function(){ fetchAuto(true); });
+ try{ new MutationObserver(apply).observe(toggle,{attributes:true,attributeFilter:['aria-checked']}); }catch(e){}
  var reset=document.getElementById('resetRatesBtn');
- if(reset) reset.addEventListener('click',function(){ put(KEY_MANUAL,''); put(KEY_AUTO,''); lastStatus=''; setTimeout(function(){ apply(); fetchAuto(true); },60); });
- setInterval(function(){ if(!document.hidden) fetchAuto(false); },FRESH_MS);
- document.addEventListener('visibilitychange',function(){ if(!document.hidden) fetchAuto(false); });
-
+ if(reset) reset.addEventListener('click',function(){ put(KEY_MANUAL,''); setTimeout(apply,60); });
  apply();
- // Let the app finish restoring the Rates switch before the first fetch.
- setTimeout(function(){ apply(); fetchAuto(false); },400);
+ setTimeout(apply,400);
 })();
 </script>
 <script id="jewel-vs-spot-strip-20261118">
@@ -11055,7 +10996,7 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
  }
  var SECTIONS={
   market:{icon:'📊',title:'Market Report',build:function(){
-   var notes=[];['updatedNote','jewelUpdatedNote'].forEach(function(id){var e=$(id);if(!e||!shown(e))return;String(e.textContent||'').split(/\n+/).forEach(function(l){l=clean(l);if(l)notes.push(l);});});
+   var notes=[];['updatedNote'].forEach(function(id){var e=$(id);if(!e||!shown(e))return;String(e.textContent||'').split(/\n+/).forEach(function(l){l=clean(l);if(l)notes.push(l);});});
    return hero([['🥇','XAU → IN₹ · 24K · per gram',txt('hero24k')],['💍','22K · 916 · per gram',txt('hero22k')]])
     +sec('🌐','Global & currency rates',table([
       row('🌍','XAU → U$D',withUnit(inp('spotInput'),' $/oz t'),statusTag(txt('spotRateStatus'))),
