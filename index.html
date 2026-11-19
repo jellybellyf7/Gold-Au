@@ -4732,7 +4732,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
 <div class="ft-making-split">
 <div class="field" id="mcxField">
 <div class="field-top">
-<label for="mcxInput"><svg aria-hidden="true" class="icon icon-sm" viewbox="0 0 28 28"><use href="#dropBase"></use><path d="M7.5 20.5h13" opacity="0.85" stroke="var(--glyph)" stroke-linecap="round" stroke-width="1.5"></path><path d="M14 6.5 21 11.5H7z" fill="none" opacity="0.85" stroke="var(--glyph)" stroke-linejoin="round" stroke-width="1.4"></path><path d="M9.5 11.5v7M14 11.5v7M18.5 11.5v7" opacity="0.85" stroke="var(--glyph)" stroke-width="1.4"></path></svg><span class="mcx-link-slot"><button aria-controls="mcxDhanOverlay" aria-haspopup="dialog" aria-label="MCX: show MCX reference links in a floating panel" class="mcx-marketwatch-link" id="mcxWatchlistLink" title="Open MCX market references" type="button">MCX ↗</button></span><span id="mcxLabelText">Gold Mini</span></label>
+<label for="mcxInput"><svg aria-hidden="true" class="icon icon-sm" viewbox="0 0 28 28"><use href="#dropBase"></use><path d="M7.5 20.5h13" opacity="0.85" stroke="var(--glyph)" stroke-linecap="round" stroke-width="1.5"></path><path d="M14 6.5 21 11.5H7z" fill="none" opacity="0.85" stroke="var(--glyph)" stroke-linejoin="round" stroke-width="1.4"></path><path d="M9.5 11.5v7M14 11.5v7M18.5 11.5v7" opacity="0.85" stroke="var(--glyph)" stroke-width="1.4"></path></svg><span class="mcx-link-slot"><button aria-controls="mcxDhanOverlay" aria-haspopup="dialog" aria-label="MCX: show MCX reference links in a floating panel" class="mcx-marketwatch-link" id="mcxWatchlistLink" title="Open MCX market references" type="button">MCX ↗</button></span><span id="mcxLabelText">Gold / Mini</span></label>
 </div>
 <div class="mcx-manual-row">
 <div class="input-wrap"><span class="prefix">₹</span><input aria-label="Enter MCX Gold Mini price per 10 grams" autocomplete="off" id="mcxInput" inputmode="decimal" placeholder="" type="text"/><span class="prefix market-unit">/10g</span></div>
@@ -11059,7 +11059,7 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
       row('🧾','GST',withUnit(inp('gstInput'),'%'),{tag:on('gstToggle')?'ON':'OFF',tagCls:on('gstToggle')?'up':''}),
       row('🔨','Making',withUnit(inp('makingInput'),'%'),{tag:on('makingToggle')?'ON':'OFF',tagCls:on('makingToggle')?'up':''})]))
     +sec('🏦','Indian benchmark rates',table([
-      row('🏛️','MCX Gold Mini',inp('mcxInput')?'₹'+inp('mcxInput')+' /10g':''),
+      row('🏛️','MCX Gold / Mini',inp('mcxInput')?'₹'+inp('mcxInput')+' /10g':''),
       row('🧈','FT 24k/999‰',inp('ftbarInput')?'₹'+inp('ftbarInput')+' /10g':''),
       row('💍','Jewel 22k/916‰',inp('jewelInput')?'₹'+inp('jewelInput')+' /g':'')]))
     +sec('🔄','Rate source',table([row(on('marketRatesToggle')?'🟢':'✍️','Rates',on('marketRatesToggle')?'ON · automatic':'OFF · manual')])+(notes.length?'<p class="note">'+notes.map(function(n){return em('🕒')+esc(n);}).join('<br>')+'</p>':''));
