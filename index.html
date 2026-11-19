@@ -4700,6 +4700,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
 <div class="hero-stat"><div class="k">XAU → IN₹ · 24K</div><div class="v" id="hero24k">—</div></div>
 <div class="hero-stat"><div class="k ready-made-heading"><span>22K · 916</span></div><div class="v" id="hero22k">—</div></div>
 </div>
+<p class="hero-includes-note" id="heroIncludesNote" aria-live="polite" hidden></p>
 </section>
 <section aria-label="Market rate inputs" class="card">
 <div class="section-head-static section-three-header" data-section="market">
@@ -6413,10 +6414,10 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
   }
 
   function heroIncludesLabel(){
-    if(state.dutyEnabled && state.gstEnabled) return 'duty & GST included';
-    if(state.dutyEnabled) return 'duty included';
-    if(state.gstEnabled) return 'GST included';
-    return 'before duty & GST';
+    if(state.dutyEnabled && state.gstEnabled) return 'Includes import duty & GST';
+    if(state.dutyEnabled) return 'Includes import duty';
+    if(state.gstEnabled) return 'Includes GST';
+    return '';
   }
   function renderHero(){
     // Market headline rates: spot + import duty (when ON) + GST (when ON). Making stays in Calculate.
@@ -6425,6 +6426,8 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     var gstFactor = state.gstEnabled ? 1 + (Number(state.gst)||0)/100 : 1;
     $('hero24k').textContent = haveRequiredRates() ? fmtINR(r24.afterDuty * gstFactor, 0) : '—';
     $('hero22k').textContent = haveRequiredRates() ? fmtINR(r22.afterDuty * gstFactor, 0) : '—';
+    var inc = $('heroIncludesNote');
+    if(inc){ var t = heroIncludesLabel(); inc.textContent = t; inc.hidden = !t; }
   }
 
   function renderQuickGrid(){
@@ -10920,6 +10923,11 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
 .market-pair-row #dutyField .input-wrap,.market-pair-row #gstField .input-wrap{height:46px;width:100%;min-width:0;margin-top:auto;padding:0 12px;border-radius:var(--radius-sm)}
 .market-pair-row #dutyField input,.market-pair-row #gstField input{font-size:15px}
 @media(max-width:360px){#ftGstRow #ftbarField .ft-heading-group{gap:3px}}
+</style>
+<style id="hero-includes-note-20261119">
+/* Sits in the hero card's existing bottom padding: absolutely placed, so the card keeps its size. */
+.card.hero .hero-includes-note{position:absolute;left:20px;right:20px;bottom:4px;margin:0;font-size:11px;line-height:14px;font-weight:600;letter-spacing:.2px;color:var(--text-3,var(--muted,#a8987f));text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
+.card.hero .hero-includes-note[hidden]{display:none!important}
 </style>
 <style id="print-paper-picker-css-20261119">
 #printPaperPicker{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.55);padding:0 12px calc(12px + env(safe-area-inset-bottom))}
