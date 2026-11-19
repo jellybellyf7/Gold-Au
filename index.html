@@ -6417,7 +6417,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     if(state.dutyEnabled && state.gstEnabled) return 'Includes import duty & GST';
     if(state.dutyEnabled) return 'Includes import duty';
     if(state.gstEnabled) return 'Includes GST';
-    return '';
+    return 'Excludes import duty';
   }
   function renderHero(){
     // Market headline rates: spot + import duty (when ON) + GST (when ON). Making stays in Calculate.
