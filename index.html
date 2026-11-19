@@ -6419,11 +6419,12 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     return 'before duty & GST';
   }
   function renderHero(){
-    // Market headline rates include import duty only; GST and making are for calculations.
+    // Market headline rates: spot + import duty (when ON) + GST (when ON). Making stays in Calculate.
     var r24 = computeLine(1, 24, 1, state);
     var r22 = computeLine(1, 22, 1, state);
-    $('hero24k').textContent = haveRequiredRates() ? fmtINR(r24.afterDuty, 0) : '—';
-    $('hero22k').textContent = haveRequiredRates() ? fmtINR(r22.afterDuty, 0) : '—';
+    var gstFactor = state.gstEnabled ? 1 + (Number(state.gst)||0)/100 : 1;
+    $('hero24k').textContent = haveRequiredRates() ? fmtINR(r24.afterDuty * gstFactor, 0) : '—';
+    $('hero22k').textContent = haveRequiredRates() ? fmtINR(r22.afterDuty * gstFactor, 0) : '—';
   }
 
   function renderQuickGrid(){
@@ -6937,7 +6938,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
       liveSpotStatus === 'live' ? 'Live' : 'Reference / cached';
     var fxStatus = !state.marketRatesEnabled ? 'Manual / cached' :
       failedRatesThisSession.usdinr ? 'Unavailable / cached' :
-      liveRatesThisSession.usdinr ? 'Reference updated' : 'Reference / cached';
+      liveRatesThisSession.usdinr ? 'Ref' : 'Reference / cached';
     note.textContent = 'XAU/USD ' + spotStatus + ' · ' + spotTime + '\n' +
                        'USD/INR ' + fxStatus + ' · ' + fxTime;
   }
