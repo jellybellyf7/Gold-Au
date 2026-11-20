@@ -7980,12 +7980,16 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     popup.style.left=Math.round(left)+'px';
     popup.style.top=Math.round(top)+'px';
   }
+  function metalSymbol(){ return ({gold:'TVC:GOLD',silver:'TVC:SILVER',platinum:'TVC:PLATINUM'})[window.__gcMetal||'gold']||'TVC:GOLD'; }
+  document.addEventListener('gc:metal',function(){ if(host.dataset.symbol && host.dataset.symbol!==metalSymbol()){ host.dataset.initialized=''; if(!popup.hidden) loadQuote(); } });
   function loadQuote(){
-    if(host.dataset.initialized==='true')return;
+    var sym=metalSymbol();
+    if(host.dataset.initialized==='true' && host.dataset.symbol===sym)return;
     host.dataset.initialized='true';
+    host.dataset.symbol=sym;
     host.replaceChildren();
     var ticker=document.createElement('tv-single-ticker');
-    ticker.setAttribute('symbol','TVC:GOLD');
+    ticker.setAttribute('symbol',sym);
     ticker.setAttribute('theme','dark');
     ticker.setAttribute('transparent','');
     host.appendChild(ticker);
@@ -8024,7 +8028,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
       document.dispatchEvent(new CustomEvent('bullion:spot-popup-open',{detail:{
         report:function(message,mode){
           if(!syncStatus)return;
-          syncStatus.textContent=message;
+          syncStatus.textContent=(window.__gcMetal&&window.__gcMetal!=='gold')?String(message).replace(/XAU\/USD/g,window.__gcMetalCfg().code+'/USD'):message;
           syncStatus.dataset.mode=mode || '';
         }
       }}));
@@ -11244,13 +11248,20 @@ html[data-metal="platinum"] .metal-chip{font-size:.82em}
 .metal-dot.is-silver{background:radial-gradient(circle at 35% 30%,#FFFFFF,#BAC3CD 55%,#5D6672)}
 .metal-dot.is-platinum{background:radial-gradient(circle at 35% 30%,#F2F8FF,#9DB8D6 55%,#4B6788)}
 .metal-dot.is-gold{background:radial-gradient(circle at 35% 30%,#FFF1C2,#E8B64C 55%,#8A5A17)}
-.metal-menu{position:fixed;left:12px;top:70px;z-index:2147482000;width:204px;padding:6px;border-radius:18px;background:#1d1914;border:1px solid var(--glass-border-strong);box-shadow:0 18px 40px rgba(0,0,0,.5)}
-:root[data-theme="light"] .metal-menu{background:#fffaf0;box-shadow:0 14px 32px rgba(120,90,30,.22)}
+.metal-menu{position:fixed;left:12px;top:70px;z-index:2147482000;width:204px;padding:6px;border-radius:18px;
+ background:linear-gradient(160deg,color-mix(in srgb,var(--gold-300) 16%,transparent),color-mix(in srgb,var(--gold-900) 22%,transparent) 70%),var(--glass-strong);
+ border:1px solid var(--glass-border-strong);
+ -webkit-backdrop-filter:blur(18px) saturate(150%);backdrop-filter:blur(18px) saturate(150%);
+ box-shadow:0 18px 40px -14px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.16);
+ transform-origin:top left;animation:gc-metal-pop .18s ease}
+@keyframes gc-metal-pop{from{opacity:0;transform:translateY(-4px) scale(.97)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.metal-menu{animation:none}}
+:root[data-theme="light"] .metal-menu{background:linear-gradient(160deg,color-mix(in srgb,var(--gold-100) 55%,transparent),color-mix(in srgb,var(--gold-300) 18%,transparent) 75%),var(--glass-strong);box-shadow:0 14px 32px -12px var(--shadow),inset 0 1px 0 rgba(255,255,255,.7)}
 .metal-menu[hidden]{display:none}
 .metal-menu button{display:flex;align-items:center;gap:10px;width:100%;padding:10px;border:0;background:none;border-radius:12px;color:var(--text-0);text-align:left;cursor:pointer;font:inherit}
 .metal-menu button b{display:block;font-size:14px;font-weight:700}
 .metal-menu button small{display:block;font-size:11px;color:var(--text-2)}
-.metal-menu button[aria-checked="true"]{background:color-mix(in srgb,var(--gold-500) 16%,transparent)}
+.metal-menu button[aria-checked="true"]{background:color-mix(in srgb,var(--gold-300) 16%,transparent);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 0 0 1px color-mix(in srgb,var(--gold-300) 22%,transparent)}
 .metal-menu .metal-tick{margin-left:auto;color:var(--gold-300);font-weight:800;visibility:hidden}
 :root[data-theme="light"] .metal-menu .metal-tick{color:var(--gold-700)}
 .metal-menu button[aria-checked="true"] .metal-tick{visibility:visible}
@@ -11545,7 +11556,24 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
   var hero=document.querySelector('.card.hero');
   if(hero && !hero.querySelector(':scope > .metal-sheen')){ var sh=document.createElement('span'); sh.className='metal-sheen'; sh.setAttribute('aria-hidden','true'); hero.appendChild(sh); }
  }
- var applyBase=apply; apply=function(){ applyBase(); convApply(window.__gcMetal); element(window.__gcMetal); };
+
+ /* Spot quote popup wording follows the metal (the price source name "Gold API" stays as is). */
+ var spotOrig=null;
+ function spotPopupText(m){
+  var pop=$('spotQuotePopup'), btn=$('spotLiveLink'); if(!pop) return;
+  if(!spotOrig){
+   spotOrig={nodes:[],attrs:[]};
+   var w=document.createTreeWalker(pop,NodeFilter.SHOW_TEXT,null);
+   for(var n=w.nextNode();n;n=w.nextNode()){ if(n.parentNode && n.parentNode.id==='spotPopupSyncStatus') continue; if(/XAU|TVC:GOLD|\bGold\b(?! API)|\bgold\b/.test(n.nodeValue)) spotOrig.nodes.push([n,n.nodeValue]); }
+   [pop,btn].concat([].slice.call(pop.querySelectorAll('[aria-label],[title]'))).forEach(function(el){ if(!el) return; ['aria-label','title'].forEach(function(a){ var v=el.getAttribute(a); if(v&&/XAU|\bGold\b(?! API)|\bgold\b/.test(v)) spotOrig.attrs.push([el,a,v]); }); });
+  }
+  var c=CFG[m], gold=m==='gold';
+  function sw(t){ if(gold) return t; return t.replace(/TVC:GOLD/g,'TVC:'+c.name.toUpperCase()).replace(/XAU/g,c.code).replace(/\bGold\b(?! API)/g,c.name).replace(/\bgold\b/g,c.name.toLowerCase()); }
+  spotOrig.nodes.forEach(function(x){ var t=sw(x[1]); if(x[0].nodeValue!==t) x[0].nodeValue=t; });
+  spotOrig.attrs.forEach(function(x){ x[0].setAttribute(x[1],sw(x[2])); });
+  var st=$('spotPopupSyncStatus'); if(st && /^Open the panel to refresh/.test(st.textContent)) st.textContent='Open the panel to refresh '+c.code+'/USD from Gold API.';
+ }
+ var applyBase=apply; apply=function(){ applyBase(); convApply(window.__gcMetal); element(window.__gcMetal); spotPopupText(window.__gcMetal); };
  document.addEventListener('gc:metal',function(){ apply(); });
  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){ apply(); }); else apply();
  setTimeout(function(){ apply(); },400);
