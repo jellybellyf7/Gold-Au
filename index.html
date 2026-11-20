@@ -11325,6 +11325,9 @@ html:root #purityYieldPane .quick-tile::after,html:root #differenceResults .pdc-
 html:root :is(#tab-calc,#tab-order) .bd-final{position:relative;border-color:transparent!important}
 html:root :is(#tab-calc,#tab-order) .bd-final::after{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:.6px;pointer-events:none;z-index:2;
  background:var(--gc-rim);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.9}
+/* Market: XAU/USD and USD/INR sync status note, very subtle. */
+html:root #tab-market .rates-actions #updatedNote{font-size:9.5px!important;font-weight:450!important;letter-spacing:.01em;line-height:1.5;opacity:.5;color:var(--text-2)!important}
+html:root #updatedNote *{color:inherit!important;font-weight:inherit!important}
 /* MCX, FT and Jewel web-link buttons: plain text links, no background or shadow (all metals, both themes, every state). */
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger),
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger):is(:hover,:active,:focus){background:none!important;background-image:none!important;box-shadow:none!important;-webkit-tap-highlight-color:transparent}
