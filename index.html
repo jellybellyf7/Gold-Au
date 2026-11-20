@@ -11298,10 +11298,15 @@ html[data-metal="silver"][data-theme="light"]:root :is(.field .input-wrap,.hero-
 html[data-metal="platinum"][data-theme="light"]:root :is(.field .input-wrap,.hero-stat,.quick-tile,#tab-bench .quick-tile,#purityYieldPane .quick-tile,.mcx-strip,.bd-final,.seg,.stepper,.date-pill,.date-pill,.sync-btn,.input-wrap){background:linear-gradient(145deg,#FBFDFF,#E4EDF8)!important}
 html[data-metal="silver"][data-theme="light"] .bottom-nav{background:rgba(252,252,253,.97)!important}
 html[data-metal="platinum"][data-theme="light"] .bottom-nav{background:rgba(247,251,255,.97)!important}
-/* Top rate cards: hairline metal glass rim (gradient stroke, follows the selected metal). */
-html:root .hero .hero-stat{position:relative;border-color:transparent!important}
-html:root .hero .hero-stat::after{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:.6px;pointer-events:none;
- background:var(--gc-rim);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.9}
+/* Top rate section card (outer .hero only, not the inner rate cards): hairline glittering metal glass rim, follows the selected metal. */
+html:root .card.hero::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:.6px;pointer-events:none;z-index:3;
+ background:linear-gradient(105deg,transparent 0 38%,rgba(255,255,255,.95) 46%,#fff 50%,rgba(255,255,255,.95) 54%,transparent 62% 100%) 0 0/320% 100% no-repeat,
+  radial-gradient(circle at 18% 0,rgba(255,255,255,.9),transparent 9%),radial-gradient(circle at 82% 100%,rgba(255,255,255,.75),transparent 8%),var(--gc-rim);
+ -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
+ animation:gcRimGlitter 5.5s ease-in-out infinite}
+@keyframes gcRimGlitter{0%{background-position:130% 0,0 0,0 0,0 0}55%,100%{background-position:-30% 0,0 0,0 0,0 0}}
+@media (prefers-reduced-motion:reduce){html:root .card.hero::before{animation:none}}
+html:root .card.hero{border-color:transparent!important}
 html:root{--gc-rim:linear-gradient(135deg,#FFF4C8 0%,#E9B84E 24%,#8C6622 50%,#F8D97E 74%,#B98A30 100%)}
 html[data-metal="silver"]:root{--gc-rim:linear-gradient(135deg,#FFFFFF 0%,#CDD2DA 24%,#7E8590 50%,#F3F5F8 74%,#A4ABB6 100%)}
 html[data-metal="platinum"]:root{--gc-rim:linear-gradient(135deg,#F5F9FF 0%,#B8C7DB 24%,#687B94 50%,#E4EDF9 74%,#90A3BD 100%)}
