@@ -11963,6 +11963,15 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
  window.__gcThemeApply=apply;
 })();
 </script>
+<script id="app-icon-follow-metal-20261121">
+/* Android app: the launcher icon follows the selected metal (Au GOLD / Ag SILVER / Pt PLATINUM). The app swaps it when it goes to the background. */
+(function(){
+ function tell(m){ try{ if(window.AndroidBridge && AndroidBridge.setAppIcon && /^(gold|silver|platinum)$/.test(m)) AndroidBridge.setAppIcon(m); }catch(_){} }
+ document.addEventListener('gc:metal',function(e){ tell(e.detail && e.detail.metal); });
+ function init(){ tell(window.__gcMetal||'gold'); }
+ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+})();
+</script>
 <script id="metal-switch-toast-20261120">
 /* Metal mode switch notice (Android app): in-app Liquid Glass toast with a hairline metal rim, replacing the plain system toast. */
 (function(){
