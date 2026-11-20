@@ -11317,6 +11317,10 @@ html[data-metal="platinum"]:root{--gc-rim:linear-gradient(135deg,#F5F9FF 0%,#B8C
 html[data-theme="light"]:root{--gc-rim:linear-gradient(135deg,#F3D27A 0%,#B8862E 26%,#7A5718 50%,#D9AE4E 74%,#9C7224 100%)}
 html[data-metal="silver"][data-theme="light"]:root{--gc-rim:linear-gradient(135deg,#E2E6EC 0%,#9DA4AF 26%,#5F6672 50%,#BFC5CE 74%,#7E8692 100%)}
 html[data-metal="platinum"][data-theme="light"]:root{--gc-rim:linear-gradient(135deg,#DCE6F3 0%,#93A6C0 26%,#536781 50%,#B7C7DC 74%,#748AA7 100%)}
+/* Convert: XRF Yield rate cards and Alloy Composition Pure / Impurities cards get the same hairline metal glass rim. */
+html:root #purityYieldPane .quick-tile,html:root #differenceResults .pdc-output{position:relative;border-color:transparent!important}
+html:root #purityYieldPane .quick-tile::after,html:root #differenceResults .pdc-output::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:.6px;pointer-events:none;z-index:2;
+ background:var(--gc-rim);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.9}
 /* MCX, FT and Jewel web-link buttons: plain text links, no background or shadow (all metals, both themes, every state). */
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger),
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger):is(:hover,:active,:focus){background:none!important;background-image:none!important;box-shadow:none!important;-webkit-tap-highlight-color:transparent}
