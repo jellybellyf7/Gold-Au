@@ -13,14 +13,14 @@
 /* Metal mode (Gold / Silver / Platinum): config and the saved choice, applied before first paint. */
 window.__gcMetals={
  gold:{name:'Gold',sym:'Au',code:'XAU',unitG:10,unitLabel:'/10g',mcx:'Gold / Mini',ft:'24k/999‰',jewel:'22k/916‰',jvs:'22k',hasMcx:true,hasFt:true,minF:0,duty:15,
-  hero:[{k:'XAU → IN₹ · 24K',karat:24},{k:'22K · 916',karat:22}],range:'24K–14K'},
- silver:{name:'Silver',sym:'Ag',code:'XAG',unitG:1000,unitLabel:'/kg',mcx:'Silver / Mini',ft:'999‰',jewel:'925‰',jvs:'925',hasMcx:true,hasFt:true,minF:800,dutyLinked:true,
-  hero:[{k:'XAG → IN₹ · 9999',karat:24*0.9999},{k:'Sterling • 925 g',karat:24*0.925}],range:'9999–800',
+  hero:[{k:'XAU → IN₹ · 24K g',karat:24},{k:'22K · 916',karat:22}],range:'24K–14K'},
+ silver:{name:'Silver',sym:'Ag',code:'XAG',maxF:999.9,unitG:1000,unitLabel:'/kg',mcx:'Silver / Mini',ft:'999‰',jewel:'925‰',jvs:'925',hasMcx:true,hasFt:true,minF:800,dutyLinked:true,
+  hero:[{k:'XAG → IN₹ · 9999 g',karat:24*0.9999},{k:'Sterling • 925 g',karat:24*0.925}],range:'9999–800',
   yieldF:[999.9,999,925,900],yieldK:['999.9‰ • Fine • 99.99%','999‰ • Fine • 99.90%','925‰ • Sterling • 92.50%','900‰ • Coin • 90.00%'],
   alloyF:['999.9','999','990','970','958','925','900','835','800'],
   purities:[['9999','Fine',999.9],['999','Fine',999],['990','‰',990],['970','‰',970],['958','‰',958],['925','Sterling',925],['900','Coin',900],['835','‰',835],['800','‰',800]],customPct:92.5},
- platinum:{name:'Platinum',sym:'Pt',code:'XPT',unitG:10,unitLabel:'/10g',jewel:'950‰',jvs:'Pt950',hasMcx:false,hasFt:false,minF:800,duty:15.4,
-  hero:[{k:'XPT → IN₹ · 9995',karat:24*0.9995},{k:'Pt950 • g',karat:24*0.95}],range:'9995–850',
+ platinum:{name:'Platinum',sym:'Pt',code:'XPT',maxF:999.5,alloyWtLabel:'Total Platinum Wt',jvsLabel:'Spot vs ₹Pt950',unitG:10,unitLabel:'/10g',jewel:'950‰',jvs:'Pt950',hasMcx:false,hasFt:false,minF:800,duty:15.4,
+  hero:[{k:'XPT → IN₹ · 9995 g',karat:24*0.9995},{k:'Pt950 • g',karat:24*0.95}],range:'9995–850',
   yieldF:[999.5,999,950,900],yieldK:['999.5‰ • Fine • 99.95%','999‰ • Fine • 99.90%','950‰ • Pt950 • 95.00%','900‰ • 90.00%'],
   alloyF:['999.5','999','950','900','850'],
   purities:[['9995','Fine',999.5],['999','Fine',999],['950','Jewellery',950],['900','‰',900],['850','‰',850]],customPct:95}
@@ -6188,8 +6188,9 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     var a=PURITIES.find(function(p){return p.key==='custompercent';});
     var b=PURITIES.find(function(p){return p.key==='customfineness';});
     var minF=window.__gcMetalCfg().minF||0;
-    a.karat=24*Math.max(minF/10,Math.min(100,Number(state.customPurityPercent)||0))/100;
-    b.karat=24*Math.max(minF,Math.min(1000,Number(state.customPurityFineness)||0))/1000;
+    var maxF=window.__gcMetalCfg().maxF||1000;
+    a.karat=24*Math.max(minF/10,Math.min(maxF/10,Number(state.customPurityPercent)||0))/100;
+    b.karat=24*Math.max(minF,Math.min(maxF,Number(state.customPurityFineness)||0))/1000;
   }
   function purityByKey(k){ for(var i=0;i<PURITIES.length;i++){ if(PURITIES[i].key===k) return PURITIES[i]; } return PURITIES[0]; }
 
@@ -6286,7 +6287,8 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
         var fine=state.purity==='customfineness',input=document.getElementById('customPurityValue');
         document.getElementById('customPuritySuffix').textContent=fine?'‰':'%';
         var mc=window.__gcMetalCfg(),lo=mc.minF||0,nm=mc.name.toLowerCase();
-        document.getElementById('customPurityHelp').textContent=fine?'Enter '+nm+' fineness between '+lo+' and 1000 (parts per thousand).':'Enter '+nm+' purity between '+(lo/10)+' and 100 percent.';
+        var hiF=mc.maxF||1000;
+        document.getElementById('customPurityHelp').textContent=fine?'Enter '+nm+' fineness between '+lo+' and '+hiF+' (parts per thousand).':'Enter '+nm+' purity between '+(lo/10)+' and '+(hiF/10)+' percent.';
         input.max=fine?'1000':'100';
         if(document.activeElement!==input)input.value=fine?state.customPurityFineness:state.customPurityPercent;
       }
@@ -6311,8 +6313,13 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
       requestAnimationFrame(function(){moveIndicator();syncPurityIndicator();});
     });
     document.getElementById('customPurityValue').addEventListener('blur',function(){
-      var lo=window.__gcMetalCfg().minF||0; if(!lo) return;
-      var fine=state.purity==='customfineness', min=fine?lo:lo/10, n=Number(this.value);
+      var lo=window.__gcMetalCfg().minF||0, hi=window.__gcMetalCfg().maxF||0; if(!lo) return;
+      var fine=state.purity==='customfineness', min=fine?lo:lo/10, max=hi?(fine?hi:hi/10):0, n=Number(this.value);
+      if(max && Number.isFinite(n) && n>max){
+        this.value=max; if(fine)state.customPurityFineness=max; else state.customPurityPercent=max;
+        if(typeof showToast==='function') showToast('Maximum is '+hi+'‰ ('+(hi/10)+'%)');
+        saveState(); renderAll(); return;
+      }
       if(Number.isFinite(n) && n>0 && n<min){
         this.value=min; if(fine)state.customPurityFineness=min; else state.customPurityPercent=min;
         if(typeof showToast==='function') showToast('Minimum is '+lo+'‰ ('+(lo/10)+'%)');
@@ -6854,9 +6861,9 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
         karat=Number.isFinite(xrfPercent) && xrfPercent>0 ? xrfPercent*24/100 : NaN;
       }else karat=NaN;
     }else if(p.key==='custompercent'){
-      karat=24*Math.max((window.__gcMetalCfg().minF||0)/10,Number(state.customPurityPercent))/100;
+      karat=24*Math.min((window.__gcMetalCfg().maxF||1000)/10,Math.max((window.__gcMetalCfg().minF||0)/10,Number(state.customPurityPercent)))/100;
     }else if(p.key==='customfineness'){
-      karat=24*Math.max(window.__gcMetalCfg().minF||0,Number(state.customPurityFineness))/1000;
+      karat=24*Math.min(window.__gcMetalCfg().maxF||1000,Math.max(window.__gcMetalCfg().minF||0,Number(state.customPurityFineness)))/1000;
     }
     var valid=Number.isFinite(karat)&&karat>=0&&karat<=24;
     function number(n){return n.toLocaleString('en-IN',{maximumFractionDigits:2});}
@@ -7479,6 +7486,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
       var p = getInternalPurity(convP.value);
       var mcv = window.__gcMetalCfg(), minPct = (mcv.minF||0)/10;
       if(minPct && p > 0) p = Math.max(minPct, p);
+      if(mcv.maxF && p > mcv.maxF/10) p = mcv.maxF/10;
       var pure = w * (p / 100);
       
       function fmtOut(n) { return n > 0 ? parseFloat(n.toFixed(3)).toString() : '0'; }
@@ -8631,7 +8639,8 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
       var enteredMass=numeric(weight.value);
       var kg=enteredMass*unitInKg[massUnit];
       var minAF = window.__gcMetalCfg().minF||0;
-      var okF = Number.isFinite(f) && f >= minAF && f <= 999.999;
+      var maxAF = window.__gcMetalCfg().maxF||999.999;
+      var okF = Number.isFinite(f) && f >= minAF && f <= maxAF;
       var okW = Number.isFinite(enteredMass) && Number.isFinite(kg) && kg > 0 && kg <= 1000000000;
       var hasPreset=presets.some(function(btn){
         return btn.hasAttribute('data-pdc-fineness') && okF && Math.abs(f-Number(btn.getAttribute('data-pdc-fineness')))<1e-9;
@@ -8648,7 +8657,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
         output('differencePureKg','—'); output('differencePureG','—');
         output('differenceImpurityMg','—'); output('differenceImpurityG','—'); output('differenceImpurityUg','—');
         output('differencePurityPercent','—'); output('differenceKaratDisplay','—'); output('differenceFinenessDisplay','—');
-        error.textContent = !okF ? 'Enter fineness from '+minAF+' to 999.999‰.' : 'Enter a positive alloy weight in '+weightUnitNames[massUnit]+'.';
+        error.textContent = !okF ? 'Enter fineness from '+minAF+' to '+maxAF+'‰.' : 'Enter a positive alloy weight in '+weightUnitNames[massUnit]+'.';
         error.hidden=false;
         return;
       }
@@ -11240,6 +11249,9 @@ html[data-metal="platinum"][data-theme="light"]{--gold-100:#E3ECF7;--gold-300:#7
 html[data-metal="platinum"] #mcxField,html[data-metal="platinum"] #ftbarField,html[data-metal="platinum"] #mcxStrip,html[data-metal="platinum"] #ftbarStrip,html[data-metal="platinum"] #mcxVsFtStrip{display:none!important}
 html[data-metal="platinum"] #ftMakingRow.metal-empty-row{display:none!important}
 html[data-metal="silver"] .metal-gold-only,html[data-metal="platinum"] .metal-gold-only{display:none!important}
+html[data-metal="silver"] #purityDifferenceCard #purityAlloyPane .pdc-details,html[data-metal="platinum"] #purityDifferenceCard #purityAlloyPane .pdc-details{display:flex!important;justify-content:space-between!important;align-items:center}
+html[data-metal="silver"] #purityDifferenceCard #purityAlloyPane .pdc-detail-item,html[data-metal="platinum"] #purityDifferenceCard #purityAlloyPane .pdc-detail-item{flex:0 0 auto!important;width:auto!important;max-width:50%;justify-content:flex-start;grid-column:auto!important}
+.card.hero .hero-stat .k{white-space:nowrap!important}
 /* Making and Jewel keep their paired-row look in the platinum rows. */
 html[data-metal="platinum"] #ftGstRow #makingField .input-wrap{height:46px;width:100%;min-width:0}
 html[data-metal="platinum"] #ftGstRow #makingField{border-top:0;padding-top:0;gap:6px}
@@ -11356,6 +11368,7 @@ html[data-metal="platinum"] #ftGstRow #makingField input{font-size:15px}
    jRow.classList.remove('metal-empty-row');
   }
  }
+ var jvsNode=null;
  function setText(el,t){ if(el && el.textContent!==t) el.textContent=t; }
  function apply(){
   var m=window.__gcMetal, c=CFG[m];
@@ -11374,10 +11387,21 @@ html[data-metal="platinum"] #ftGstRow #makingField input{font-size:15px}
   var fi=$('ftbarInput'); if(fi){ var fu=fi.parentNode.querySelector('.market-unit'); setText(fu,c.unitLabel); }
   setText(document.querySelector('#jewelField .jewel-purity-text'),c.jewel);
   var jl=document.querySelector('#jewelVsSpotStrip .l');
-  if(jl){ var tn=null; jl.childNodes.forEach(function(n){ if(n.nodeType===3 && /Jewel vs Spot/.test(n.textContent)) tn=n; }); var t='Jewel vs Spot ₹ '+c.jvs; if(tn){ if(tn.textContent.trim()!==t) tn.textContent=t; } else { var lab=jl.querySelector('.strip-label,span'); if(lab && /Jewel vs Spot/.test(lab.textContent)) setText(lab,t); } }
+  if(jl){ var tn=jvsNode; if(!tn) jl.childNodes.forEach(function(n){ if(n.nodeType===3 && /Jewel vs Spot/.test(n.textContent)) tn=n; }); jvsNode=tn; var t=c.jvsLabel||('Jewel vs Spot ₹ '+c.jvs); if(tn){ if(tn.textContent.trim()!==t) tn.textContent=t; } else { var lab=jl.querySelector('.strip-label,span'); if(lab && /Jewel vs Spot/.test(lab.textContent)) setText(lab,t); } }
   document.title=document.title.replace(/^(Gold|Silver|Platinum)\b/,c.name);
   layout(m);
+  fitHero();
  }
+ /* Keep both top-card headings on one line: shrink them together only when needed. */
+ function fitHero(){
+  var ks=[].slice.call(document.querySelectorAll('.card.hero .hero-stat .k'));
+  if(!ks.length) return;
+  ks.forEach(function(k){ k.style.fontSize=''; });
+  var size=parseFloat(getComputedStyle(ks[0]).fontSize)||13, min=9.5, guard=0;
+  function over(){ return ks.some(function(k){ return k.scrollWidth>k.clientWidth+1; }); }
+  while(over() && size>min && guard++<20){ size-=0.5; ks.forEach(function(k){ k.style.fontSize=size+'px'; }); }
+ }
+ window.addEventListener('resize',function(){ fitHero(); });
 
  /* Convert tab: Silver / Platinum wording, yield grades, alloy grades and the 800 minimum. */
  var convOrig=null;
@@ -11388,13 +11412,14 @@ html[data-metal="platinum"] #ftGstRow #makingField input{font-size:15px}
   ['convMeltedWt','convKaratInput'].forEach(function(id){ var f=$(id)&&$(id).closest('.field'); if(f) f.classList.add('metal-gold-only'); });
   var kd=$('differenceKaratDisplay'); if(kd&&kd.closest('.pdc-detail-item')) kd.closest('.pdc-detail-item').classList.add('metal-gold-only');
   var w=document.createTreeWalker(tab,NodeFilter.SHOW_TEXT,null);
-  for(var n=w.nextNode();n;n=w.nextNode()){ if(/\bgold\b/i.test(n.nodeValue) && !(n.parentNode&&/^(STYLE|SCRIPT)$/.test(n.parentNode.nodeName))) convOrig.text.push([n,n.nodeValue]); }
+  for(var n=w.nextNode();n;n=w.nextNode()){ if(/\bgold\b/i.test(n.nodeValue) && !(n.parentNode&&/^(STYLE|SCRIPT)$/.test(n.parentNode.nodeName))){ if(/Total Gold Alloy/.test(n.nodeValue) && n.parentNode && n.parentNode.closest && n.parentNode.closest('label[for="differenceWeightInput"]')) convOrig.wtLabel=[n,n.nodeValue]; else convOrig.text.push([n,n.nodeValue]); } }
   tab.querySelectorAll('[aria-label],[title]').forEach(function(el){ ['aria-label','title'].forEach(function(a){ var v=el.getAttribute(a); if(v&&/\bgold\b/i.test(v)) convOrig.attr.push([el,a,v]); }); });
   ['out-24k','out-999','out-920','out-22k'].forEach(function(id){ var k=$(id)&&$(id).parentNode.querySelector('.k'); if(k) convOrig.tiles.push([k,k.textContent]); });
   document.querySelectorAll('#differencePresets button[data-pdc-fineness]').forEach(function(b){ convOrig.presets.push([b,b.getAttribute('data-pdc-fineness'),b.textContent]); });
   var cp=$('convPurityInput');
   if(cp) cp.addEventListener('blur',function(){
    var mf=(CFG[window.__gcMetal].minF||0)/10, v=Number(String(cp.value).replace(/,/g,''));
+   var mx=(CFG[window.__gcMetal].maxF||0)/10; if(mx && v>mx){ cp.value=String(mx); cp.dispatchEvent(new Event('input',{bubbles:true})); return; }
    if(mf && v>0 && v<mf){ cp.value=String(mf); cp.dispatchEvent(new Event('input',{bubbles:true})); try{ if(window.AndroidBridge&&AndroidBridge.toast) AndroidBridge.toast('Minimum is '+(mf*10)+'‰ ('+mf+'%)'); }catch(_){} }
   });
   return true;
@@ -11413,9 +11438,11 @@ html[data-metal="platinum"] #ftGstRow #makingField input{font-size:15px}
    else { b.setAttribute('data-pdc-fineness','-1'); b.hidden=true; b.style.display='none'; }
   });
   var df=$('differenceFineness');
-  if(df){ var v=Number(String(df.value).replace(/,/g,'')); if(!gold && c.minF && (!(v>0)||v<c.minF)) df.value=c.alloyF?c.alloyF[0]:'999.9'; df.dispatchEvent(new Event('input',{bubbles:true})); }
+  if(df){ var v=Number(String(df.value).replace(/,/g,'')); if(!gold && ((c.minF && (!(v>0)||v<c.minF)) || (c.maxF && v>c.maxF))) df.value=c.alloyF?c.alloyF[0]:'999.9'; df.dispatchEvent(new Event('input',{bubbles:true})); }
   var cp=$('convPurityInput'), mf=(c.minF||0)/10, pv=cp?Number(String(cp.value).replace(/,/g,'')):0;
   if(cp && mf && pv>0 && pv<mf){ cp.value=String(mf); cp.dispatchEvent(new Event('input',{bubbles:true})); }
+  if(cp && c.maxF && pv>c.maxF/10){ cp.value=String(c.maxF/10); cp.dispatchEvent(new Event('input',{bubbles:true})); }
+  if(convOrig.wtLabel){ var wl=convOrig.wtLabel; var wt=gold?wl[1]:(c.alloyWtLabel||swapWord(wl[1],c.name)); if(wl[0].nodeValue!==wt) wl[0].nodeValue=wt; }
   if(typeof window.__gcCalcConv==='function') try{ window.__gcCalcConv(); }catch(_){}
  }
  var applyBase=apply; apply=function(){ applyBase(); convApply(window.__gcMetal); };
@@ -11476,12 +11503,12 @@ html[data-metal="platinum"] #ftGstRow #makingField input{font-size:15px}
  var SECTIONS={
   market:{icon:'📊',title:'Market Report',build:function(){
    var notes=[];['updatedNote'].forEach(function(id){var e=$(id);if(!e||!shown(e))return;String(e.textContent||'').split(/\n+/).forEach(function(l){l=clean(l);if(l)notes.push(l);});});
-   var MC=window.__gcMetalCfg?window.__gcMetalCfg():{code:'XAU',unitLabel:'/10g',mcx:'Gold / Mini',ft:'24k/999‰',jewel:'22k/916‰',hero:[{k:'XAU → IN₹ · 24K'},{k:'22K · 916'}]};
+   var MC=window.__gcMetalCfg?window.__gcMetalCfg():{code:'XAU',unitLabel:'/10g',mcx:'Gold / Mini',ft:'24k/999‰',jewel:'22k/916‰',hero:[{k:'XAU → IN₹ · 24K g'},{k:'22K · 916'}]};
    var bench=[];
    if(MC.hasMcx!==false) bench.push(row('🏛️','MCX '+MC.mcx,inp('mcxInput')?'₹'+inp('mcxInput')+' '+MC.unitLabel:''));
    if(MC.hasFt!==false) bench.push(row('🧈','FT '+MC.ft,inp('ftbarInput')?'₹'+inp('ftbarInput')+' '+MC.unitLabel:''));
    bench.push(row('💍','Jewel '+MC.jewel,inp('jewelInput')?'₹'+inp('jewelInput')+' /g':''));
-   return hero([['🥇',MC.hero[0].k+' · per gram',txt('hero24k')],['💍',MC.hero[1].k+(/ g$|• g$/.test(MC.hero[1].k)?'':' · per gram'),txt('hero22k')]])
+   return hero([['🥇',MC.hero[0].k+(/ g$|• g$/.test(MC.hero[0].k)?'':' · per gram'),txt('hero24k')],['💍',MC.hero[1].k+(/ g$|• g$/.test(MC.hero[1].k)?'':' · per gram'),txt('hero22k')]])
     +sec('🌐','Global & currency rates',table([
       row('🌍',MC.code+' → U$D',withUnit(inp('spotInput'),' $/oz t'),statusTag(txt('spotRateStatus'))),
       row('💱','U$D → IN₹',withUnit(inp('usdinrInput'),' ₹/$'),statusTag(txt('usdinrRateStatus')))]))
@@ -11555,7 +11582,7 @@ html[data-metal="platinum"] #ftGstRow #makingField input{font-size:15px}
    return hero([['🥇','Pure '+MNa,u('differencePureKg','kg'),u('differencePureG','g')],['🎯',goldA?'Purity · Karat':'Purity · Fineness',txt('differencePurityPercent'),goldA?txt('differenceKaratDisplay'):txt('differenceFinenessDisplay')]])
     +sec('📥','Alloy inputs',table([
       row('📏','Fineness',withUnit(inp('differenceFineness'),'‰')),
-      row('⚖️','Total '+MNa+' Alloy',withUnit(inp('differenceWeightInput'),' '+txt('differenceWeightUnitSuffix')))]))
+      row('⚖️',(window.__gcMetalCfg&&window.__gcMetalCfg().alloyWtLabel)||('Total '+MNa+' Alloy'),withUnit(inp('differenceWeightInput'),' '+txt('differenceWeightUnitSuffix')))]))
     +sec('📊','Calculated contents',table([
       row('🥇','Pure '+MNa,u('differencePureKg','kg'),{sub:u('differencePureG','g')}),
       row('🧪','Impurities',u('differenceImpurityMg','mg'),{sub:[u('differenceImpurityG','g'),u('differenceImpurityUg','µg')].filter(Boolean).join(' · ')}),
