@@ -11241,11 +11241,40 @@ html[data-metal="platinum"] .metal-chip{font-size:.82em}
 :root[data-theme="light"] .metal-menu .metal-tick{color:var(--gold-700)}
 .metal-menu button[aria-checked="true"] .metal-tick{visibility:visible}
 /* Metal accent colours: the app's gold palette variables, re-tinted. */
-html[data-metal="silver"]:not([data-theme="light"]){--gold-100:#F4F7FB;--gold-300:#DDE3EA;--gold-500:#B9C2CC;--gold-700:#8C96A3;--gold-900:#5D6672;--amber:#AEB8C4;--umber:#7D8794;--glass-border:rgba(205,215,228,.16);--glass-border-strong:rgba(210,220,232,.34)}
-html[data-metal="platinum"]:not([data-theme="light"]){--gold-100:#EAF3FF;--gold-300:#C9DDF2;--gold-500:#9DB8D6;--gold-700:#7393B8;--gold-900:#4B6788;--amber:#93AECD;--umber:#5F7FA3;--glass-border:rgba(160,190,225,.16);--glass-border-strong:rgba(165,195,230,.34)}
-html[data-metal="silver"][data-theme="light"]{--gold-100:#E9EDF2;--gold-300:#9AA4B0;--gold-500:#6E7884;--gold-700:#4D5662;--gold-900:#343B44;--amber:#7C8692;--umber:#59626E;--glass-border-strong:rgba(80,95,115,.35)}
-html[data-metal="platinum"][data-theme="light"]{--gold-100:#E3ECF7;--gold-300:#7E9EC4;--gold-500:#56789F;--gold-700:#3D5C80;--gold-900:#2A4059;--amber:#6A8AB0;--umber:#46668B;--glass-border-strong:rgba(60,95,140,.35)}
+html[data-metal="silver"]:not([data-theme="light"]){--gold-100:#F7F8FA;--gold-300:#E8EBEE;--gold-500:#BFC5CC;--gold-700:#8F969E;--gold-900:#5E646B;--amber:#B7BDC4;--umber:#80868E;--glass-border:rgba(220,224,230,.15);--glass-border-strong:rgba(225,229,235,.32);--metal-filter:grayscale(1) brightness(1.12) contrast(.96);--metal-ring:rgba(215,220,228,.10)}
+html[data-metal="platinum"]:not([data-theme="light"]){--gold-100:#E3F0FF;--gold-300:#9FCBF7;--gold-500:#5F9DDD;--gold-700:#3F78B8;--gold-900:#27507F;--amber:#7FB2E6;--umber:#4D7EB2;--glass-border:rgba(120,175,235,.18);--glass-border-strong:rgba(125,180,240,.40);--metal-filter:grayscale(1) sepia(1) hue-rotate(178deg) saturate(1.9) brightness(1.04);--metal-ring:rgba(110,170,235,.16)}
+html[data-metal="silver"][data-theme="light"]{--gold-100:#ECEEF1;--gold-300:#8E959D;--gold-500:#6A7179;--gold-700:#4A5058;--gold-900:#33383E;--amber:#7A8088;--umber:#575D65;--glass-border-strong:rgba(90,98,108,.35);--metal-filter:grayscale(1) brightness(1.02);--metal-ring:rgba(90,98,108,.12)}
+html[data-metal="platinum"][data-theme="light"]{--gold-100:#DDEBFB;--gold-300:#4F8DD0;--gold-500:#2F6DB3;--gold-700:#1F5594;--gold-900:#163C69;--amber:#3E7DC4;--umber:#255C9A;--glass-border-strong:rgba(40,100,170,.38);--metal-filter:grayscale(1) sepia(1) hue-rotate(178deg) saturate(2.2) brightness(.98);--metal-ring:rgba(40,100,170,.14)}
 /* Platinum: no MCX or FT strip. */
+
+/* Accent parts that are drawn in fixed gold: re-tinted per metal. */
+html[data-metal="silver"] :is(.ios-toggle,.reset-toggle,.sync-btn,.demo-nav-indicator,.purity-indicator,.unit-indicator,.weight-group-indicator,.pdc-indicator,.purity-mode-magnet,.purity-mode-emblem,.elite-quick-icon,.conv-val,.purity-unified-navigation svg.icon,#tab-convert .quick-tile,.purity-unified-tab-glint,.section-print-shuttle,.section-shot-shuttle,.section-history-hook,.purity-history-flip-button),
+html[data-metal="platinum"] :is(.ios-toggle,.reset-toggle,.sync-btn,.demo-nav-indicator,.purity-indicator,.unit-indicator,.weight-group-indicator,.pdc-indicator,.purity-mode-magnet,.purity-mode-emblem,.elite-quick-icon,.conv-val,.purity-unified-navigation svg.icon,#tab-convert .quick-tile,.purity-unified-tab-glint,.section-print-shuttle,.section-shot-shuttle,.section-history-hook,.purity-history-flip-button){filter:var(--metal-filter)!important}
+html[data-metal="silver"] :is(.topbar,nav.bottom-nav),html[data-metal="platinum"] :is(.topbar,nav.bottom-nav){box-shadow:0 8px 30px rgba(0,0,0,.3),0 0 0 1px var(--metal-ring)!important}
+html[data-metal="silver"] :is(.purity-unified-card,.purity-unified-navigation,.compare-unified-card),html[data-metal="platinum"] :is(.purity-unified-card,.purity-unified-navigation,.compare-unified-card){border-color:var(--glass-border-strong)!important}
+html[data-metal="silver"] #purityDifferenceCard .pdc-details,html[data-metal="platinum"] #purityDifferenceCard .pdc-details{border-top-color:var(--glass-border-strong)!important}
+
+/* Light mode: cool page and card surfaces for silver and platinum (gold keeps its cream). */
+html[data-metal="silver"][data-theme="light"]{--bg-0:#F3F4F6;--bg-1:#E7EAED;--bg-2:#D8DCE0;--glass:rgba(255,255,255,.88);--glass-strong:rgba(253,253,254,.96);--glass-border:rgba(95,104,115,.20);--text-0:#1F2327;--text-1:#454B53;--text-2:#6A7078;--shadow:rgba(40,48,58,.12)}
+html[data-metal="platinum"][data-theme="light"]{--bg-0:#EEF4FB;--bg-1:#DFEAF6;--bg-2:#CADCF0;--glass:rgba(252,254,255,.88);--glass-strong:rgba(250,253,255,.96);--glass-border:rgba(40,100,170,.20);--text-0:#17212D;--text-1:#3A4A5D;--text-2:#5C6E83;--shadow:rgba(30,70,120,.12)}
+html[data-metal="silver"][data-theme="light"],html[data-metal="silver"][data-theme="light"] body,html[data-metal="silver"][data-theme="light"] #appRoot{background:#F3F4F6!important;background-color:#F3F4F6!important}
+html[data-metal="platinum"][data-theme="light"],html[data-metal="platinum"][data-theme="light"] body,html[data-metal="platinum"][data-theme="light"] #appRoot{background:#EEF4FB!important;background-color:#EEF4FB!important}
+html[data-metal="silver"][data-theme="light"] .ambient{background:radial-gradient(ellipse 100% 54% at 50% -10%,#E3E7EB 0%,transparent 78%),linear-gradient(180deg,#F8F9FA,#F1F2F4)!important}
+html[data-metal="platinum"][data-theme="light"] .ambient{background:radial-gradient(ellipse 100% 54% at 50% -10%,#D6E6F7 0%,transparent 78%),linear-gradient(180deg,#F5F9FE,#ECF2FA)!important}
+html[data-metal="silver"][data-theme="light"] .card{background:linear-gradient(150deg,#FFFFFF,#E9ECEF 72%,#F3F5F7)!important}
+html[data-metal="platinum"][data-theme="light"] .card{background:linear-gradient(150deg,#F9FCFF,#DDE9F6 72%,#EDF3FA)!important}
+html[data-metal="silver"][data-theme="light"] .hero-stat{background:linear-gradient(145deg,#FFFFFF,#EEF0F3)!important}
+html[data-metal="platinum"][data-theme="light"] .hero-stat{background:linear-gradient(145deg,#FBFDFF,#E7EFF9)!important}
+html[data-metal="silver"][data-theme="light"] .topbar{background:rgba(252,252,253,.98)!important}
+html[data-metal="platinum"][data-theme="light"] .topbar{background:rgba(248,251,255,.98)!important}
+html[data-metal="silver"] .bullion-theme-toggle,html[data-metal="platinum"] .bullion-theme-toggle{filter:var(--metal-filter)}
+html[data-metal="silver"]:root :is(.card,.topbar,.bottom-nav),html[data-metal="platinum"]:root :is(.card,.topbar,.bottom-nav){border-color:var(--glass-border-strong)!important}
+html[data-metal="silver"][data-theme="light"] .card.hero{background:linear-gradient(150deg,#FFFFFF,#E6E9ED 72%,#F2F4F6)!important}
+html[data-metal="platinum"][data-theme="light"] .card.hero{background:linear-gradient(150deg,#F8FBFF,#D9E7F6 72%,#ECF3FB)!important}
+html[data-metal="silver"][data-theme="light"]:root :is(.field .input-wrap,.hero-stat,.quick-tile,#tab-bench .quick-tile,#purityYieldPane .quick-tile,.mcx-strip,.bd-final,.seg,.stepper,.date-pill,.date-pill,.mcx-marketwatch-link,.sync-btn,.input-wrap){background:linear-gradient(145deg,#FFFFFF,#ECEEF1)!important}
+html[data-metal="platinum"][data-theme="light"]:root :is(.field .input-wrap,.hero-stat,.quick-tile,#tab-bench .quick-tile,#purityYieldPane .quick-tile,.mcx-strip,.bd-final,.seg,.stepper,.date-pill,.date-pill,.mcx-marketwatch-link,.sync-btn,.input-wrap){background:linear-gradient(145deg,#FBFDFF,#E4EDF8)!important}
+html[data-metal="silver"][data-theme="light"] .bottom-nav{background:rgba(252,252,253,.97)!important}
+html[data-metal="platinum"][data-theme="light"] .bottom-nav{background:rgba(247,251,255,.97)!important}
 html[data-metal="platinum"] #mcxField,html[data-metal="platinum"] #ftbarField,html[data-metal="platinum"] #mcxStrip,html[data-metal="platinum"] #ftbarStrip,html[data-metal="platinum"] #mcxVsFtStrip{display:none!important}
 html[data-metal="platinum"] #ftMakingRow.metal-empty-row{display:none!important}
 html[data-metal="silver"] .metal-gold-only,html[data-metal="platinum"] .metal-gold-only{display:none!important}
