@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-metal="gold" data-variant="b">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Metal Calculator — Switcher Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+ --bg-0:#0B0804;--bg-1:#15100A;--card:rgba(255,248,230,.055);--card-2:rgba(255,248,230,.09);
+ --line:rgba(255,212,130,.15);--line-strong:rgba(255,215,140,.34);
+ --t0:#F9F3E7;--t1:#D9CEB9;--t2:#AC9E84;--pos:#26A69A;--neg:#FF5252;
+ --radius:24px;--r-sm:14px;
+ /* metal accent (gold default) */
+ --a-hi:#FFE9B0;--a-1:#FFD76A;--a-2:#E8B64C;--a-3:#C8862B;--a-4:#8A5A17;--a-glow:rgba(232,182,76,.35);--a-tint:rgba(232,182,76,.14);
+}
+html[data-metal="silver"]{--a-hi:#F4F7FB;--a-1:#DDE3EA;--a-2:#B9C2CC;--a-3:#8C96A3;--a-4:#5D6672;--a-glow:rgba(190,200,212,.35);--a-tint:rgba(190,200,212,.13)}
+html[data-metal="platinum"]{--a-hi:#EAF3FF;--a-1:#C9DDF2;--a-2:#9DB8D6;--a-3:#7393B8;--a-4:#4B6788;--a-glow:rgba(140,175,215,.35);--a-tint:rgba(140,175,215,.14)}
+html[data-theme="light"]{--bg-0:#F8F1DE;--bg-1:#F1E6C8;--card:rgba(255,255,255,.55);--card-2:rgba(255,255,255,.8);--line:rgba(163,117,34,.22);--line-strong:rgba(163,117,34,.38);--t0:#251C10;--t1:#50412C;--t2:#746042}
+html[data-theme="light"][data-metal="silver"]{--bg-0:#EEF1F4;--bg-1:#E2E7EC;--line:rgba(80,95,115,.22);--line-strong:rgba(80,95,115,.38);--t0:#1B2128;--t1:#3C4652;--t2:#5E6976;--a-1:#7D8895;--a-2:#5D6874;--a-3:#46505B}
+html[data-theme="light"][data-metal="platinum"]{--bg-0:#EDF2F8;--bg-1:#DFE7F1;--line:rgba(60,95,140,.22);--line-strong:rgba(60,95,140,.38);--t0:#16202C;--t1:#34465B;--t2:#56687D;--a-1:#5C7FA8;--a-2:#46698F;--a-3:#345374}
+html[data-theme="light"][data-metal="gold"]{--a-1:#B9801E;--a-2:#8F611A}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:radial-gradient(120% 60% at 50% -10%,var(--a-tint),transparent 60%),linear-gradient(180deg,var(--bg-1),var(--bg-0) 40%);background-attachment:fixed;color:var(--t0);font-family:Inter,system-ui,sans-serif;min-height:100%;transition:background .4s}
+body{padding:14px 14px 40px;max-width:520px;margin:0 auto}
+button,input{font:inherit;color:inherit}
+.demo-pick{position:sticky;top:0;z-index:50;margin:-14px -14px 12px;padding:10px 14px;background:rgba(0,0,0,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+html[data-theme="light"] .demo-pick{background:rgba(255,255,255,.78)}
+.demo-pick p{margin:0 0 7px;font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--t2)}
+.demo-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.demo-tabs button{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:8px 4px;font-size:12.5px;font-weight:700;line-height:1.2;cursor:pointer}
+.demo-tabs button small{display:block;font-size:10.5px;font-weight:500;color:var(--t2);margin-top:2px}
+.demo-tabs button[aria-pressed="true"]{border-color:var(--a-2);background:var(--a-tint);color:var(--a-hi)}
+html[data-theme="light"] .demo-tabs button[aria-pressed="true"]{color:var(--a-2)}
+
+/* top bar */
+.topbar{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:22px;background:var(--card);border:1px solid var(--line);margin-bottom:14px}
+.brand{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.brand-mark{width:34px;height:34px;border-radius:50%;flex:none;background:radial-gradient(circle at 35% 30%,var(--a-hi),var(--a-2) 55%,var(--a-4));box-shadow:0 0 14px var(--a-glow);display:grid;place-items:center;font:800 12px Manrope,sans-serif;color:#1b140a;transition:background .4s}
+.brand h1{margin:0;font:800 17px/1.05 Manrope,sans-serif;letter-spacing:-.2px}
+.brand h1 span{display:inline-block;transition:opacity .2s}
+.brand p{margin:1px 0 0;font-size:11.5px;color:var(--t2);font-weight:600}
+.theme-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line-strong);background:var(--card-2);cursor:pointer;font-size:16px;flex:none;display:grid;place-items:center}
+
+/* metal chip colours */
+.dot{width:12px;height:12px;border-radius:50%;flex:none;display:inline-block}
+.dot.gold{background:radial-gradient(circle at 35% 30%,#FFF1C2,#E8B64C 55%,#8A5A17)}
+.dot.silver{background:radial-gradient(circle at 35% 30%,#FFFFFF,#BAC3CD 55%,#5D6672)}
+.dot.platinum{background:radial-gradient(circle at 35% 30%,#F2F8FF,#9DB8D6 55%,#4B6788)}
+
+/* Variant A — one-tap chip */
+.sw-a{display:none;align-items:center;gap:6px;height:38px;padding:0 12px 0 10px;border-radius:999px;border:1px solid var(--a-3);background:var(--a-tint);cursor:pointer;font:800 13px Manrope,sans-serif;color:var(--a-hi);flex:none}
+.sw-a .sym{min-width:20px;text-align:left}
+.sw-a .cyc{font-size:11px;opacity:.6;margin-left:1px}
+html[data-theme="light"] .sw-a{color:var(--a-3)}
+html[data-variant="a"] .sw-a{display:inline-flex}
+
+/* Variant B — three-way switch */
+.sw-b{display:none;position:relative;grid-template-columns:repeat(3,34px);height:38px;padding:3px;border-radius:999px;border:1px solid var(--line-strong);background:var(--card-2);flex:none}
+html[data-variant="b"] .sw-b{display:grid}
+.sw-b .thumb{position:absolute;top:3px;left:3px;width:34px;height:30px;border-radius:999px;background:linear-gradient(180deg,var(--a-1),var(--a-3));box-shadow:0 2px 10px var(--a-glow);transition:transform .32s cubic-bezier(.3,1.3,.5,1),background .35s}
+html[data-metal="silver"] .sw-b .thumb{transform:translateX(34px)}
+html[data-metal="platinum"] .sw-b .thumb{transform:translateX(68px)}
+.sw-b button{position:relative;z-index:1;border:0;background:none;cursor:pointer;font:800 12px Manrope,sans-serif;color:var(--t2);border-radius:999px;padding:0}
+.sw-b button[aria-checked="true"]{color:#15100a}
+
+/* Variant C — chip + menu */
+.sw-c{display:none;position:relative;flex:none}
+html[data-variant="c"] .sw-c{display:block}
+.sw-c>button{display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 10px;border-radius:999px;border:1px solid var(--a-3);background:var(--a-tint);cursor:pointer;font:800 13px Manrope,sans-serif;color:var(--a-hi)}
+html[data-theme="light"] .sw-c>button{color:var(--a-3)}
+.sw-c>button .car{font-size:10px;opacity:.7;transition:transform .2s}
+.sw-c>button[aria-expanded="true"] .car{transform:rotate(180deg)}
+.menu{position:absolute;right:0;top:46px;width:200px;padding:6px;border-radius:18px;background:#1d1914;border:1px solid var(--line-strong);box-shadow:0 18px 40px rgba(0,0,0,.5);z-index:40}
+html[data-theme="light"] .menu{background:#fffaf0}
+.menu[hidden]{display:none}
+.menu button{display:flex;align-items:center;gap:10px;width:100%;padding:10px;border:0;background:none;border-radius:12px;cursor:pointer;text-align:left}
+.menu button b{font-size:14px;display:block}
+.menu button small{font-size:11px;color:var(--t2)}
+.menu button[aria-checked="true"]{background:var(--a-tint)}
+.menu button .tick{margin-left:auto;color:var(--a-1);font-weight:800;visibility:hidden}
+.menu button[aria-checked="true"] .tick{visibility:visible}
+.menu .soon{opacity:.45;pointer-events:none}
+
+/* cards */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 16px;margin-bottom:14px;position:relative;transition:border-color .4s}
+.card h2{margin:0 0 12px;font:800 17px Manrope,sans-serif;display:flex;align-items:center;gap:8px}
+.card h2 .ic{width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--a-hi),var(--a-2) 60%,var(--a-4));display:grid;place-items:center;font-size:12px}
+.hero{padding:16px 16px 26px;background:linear-gradient(135deg,var(--a-tint),transparent 70%),var(--card);border-color:var(--line-strong)}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat{border:1px solid var(--line);border-radius:20px;padding:14px 14px 13px;background:var(--card-2)}
+.stat .k{font-size:12.5px;font-weight:700;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stat .v{font:800 23px/1.2 Manrope,sans-serif;margin-top:4px;background:linear-gradient(100deg,var(--a-hi),var(--a-1) 45%,var(--a-2));-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html[data-theme="light"] .stat .v{background:linear-gradient(100deg,var(--a-3),var(--a-2));-webkit-background-clip:text;background-clip:text}
+.hero-note{position:absolute;left:calc(22px + 2ch);bottom:6px;font-size:10px;color:var(--t2);opacity:.75}
+
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px 12px}
+.field label{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--t1);margin-bottom:7px;min-height:24px;white-space:nowrap;overflow:hidden}
+.field label .lk{color:var(--a-2);font-weight:800}
+html[data-theme="light"] .field label .lk{color:var(--a-3)}
+.field label .tag{font-size:10.5px;padding:2px 6px;border-radius:999px;background:rgba(38,166,154,.15);color:var(--pos);font-weight:700}
+.field label .sw{margin-left:auto}
+.iw{display:flex;align-items:center;gap:6px;height:46px;padding:0 12px;border-radius:var(--r-sm);border:1px solid var(--line);background:var(--card-2)}
+.iw input{flex:1;min-width:0;border:0;background:none;outline:none;font-weight:700;font-size:15px}
+.iw .pre,.iw .suf{color:var(--t2);font-size:13px;font-weight:600;white-space:nowrap}
+.iw.off{opacity:.45}
+.tog{width:40px;height:22px;border-radius:999px;border:1px solid var(--line-strong);background:var(--card-2);position:relative;cursor:pointer;flex:none;padding:0}
+.tog::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--t2);transition:transform .2s,background .2s}
+.tog[aria-checked="true"]{background:linear-gradient(180deg,var(--a-2),var(--a-3))}
+.tog[aria-checked="true"]::after{transform:translateX(18px);background:#fff}
+.hint{font-size:10.5px;color:var(--t2);margin-top:5px;min-height:13px}
+.strip-hide{display:none!important}
+/* Fixed places: left = spot, MCX, FT, Jewel; right = USD/INR, duty, GST, making. Platinum: Jewel moves up beside duty. */
+.grid2.mkt{grid-template-areas:"spot fx" "mcx duty" "ft gst" "jew mak"}
+html[data-metal="platinum"] .grid2.mkt{grid-template-areas:"spot fx" "jew duty" "gst mak"}
+#spotF{grid-area:spot}#fxF{grid-area:fx}#mcxF{grid-area:mcx}#dutyF{grid-area:duty}#ftF{grid-area:ft}#gstF{grid-area:gst}#jewF{grid-area:jew}#makF{grid-area:mak}
+.notes{margin:12px 0 0;font-size:11.5px;color:var(--t2);line-height:1.5}
+.sync{margin-top:12px;display:flex;gap:10px;align-items:center}
+.sync button{flex:none;white-space:nowrap;height:40px;padding:0 16px;border-radius:999px;border:1px solid var(--a-3);background:var(--a-tint);font-weight:800;cursor:pointer}
+
+/* purity */
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{border:1px solid var(--line);background:var(--card-2);border-radius:12px;padding:7px 10px;cursor:pointer;text-align:center;min-width:58px}
+.chip b{display:block;font-size:13px}
+.chip small{display:block;font-size:10.5px;color:var(--t2)}
+.chip[aria-pressed="true"]{border-color:var(--a-2);background:var(--a-tint)}
+.chip[aria-pressed="true"] b{color:var(--a-1)}
+html[data-theme="light"] .chip[aria-pressed="true"] b{color:var(--a-3)}
+.manual{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.manual[hidden]{display:none}
+.sub{font-size:12px;font-weight:700;color:var(--t2);margin:14px 0 8px;text-transform:uppercase;letter-spacing:.6px}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+td{padding:7px 0;border-bottom:1px solid var(--line)}
+td:last-child{text-align:right;font-weight:700}
+tr.tot td{border-bottom:0;font:800 16px Manrope,sans-serif;padding-top:10px}
+tr.tot td:last-child{color:var(--a-1)}
+html[data-theme="light"] tr.tot td:last-child{color:var(--a-3)}
+.cmp td:last-child small{display:block;font-weight:500;color:var(--t2);font-size:11px}
+.up{color:var(--pos)}.down{color:var(--neg)}
+
+/* info */
+.info h3{margin:0 0 6px;font-size:14px}
+.info ul{margin:0 0 12px;padding-left:18px;font-size:12.5px;color:var(--t1);line-height:1.55}
+.info .pill{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--a-tint);color:var(--a-1);margin-bottom:8px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);opacity:0;padding:10px 16px;border-radius:999px;background:rgba(20,16,10,.92);border:1px solid var(--a-3);color:#fff;font-size:13px;font-weight:700;transition:all .25s;pointer-events:none;z-index:60;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:360px){.stat .v{font-size:20px}.field label{font-size:12px}.sw-b{grid-template-columns:repeat(3,31px)}.sw-b .thumb{width:31px}html[data-metal="silver"] .sw-b .thumb{transform:translateX(31px)}html[data-metal="platinum"] .sw-b .thumb{transform:translateX(62px)}}
+</style>
+</head>
+<body>
+<div class="demo-pick">
+ <p>Demo · pick a switcher style</p>
+ <div class="demo-tabs" role="group" aria-label="Switcher style">
+  <button type="button" data-v="a" aria-pressed="false">A · One-tap<small>Au → Ag → Pt</small></button>
+  <button type="button" data-v="b" aria-pressed="true">B · 3-way ★<small>Recommended</small></button>
+  <button type="button" data-v="c" aria-pressed="false">C · Menu<small>Chip + dropdown</small></button>
+ </div>
+</div>
+
+<header class="topbar">
+ <div class="brand"><div class="brand-mark" id="brandMark">Au</div><div><h1><span id="brandMetal">Gold</span></h1><p>Calculator</p></div></div>
+ <!-- A -->
+ <button type="button" class="sw-a" id="swA" aria-label="Metal: Gold. Tap for Silver"><i class="dot gold" id="swADot"></i><span class="sym" id="swASym">Au</span><span class="cyc">⟳</span></button>
+ <!-- B -->
+ <div class="sw-b" role="radiogroup" aria-label="Metal">
+  <span class="thumb" aria-hidden="true"></span>
+  <button type="button" role="radio" data-m="gold" aria-checked="true" title="Gold">Au</button>
+  <button type="button" role="radio" data-m="silver" aria-checked="false" title="Silver">Ag</button>
+  <button type="button" role="radio" data-m="platinum" aria-checked="false" title="Platinum">Pt</button>
+ </div>
+ <!-- C -->
+ <div class="sw-c">
+  <button type="button" id="swCBtn" aria-haspopup="menu" aria-expanded="false"><i class="dot gold" id="swCDot"></i><span id="swCSym">Au</span><span class="car">▾</span></button>
+  <div class="menu" id="swCMenu" role="menu" hidden>
+   <button type="button" role="menuitemradio" data-m="gold" aria-checked="true"><i class="dot gold"></i><span><b>Gold</b><small>Au · 24K–14K</small></span><span class="tick">✓</span></button>
+   <button type="button" role="menuitemradio" data-m="silver" aria-checked="false"><i class="dot silver"></i><span><b>Silver</b><small>Ag · 9999–800</small></span><span class="tick">✓</span></button>
+   <button type="button" role="menuitemradio" data-m="platinum" aria-checked="false"><i class="dot platinum"></i><span><b>Platinum</b><small>Pt · 9995–850</small></span><span class="tick">✓</span></button>
+   <button type="button" class="soon" tabindex="-1"><i class="dot" style="background:#777"></i><span><b>Palladium</b><small>Room to add later</small></span></button>
+  </div>
+ </div>
+ <button type="button" class="theme-btn" id="themeBtn" aria-label="Switch to light mode">☾</button>
+</header>
+
+<section class="card hero" aria-label="Headline rates">
+ <div class="hero-grid">
+  <div class="stat"><div class="k" id="h1k">XAU → IN₹ · 24K</div><div class="v" id="h1v">—</div></div>
+  <div class="stat"><div class="k" id="h2k">22K · 916</div><div class="v" id="h2v">—</div></div>
+ </div>
+ <p class="hero-note" id="heroNote"></p>
+</section>
+
+<section class="card" aria-label="Market">
+ <h2><span class="ic">📊</span>Market</h2>
+ <div class="grid2 mkt">
+  <div class="field" id="spotF"><label><span id="spotLab">XAU → U$D</span><span class="tag" id="spotTag">Manual</span></label><div class="iw"><span class="pre">$</span><input id="spot" inputmode="decimal"><span class="suf">/oz t</span></div></div>
+  <div class="field" id="fxF"><label>U$D → IN₹<span class="tag" id="fxTag">Manual</span></label><div class="iw"><span class="pre">₹</span><input id="fx" inputmode="decimal"><span class="suf">/$</span></div></div>
+
+  <div class="field" id="mcxF"><label><span class="lk">MCX ↗</span><span id="mcxSub">Gold / Mini</span></label><div class="iw"><span class="pre">₹</span><input id="mcx" inputmode="decimal"><span class="suf" id="mcxU">/10g</span></div></div>
+  <div class="field" id="dutyF"><label>Import duty<button type="button" class="tog sw" id="dutyT" aria-checked="true" aria-label="Import duty"></button></label><div class="iw" id="dutyW"><input id="duty" inputmode="decimal"><span class="suf">%</span></div><div class="hint" id="dutyHint"></div></div>
+
+  <div class="field" id="ftF"><label><span class="lk">FT ↗</span><span id="ftSub">24k/999‰</span></label><div class="iw"><span class="pre">₹</span><input id="ft" inputmode="decimal"><span class="suf" id="ftU">/10g</span></div></div>
+  <div class="field" id="gstF"><label>GST<button type="button" class="tog sw" id="gstT" aria-checked="false" aria-label="GST"></button></label><div class="iw off" id="gstW"><input id="gst" inputmode="decimal"><span class="suf">%</span></div></div>
+
+  <div class="field" id="jewF"><label><span class="lk">Jewel ↗</span><span id="jewSub">22k/916‰</span></label><div class="iw"><span class="pre">₹</span><input id="jew" inputmode="decimal"><span class="suf">/g</span></div></div>
+  <div class="field" id="makF"><label>Making<button type="button" class="tog sw" id="makT" aria-checked="false" aria-label="Making"></button></label><div class="iw off" id="makW"><input id="mak" inputmode="decimal"><span class="suf">%</span></div></div>
+ </div>
+ <div class="sync"><button type="button" id="syncBtn">⟳ Live Sync</button><span class="notes" id="syncNote" style="margin:0">Tap to fetch live spot and USD/INR.</span></div>
+</section>
+
+<section class="card" aria-label="Calculate">
+ <h2><span class="ic">🧮</span>Calculate</h2>
+ <div class="sub">Purity</div>
+ <div class="chips" id="chips"></div>
+ <div class="manual" id="manual" hidden>
+  <div class="field"><label>Purity %</label><div class="iw"><input id="pct" inputmode="decimal"><span class="suf">%</span></div><div class="hint" id="pctHint"></div></div>
+  <div class="field"><label>Fineness ‰</label><div class="iw"><input id="fin" inputmode="decimal"><span class="suf">‰</span></div><div class="hint" id="finHint"></div></div>
+ </div>
+ <div class="sub">Weight</div>
+ <div class="grid2">
+  <div class="field"><label>Weight</label><div class="iw"><input id="wt" inputmode="decimal" value="10"><span class="suf">g</span></div></div>
+  <div class="field"><label>Quantity</label><div class="iw"><input id="qty" inputmode="numeric" value="1"><span class="suf">pcs</span></div></div>
+ </div>
+ <div class="sub">Breakdown</div>
+ <table id="bd"></table>
+</section>
+
+<section class="card" aria-label="Compare">
+ <h2><span class="ic">⚖️</span>Compare</h2>
+ <table class="cmp" id="cmp"></table>
+</section>
+
+<section class="card info" aria-label="About this mode">
+ <span class="pill" id="infoPill">Gold mode</span>
+ <div id="infoBody"></div>
+ <h3>About the three styles</h3>
+ <ul>
+  <li><b>A · One-tap:</b> smallest. Each tap moves Au → Ag → Pt → Au. You can't see the other metals until you tap.</li>
+  <li><b>B · 3-way switch (recommended):</b> all three always visible, one tap to any metal, sliding colour thumb like the Rates toggle.</li>
+  <li><b>C · Chip + menu:</b> compact like A but shows names and purity ranges. Easy to add Palladium later; needs two taps.</li>
+ </ul>
+ <p class="notes">Demo only: values you type are kept per metal on this device. Live prices are best-effort; if a live price can't be fetched, type it in manually.</p>
+</section>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+'use strict';
+var OZ=31.1034768;
+var METALS={
+ gold:{name:'Gold',sym:'Au',code:'XAU',duty:15,dutyLinked:false,
+  hero:[{k:'XAU → IN₹ · 24K',f:999,per:1,u:'/g'},{k:'22K · 916',f:916,per:1,u:'/g'}],
+  mcx:{sub:'Gold / Mini',unit:'/10g',g:10},ft:{sub:'24k/999‰',unit:'/10g',g:10,f:999},jew:{sub:'22k/916‰',f:916},
+  purities:[['24K','9999',999.9],['24K','999',999],['24K','995',995],['22K','916',916],['18K','750',750],['14K','585',585]],
+  minF:0,
+  info:['Top cards: 24K (999) and 22K (916) per gram.','Market: MCX Gold / Mini (₹/10g), FT 24k/999‰ (₹/10g), Jewel 22k/916‰ (₹/g).','Import duty 15% (default), GST 3%, making as set.','Purity: the full gold list plus manual Purity % and Fineness ‰.']},
+ silver:{name:'Silver',sym:'Ag',code:'XAG',duty:null,dutyLinked:true,
+  hero:[{k:'XAG → IN₹ · 999',f:999,per:1,u:'/g'},{k:'999 · per kg',f:999,per:1000,u:'/kg'}],
+  mcx:{sub:'Silver / Mini',unit:'/kg',g:1000},ft:{sub:'999‰',unit:'/kg',g:1000,f:999},jew:{sub:'925‰',f:925},
+  purities:[['Fine','9999',999.9],['Fine','999',999],['','990',990],['','970',970],['','958',958],['Sterling','925',925],['Coin','900',900],['','835',835],['','800',800]],
+  minF:800,
+  info:['Top cards: Silver 999 per gram and per kg.','Market: MCX Silver / Mini (₹/kg), FT 999‰ (₹/kg) and Jewel 925‰ (₹/g) all kept.','Import duty: same as gold (follows the gold duty value).','Purity: 9999, 999, 990, 970, 958, 925, 900, 835, 800, plus manual Purity % and Fineness ‰. Nothing below 800.']},
+ platinum:{name:'Platinum',sym:'Pt',code:'XPT',duty:15.4,dutyLinked:false,
+  hero:[{k:'XPT → IN₹ · 999',f:999,per:1,u:'/g'},{k:'950 · per gram',f:950,per:1,u:'/g'}],
+  mcx:null,ft:null,jew:{sub:'950‰',f:950},
+  purities:[['Fine','9995',999.5],['Fine','999',999],['Jewellery','950',950],['','900',900],['','850',850]],
+  minF:800,
+  info:['Top cards: Platinum 999 and 950 per gram.','Market: Jewel 950‰ (₹/g) only; MCX and FT are hidden.','Import duty 15.4% (its own value).','Purity: 9995, 999, 950, 900, 850, plus manual Purity % and Fineness ‰. Nothing below 800.']}
+};
+var ORDER=['gold','silver','platinum'];
+var KEY='gcMetalDemo1';
+var S={metal:'gold',variant:'b',theme:'dark',fx:'',goldDuty:15,gst:3,dutyOn:true,gstOn:false,makOn:false,mak:8,wt:'10',qty:'1',m:{}};
+ORDER.forEach(function(m){S.m[m]={spot:'',mcx:'',ft:'',jew:'',duty:METALS[m].duty,purity:0,pct:'',fin:''};});
+try{var sv=JSON.parse(localStorage.getItem(KEY)||'null');if(sv){for(var k in sv){if(k!=='m')S[k]=sv[k];}ORDER.forEach(function(m){if(sv.m&&sv.m[m])Object.assign(S.m[m],sv.m[m]);});}}catch(e){}
+var urlV=(location.hash.match(/v=([abc])/)||[])[1];if(urlV)S.variant=urlV;
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+var $=function(id){return document.getElementById(id);};
+function num(v){var n=Number(String(v==null?'':v).replace(/[^0-9.]/g,''));return isFinite(n)?n:0;}
+function inr(n,d){if(!isFinite(n)||!n)return '—';if(d==null)d=Math.abs(n)<1000?2:0;var s=Math.abs(n).toFixed(d).split('.'),i=s[0];if(i.length>3)i=i.slice(0,-3).replace(/\B(?=(\d{2})+(?!\d))/g,',')+','+i.slice(-3);return (n<0?'−':'')+'₹'+i+(s[1]?'.'+s[1]:'');}
+function fmtIn(v){var c=String(v).replace(/[^0-9.]/g,''),p=c.split('.'),i=p[0].replace(/^0+(?=\d)/,'');if(i.length>3)i=i.slice(0,-3).replace(/\B(?=(\d{2})+(?!\d))/g,',')+','+i.slice(-3);return i+(p.length>1?'.'+p.slice(1).join('').slice(0,2):'');}
+function cur(){return S.m[S.metal];}
+function M(){return METALS[S.metal];}
+function duty(){return M().dutyLinked?S.goldDuty:cur().duty;}
+function fine(){var m=M(),c=cur();if(c.purity==='pct')return Math.max(m.minF,Math.min(1000,num(c.pct)*10));if(c.purity==='fin')return Math.max(m.minF,Math.min(1000,num(c.fin)));var p=m.purities[c.purity]||m.purities[0];return p[2];}
+function pureGram(){var s=num(cur().spot),fx=num(S.fx);return s&&fx?s*fx/OZ:0;}
+function toast(t){var e=$('toast');e.textContent=t;e.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(function(){e.classList.remove('show');},1400);}
+
+function setMetal(m,announce){
+ if(!METALS[m])return;S.metal=m;save();render();
+ if(announce)toast(METALS[m].name+' mode');
+ if(!cur().spot)sync();
+}
+function render(){
+ var m=M(),c=cur(),root=document.documentElement;
+ root.setAttribute('data-metal',S.metal);root.setAttribute('data-variant',S.variant);root.setAttribute('data-theme',S.theme);
+ document.querySelectorAll('.demo-tabs button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.v===S.variant?'true':'false');});
+ $('brandMetal').textContent=m.name;$('brandMark').textContent=m.sym;document.title=m.name+' Calculator — Switcher Demo';
+ var nx=METALS[ORDER[(ORDER.indexOf(S.metal)+1)%3]];
+ $('swASym').textContent=m.sym;$('swADot').className='dot '+S.metal;$('swA').setAttribute('aria-label','Metal: '+m.name+'. Tap for '+nx.name);
+ document.querySelectorAll('.sw-b button,.menu button[data-m]').forEach(function(b){b.setAttribute('aria-checked',b.dataset.m===S.metal?'true':'false');});
+ $('swCSym').textContent=m.sym;$('swCDot').className='dot '+S.metal;
+ $('themeBtn').textContent=S.theme==='dark'?'☾':'☀';
+ // market labels
+ $('spotLab').textContent=m.code+' → U$D';
+ [['mcx','mcxF','mcxSub','mcxU'],['ft','ftF','ftSub','ftU']].forEach(function(x){var cfg=m[x[0]];$(x[1]).classList.toggle('strip-hide',!cfg);if(cfg){$(x[2]).textContent=cfg.sub;$(x[3]).textContent=cfg.unit;}});
+ $('jewSub').textContent=m.jew.sub;
+ ['spot','mcx','ft','jew'].forEach(function(k){var e=$(k);if(document.activeElement!==e)e.value=c[k]?fmtIn(c[k]):'';});
+ if(document.activeElement!==$('fx'))$('fx').value=S.fx;
+ if(document.activeElement!==$('duty'))$('duty').value=duty();
+ if(document.activeElement!==$('gst'))$('gst').value=S.gst;
+ if(document.activeElement!==$('mak'))$('mak').value=S.mak;
+ $('dutyHint').textContent=m.dutyLinked?'Same as gold':(S.metal==='platinum'?'Platinum rate':'');
+ [['dutyT','dutyW',S.dutyOn],['gstT','gstW',S.gstOn],['makT','makW',S.makOn]].forEach(function(x){$(x[0]).setAttribute('aria-checked',x[2]?'true':'false');$(x[1]).classList.toggle('off',!x[2]);});
+ // hero
+ var pg=pureGram(),d=S.dutyOn?1+duty()/100:1,g=S.gstOn?1+num(S.gst)/100:1;
+ m.hero.forEach(function(h,i){$('h'+(i+1)+'k').textContent=h.k;$('h'+(i+1)+'v').textContent=pg?inr(pg*h.f/1000*h.per*d*g):'—';});
+ $('heroNote').textContent=S.dutyOn&&S.gstOn?'Includes import duty & GST':S.dutyOn?'Includes import duty':S.gstOn?'Includes GST':'Excludes import duty';
+ // purity chips
+ var ch=$('chips');ch.innerHTML='';
+ m.purities.forEach(function(p,i){var b=document.createElement('button');b.type='button';b.className='chip';b.setAttribute('aria-pressed',c.purity===i?'true':'false');b.innerHTML='<b>'+p[1]+'</b><small>'+(p[0]||'‰')+'</small>';b.onclick=function(){c.purity=i;save();render();};ch.appendChild(b);});
+ [['pct','Purity','%'],['fin','Fineness','‰']].forEach(function(x){var b=document.createElement('button');b.type='button';b.className='chip';b.setAttribute('aria-pressed',c.purity===x[0]?'true':'false');b.innerHTML='<b>'+x[1]+'</b><small>'+x[2]+' manual</small>';b.onclick=function(){c.purity=x[0];save();render();};ch.appendChild(b);});
+ var man=c.purity==='pct'||c.purity==='fin';$('manual').hidden=!man;
+ if(man){if(document.activeElement!==$('pct'))$('pct').value=c.pct;if(document.activeElement!==$('fin'))$('fin').value=c.fin;}
+ var lim=m.minF?'Min '+(m.minF/10)+'% · '+m.minF+'‰':'';
+ $('pctHint').textContent=lim;$('finHint').textContent=lim;
+ // breakdown
+ var f=fine(),w=num(S.wt)*Math.max(1,Math.round(num(S.qty))||1),metal=pg*f/1000*w,dA=S.dutyOn?metal*duty()/100:0,aD=metal+dA,mA=S.makOn?aD*num(S.mak)/100:0,gA=S.gstOn?(aD+mA)*num(S.gst)/100:0,tot=aD+mA+gA;
+ var rows=[['Purity',(Math.round(f*10)/10)+'‰'],['Weight',w+' g'],['Metal value',inr(metal)],['Import duty '+(S.dutyOn?duty()+'%':'OFF'),S.dutyOn?inr(dA):'—'],['Making '+(S.makOn?S.mak+'%':'OFF'),S.makOn?inr(mA):'—'],['GST '+(S.gstOn?S.gst+'%':'OFF'),S.gstOn?inr(gA):'—']];
+ $('bd').innerHTML=rows.map(function(r){return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td></tr>';}).join('')+'<tr class="tot"><td>Total</td><td>'+(pg?inr(tot):'—')+'</td></tr>';
+ // compare (spot with duty, no GST)
+ var spotG=pg*(S.dutyOn?1+duty()/100:1),cmp=[];
+ function line(lab,val,ref,sub){if(!val||!ref)return '<tr><td>'+lab+'</td><td>—</td></tr>';var df=val-ref,pc=df/ref*100,cl=df>=0?'up':'down';return '<tr><td>'+lab+'</td><td class="'+cl+'">'+(df>=0?'+':'−')+inr(Math.abs(df)).slice(0)+' ('+(df>=0?'+':'−')+Math.abs(pc).toFixed(2)+'%)<small>'+sub+'</small></td></tr>';}
+ if(m.mcx)cmp.push(line('Spot vs MCX',num(c.mcx),spotG*m.mcx.g,'MCX '+inr(num(c.mcx))+m.mcx.unit));
+ if(m.ft)cmp.push(line('FT vs Spot',num(c.ft),spotG*m.ft.g*m.ft.f/1000,'FT '+inr(num(c.ft))+m.ft.unit));
+ cmp.push(line('Jewel vs Spot',num(c.jew),spotG*m.jew.f/1000,'Jewel '+inr(num(c.jew))+'/g · spot '+m.jew.sub+' excl. GST'));
+ $('cmp').innerHTML=cmp.join('');
+ // info
+ $('infoPill').textContent=m.name+' mode';
+ $('infoBody').innerHTML='<h3>What this mode shows</h3><ul>'+m.info.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul>';
+}
+// events
+document.querySelectorAll('.demo-tabs button').forEach(function(b){b.onclick=function(){S.variant=b.dataset.v;save();render();};});
+$('swA').onclick=function(){setMetal(ORDER[(ORDER.indexOf(S.metal)+1)%3],true);};
+document.querySelectorAll('.sw-b button').forEach(function(b){b.onclick=function(){setMetal(b.dataset.m,true);};});
+$('swCBtn').onclick=function(e){e.stopPropagation();var o=$('swCMenu').hidden;$('swCMenu').hidden=!o;this.setAttribute('aria-expanded',o?'true':'false');};
+document.querySelectorAll('.menu button[data-m]').forEach(function(b){b.onclick=function(){$('swCMenu').hidden=true;$('swCBtn').setAttribute('aria-expanded','false');setMetal(b.dataset.m,true);};});
+document.addEventListener('click',function(){$('swCMenu').hidden=true;$('swCBtn').setAttribute('aria-expanded','false');});
+$('themeBtn').onclick=function(){S.theme=S.theme==='dark'?'light':'dark';save();render();};
+function bindNum(id,setter,indian){var e=$(id);e.addEventListener('input',function(){if(indian){var v=fmtIn(e.value);if(v!==e.value)e.value=v;}setter(e.value);save();render();});}
+['spot','mcx','ft','jew'].forEach(function(k){bindNum(k,function(v){cur()[k]=String(v).replace(/[^0-9.]/g,'');if(k==='spot')$('spotTag').textContent='Manual';},k!=='spot');});
+bindNum('fx',function(v){S.fx=String(v).replace(/[^0-9.]/g,'');$('fxTag').textContent='Manual';});
+bindNum('duty',function(v){if(M().dutyLinked||S.metal==='gold')S.goldDuty=num(v);else cur().duty=num(v);});
+bindNum('gst',function(v){S.gst=num(v);});bindNum('mak',function(v){S.mak=num(v);});
+bindNum('wt',function(v){S.wt=v;});bindNum('qty',function(v){S.qty=v;});
+bindNum('pct',function(v){cur().pct=String(v).replace(/[^0-9.]/g,'');var n=num(v);if(n)cur().fin=String(Math.round(n*100)/10);});
+bindNum('fin',function(v){cur().fin=String(v).replace(/[^0-9.]/g,'');var n=num(v);if(n)cur().pct=String(Math.round(n*10)/100);});
+['pct','fin'].forEach(function(id){$(id).addEventListener('blur',function(){var m=M();if(!m.minF)return;var c=cur(),f=num(c.fin);if(f&&f<m.minF){c.fin=String(m.minF);c.pct=String(m.minF/10);toast('Minimum is '+m.minF+'‰');save();render();}});});
+[['dutyT','dutyOn'],['gstT','gstOn'],['makT','makOn']].forEach(function(x){$(x[0]).onclick=function(){S[x[1]]=!S[x[1]];save();render();};});
+$('wt').value=S.wt;$('qty').value=S.qty;
+// live prices (best effort)
+function sync(){
+ var m=M(),metal=S.metal;$('syncNote').textContent='Fetching '+m.code+'/USD and USD/INR…';
+ var a=fetch('https://api.gold-api.com/price/'+m.code,{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){if(!d||d.symbol!==m.code||!(d.price>0))throw 0;S.m[metal].spot=String(Math.round(d.price*100)/100);if(S.metal===metal)$('spotTag').textContent='Live';return true;}).catch(function(){return false;});
+ var b=fetch('https://api.frankfurter.dev/v2/rate/usd/inr',{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){var r=Number(d&&(d.rate||(d.rates&&d.rates.INR)));if(!(r>0))throw 0;S.fx=String(Math.round(r*100)/100);$('fxTag').textContent='Ref';return true;}).catch(function(){return false;});
+ Promise.all([a,b]).then(function(r){save();render();$('syncNote').textContent=(r[0]?m.code+'/USD live':m.code+'/USD unavailable — type it')+' · '+(r[1]?'USD/INR Ref':'USD/INR unavailable');});
+}
+$('syncBtn').onclick=sync;
+render();sync();
+})();
+</script>
+</body>
+</html>
