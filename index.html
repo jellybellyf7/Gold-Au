@@ -11294,10 +11294,13 @@ html[data-metal="silver"] .bullion-theme-toggle,html[data-metal="platinum"] .bul
 html[data-metal="silver"]:root :is(.card,.topbar,.bottom-nav),html[data-metal="platinum"]:root :is(.card,.topbar,.bottom-nav){border-color:var(--glass-border-strong)!important}
 html[data-metal="silver"][data-theme="light"] .card.hero{background:linear-gradient(150deg,#FFFFFF,#E6E9ED 72%,#F2F4F6)!important}
 html[data-metal="platinum"][data-theme="light"] .card.hero{background:linear-gradient(150deg,#F8FBFF,#D9E7F6 72%,#ECF3FB)!important}
-html[data-metal="silver"][data-theme="light"]:root :is(.field .input-wrap,.hero-stat,.quick-tile,#tab-bench .quick-tile,#purityYieldPane .quick-tile,.mcx-strip,.bd-final,.seg,.stepper,.date-pill,.date-pill,.mcx-marketwatch-link,.sync-btn,.input-wrap){background:linear-gradient(145deg,#FFFFFF,#ECEEF1)!important}
-html[data-metal="platinum"][data-theme="light"]:root :is(.field .input-wrap,.hero-stat,.quick-tile,#tab-bench .quick-tile,#purityYieldPane .quick-tile,.mcx-strip,.bd-final,.seg,.stepper,.date-pill,.date-pill,.mcx-marketwatch-link,.sync-btn,.input-wrap){background:linear-gradient(145deg,#FBFDFF,#E4EDF8)!important}
+html[data-metal="silver"][data-theme="light"]:root :is(.field .input-wrap,.hero-stat,.quick-tile,#tab-bench .quick-tile,#purityYieldPane .quick-tile,.mcx-strip,.bd-final,.seg,.stepper,.date-pill,.date-pill,.sync-btn,.input-wrap){background:linear-gradient(145deg,#FFFFFF,#ECEEF1)!important}
+html[data-metal="platinum"][data-theme="light"]:root :is(.field .input-wrap,.hero-stat,.quick-tile,#tab-bench .quick-tile,#purityYieldPane .quick-tile,.mcx-strip,.bd-final,.seg,.stepper,.date-pill,.date-pill,.sync-btn,.input-wrap){background:linear-gradient(145deg,#FBFDFF,#E4EDF8)!important}
 html[data-metal="silver"][data-theme="light"] .bottom-nav{background:rgba(252,252,253,.97)!important}
 html[data-metal="platinum"][data-theme="light"] .bottom-nav{background:rgba(247,251,255,.97)!important}
+/* MCX, FT and Jewel web-link buttons: plain text links, no background or shadow (all metals, both themes, every state). */
+html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger),
+html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger):is(:hover,:active,:focus){background:none!important;background-image:none!important;box-shadow:none!important;-webkit-tap-highlight-color:transparent}
 html[data-metal="platinum"] #mcxField,html[data-metal="platinum"] #ftbarField,html[data-metal="platinum"] #mcxStrip,html[data-metal="platinum"] #ftbarStrip,html[data-metal="platinum"] #mcxVsFtStrip{display:none!important}
 html[data-metal="platinum"] #ftMakingRow.metal-empty-row{display:none!important}
 html[data-metal="silver"] .metal-gold-only,html[data-metal="platinum"] .metal-gold-only{display:none!important}
