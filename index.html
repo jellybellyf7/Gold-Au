@@ -7104,6 +7104,13 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
       if(state.marketRatesEnabled) fetchLiveMarketRates(true);
       var rb = $('resetRatesBtn'); rb.classList.add('flipped'); setTimeout(function(){ rb.classList.remove('flipped'); }, 450);
     });
+    /* Restore a saved manual MCX / FT value (used by the manual-entry backup). Works with Rates ON or OFF. */
+    window.__gcRestoreManual = function(key, v){
+      if(['mcx10g24k','ftbar10g24k'].indexOf(key) === -1 || !validRate(v)) return false;
+      if(validRate(state[key])) return false;
+      setRate(key, v, 'manual'); saveState(); renderAll();
+      return true;
+    };
 
     $('addOrderBtn').addEventListener('click', function(){
       var unit = unitByKey(state.unit), purity = purityByKey(state.purity);
@@ -10964,6 +10971,53 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
  /* The Jewel box can also be filled by code (auto rate), which fires no event. */
  setInterval(function(){ if(!document.hidden) update(); },1000);
  update();
+})();
+</script>
+<script id="market-manual-persist-20261120">
+/* MCX, FT and Jewel keep the last manual entry across refreshes and full restarts.
+   Each value is also backed up under its own key and, in the Android app, in native storage
+   (written immediately), then restored on launch if the main saved state lost it. Reset clears them. */
+(function(){
+ 'use strict';
+ var F=[{id:'mcxInput',key:'mcx10g24k',bk:'gcManualMcx10g'},{id:'ftbarInput',key:'ftbar10g24k',bk:'gcManualFt10g'},{id:'jewelInput',key:'jewel',bk:'gcManualJewel22k'}];
+ var B=window.AndroidBridge;
+ function nat(){ return B&&typeof B.storeGet==='function'&&typeof B.storeSet==='function'; }
+ function num(t){ var n=Number(String(t==null?'':t).replace(/[^0-9.]/g,'')); return isFinite(n)&&n>0?n:0; }
+ function put(k,v){
+  try{ if(v) localStorage.setItem(k,String(v)); else localStorage.removeItem(k); }catch(e){}
+  if(nat()){ try{ B.storeSet(k,v?String(v):''); }catch(e){} }
+ }
+ function get(k){
+  var v=null; try{ v=localStorage.getItem(k); }catch(e){}
+  if(!num(v)&&nat()){ try{ v=B.storeGet(k); }catch(e){} }
+  return num(v);
+ }
+ function inr(n){ var p=String(Math.round(n*100)/100).split('.'),i=p[0]; if(i.length>3) i=i.slice(0,-3).replace(/\B(?=(\d{2})+(?!\d))/g,',')+','+i.slice(-3); return i+(p[1]?'.'+p[1]:''); }
+ function backup(f){ var el=document.getElementById(f.id); if(!el) return; put(f.bk,num(el.value)); }
+ function restore(){
+  F.forEach(function(f){
+   var el=document.getElementById(f.id); if(!el) return;
+   if(num(el.value)){ backup(f); return; }
+   var v=get(f.bk); if(!v) return;
+   if(f.key==='jewel'){
+    try{ localStorage.setItem('bullionSpotJewel22kRate',inr(v)); }catch(e){}
+    if(document.activeElement!==el) el.value=inr(v);
+   } else if(typeof window.__gcRestoreManual==='function'){
+    window.__gcRestoreManual(f.key,v);
+   }
+  });
+ }
+ F.forEach(function(f){
+  var el=document.getElementById(f.id); if(!el) return;
+  /* after the app's own handler has formatted or reverted the value */
+  el.addEventListener('input',function(){ if(!el.readOnly) setTimeout(function(){ backup(f); },0); });
+  el.addEventListener('blur',function(){ if(!el.readOnly) backup(f); });
+ });
+ var reset=document.getElementById('resetRatesBtn');
+ if(reset) reset.addEventListener('click',function(){ F.forEach(function(f){ put(f.bk,''); }); });
+ function run(){ restore(); setTimeout(restore,600); setTimeout(restore,1800); }
+ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',run); else run();
+ window.addEventListener('pageshow',function(e){ if(e.persisted) restore(); });
 })();
 </script>
 <style id="market-column-order-20261119">
