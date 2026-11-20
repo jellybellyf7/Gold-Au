@@ -11298,6 +11298,16 @@ html[data-metal="silver"][data-theme="light"]:root :is(.field .input-wrap,.hero-
 html[data-metal="platinum"][data-theme="light"]:root :is(.field .input-wrap,.hero-stat,.quick-tile,#tab-bench .quick-tile,#purityYieldPane .quick-tile,.mcx-strip,.bd-final,.seg,.stepper,.date-pill,.date-pill,.sync-btn,.input-wrap){background:linear-gradient(145deg,#FBFDFF,#E4EDF8)!important}
 html[data-metal="silver"][data-theme="light"] .bottom-nav{background:rgba(252,252,253,.97)!important}
 html[data-metal="platinum"][data-theme="light"] .bottom-nav{background:rgba(247,251,255,.97)!important}
+/* Top rate cards: hairline metal glass rim (gradient stroke, follows the selected metal). */
+html:root .hero .hero-stat{position:relative;border-color:transparent!important}
+html:root .hero .hero-stat::after{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:.6px;pointer-events:none;
+ background:var(--gc-rim);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.9}
+html:root{--gc-rim:linear-gradient(135deg,#FFF4C8 0%,#E9B84E 24%,#8C6622 50%,#F8D97E 74%,#B98A30 100%)}
+html[data-metal="silver"]:root{--gc-rim:linear-gradient(135deg,#FFFFFF 0%,#CDD2DA 24%,#7E8590 50%,#F3F5F8 74%,#A4ABB6 100%)}
+html[data-metal="platinum"]:root{--gc-rim:linear-gradient(135deg,#F5F9FF 0%,#B8C7DB 24%,#687B94 50%,#E4EDF9 74%,#90A3BD 100%)}
+html[data-theme="light"]:root{--gc-rim:linear-gradient(135deg,#F3D27A 0%,#B8862E 26%,#7A5718 50%,#D9AE4E 74%,#9C7224 100%)}
+html[data-metal="silver"][data-theme="light"]:root{--gc-rim:linear-gradient(135deg,#E2E6EC 0%,#9DA4AF 26%,#5F6672 50%,#BFC5CE 74%,#7E8692 100%)}
+html[data-metal="platinum"][data-theme="light"]:root{--gc-rim:linear-gradient(135deg,#DCE6F3 0%,#93A6C0 26%,#536781 50%,#B7C7DC 74%,#748AA7 100%)}
 /* MCX, FT and Jewel web-link buttons: plain text links, no background or shadow (all metals, both themes, every state). */
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger),
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger):is(:hover,:active,:focus){background:none!important;background-image:none!important;box-shadow:none!important;-webkit-tap-highlight-color:transparent}
