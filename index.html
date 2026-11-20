@@ -10741,6 +10741,50 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
   requestAnimationFrame(update);
 })();
 </script>
+<style id="insights-metal-five-visible-scroll">
+/* Match XAU: only five Metal tickers visible, then independent vertical scroll. */
+#tab-insights #insightsBondsPane .compare-market-widgets{
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  overscroll-behavior-y:contain;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
+  scrollbar-width:none;
+  scrollbar-color:rgba(204,161,85,.45) transparent;
+  min-height:0;
+}
+#tab-insights #insightsBondsPane .compare-market-widgets > .compare-market-widget{flex-shrink:0}
+#tab-insights #insightsBondsPane .compare-market-widgets::-webkit-scrollbar{
+  display:none;
+  width:0;
+  height:0;
+}
+</style>
+<script id="insights-metal-five-visible-height-controller">
+(function(){
+  var rail=document.querySelector('#insightsBondsPane .compare-market-widgets');
+  if(!rail)return;
+  function update(){
+    var cards=rail.querySelectorAll(':scope > .compare-market-widget');
+    if(cards.length<5)return;
+    var style=getComputedStyle(rail);
+    var gap=parseFloat(style.rowGap||style.gap)||0;
+    var h=0;
+    for(var i=0;i<5;i++)h+=cards[i].getBoundingClientRect().height;
+    h+=gap*4;
+    if(h>0)rail.style.setProperty('max-height',h+'px','important');
+  }
+  update();
+  window.addEventListener('load',update);
+  window.addEventListener('resize',update);
+  if(window.ResizeObserver){
+    var ro=new ResizeObserver(update);
+    var cards=rail.querySelectorAll(':scope > .compare-market-widget');
+    for(var i=0;i<Math.min(5,cards.length);i++)ro.observe(cards[i]);
+  }
+  requestAnimationFrame(update);
+})();
+</script>
 <style id="insights-xaufx-five-visible-scroll">
 /* Match XAU: only five XAUFX tickers visible, then independent vertical scroll. */
 #tab-insights #insightsXauFxPane .compare-market-widgets{
