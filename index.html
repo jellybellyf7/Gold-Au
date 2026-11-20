@@ -9,6 +9,26 @@
 <meta content="Bullion Spot" name="apple-mobile-web-app-title"/>
 <meta content="telephone=no" name="format-detection"/>
 <meta name="theme-color" content="#000000"/>
+<script id="gc-metal-boot-20261120">
+/* Metal mode (Gold / Silver / Platinum): config and the saved choice, applied before first paint. */
+window.__gcMetals={
+ gold:{name:'Gold',sym:'Au',code:'XAU',unitG:10,unitLabel:'/10g',mcx:'Gold / Mini',ft:'24k/999‰',jewel:'22k/916‰',jvs:'22k',hasMcx:true,hasFt:true,minF:0,duty:15,
+  hero:[{k:'XAU → IN₹ · 24K',karat:24},{k:'22K · 916',karat:22}],range:'24K–14K'},
+ silver:{name:'Silver',sym:'Ag',code:'XAG',unitG:1000,unitLabel:'/kg',mcx:'Silver / Mini',ft:'999‰',jewel:'925‰',jvs:'925',hasMcx:true,hasFt:true,minF:800,dutyLinked:true,
+  hero:[{k:'XAG → IN₹ · 9999',karat:24*0.9999},{k:'Sterling • 925 g',karat:24*0.925}],range:'9999–800',
+  purities:[['9999','Fine',999.9],['999','Fine',999],['990','‰',990],['970','‰',970],['958','‰',958],['925','Sterling',925],['900','Coin',900],['835','‰',835],['800','‰',800]],customPct:92.5},
+ platinum:{name:'Platinum',sym:'Pt',code:'XPT',unitG:10,unitLabel:'/10g',jewel:'950‰',jvs:'Pt950',hasMcx:false,hasFt:false,minF:800,duty:15.4,
+  hero:[{k:'XPT → IN₹ · 9995',karat:24*0.9995},{k:'Pt950 • g',karat:24*0.95}],range:'9995–850',
+  purities:[['9995','Fine',999.5],['999','Fine',999],['950','Jewellery',950],['900','‰',900],['850','‰',850]],customPct:95}
+};
+(function(){
+ var m='gold';
+ try{ var v=JSON.parse(localStorage.getItem('gcMetalMode')||'{}').metal; if(window.__gcMetals[v]) m=v; }catch(e){}
+ window.__gcMetal=m;
+ window.__gcMetalCfg=function(){ return window.__gcMetals[window.__gcMetal]||window.__gcMetals.gold; };
+ document.documentElement.setAttribute('data-metal',m);
+})();
+</script>
 <style id="bullion-ios-first-paint-style">
 /* Paint a matching root canvas before any remote fonts/widgets are requested. */
 html {background-color:#000000;color-scheme:dark}
@@ -4686,7 +4706,13 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
 <div class="app" id="appRoot">
 <header class="topbar">
 <div class="brand">
-<div class="brand-text"><h1>Gold</h1><p>Calculator</p></div>
+<div class="brand-text metal-switch" id="metalSwitch"><h1><button type="button" class="metal-chip" id="metalChip" aria-haspopup="menu" aria-expanded="false" aria-controls="metalMenu" aria-label="Gold calculator. Change metal"><span class="metal-name" id="metalChipName">Gold</span><svg class="metal-caret" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.6 5 6.6 8 3.6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h1><p>Calculator</p>
+<div class="metal-menu" id="metalMenu" role="menu" aria-label="Choose metal" hidden>
+<button type="button" role="menuitemradio" data-metal="gold" aria-checked="true"><i class="metal-dot is-gold" aria-hidden="true"></i><span><b>Gold</b><small>Au · 24K–14K</small></span><span class="metal-tick" aria-hidden="true">✓</span></button>
+<button type="button" role="menuitemradio" data-metal="silver" aria-checked="false"><i class="metal-dot is-silver" aria-hidden="true"></i><span><b>Silver</b><small>Ag · 9999–800</small></span><span class="metal-tick" aria-hidden="true">✓</span></button>
+<button type="button" role="menuitemradio" data-metal="platinum" aria-checked="false"><i class="metal-dot is-platinum" aria-hidden="true"></i><span><b>Platinum</b><small>Pt · 9995–850</small></span><span class="metal-tick" aria-hidden="true">✓</span></button>
+</div>
+</div>
 </div>
 <button type="button" id="bullionThemeToggle" class="bullion-theme-toggle" role="switch" aria-checked="true" aria-label="Switch to light mode" title="Switch to light mode"><span class="bullion-theme-icon" aria-hidden="true">☾</span></button>
 <div aria-label="Current date and time. Tap for New York and London time." class="date-pill" id="datePill" role="button" tabindex="0" aria-haspopup="dialog" aria-expanded="false" aria-controls="worldClockPopover">
@@ -5694,7 +5720,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     // Keep the MCX comparison strip available in both Rates modes.
     state.mcxEnabled = true; state.ftbarEnabled = true;
   }
-  function saveState(){ try{ window.localStorage.setItem('bullion-spot-state-v3', JSON.stringify(state)); }catch(e){ /* ignore */ }; document.dispatchEvent(new Event('bullion:section-state-saved')); }
+  function saveState(){ try{ window.localStorage.setItem('bullion-spot-state-v3', JSON.stringify(state)); }catch(e){ /* ignore */ }; if(window.__gcMetalSnap) try{ window.__gcMetalSnap(); }catch(e){} document.dispatchEvent(new Event('bullion:section-state-saved')); }
 
   /* Market / Calculate / Compare controls: scoped state bridge. */
   var SECTION_KEYS={
@@ -5852,13 +5878,14 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
   var retryAfterInFlight = false;
 
   function fetchGoldApiXauUsd(){
-    return fetchWithTimeout(GOLD_API_XAUUSD_URL, {cache:'no-store', headers:{Accept:'application/json'}}, 10000)
+    var metalCode = window.__gcMetalCfg().code;
+    return fetchWithTimeout('https://api.gold-api.com/price/' + metalCode, {cache:'no-store', headers:{Accept:'application/json'}}, 10000)
       .then(function(res){
         if(!res.ok) throw new Error('Gold API HTTP ' + res.status);
         return res.json();
       }).then(function(data){
         // Never misinterpret a non-USD price (or its exchangeRate) as XAU/USD or USD/INR.
-        if(!data || data.symbol !== 'XAU' || data.currency !== 'USD'){
+        if(!data || data.symbol !== metalCode || data.currency !== 'USD'){
           throw new Error('Gold API response is not XAU/USD in USD');
         }
         var price = Number(data.price);
@@ -6056,7 +6083,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     lastBenchmarkFetch = Date.now();
     benchmarkFetchInProgress = true;
     var activeBenchmarkRevision = rateResetRevision;
-    if(!state.ftbarEnabled){benchmarkFetchInProgress=false;return;}
+    if(!state.ftbarEnabled || window.__gcMetal!=='gold'){benchmarkFetchInProgress=false;return;}
     // An optional proxy is necessary because this website has no public CORS API.
     // If the proxy fails or the SELL cell is blank, keep the previous FT rate.
     var dealer = 'https://www.priyankabullion.com/';
@@ -6101,8 +6128,10 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     var spotSucceeded = false;
 
     if(state.spotAuto){
+      var fetchMetal = window.__gcMetal;
       tasks.push(fetchGoldApiXauUsd().then(function(result){
           if(!state.spotAuto || !state.marketRatesEnabled || activeRateRevision !== rateResetRevision) return;
+          if(fetchMetal !== window.__gcMetal) return;
           setRate('spot', result.price, 'live');
           state.rateMeta.spot.provider = 'Gold API';
           if(result.quoteAt) state.rateMeta.spot.quoteAt = result.quoteAt;
@@ -6152,8 +6181,9 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
   function syncCustomPurityValues(){
     var a=PURITIES.find(function(p){return p.key==='custompercent';});
     var b=PURITIES.find(function(p){return p.key==='customfineness';});
-    a.karat=24*Math.max(0,Math.min(100,Number(state.customPurityPercent)||0))/100;
-    b.karat=24*Math.max(0,Math.min(1000,Number(state.customPurityFineness)||0))/1000;
+    var minF=window.__gcMetalCfg().minF||0;
+    a.karat=24*Math.max(minF/10,Math.min(100,Number(state.customPurityPercent)||0))/100;
+    b.karat=24*Math.max(minF,Math.min(1000,Number(state.customPurityFineness)||0))/1000;
   }
   function purityByKey(k){ for(var i=0;i<PURITIES.length;i++){ if(PURITIES[i].key===k) return PURITIES[i]; } return PURITIES[0]; }
 
@@ -6178,8 +6208,8 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     var gstAmtUSD = s.usdinr ? gstAmt/s.usdinr : 0;
     return { weight:weight, pureValueINR:pureValueINR, pureValueUSD:pureValueUSD, dutyAmt:dutyAmt, dutyAmtUSD:dutyAmtUSD, afterDuty:afterDuty, afterDutyUSD:afterDutyUSD, makingAmt:makingAmt, makingAmtUSD:makingAmtUSD, preGst:preGst, gstAmt:gstAmt, gstAmtUSD:gstAmtUSD, afterGst:afterGst, overheadAmt:overheadAmt, overheadPct:overheadPct };
   }
-  function mcxEquivalent(weight, karat, s){ var mcxPerGram24k = s.mcx10g24k / 10; return mcxPerGram24k * (karat/24) * weight; }
-  function ftbarEquivalent(weight, karat, s){ var ftbarPerGram24k = s.ftbar10g24k / 10; return ftbarPerGram24k * (karat/24) * weight; }
+  function mcxEquivalent(weight, karat, s){ var mcxPerGram24k = s.mcx10g24k / window.__gcMetalCfg().unitG; return mcxPerGram24k * (karat/24) * weight; }
+  function ftbarEquivalent(weight, karat, s){ var ftbarPerGram24k = s.ftbar10g24k / window.__gcMetalCfg().unitG; return ftbarPerGram24k * (karat/24) * weight; }
 
   var $ = function(id){ return document.getElementById(id); };
   var puritySeg = $('puritySeg'), unitChips = $('unitChips');
@@ -6249,7 +6279,8 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
       if(custom){
         var fine=state.purity==='customfineness',input=document.getElementById('customPurityValue');
         document.getElementById('customPuritySuffix').textContent=fine?'‰':'%';
-        document.getElementById('customPurityHelp').textContent=fine?'Enter gold fineness between 0 and 1000 (parts per thousand).':'Enter gold purity between 0 and 100 percent.';
+        var mc=window.__gcMetalCfg(),lo=mc.minF||0,nm=mc.name.toLowerCase();
+        document.getElementById('customPurityHelp').textContent=fine?'Enter '+nm+' fineness between '+lo+' and 1000 (parts per thousand).':'Enter '+nm+' purity between '+(lo/10)+' and 100 percent.';
         input.max=fine?'1000':'100';
         if(document.activeElement!==input)input.value=fine?state.customPurityFineness:state.customPurityPercent;
       }
@@ -6272,6 +6303,15 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
       host.querySelectorAll('button').forEach(function(b){b.setAttribute('aria-pressed',String(b===btn));});
       renderAll();
       requestAnimationFrame(function(){moveIndicator();syncPurityIndicator();});
+    });
+    document.getElementById('customPurityValue').addEventListener('blur',function(){
+      var lo=window.__gcMetalCfg().minF||0; if(!lo) return;
+      var fine=state.purity==='customfineness', min=fine?lo:lo/10, n=Number(this.value);
+      if(Number.isFinite(n) && n>0 && n<min){
+        this.value=min; if(fine)state.customPurityFineness=min; else state.customPurityPercent=min;
+        if(typeof showToast==='function') showToast('Minimum is '+lo+'‰ ('+(lo/10)+'%)');
+        saveState(); renderAll();
+      }
     });
     document.getElementById('customPurityValue').addEventListener('input',function(){
       var n=Number(this.value),fine=state.purity==='customfineness';
@@ -6425,13 +6465,15 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
   }
   function renderHero(){
     // Market headline rates: spot + import duty (when ON) + GST (when ON). Making stays in Calculate.
-    var r24 = computeLine(1, 24, 1, state);
-    var r22 = computeLine(1, 22, 1, state);
+    var heroCfg = window.__gcMetalCfg().hero;
+    var r24 = computeLine(1, heroCfg[0].karat, 1, state);
+    var r22 = computeLine(1, heroCfg[1].karat, 1, state);
     var gstFactor = state.gstEnabled ? 1 + (Number(state.gst)||0)/100 : 1;
-    $('hero24k').textContent = haveRequiredRates() ? fmtINR(r24.afterDuty * gstFactor, 0) : '—';
+    var heroDec = function(v){ return v < 1000 ? 2 : 0; };
+    $('hero24k').textContent = haveRequiredRates() ? fmtINR(r24.afterDuty * gstFactor, heroDec(r24.afterDuty * gstFactor)) : '—';
     // Spot 22K without GST (duty as toggled), kept for Compare › Jewel vs Spot.
     $('hero22k').setAttribute('data-ex-gst', haveRequiredRates() ? String(r22.afterDuty) : '');
-    $('hero22k').textContent = haveRequiredRates() ? fmtINR(r22.afterDuty * gstFactor, 0) : '—';
+    $('hero22k').textContent = haveRequiredRates() ? fmtINR(r22.afterDuty * gstFactor, heroDec(r22.afterDuty * gstFactor)) : '—';
     var inc = $('heroIncludesNote');
     if(inc){ var t = heroIncludesLabel(); inc.textContent = t; inc.hidden = !t; }
   }
@@ -6705,7 +6747,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     $('mcxField').classList.toggle('disabled', !state.mcxEnabled);
     $('ftbarField').classList.toggle('disabled', !state.ftbarEnabled);
     $('makingField').classList.toggle('disabled', !state.makingEnabled);
-    if(document.activeElement !== $('spotInput')) $('spotInput').value = inputRateText(state.spot, 0);
+    if(document.activeElement !== $('spotInput')) $('spotInput').value = window.__gcMetal==='silver' ? inputRateText(state.spot, 2) : inputRateText(state.spot, 0);
     if(document.activeElement !== $('usdinrInput')) $('usdinrInput').value = inputRateText(state.usdinr, 2, 2);
     if(document.activeElement !== $('dutyInput')) $('dutyInput').value = formatInputNumber(state.duty, 2);
     if(document.activeElement !== $('gstInput')) $('gstInput').value = formatInputNumber(state.gst, 2);
@@ -6786,7 +6828,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     svg.innerHTML='<circle cx="14" cy="14" r="11" fill="url(#coinGrad)" stroke="var(--gold-700)" stroke-width="1.2"/>'+
       icons[tier];
     var tooltip=document.createElementNS(NS,'title');
-    tooltip.textContent=groupNames[group]+' · '+names[tier]+' · '+(valid?karat.toLocaleString('en-IN',{maximumFractionDigits:2})+'K':'purity not entered');
+    tooltip.textContent=(window.__gcMetal&&window.__gcMetal!=='gold'?window.__gcMetalCfg().name+' · ':groupNames[group]+' · '+names[tier]+' · ')+(valid?karat.toLocaleString('en-IN',{maximumFractionDigits:2})+'K':'purity not entered');
     svg.insertBefore(tooltip,svg.firstChild);
     return svg;
   }
@@ -6806,16 +6848,16 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
         karat=Number.isFinite(xrfPercent) && xrfPercent>0 ? xrfPercent*24/100 : NaN;
       }else karat=NaN;
     }else if(p.key==='custompercent'){
-      karat=24*Number(state.customPurityPercent)/100;
+      karat=24*Math.max((window.__gcMetalCfg().minF||0)/10,Number(state.customPurityPercent))/100;
     }else if(p.key==='customfineness'){
-      karat=24*Number(state.customPurityFineness)/1000;
+      karat=24*Math.max(window.__gcMetalCfg().minF||0,Number(state.customPurityFineness))/1000;
     }
     var valid=Number.isFinite(karat)&&karat>=0&&karat<=24;
     function number(n){return n.toLocaleString('en-IN',{maximumFractionDigits:2});}
     // All three readouts must derive from the same effective karat used by
     // the value calculator. In particular, 1K is 41.67‰ and 4.17%, not 41.67%.
     var nextText=valid
-      ? number(karat)+'k · '+number(karat/24*1000)+'‰\u00a0\u00a0·\u00a0\u00a0'+number(karat/24*100)+'%'
+      ? (window.__gcMetal==='gold'?number(karat)+'k · ':'')+number(karat/24*1000)+'‰\u00a0\u00a0·\u00a0\u00a0'+number(karat/24*100)+'%'
       : '—k · —‰\u00a0\u00a0·\u00a0\u00a0—%';
     // Animate both value edits and switching to a different purity whose
     // numeric readout happens to match (e.g. BIS 999 -> Bullion 999).
@@ -6827,7 +6869,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     // the percentage gold; Karat and Fineness inherit the Purity label colour.
     var mutedPart, percentagePart;
     if(valid){
-      mutedPart=number(karat)+'k · '+number(karat/24*1000)+'‰\u00a0\u00a0·\u00a0\u00a0';
+      mutedPart=(window.__gcMetal==='gold'?number(karat)+'k · ':'')+number(karat/24*1000)+'‰\u00a0\u00a0·\u00a0\u00a0';
       percentagePart=number(karat/24*100)+'%';
     }else{
       mutedPart='—k · —‰\u00a0\u00a0·\u00a0\u00a0';
@@ -6948,7 +6990,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     var fxStatus = !state.marketRatesEnabled ? 'Manual / cached' :
       failedRatesThisSession.usdinr ? 'Unavailable / cached' :
       liveRatesThisSession.usdinr ? 'Ref' : 'Reference / cached';
-    note.textContent = 'XAU/USD ' + spotStatus + ' · ' + spotTime + '\n' +
+    note.textContent = window.__gcMetalCfg().code + '/USD ' + spotStatus + ' · ' + spotTime + '\n' +
                        'USD/INR ' + fxStatus + ' · ' + fxTime;
   }
 
@@ -7111,16 +7153,100 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
       setRate(key, v, 'manual'); saveState(); renderAll();
       return true;
     };
+    /* Metal mode core: per-metal profiles swapped in and out of the shared calculator state. */
+    (function(){
+      var CFG = window.__gcMetals, KEY = 'gcMetalMode';
+      var FIELDS = ['spot','mcx10g24k','ftbar10g24k','duty','purity','customPurityPercent','customPurityFineness'];
+      var GOLD_LIST = PURITIES.slice();
+      var CUSTOM = GOLD_LIST.filter(function(p){ return p.key==='custompercent' || p.key==='customfineness'; });
+      var LISTS = { gold: GOLD_LIST };
+      ['silver','platinum'].forEach(function(m){
+        LISTS[m] = CFG[m].purities.map(function(r){ return {key:m+'_'+r[0], label:r[0], sub:r[1], karat:24*r[2]/1000, group:'refining'}; }).concat(CUSTOM);
+      });
+      var store = { metal: window.__gcMetal, profiles: {} };
+      try{ var sv = JSON.parse(localStorage.getItem(KEY)||'null'); if(sv && sv.profiles) store.profiles = sv.profiles; }catch(e){}
+      function persist(){ store.metal = window.__gcMetal; try{ localStorage.setItem(KEY, JSON.stringify(store)); }catch(e){} }
+      function snap(){
+        var o = {};
+        FIELDS.forEach(function(k){ o[k] = state[k]; });
+        o.meta = { spot: state.rateMeta.spot || null, mcx10g24k: state.rateMeta.mcx10g24k || null, ftbar10g24k: state.rateMeta.ftbar10g24k || null };
+        return JSON.parse(JSON.stringify(o));
+      }
+      function setList(m){
+        var list = LISTS[m] || GOLD_LIST;
+        PURITIES.length = 0; Array.prototype.push.apply(PURITIES, list);
+        if(!list.some(function(p){ return p.key === state.purity; })) state.purity = list[0].key;
+      }
+      function applyProfile(m, p){
+        var c = CFG[m];
+        p = p || {};
+        state.spot = validRate(p.spot) ? p.spot : null;
+        state.mcx10g24k = validRate(p.mcx10g24k) ? p.mcx10g24k : null;
+        state.ftbar10g24k = validRate(p.ftbar10g24k) ? p.ftbar10g24k : 0;
+        var meta = p.meta || {};
+        state.rateMeta.spot = state.spot ? (meta.spot || {source:'manual', at:window.BullionClock.now().toISOString()}) : null;
+        state.rateMeta.mcx10g24k = state.mcx10g24k ? (meta.mcx10g24k || {source:'manual', at:window.BullionClock.now().toISOString()}) : null;
+        state.rateMeta.ftbar10g24k = state.ftbar10g24k ? (meta.ftbar10g24k || null) : null;
+        if(c.dutyLinked){ var g = store.profiles.gold; state.duty = g && isFinite(g.duty) ? g.duty : DEFAULTS.duty; }
+        else state.duty = isFinite(p.duty) && p.duty !== null ? p.duty : (c.duty != null ? c.duty : DEFAULTS.duty);
+        var pct = isFinite(p.customPurityPercent) && p.customPurityPercent ? p.customPurityPercent : (c.customPct || DEFAULTS.customPurityPercent);
+        state.customPurityPercent = pct;
+        state.customPurityFineness = isFinite(p.customPurityFineness) && p.customPurityFineness ? p.customPurityFineness : Math.round(pct*100)/10;
+        state.purity = p.purity || null;
+        state.mcxEnabled = c.hasMcx !== false; state.ftbarEnabled = c.hasFt !== false;
+        setList(m);
+      }
+      window.__gcMetalSnap = function(){
+        var cur = window.__gcMetal;
+        store.profiles[cur] = snap();
+        if(CFG[cur].dutyLinked){ store.profiles.gold = store.profiles.gold || {}; store.profiles.gold.duty = state.duty; }
+        persist();
+      };
+      window.__gcSetMetal = function(m){
+        if(!CFG[m] || m === window.__gcMetal) return false;
+        var from = window.__gcMetal;
+        store.profiles[from] = snap();
+        if(CFG[from].dutyLinked){ store.profiles.gold = store.profiles.gold || {}; store.profiles.gold.duty = state.duty; }
+        window.__gcMetal = m;
+        document.documentElement.setAttribute('data-metal', m);
+        applyProfile(m, store.profiles[m]);
+        liveRatesThisSession.spot = false; failedRatesThisSession.spot = false;
+        liveSpotStatus = state.marketRatesEnabled ? 'pending' : 'manual';
+        state.lastUpdated = state.rateMeta.spot && state.rateMeta.spot.at || null;
+        saveState(); persist();
+        renderAll(); renderUpdatedNote();
+        document.dispatchEvent(new CustomEvent('gc:metal', {detail:{metal:m, from:from}}));
+        if(state.marketRatesEnabled) fetchLiveMarketRates(true);
+        return true;
+      };
+      /* startup: the shared state already holds the last metal's values */
+      var startMetal = window.__gcMetal;
+      if(startMetal !== 'gold'){
+        var prof = store.profiles[startMetal] || {};
+        state.mcxEnabled = CFG[startMetal].hasMcx !== false; state.ftbarEnabled = CFG[startMetal].hasFt !== false;
+        if(CFG[startMetal].dutyLinked && store.profiles.gold && isFinite(store.profiles.gold.duty)) state.duty = store.profiles.gold.duty;
+        if(!LISTS[startMetal].some(function(p){ return p.key === state.purity; }) && prof.purity) state.purity = prof.purity;
+        setList(startMetal);
+      }
+      /* Reset: platinum returns to its own default import duty. */
+      $('resetRatesBtn').addEventListener('click', function(){
+        var c = window.__gcMetalCfg();
+        if(c.duty != null && !c.dutyLinked && c.duty !== DEFAULTS.duty){ state.duty = c.duty; $('dutyInput').value = formatInputNumber(state.duty,2); saveState(); renderAll(); }
+      });
+      window.__gcMetalSnap();
+    })();
+
 
     $('addOrderBtn').addEventListener('click', function(){
       var unit = unitByKey(state.unit), purity = purityByKey(state.purity);
-      if(!haveRequiredRates()){ showToast('XAU/USD and USD/INR are required'); return; }
+      if(!haveRequiredRates()){ showToast(window.__gcMetalCfg().code+'/USD and USD/INR are required'); return; }
       var qty = parseFloat(state.qty);
       if(!Number.isFinite(qty)||qty<=0||!Number.isFinite(unit.grams)||unit.grams<=0||!Number.isFinite(purity.karat)||purity.karat<=0){
         showToast('Enter a positive quantity, weight and purity');return;
       }
       var line = computeLine(unit.grams, purity.karat, qty, state);
-      state.basket.push({ id: Date.now()+'-'+Math.random().toString(36).slice(2), unitLabel:unit.label, purityLabel:purity.label, qty:qty, weight:line.weight, pureValueINR:line.pureValueINR, dutyAmt:line.dutyAmt, gstAmt:line.gstAmt, afterGst:line.afterGst });
+      var metalPrefix = window.__gcMetal==='gold' ? '' : window.__gcMetalCfg().name+' ';
+      state.basket.push({ id: Date.now()+'-'+Math.random().toString(36).slice(2), unitLabel:unit.label, purityLabel:metalPrefix+purity.label, metal:window.__gcMetal, qty:qty, weight:line.weight, pureValueINR:line.pureValueINR, dutyAmt:line.dutyAmt, gstAmt:line.gstAmt, afterGst:line.afterGst });
       saveState(); renderBasket(); renderPrintSummary(renderCalculatorQuiet());
       
       var btn = $('addOrderBtn'); btn.classList.remove('pulse'); void btn.offsetWidth; btn.classList.add('pulse');
@@ -10896,7 +11022,7 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
    Rates ON -> shows the saved value read-only; Rates OFF -> editable. Reset clears it. */
 (function(){
  'use strict';
- var KEY_MANUAL='bullionSpotJewel22kRate';
+ function KEYM(){ var m=window.__gcMetal||'gold'; return m==='gold'?'bullionSpotJewel22kRate':'bullionSpotJewel22kRate_'+m; }
  var el=document.getElementById('jewelInput'), toggle=document.getElementById('marketRatesToggle');
  if(!el||!toggle) return;
  try{ localStorage.removeItem('bullionSpotJewel22kAuto'); }catch(e){}
@@ -10915,7 +11041,7 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
   el.readOnly=on;
   el.setAttribute('aria-readonly',on?'true':'false');
   el.parentNode.classList.toggle('market-rate-locked',on);
-  if(document.activeElement!==el){ var m=get(KEY_MANUAL); el.value=m?fmt(m):''; }
+  if(document.activeElement!==el){ var m=get(KEYM()); el.value=m?fmt(m):''; }
   el.placeholder='';
   el.title=on?'Rates ON — switch Rates OFF to enter the Jewel 22K rate':'Enter the Jewel 22K rate (₹/g)';
  }
@@ -10928,12 +11054,13 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
    while(pos<out.length&&seen<before){ if(/[0-9.]/.test(out[pos])) seen++; pos++; }
    try{ el.setSelectionRange(pos,pos); }catch(_){}
   }
-  put(KEY_MANUAL,el.value.trim());
+  put(KEYM(),el.value.trim());
  });
- el.addEventListener('blur',function(){ if(el.readOnly) return; el.value=fmt(el.value).replace(/\.$/,''); put(KEY_MANUAL,el.value.trim()); });
+ el.addEventListener('blur',function(){ if(el.readOnly) return; el.value=fmt(el.value).replace(/\.$/,''); put(KEYM(),el.value.trim()); });
  try{ new MutationObserver(apply).observe(toggle,{attributes:true,attributeFilter:['aria-checked']}); }catch(e){}
  var reset=document.getElementById('resetRatesBtn');
- if(reset) reset.addEventListener('click',function(){ put(KEY_MANUAL,''); setTimeout(apply,60); });
+ if(reset) reset.addEventListener('click',function(){ put(KEYM(),''); setTimeout(apply,60); });
+ document.addEventListener('gc:metal',function(){ apply(); });
  apply();
  setTimeout(apply,400);
 })();
@@ -10993,14 +11120,16 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
   return num(v);
  }
  function inr(n){ var p=String(Math.round(n*100)/100).split('.'),i=p[0]; if(i.length>3) i=i.slice(0,-3).replace(/\B(?=(\d{2})+(?!\d))/g,',')+','+i.slice(-3); return i+(p[1]?'.'+p[1]:''); }
- function backup(f){ var el=document.getElementById(f.id); if(!el) return; put(f.bk,num(el.value)); }
+ function sfx(k){ var m=window.__gcMetal||'gold'; return m==='gold'?k:k+'_'+m; }
+ function backup(f){ var el=document.getElementById(f.id); if(!el) return; put(sfx(f.bk),num(el.value)); }
  function restore(){
   F.forEach(function(f){
    var el=document.getElementById(f.id); if(!el) return;
+   var mc=window.__gcMetalCfg?window.__gcMetalCfg():{}; if((f.key==='mcx10g24k'&&mc.hasMcx===false)||(f.key==='ftbar10g24k'&&mc.hasFt===false)) return;
    if(num(el.value)){ backup(f); return; }
-   var v=get(f.bk); if(!v) return;
+   var v=get(sfx(f.bk)); if(!v) return;
    if(f.key==='jewel'){
-    try{ localStorage.setItem('bullionSpotJewel22kRate',inr(v)); }catch(e){}
+    try{ var jk=(window.__gcMetal||'gold')==='gold'?'bullionSpotJewel22kRate':'bullionSpotJewel22kRate_'+window.__gcMetal; localStorage.setItem(jk,inr(v)); }catch(e){}
     if(document.activeElement!==el) el.value=inr(v);
    } else if(typeof window.__gcRestoreManual==='function'){
     window.__gcRestoreManual(f.key,v);
@@ -11014,7 +11143,8 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
   el.addEventListener('blur',function(){ if(!el.readOnly) backup(f); });
  });
  var reset=document.getElementById('resetRatesBtn');
- if(reset) reset.addEventListener('click',function(){ F.forEach(function(f){ put(f.bk,''); }); });
+ if(reset) reset.addEventListener('click',function(){ F.forEach(function(f){ put(sfx(f.bk),''); }); });
+ document.addEventListener('gc:metal',function(){ setTimeout(restore,0); setTimeout(restore,700); });
  function run(){ restore(); setTimeout(restore,600); setTimeout(restore,1800); }
  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',run); else run();
  window.addEventListener('pageshow',function(e){ if(e.persisted) restore(); });
@@ -11057,6 +11187,48 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
 #printPaperPicker .ppp-actions button{height:46px;border-radius:14px;font:inherit;font-size:15px;font-weight:800;cursor:pointer}
 #printPaperPicker .ppp-cancel{background:transparent;border:1.5px solid rgba(255,255,255,.18);color:#f3e7d2}
 #printPaperPicker .ppp-go{background:linear-gradient(180deg,#e2b766,#b8862f);border:0;color:#1d1408}
+</style>
+<style id="metal-mode-css-20261120">
+/* Metal switcher: the title is the chip; tapping it opens the metal menu (beside the theme button). */
+.topbar .metal-switch{position:relative}
+.metal-chip{display:inline-flex;align-items:center;gap:.18em;padding:0;margin:0;border:0;background:none;font:inherit;letter-spacing:inherit;line-height:inherit;color:inherit;-webkit-text-fill-color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;border-radius:8px}
+.metal-chip .metal-name{white-space:nowrap}
+html[data-metal="platinum"] .metal-chip{font-size:.82em}
+.metal-chip .metal-caret{width:.5em;height:.5em;flex:none;opacity:.8;transition:transform .2s;margin-top:.08em}
+.metal-chip[aria-expanded="true"] .metal-caret{transform:rotate(180deg)}
+.metal-chip:focus-visible{outline:2px solid var(--gold-500);outline-offset:1px}
+.metal-menu button:focus-visible{outline:2px solid var(--gold-500);outline-offset:-2px}
+.metal-dot{display:inline-block;width:12px;height:12px;border-radius:50%;flex:none;background:radial-gradient(circle at 35% 30%,#FFF1C2,#E8B64C 55%,#8A5A17)}
+.metal-dot.is-silver{background:radial-gradient(circle at 35% 30%,#FFFFFF,#BAC3CD 55%,#5D6672)}
+.metal-dot.is-platinum{background:radial-gradient(circle at 35% 30%,#F2F8FF,#9DB8D6 55%,#4B6788)}
+.metal-dot.is-gold{background:radial-gradient(circle at 35% 30%,#FFF1C2,#E8B64C 55%,#8A5A17)}
+.metal-menu{position:fixed;left:12px;top:70px;z-index:2147482000;width:204px;padding:6px;border-radius:18px;background:#1d1914;border:1px solid var(--glass-border-strong);box-shadow:0 18px 40px rgba(0,0,0,.5)}
+:root[data-theme="light"] .metal-menu{background:#fffaf0;box-shadow:0 14px 32px rgba(120,90,30,.22)}
+.metal-menu[hidden]{display:none}
+.metal-menu button{display:flex;align-items:center;gap:10px;width:100%;padding:10px;border:0;background:none;border-radius:12px;color:var(--text-0);text-align:left;cursor:pointer;font:inherit}
+.metal-menu button b{display:block;font-size:14px;font-weight:700}
+.metal-menu button small{display:block;font-size:11px;color:var(--text-2)}
+.metal-menu button[aria-checked="true"]{background:color-mix(in srgb,var(--gold-500) 16%,transparent)}
+.metal-menu .metal-tick{margin-left:auto;color:var(--gold-300);font-weight:800;visibility:hidden}
+:root[data-theme="light"] .metal-menu .metal-tick{color:var(--gold-700)}
+.metal-menu button[aria-checked="true"] .metal-tick{visibility:visible}
+/* Metal accent colours: the app's gold palette variables, re-tinted. */
+html[data-metal="silver"]:not([data-theme="light"]){--gold-100:#F4F7FB;--gold-300:#DDE3EA;--gold-500:#B9C2CC;--gold-700:#8C96A3;--gold-900:#5D6672;--amber:#AEB8C4;--umber:#7D8794;--glass-border:rgba(205,215,228,.16);--glass-border-strong:rgba(210,220,232,.34)}
+html[data-metal="platinum"]:not([data-theme="light"]){--gold-100:#EAF3FF;--gold-300:#C9DDF2;--gold-500:#9DB8D6;--gold-700:#7393B8;--gold-900:#4B6788;--amber:#93AECD;--umber:#5F7FA3;--glass-border:rgba(160,190,225,.16);--glass-border-strong:rgba(165,195,230,.34)}
+html[data-metal="silver"][data-theme="light"]{--gold-100:#E9EDF2;--gold-300:#9AA4B0;--gold-500:#6E7884;--gold-700:#4D5662;--gold-900:#343B44;--amber:#7C8692;--umber:#59626E;--glass-border-strong:rgba(80,95,115,.35)}
+html[data-metal="platinum"][data-theme="light"]{--gold-100:#E3ECF7;--gold-300:#7E9EC4;--gold-500:#56789F;--gold-700:#3D5C80;--gold-900:#2A4059;--amber:#6A8AB0;--umber:#46668B;--glass-border-strong:rgba(60,95,140,.35)}
+/* Platinum: no MCX or FT strip. */
+html[data-metal="platinum"] #mcxField,html[data-metal="platinum"] #ftbarField,html[data-metal="platinum"] #mcxStrip,html[data-metal="platinum"] #ftbarStrip,html[data-metal="platinum"] #mcxVsFtStrip{display:none!important}
+html[data-metal="platinum"] #ftMakingRow.metal-empty-row{display:none!important}
+/* Making and Jewel keep their paired-row look in the platinum rows. */
+html[data-metal="platinum"] #ftGstRow #makingField .input-wrap{height:46px;width:100%;min-width:0}
+html[data-metal="platinum"] #ftGstRow #makingField{border-top:0;padding-top:0;gap:6px}
+html[data-metal="platinum"] #ftGstRow #makingField .field-top{min-height:30px}
+html[data-metal="platinum"] #ftGstRow #makingField{flex:1 1 auto;min-width:0;gap:6px}
+html[data-metal="platinum"] #ftGstRow #makingField .input-wrap{margin-top:auto}
+html[data-metal="platinum"] #ftGstRow #makingField .input-wrap{padding:0 12px;border-radius:var(--radius-sm)}
+html[data-metal="platinum"] #ftGstRow #makingField input{font-size:15px}
+@media(max-width:360px){.metal-menu{width:190px}}
 </style>
 <style id="a4-section-report-css-20261119">
 #a4ReportMount{display:none}
@@ -11104,6 +11276,93 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
 #a4ReportMount .r-foot{margin-top:4mm;flex:none;padding-top:2.2mm;border-top:.25mm solid #e2d8c8;font-size:7.8pt;color:#7a6b59;display:flex;justify-content:space-between;gap:4mm}
 #a4ReportMount .r-foot span:last-child{white-space:nowrap}
 </style>
+<script id="metal-mode-ui-20261120">
+/* Metal switcher UI and the labels, units and layout that change with the metal. */
+(function(){
+ 'use strict';
+ var CFG=window.__gcMetals;
+ function $(id){ return document.getElementById(id); }
+ var chip=$('metalChip'), menu=$('metalMenu');
+ /* The top bar clips its children, so the menu lives at page level and is placed under the title. */
+ document.body.appendChild(menu);
+ function place(){
+  var r=chip.getBoundingClientRect(), w=menu.offsetWidth||204, vw=document.documentElement.clientWidth;
+  menu.style.left=Math.max(8,Math.min(r.left-4, vw-w-8))+'px';
+  var sw=document.getElementById('metalSwitch'), rb=sw?sw.getBoundingClientRect().bottom:r.bottom;
+  menu.style.top=Math.round(Math.max(r.bottom,rb)+8)+'px';
+ }
+ function closeMenu(){ if(!menu.hidden){ menu.hidden=true; chip.setAttribute('aria-expanded','false'); } }
+ window.addEventListener('resize',function(){ if(!menu.hidden) place(); });
+ window.addEventListener('scroll',function(){ if(!menu.hidden) place(); },{passive:true});
+ chip.addEventListener('click',function(e){
+  e.stopPropagation();
+  var open=menu.hidden; menu.hidden=!open; chip.setAttribute('aria-expanded',open?'true':'false'); if(open) place();
+  if(open){ var cur=menu.querySelector('[aria-checked="true"]'); if(cur) try{ cur.focus({preventScroll:true}); }catch(_){} }
+ });
+ menu.addEventListener('click',function(e){
+  var b=e.target.closest('button[data-metal]'); if(!b) return;
+  e.stopPropagation(); closeMenu();
+  if(window.__gcSetMetal && window.__gcSetMetal(b.dataset.metal)){
+   try{ if(window.AndroidBridge && AndroidBridge.toast) AndroidBridge.toast(CFG[b.dataset.metal].name+' mode'); }catch(_){}
+  }
+  try{ chip.focus({preventScroll:true}); }catch(_){}
+ });
+ document.addEventListener('click',function(e){ if(!e.target.closest('#metalSwitch') && !e.target.closest('#metalMenu')) closeMenu(); });
+ document.addEventListener('keydown',function(e){
+  if(menu.hidden) return;
+  if(e.key==='Escape'){ closeMenu(); try{ chip.focus(); }catch(_){} return; }
+  if(e.key==='ArrowDown'||e.key==='ArrowUp'){
+   var items=[].slice.call(menu.querySelectorAll('button')), i=items.indexOf(document.activeElement);
+   i=(i+(e.key==='ArrowDown'?1:-1)+items.length)%items.length; items[i].focus(); e.preventDefault();
+  }
+ });
+
+ /* Platinum: Jewel moves beside Import duty, Making beside GST. */
+ var homes=null;
+ function layout(m){
+  var mcxRow=$('mcxFtRow'), gstRow=$('ftGstRow'), jRow=$('ftMakingRow');
+  if(!mcxRow||!gstRow||!jRow) return;
+  var mcxSplit=mcxRow.querySelector('.ft-making-split'), gstSplit=gstRow.querySelector('.ft-making-split'), jSplit=jRow.querySelector('.ft-making-split');
+  var jewel=$('jewelField'), making=jSplit&&jSplit.querySelector('.making-only-row') || document.querySelector('.making-only-row');
+  if(!jewel||!making||!mcxSplit||!gstSplit||!jSplit) return;
+  if(!homes) homes={jewelNext:jewel.nextSibling, makingNext:making.nextSibling};
+  if(m==='platinum'){
+   if(jewel.parentNode!==mcxSplit) mcxSplit.insertBefore(jewel,mcxSplit.firstChild);
+   if(making.parentNode!==gstSplit) gstSplit.appendChild(making);
+   jRow.classList.add('metal-empty-row');
+  } else {
+   if(jewel.parentNode!==jSplit){ jSplit.insertBefore(jewel,jSplit.firstChild); }
+   if(making.parentNode!==jSplit){ jSplit.appendChild(making); }
+   jRow.classList.remove('metal-empty-row');
+  }
+ }
+ function setText(el,t){ if(el && el.textContent!==t) el.textContent=t; }
+ function apply(){
+  var m=window.__gcMetal, c=CFG[m];
+  document.documentElement.setAttribute('data-metal',m);
+  setText($('metalChipName'),c.name);
+  chip.setAttribute('aria-label',c.name+' calculator. Change metal');
+  menu.querySelectorAll('button[data-metal]').forEach(function(b){ b.setAttribute('aria-checked',b.dataset.metal===m?'true':'false'); });
+  var heroK=document.querySelectorAll('.card.hero .hero-stat .k');
+  if(heroK[0]) setText(heroK[0],c.hero[0].k);
+  if(heroK[1]){ var sp=heroK[1].querySelector('span')||heroK[1]; setText(sp,c.hero[1].k); }
+  var hero=document.querySelector('.card.hero'); if(hero) hero.setAttribute('aria-label',"Today's headline "+c.name.toLowerCase()+' rate');
+  var sl=document.querySelector('label[for="spotInput"]'); if(sl) setText(sl,c.code+' → U$D');
+  setText($('mcxLabelText'),c.mcx||'');
+  var mi=$('mcxInput'); if(mi){ mi.setAttribute('aria-label','Enter MCX '+(c.mcx||'')+' price '+(c.unitG===1000?'per kilogram':'per 10 grams')); var mu=mi.parentNode.querySelector('.market-unit'); setText(mu,c.unitLabel); }
+  setText(document.querySelector('#ftbarField .ft-purity-text'),c.ft||'');
+  var fi=$('ftbarInput'); if(fi){ var fu=fi.parentNode.querySelector('.market-unit'); setText(fu,c.unitLabel); }
+  setText(document.querySelector('#jewelField .jewel-purity-text'),c.jewel);
+  var jl=document.querySelector('#jewelVsSpotStrip .l');
+  if(jl){ var tn=null; jl.childNodes.forEach(function(n){ if(n.nodeType===3 && /Jewel vs Spot/.test(n.textContent)) tn=n; }); var t='Jewel vs Spot ₹ '+c.jvs; if(tn){ if(tn.textContent.trim()!==t) tn.textContent=t; } else { var lab=jl.querySelector('.strip-label,span'); if(lab && /Jewel vs Spot/.test(lab.textContent)) setText(lab,t); } }
+  document.title=document.title.replace(/^(Gold|Silver|Platinum)\b/,c.name);
+  layout(m);
+ }
+ document.addEventListener('gc:metal',apply);
+ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',apply); else apply();
+ setTimeout(apply,400);
+})();
+</script>
 <script id="a4-section-report-20261119">
 /* Each print button prints only its own section, as an ISO A4 page, with the values exactly as shown. */
 (function(){
@@ -11146,7 +11405,7 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
  }
  function ratesUsed(){
   return table([
-   row('🌍','XAU → U$D',withUnit(inp('spotInput'),' $/oz t'),statusTag(txt('spotRateStatus'))),
+   row('🌍',(window.__gcMetalCfg?window.__gcMetalCfg().code:'XAU')+' → U$D',withUnit(inp('spotInput'),' $/oz t'),statusTag(txt('spotRateStatus'))),
    row('💱','U$D → IN₹',withUnit(inp('usdinrInput'),' ₹/$'),statusTag(txt('usdinrRateStatus'))),
    row('🛃','Import duty',withUnit(inp('dutyInput'),'%'),{tag:on('dutyToggle')?'ON':'OFF',tagCls:on('dutyToggle')?'up':''}),
    row('🧾','GST',withUnit(inp('gstInput'),'%'),{tag:on('gstToggle')?'ON':'OFF',tagCls:on('gstToggle')?'up':''}),
@@ -11156,18 +11415,20 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
  var SECTIONS={
   market:{icon:'📊',title:'Market Report',build:function(){
    var notes=[];['updatedNote'].forEach(function(id){var e=$(id);if(!e||!shown(e))return;String(e.textContent||'').split(/\n+/).forEach(function(l){l=clean(l);if(l)notes.push(l);});});
-   return hero([['🥇','XAU → IN₹ · 24K · per gram',txt('hero24k')],['💍','22K · 916 · per gram',txt('hero22k')]])
+   var MC=window.__gcMetalCfg?window.__gcMetalCfg():{code:'XAU',unitLabel:'/10g',mcx:'Gold / Mini',ft:'24k/999‰',jewel:'22k/916‰',hero:[{k:'XAU → IN₹ · 24K'},{k:'22K · 916'}]};
+   var bench=[];
+   if(MC.hasMcx!==false) bench.push(row('🏛️','MCX '+MC.mcx,inp('mcxInput')?'₹'+inp('mcxInput')+' '+MC.unitLabel:''));
+   if(MC.hasFt!==false) bench.push(row('🧈','FT '+MC.ft,inp('ftbarInput')?'₹'+inp('ftbarInput')+' '+MC.unitLabel:''));
+   bench.push(row('💍','Jewel '+MC.jewel,inp('jewelInput')?'₹'+inp('jewelInput')+' /g':''));
+   return hero([['🥇',MC.hero[0].k+' · per gram',txt('hero24k')],['💍',MC.hero[1].k+(/ g$|• g$/.test(MC.hero[1].k)?'':' · per gram'),txt('hero22k')]])
     +sec('🌐','Global & currency rates',table([
-      row('🌍','XAU → U$D',withUnit(inp('spotInput'),' $/oz t'),statusTag(txt('spotRateStatus'))),
+      row('🌍',MC.code+' → U$D',withUnit(inp('spotInput'),' $/oz t'),statusTag(txt('spotRateStatus'))),
       row('💱','U$D → IN₹',withUnit(inp('usdinrInput'),' ₹/$'),statusTag(txt('usdinrRateStatus')))]))
     +sec('🏷️','Duties & charges',table([
       row('🛃','Import duty',withUnit(inp('dutyInput'),'%'),{tag:on('dutyToggle')?'ON':'OFF',tagCls:on('dutyToggle')?'up':''}),
       row('🧾','GST',withUnit(inp('gstInput'),'%'),{tag:on('gstToggle')?'ON':'OFF',tagCls:on('gstToggle')?'up':''}),
       row('🔨','Making',withUnit(inp('makingInput'),'%'),{tag:on('makingToggle')?'ON':'OFF',tagCls:on('makingToggle')?'up':''})]))
-    +sec('🏦','Indian benchmark rates',table([
-      row('🏛️','MCX Gold / Mini',inp('mcxInput')?'₹'+inp('mcxInput')+' /10g':''),
-      row('🧈','FT 24k/999‰',inp('ftbarInput')?'₹'+inp('ftbarInput')+' /10g':''),
-      row('💍','Jewel 22k/916‰',inp('jewelInput')?'₹'+inp('jewelInput')+' /g':'')]))
+    +sec('🏦','Indian benchmark rates',table(bench))
     +sec('🔄','Rate source',table([row(on('marketRatesToggle')?'🟢':'✍️','Rates',on('marketRatesToggle')?'ON · automatic':'OFF · manual')])+(notes.length?'<p class="note">'+notes.map(function(n){return em('🕒')+esc(n);}).join('<br>')+'</p>':''));
   }},
   calculate:{icon:'🧮',title:'Calculate Report',build:function(){
@@ -11255,10 +11516,11 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
  var paper='A4';
  function build(key){
   var s=SECTIONS[key],ts=stamp(),pp=PAPERS[paper]||PAPERS.A4;
-  return '<div class="r-sheet" style="zoom:'+pp.zoom+'"><header class="r-head"><div><div class="r-brand">'+em('🪙')+'Gold Calculator</div><h1 class="r-title">'+em(s.icon)+esc(s.title)+'</h1></div>'
+  var MN=window.__gcMetalCfg?window.__gcMetalCfg().name:'Gold';
+  return '<div class="r-sheet" style="zoom:'+pp.zoom+'"><header class="r-head"><div><div class="r-brand">'+em(MN==='Gold'?'🪙':(MN==='Silver'?'🥈':'💠'))+MN+' Calculator</div><h1 class="r-title">'+em(s.icon)+esc(s.title)+'</h1></div>'
    +'<div class="r-meta">'+em('🕒')+esc(ts)+'<br>'+em('📄')+'ISO '+paper+' · '+pp.mm+' · Portrait</div></header>'
    +'<main class="r-body">'+s.build()+'</main>'
-   +'<footer class="r-foot"><span>'+esc('Gold Calculator · '+s.title+' · as shown in the calculator; confirm rates before transacting.')+'</span><span>'+esc(ts)+'</span></footer></div>';
+   +'<footer class="r-foot"><span>'+esc(MN+' Calculator · '+s.title+' · as shown in the calculator; confirm rates before transacting.')+'</span><span>'+esc(ts)+'</span></footer></div>';
  }
  var mount=null,pageStyle=null,active=false,title=document.title;
  function cleanup(){
@@ -11281,7 +11543,7 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
   pageStyle.textContent='@page{size:'+PAPERS[paper].page+';margin:0}';
   document.head.appendChild(pageStyle);
   document.body.classList.add('a4-report-print');document.documentElement.classList.add('a4-report-print');
-  document.title='Gold Calculator - '+SECTIONS[key].title+' - '+paper;
+  document.title=(window.__gcMetalCfg?window.__gcMetalCfg().name:'Gold')+' Calculator - '+SECTIONS[key].title+' - '+paper;
   window.__gcPaperSize=paper;
   active=true;
   window.print();
