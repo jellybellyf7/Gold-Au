@@ -9851,11 +9851,15 @@ async function drawDom(ctx,node,offset,depth){
   var tx=r.left-offset.left,ty=r.top-offset.top,tw=r.width,th=r.height;
   var checked=el.getAttribute('aria-checked')==='true';
   ctx.save();corners(ctx,tx,ty,tw,th,th/2);
-  ctx.fillStyle=el.classList.contains('reset-toggle')||checked?'#b9852b':'#534536';ctx.fill();
-  ctx.strokeStyle='#ae863b';ctx.lineWidth=.8;ctx.stroke();
+  // Use the toggle's own on-screen (metal-themed) colours so the PNG matches Gold, Silver or Platinum.
+  var tcols=extractColors(style.backgroundImage||'');
+  if(tcols.length>1){var tg=ctx.createLinearGradient(tx,ty,tx+tw,ty+th);tg.addColorStop(0,tcols[0]);tg.addColorStop(1,tcols[tcols.length-1]);ctx.fillStyle=tg;}
+  else ctx.fillStyle=(tcols[0]||style.backgroundColor||(checked?'#b9852b':'#534536'));
+  ctx.fill();
+  ctx.strokeStyle=style.borderTopColor||'#ae863b';ctx.lineWidth=.8;ctx.stroke();
   var radius=Math.min(th-4,tw*.48)/2;
   var knobX=el.classList.contains('reset-toggle')?(el.classList.contains('flipped')?tx+tw-radius-2:tx+radius+2):(checked?tx+tw-radius-2:tx+radius+2);
-  ctx.beginPath();ctx.arc(knobX,ty+th/2,radius,0,Math.PI*2);ctx.fillStyle='#f8f5ef';ctx.fill();
+  ctx.beginPath();ctx.arc(knobX,ty+th/2,radius,0,Math.PI*2);ctx.fillStyle=(document.documentElement.dataset.metal==='silver'?'#fbfcfd':document.documentElement.dataset.metal==='platinum'?'#f4f8fd':'#f8f5ef');ctx.fill();
   ctx.restore();
   if(el.classList.contains('ios-toggle')){ctx.restore();return;}
  }
@@ -11361,6 +11365,13 @@ html[data-theme="light"]:root #shotPngStatus{background:linear-gradient(180deg,r
 html[data-theme="light"][data-metal="silver"] #shotPngStatus{--gmt-link:#4b535f}
 html[data-theme="light"][data-metal="platinum"] #shotPngStatus{--gmt-link:#3d5578}
 @keyframes gcShotIn{from{opacity:0;transform:translate(-50%,10px) scale(.97)}to{opacity:1;transform:translate(-50%,0) scale(1)}}
+/* Live Sync: subtle and compact so it sits in line with the Rates / Reset toggles (all metals). */
+html:root .rates-actions .sync-btn{min-height:28px!important;height:28px;padding:0 12px!important;gap:6px!important;font-size:11.5px!important;font-weight:600!important;letter-spacing:0!important;
+ border:0!important;box-shadow:none!important;background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02))!important;color:var(--text-1)!important}
+html:root .rates-actions .sync-btn::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:.6px;pointer-events:none;background:var(--gc-rim);
+ -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.55}
+html:root .rates-actions .sync-btn svg{width:13px!important;height:13px!important}
+html[data-theme="light"]:root .rates-actions .sync-btn{background:linear-gradient(180deg,rgba(255,255,255,.7),rgba(255,255,255,.35))!important}
 /* MCX, FT and Jewel web-link buttons: plain text links, no background or shadow (all metals, both themes, every state). */
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger),
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger):is(:hover,:active,:focus){background:none!important;background-image:none!important;box-shadow:none!important;-webkit-tap-highlight-color:transparent}
