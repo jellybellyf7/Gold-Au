@@ -11372,6 +11372,10 @@ html:root .rates-actions .sync-btn::after{content:"";position:absolute;inset:0;b
  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.55}
 html:root .rates-actions .sync-btn svg{width:13px!important;height:13px!important}
 html[data-theme="light"]:root .rates-actions .sync-btn{background:linear-gradient(180deg,rgba(255,255,255,.7),rgba(255,255,255,.35))!important}
+/* Android full-screen (edge to edge): status bar hidden; only the camera cutout height is reserved at the top. */
+html.gc-immersive body{padding-top:0!important;padding-bottom:0!important}
+html.gc-immersive .topbar{padding-top:calc(14px + var(--gc-cut-top,0px))!important}
+html.gc-immersive{scroll-padding-top:calc(76px + var(--gc-cut-top,0px))}
 /* MCX, FT and Jewel web-link buttons: plain text links, no background or shadow (all metals, both themes, every state). */
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger),
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger):is(:hover,:active,:focus){background:none!important;background-image:none!important;box-shadow:none!important;-webkit-tap-highlight-color:transparent}
