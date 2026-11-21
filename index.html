@@ -11344,6 +11344,8 @@ html[data-metal="silver"] .gc-metal-toast .gmt-sym,html[data-metal="platinum"] .
 html[data-theme="light"] .gc-metal-toast{background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,255,255,.82));box-shadow:0 14px 30px -14px rgba(60,50,30,.35),inset 0 1px 0 #fff}
 html[data-theme="light"] .gc-metal-toast .gmt-sym{color:#fff;text-shadow:0 1px 1px rgba(0,0,0,.3)}
 @media (prefers-reduced-motion:reduce){.gc-metal-toast{transition:opacity .2s}}
+/* Convert › XRF Yield cards: 10% taller (61.2px → 67.3px), extra space split evenly top and bottom. */
+html:root #purityYieldPane .quick-tile{padding-top:11px!important;padding-bottom:10px!important;min-height:67.3px}
 /* MCX, FT and Jewel web-link buttons: plain text links, no background or shadow (all metals, both themes, every state). */
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger),
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger):is(:hover,:active,:focus){background:none!important;background-image:none!important;box-shadow:none!important;-webkit-tap-highlight-color:transparent}
