@@ -11552,7 +11552,16 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
   }
  }
  var jvsNode=null;
- function setText(el,t){ if(el && el.textContent!==t) el.textContent=t; }
+ function setText(el,t){
+  if(!el || el.textContent.trim()===t) return;
+  // Keep any icon inside the label (e.g. the globe on XAU/XAG/XPT → U$D): change only its text.
+  if(el.children.length){
+   var tn=null; for(var n=el.lastChild;n;n=n.previousSibling){ if(n.nodeType===3 && n.nodeValue.trim()){ tn=n; break; } }
+   if(tn){ tn.nodeValue=(/^\s/.test(tn.nodeValue)?' ':'')+t; } else el.appendChild(document.createTextNode(' '+t));
+   return;
+  }
+  el.textContent=t;
+ }
  function apply(){
   var m=window.__gcMetal, c=CFG[m];
   document.documentElement.setAttribute('data-metal',m);
