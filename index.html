@@ -11374,7 +11374,7 @@ html:root .rates-actions .sync-btn svg{width:13px!important;height:13px!importan
 html[data-theme="light"]:root .rates-actions .sync-btn{background:linear-gradient(180deg,rgba(255,255,255,.7),rgba(255,255,255,.35))!important}
 /* Android full-screen (edge to edge): status bar hidden; only the camera cutout height is reserved at the top. */
 html.gc-immersive body{padding-top:0!important;padding-bottom:0!important}
-html.gc-immersive .topbar{padding-top:calc(14px + var(--gc-cut-top,0px))!important}
+html.gc-immersive .topbar{margin-top:var(--gc-cut-top,0px)!important}
 html.gc-immersive{scroll-padding-top:calc(76px + var(--gc-cut-top,0px))}
 /* MCX, FT and Jewel web-link buttons: plain text links, no background or shadow (all metals, both themes, every state). */
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger),
