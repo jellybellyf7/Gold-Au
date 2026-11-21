@@ -11346,6 +11346,21 @@ html[data-theme="light"] .gc-metal-toast .gmt-sym{color:#fff;text-shadow:0 1px 1
 @media (prefers-reduced-motion:reduce){.gc-metal-toast{transition:opacity .2s}}
 /* Convert › XRF Yield cards: 10% taller (61.2px → 67.3px), extra space split evenly top and bottom. */
 html:root #purityYieldPane .quick-tile{padding-top:11px!important;padding-bottom:10px!important;min-height:67.3px}
+/* Screenshot status panel: bottom-centre, metal Liquid Glass with hairline metal rim (overrides its inline styles). */
+html:root #shotPngStatus{left:50%!important;transform:translateX(-50%)!important;border:0!important;border-radius:18px!important;padding:10px 18px!important;
+ color:var(--text-0)!important;font:600 13px/1.35 Inter,system-ui,sans-serif!important;
+ background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.02)),var(--gmt-bg,rgba(30,23,12,.86))!important;
+ backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);
+ box-shadow:0 14px 32px -12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.22)!important;animation:gcShotIn .3s cubic-bezier(.2,.9,.3,1.2)}
+html:root #shotPngStatus::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:.6px;pointer-events:none;background:var(--gc-rim);
+ -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.95}
+html:root #shotPngStatus a{color:var(--gmt-link,#ffd76a)!important}
+html[data-metal="silver"] #shotPngStatus{--gmt-bg:rgba(24,26,30,.86);--gmt-link:#e8edf4}
+html[data-metal="platinum"] #shotPngStatus{--gmt-bg:rgba(18,25,36,.86);--gmt-link:#cddcf1}
+html[data-theme="light"]:root #shotPngStatus{background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,255,255,.82))!important;box-shadow:0 14px 30px -14px rgba(60,50,30,.35),inset 0 1px 0 #fff!important;--gmt-link:#8a5f12}
+html[data-theme="light"][data-metal="silver"] #shotPngStatus{--gmt-link:#4b535f}
+html[data-theme="light"][data-metal="platinum"] #shotPngStatus{--gmt-link:#3d5578}
+@keyframes gcShotIn{from{opacity:0;transform:translate(-50%,10px) scale(.97)}to{opacity:1;transform:translate(-50%,0) scale(1)}}
 /* MCX, FT and Jewel web-link buttons: plain text links, no background or shadow (all metals, both themes, every state). */
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger),
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger):is(:hover,:active,:focus){background:none!important;background-image:none!important;box-shadow:none!important;-webkit-tap-highlight-color:transparent}
@@ -11978,6 +11993,17 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
 /* Metal mode switch notice (Android app): in-app Liquid Glass toast with a hairline metal rim, replacing the plain system toast. */
 (function(){
  var el=null,timer=0;
+ function place(){ var nav=document.querySelector('.bottom-nav'); var r=nav&&nav.getBoundingClientRect(); return (r&&r.height?Math.max(24,innerHeight-r.top+12):24)+'px'; }
+ function make(){ if(!el){ el=document.createElement('div'); el.id='gcMetalToast'; el.className='gc-metal-toast'; el.setAttribute('role','status'); el.setAttribute('aria-live','polite'); document.body.appendChild(el); } return el; }
+ /* Generic notice in the same metal glass capsule (used by the Android app for "Saved to Gallery" etc.). */
+ window.__gcNotice=function(text,icon,ms){
+  make(); var t=document.createElement('span'); t.className='gmt-txt'; t.textContent=String(text||'');
+  var i=document.createElement('span'); i.className='gmt-sym'; i.textContent=icon||'\u2713';
+  var sp=document.getElementById('shotPngStatus'); if(sp) sp.hidden=true; // the app's save confirmation replaces the screenshot panel
+  el.replaceChildren(i,t); el.style.bottom=place();
+  el.classList.remove('show'); void el.offsetWidth; el.classList.add('show');
+  clearTimeout(timer); timer=setTimeout(function(){ el.classList.remove('show'); },ms||2600);
+ };
  window.__gcMetalToast=function(m){
   var cfg=(window.__gcMetals||{})[m]; if(!cfg) return;
   if(!el){ el=document.createElement('div'); el.id='gcMetalToast'; el.className='gc-metal-toast'; el.setAttribute('role','status'); el.setAttribute('aria-live','polite'); document.body.appendChild(el); }
