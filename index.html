@@ -10349,6 +10349,44 @@ html:root[data-theme="light"],html:root[data-theme="light"] body{
 </script>
 
 
+<script id="jewel-links-platinum-20261122">
+/* Jewel web-link panel: Platinum mode shows platinum rate / bullion sources; Gold and Silver keep the original jewellery sources. */
+(function(){'use strict';
+ var rail=document.getElementById('jewelSourceActions'), host=document.getElementById('jewelPreviewHost');
+ var hint=document.querySelector('#readyMadeOverlay .silver-tap-hint');
+ if(!rail) return;
+ var ORIG=rail.innerHTML, ORIG_HINT=hint?hint.textContent:'';
+ var PT=[
+  ['PNG Jewellers · Metal Rates','https://www.pngjewellers.com/pages/metal-rates?srsltid=AYCX9vLMUJY2RmTp_USfst9_EfCUqKv4_HvrRO82It_ke9EMzMFbekdr'],
+  ['Thangamayil · Rate History','https://www.thangamayil.com/scheme/index/rateshistory/?srsltid=AYCX9vKS0dZfrBYlwhOzWYxgNZzsrJJ01hHTC2LUBJbn1rt5YsiEI0oe'],
+  ['CoinBazaar · Platinum Bars','https://www.coinbazaar.in/174-buy-platinum-bars'],
+  ['Augmont · Platinum Live','https://augmont.com/live-rates?metal=platinum'],
+  ['Bangalore Refinery · 10 g Pt Bar','https://www.bangalorerefinery.com/products/10-gram-platinum-bar-999-purity'],
+  ['Bangalore Refinery · Today\u2019s Rates','https://www.bangalorerefinery.com/pages/todays-rates'],
+  ['Pure Platinum · Bullion','https://pureplatinumweb.myshopify.com/collections/bullion']];
+ var shown='';
+ function placeholder(t){ if(!host) return; var d=document.createElement('div'); d.className='mcx-preview-placeholder'; d.textContent=t; host.replaceChildren(d); }
+ function apply(){
+  var m=window.__gcMetal||'gold'; var want=(m==='platinum')?'platinum':'default';
+  if(want===shown) return; shown=want;
+  if(want==='platinum'){
+   var frag=document.createDocumentFragment();
+   PT.forEach(function(x,i){ var a=document.createElement('a'); a.href=x[1]; a.target='_blank'; a.rel='noopener noreferrer';
+    a.className='mcx-dhan-open'+(i===0?' silver-chip-active':''); a.setAttribute('aria-selected',i===0?'true':'false');
+    a.dataset.jewelPreview='false'; a.textContent=x[0]; frag.appendChild(a); });
+   rail.replaceChildren(frag);
+   if(hint) hint.textContent='\u261e Double tap a source to open its website';
+   placeholder('Platinum sources open in your browser. Double tap any source to open its website.');
+  } else {
+   rail.innerHTML=ORIG; if(hint) hint.textContent=ORIG_HINT;
+  }
+  rail.scrollLeft=0;
+ }
+ document.addEventListener('gc:metal',apply); window.addEventListener('gc:metal',apply);
+ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',apply); else apply();
+})();
+</script>
+
 <style id="insights-demo60-nav-animation">
 .bottom-nav .nav-item.icon-motion[data-target="tab-insights"] .insights-pulse-path{stroke-dasharray:44;stroke-dashoffset:44;animation:insights-pulse-draw 780ms ease-out 1 forwards}
 @keyframes insights-pulse-draw{0%{stroke-dashoffset:44}100%{stroke-dashoffset:0}}
