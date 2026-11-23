@@ -12265,9 +12265,13 @@ html[data-theme="light"]{--qglass:rgba(255,255,255,.65);--qtext:#7A5718}
 html[data-theme="light"][data-metal="silver"]{--qtext:#4B525D}
 html[data-theme="light"][data-metal="platinum"]{--qtext:#3C5373}
 .qs{position:relative;display:none;align-items:center;gap:8px;margin:2px 0 8px}
-html[data-qs="1"] #qs1,html[data-qs="2"] #qs2,html[data-qs="3"] #qs3{display:flex}
-html[data-qs="1"] #calculateBody .qty-row,html[data-qs="2"] #calculateBody .qty-row,html[data-qs="3"] #calculateBody .qty-row{display:none!important}
-html[data-qs="2"] #qsQtyHead{display:none!important}
+html[data-qs="1"] #qs1,html[data-qs="2"] #qs2,html[data-qs="3"] #qs3,html[data-qs="4"] #qs4{display:flex}
+html[data-qs] #calculateBody .qty-row{display:none!important}
+.qsb.ghost{background:transparent;color:var(--qtext);box-shadow:none;position:relative}
+.qsb.ghost::after{content:"";position:absolute;inset:0;border-radius:50%;padding:.8px;background:var(--gc-rim);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.ul{display:inline-block;background:linear-gradient(90deg,transparent,var(--qm2),transparent) bottom/100% 1px no-repeat;padding-bottom:2px}
+.qsb.spin{width:26px;height:14px;border-radius:7px;font-size:8px;line-height:14px}
+#qs4 .qsi{width:44px;text-align:left}
 .qrim{position:relative;border-radius:999px;background:var(--qglass);box-shadow:inset 0 1px 0 rgba(255,255,255,.10)}
 .qrim::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:.6px;pointer-events:none;background:var(--gc-rim);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.9}
 .qsb{width:30px;height:30px;border-radius:50%;border:0;padding:0;font:700 17px/1 Inter,system-ui,sans-serif;color:#1b1406;cursor:pointer;flex:0 0 auto;
@@ -12281,13 +12285,12 @@ html[data-qs="2"] #qsQtyHead{display:none!important}
 .qsw b{color:var(--text-0);font-size:14px}
 .qchip{height:30px;min-width:34px;padding:0 10px;border:0;border-radius:999px;background:transparent;font:700 13px/1 Inter,system-ui,sans-serif;color:var(--text-1);cursor:pointer;position:relative}
 .qchip[aria-pressed="true"]{color:#1b1406;background:radial-gradient(circle at 35% 30%,var(--qm1),var(--qm2) 60%,var(--qm3))}
-#qs2{flex-wrap:wrap;row-gap:4px}#qs2 #qsw2{flex-basis:100%;text-align:right;padding-right:6px}
 #qsbar{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 92px);transform:translateX(-50%);z-index:9999;display:flex;gap:3px;padding:4px;border-radius:999px;
  background:rgba(20,16,10,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 8px 24px -10px rgba(0,0,0,.7),inset 0 0 0 .6px rgba(233,184,78,.6);font:700 12px/1 Inter,system-ui,sans-serif}
 #qsbar button{border:0;border-radius:999px;padding:8px 11px;background:transparent;color:#e8d9b4;font:inherit;cursor:pointer}
 #qsbar button[aria-pressed="true"]{background:linear-gradient(180deg,#f3d27a,#b98a30);color:#1b1406}
 </style>
-<div id="qsbar" role="group" aria-label="Quantity demo"><button data-v="0" type="button">Now</button><button data-v="1" type="button">1 Slim</button><button data-v="2" type="button">2 Inline</button><button data-v="3" type="button">3 Quick</button></div>
+<div id="qsbar" role="group" aria-label="Quantity demo"><button data-v="0" type="button">Now</button><button data-v="1" type="button">1a Slim</button><button data-v="2" type="button">1b Wide</button><button data-v="3" type="button">1c Ghost</button><button data-v="4" type="button">1d Spin</button></div>
 <script id="qty-demo2-js">
 (function(){
  var $=function(i){return document.getElementById(i);};
@@ -12299,14 +12302,16 @@ html[data-qs="2"] #qsQtyHead{display:none!important}
  var I=function(id){return '<input class="qsi" id="'+id+'" inputmode="decimal" type="text" autocomplete="off" aria-label="Quantity" value="1"/>';};
  /* 1 Slim: one 38px pill — − [type] + · weight */
  mk('<div class="qrim" style="display:flex;align-items:center;gap:2px;padding:4px">'+M+I('qsi1')+P+'</div><div class="qsw" id="qsw1"></div>','qs1',row);
- /* 2 Inline: sits under the Weight chips, replaces the Quantity section */
- mk('<div class="qrim" style="flex:1;display:flex;align-items:center;gap:6px;padding:4px 4px 4px 14px;min-width:0"><span class="qsw" style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis"><b id="qsu2">10 Gram</b> ×</span>'+M+I('qsi2')+P+'</div><div class="qsw" id="qsw2" style="text-align:right"></div>','qs2',units||row);
- /* 3 Quick: 1 · 2 · 5 · 10 chips + typed box */
- mk('<div class="qrim" style="display:flex;align-items:center;gap:2px;padding:4px" id="qsq"><button class="qchip" data-q="1" type="button">1</button><button class="qchip" data-q="2" type="button">2</button><button class="qchip" data-q="5" type="button">5</button><button class="qchip" data-q="10" type="button">10</button>'+I('qsi3')+'</div><div class="qsw" id="qsw3"></div>','qs3',row);
+ /* 2 Wide: one full-width pill, weight inside the middle */
+ mk('<div class="qrim" style="flex:1;display:flex;align-items:center;gap:6px;padding:4px">'+M+'<div style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;min-width:0">'+I('qsi2')+'<span class="qsw" id="qsw2"></span></div>'+P+'</div>','qs2',row);
+ /* 3 Ghost: quiet — thin outline − / + and an underlined number */
+ mk('<div style="display:flex;align-items:center;gap:6px"><button class="qsb ghost" data-d="-1" aria-label="Decrease quantity" type="button">−</button><span class="ul">'+I('qsi3')+'</span><button class="qsb ghost" data-d="1" aria-label="Increase quantity" type="button">+</button></div><div class="qsw" id="qsw3"></div>','qs3',row);
+ /* 4 Spinner: number with small ▲ ▼ on its right */
+ mk('<div class="qrim" style="display:flex;align-items:center;gap:2px;padding:3px 4px 3px 10px">'+I('qsi4')+'<div style="display:flex;flex-direction:column;gap:2px"><button class="qsb spin" data-d="1" aria-label="Increase quantity" type="button">▲</button><button class="qsb spin" data-d="-1" aria-label="Decrease quantity" type="button">▼</button></div></div><div class="qsw" id="qsw4"></div>','qs4',row);
  function setQty(v){ var q=$('qtyInput'); q.value=v; q.dispatchEvent(new Event('input',{bubbles:true})); q.dispatchEvent(new Event('change',{bubbles:true})); }
  document.querySelectorAll('.qs .qsb').forEach(function(b){ b.addEventListener('click',function(){ (b.dataset.d==='1'?$('qtyPlus'):$('qtyMinus')).click(); }); });
  document.querySelectorAll('.qs .qchip').forEach(function(b){ b.addEventListener('click',function(){ setQty(b.dataset.q); }); });
- ['qsi1','qsi2','qsi3'].forEach(function(id){ var e=$(id);
+ ['qsi1','qsi2','qsi3','qsi4'].forEach(function(id){ var e=$(id);
   e.addEventListener('input',function(){ var c=e.value.replace(/[^0-9.]/g,'').replace(/(\..*)\./g,'$1'); if(c!==e.value) e.value=c; if(c!=='' && c!=='.' && isFinite(+c)) setQty(c); });
   // First tap selects the whole number so typing replaces it.
   e.addEventListener('pointerdown',function(ev){ if(document.activeElement!==e){ ev.preventDefault(); e.focus(); e.select(); } });
@@ -12319,13 +12324,12 @@ html[data-qs="2"] #qsQtyHead{display:none!important}
  var last=null;
  function sync(){
   var v=$('qtyInput').value, n=parseFloat(v)||0, a=note();
-  ['qsi1','qsi2','qsi3'].forEach(function(id){ var e=$(id); if(document.activeElement!==e && e.value!==v) e.value=v; });
-  if(last!==null && n!==last){ ['qsi1','qsi2','qsi3'].forEach(function(id){ var e=$(id); e.classList.add('bump'); setTimeout(function(){e.classList.remove('bump');},180); }); }
+  ['qsi1','qsi2','qsi3','qsi4'].forEach(function(id){ var e=$(id); if(document.activeElement!==e && e.value!==v) e.value=v; });
+  if(last!==null && n!==last){ ['qsi1','qsi2','qsi3','qsi4'].forEach(function(id){ var e=$(id); e.classList.add('bump'); setTimeout(function(){e.classList.remove('bump');},180); }); }
   last=n;
   var h='= <b>'+(a[0]||'')+'</b>'+(a[1]?' · '+a[1]:'');
-  ['qsw1','qsw2','qsw3'].forEach(function(id){ if($(id).innerHTML!==h) $(id).innerHTML=h; });
+  ['qsw1','qsw2','qsw3','qsw4'].forEach(function(id){ if($(id).innerHTML!==h) $(id).innerHTML=h; });
   document.querySelectorAll('.qs .qchip').forEach(function(b){ b.setAttribute('aria-pressed',String(+b.dataset.q===n)); });
-  var sel=units&&units.querySelector('[aria-pressed="true"]'); if(sel){ var l=(sel.innerText||'').split('\n')[0].trim(); if($('qsu2').textContent!==l) $('qsu2').textContent=l; }
  }
  setInterval(sync,150); sync();
  var bar=$('qsbar');
