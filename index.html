@@ -6561,20 +6561,27 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     $('addOrderBtn').disabled = !canAddOrder;
     $('addOrderBtn').title = canAddOrder ? '' : !haveRequiredRates() ? 'Waiting for XAU/USD and USD/INR quotes' : 'Enter a positive quantity, weight and purity before adding';
 
-    // Custom Purity % / Fineness ‰: show the value actually used in the calculation (clamped to the metal's range).
+    // Metal Value tag, for every purity chip (presets and custom):
+    //   Gold            → (fineness‰ · karat K)   e.g. (917.4‰ · 22.02K)
+    //   Silver/Platinum → (fineness‰ · grade name) e.g. (925‰ · Sterling)
     (function(){
-      var ref = purity.sub;
-      if(purity.key==='custompercent' || purity.key==='customfineness'){
-        var cfg = window.__gcMetalCfg ? window.__gcMetalCfg() : {}, lo = cfg.minF||0, hi = cfg.maxF||1000;
-        var fmt = function(n,d){ return Number(n).toLocaleString('en-IN',{maximumFractionDigits:d}); };
-        if(purity.key==='custompercent'){
-          var pc = Math.min(hi/10, Math.max(lo/10, Number(state.customPurityPercent)||0));
-          ref = fmt(pc,4) + '%';
-        } else {
-          var fn = Math.min(hi, Math.max(lo, Number(state.customPurityFineness)||0));
-          ref = fmt(fn,2) + '‰';
-        }
-        if((window.__gcMetal||'gold')==='gold' && Number.isFinite(purity.karat)) ref += ' · ' + fmt(purity.karat,2) + 'K';
+      var metal = window.__gcMetal || 'gold';
+      var cfg = window.__gcMetalCfg ? window.__gcMetalCfg() : {}, lo = cfg.minF||0, hi = cfg.maxF||1000;
+      var fmt = function(n,d){ return Number(n).toLocaleString('en-IN',{maximumFractionDigits:d}); };
+      var f;
+      if(purity.key==='custompercent') f = (Number(state.customPurityPercent)||0)*10;
+      else if(purity.key==='customfineness') f = Number(state.customPurityFineness)||0;
+      else f = (Number(purity.karat)||0)/24*1000;
+      if(purity.key==='custompercent' || purity.key==='customfineness') f = Math.min(hi, Math.max(lo, f));
+      f = Math.round(f*1000)/1000; // remove floating-point noise (e.g. 924.9999 → 925) before naming the grade
+      var ref;
+      if(!(f>0)) ref = purity.sub;
+      else if(metal==='gold') ref = fmt(f, f>999?3:2) + '‰ · ' + fmt(f*24/1000,2) + 'K';
+      else {
+        var name;
+        if(metal==='silver') name = f>=999.9?'Bullion' : f>=959?'Fine' : f>=958?'Britannia' : f>=925?'Sterling' : f>=900?'Coin' : 'Jewel';
+        else name = f>=999.5?'Bullion' : f>=990?'Fine' : 'Jewel';
+        ref = fmt(f,3) + '‰ · ' + name;
       }
       $('refPure').textContent = '(' + ref + ')';
     })();
