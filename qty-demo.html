@@ -12257,83 +12257,79 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
  };
 })();
 </script>
-<style id="qty-demo-css">
+<style id="qty-demo2-css">
 html{--qm1:#FFE7A6;--qm2:#E3A43A;--qm3:#8C6622;--qglass:rgba(243,207,110,.07);--qtext:#F3D27A}
 html[data-metal="silver"]{--qm1:#FFFFFF;--qm2:#C2C8D1;--qm3:#7E8590;--qglass:rgba(236,240,245,.06);--qtext:#E8ECF2}
 html[data-metal="platinum"]{--qm1:#F2F7FF;--qm2:#A9BAD1;--qm3:#5F7591;--qglass:rgba(196,212,233,.07);--qtext:#CBD9EC}
-html[data-theme="light"]{--qglass:rgba(255,255,255,.6);--qtext:#7A5718}
+html[data-theme="light"]{--qglass:rgba(255,255,255,.65);--qtext:#7A5718}
 html[data-theme="light"][data-metal="silver"]{--qtext:#4B525D}
 html[data-theme="light"][data-metal="platinum"]{--qtext:#3C5373}
-.qd{position:relative;display:none;align-items:center;gap:12px;margin:4px 0 10px;padding:10px 12px;border-radius:22px;background:var(--qglass);box-shadow:inset 0 1px 0 rgba(255,255,255,.10),0 8px 20px -14px rgba(0,0,0,.7)}
-.qd::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:.6px;pointer-events:none;background:var(--gc-rim);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.9}
-html[data-qdemo="1"] #qd1,html[data-qdemo="2"] #qd2,html[data-qdemo="3"] #qd3,html[data-qdemo="4"] #qd4{display:flex}
-html[data-qdemo="1"] #calculateBody .qty-row,html[data-qdemo="2"] #calculateBody .qty-row,html[data-qdemo="3"] #calculateBody .qty-row,html[data-qdemo="4"] #calculateBody .qty-row{display:none!important}
-html[data-qdemo="4"] #qdQtyHead{display:none!important}
-.qbtn{flex:0 0 auto;width:38px;height:38px;border-radius:50%;border:0;font:600 20px/1 Inter,system-ui,sans-serif;color:#1b1406;cursor:pointer;
- background:radial-gradient(circle at 35% 30%,var(--qm1),var(--qm2) 55%,var(--qm3));box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 4px 10px -4px rgba(0,0,0,.6);transition:transform .12s}
-.qbtn:active{transform:scale(.9)}
-.qnum{display:inline-block;min-width:30px;text-align:center;font:700 24px/1 Inter,system-ui,sans-serif;color:var(--text-0);transition:transform .22s cubic-bezier(.2,1.4,.4,1),opacity .22s}
-.qnum.up{transform:translateY(-10px);opacity:0}.qnum.dn{transform:translateY(10px);opacity:0}
-.qw{font:600 12px/1.35 Inter,system-ui,sans-serif;color:var(--qtext)}
-.qw b{display:block;font-size:15px;color:var(--text-0)}
-.qbar{width:54px;height:13px;border-radius:3px 3px 2px 2px;background:linear-gradient(180deg,var(--qm1),var(--qm2) 55%,var(--qm3));box-shadow:inset 0 1px 0 rgba(255,255,255,.75),0 2px 4px -1px rgba(0,0,0,.6);position:relative;overflow:hidden}
-.qbar::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.55) 50%,transparent 65%);transform:translateX(-120%);animation:qsh 3.2s ease-in-out infinite}
-.qbar.drop{animation:qdrop .45s cubic-bezier(.2,1.6,.4,1)}
-@keyframes qdrop{0%{transform:translateY(-26px);opacity:0}100%{transform:none;opacity:1}}
-@keyframes qsh{0%,60%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
-#qdStack{display:flex;flex-direction:column-reverse;gap:3px;min-height:58px;justify-content:flex-start;align-items:center;width:62px}
-#qdBadge{font:700 11px/1 Inter,system-ui,sans-serif;color:var(--qtext);margin-bottom:2px}
-#qdBeam{transform-origin:80px 14px;transition:transform .6s cubic-bezier(.3,1.6,.5,1)}
-#qdDial{flex:0 0 auto;width:76px;height:76px;border-radius:50%;touch-action:none;cursor:grab;position:relative;
- background:repeating-conic-gradient(var(--qm1) 0 5deg,var(--qm3) 5deg 10deg);box-shadow:0 6px 14px -6px rgba(0,0,0,.7)}
-#qdDialFace{position:absolute;inset:11px;border-radius:50%;display:flex;align-items:center;justify-content:center;
- background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.18),rgba(0,0,0,.35)),var(--bg-1,#151109);box-shadow:inset 0 1px 0 rgba(255,255,255,.2)}
-html[data-theme="light"] #qdDialFace{background:radial-gradient(circle at 35% 30%,#fff,#e9e4d8)}
-.qmult{color:var(--qtext);font-weight:700}
-#qdemoBar{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 92px);transform:translateX(-50%);z-index:9999;display:flex;gap:3px;padding:4px;border-radius:999px;
+.qs{position:relative;display:none;align-items:center;gap:8px;margin:2px 0 8px}
+html[data-qs="1"] #qs1,html[data-qs="2"] #qs2,html[data-qs="3"] #qs3{display:flex}
+html[data-qs="1"] #calculateBody .qty-row,html[data-qs="2"] #calculateBody .qty-row,html[data-qs="3"] #calculateBody .qty-row{display:none!important}
+html[data-qs="2"] #qsQtyHead{display:none!important}
+.qrim{position:relative;border-radius:999px;background:var(--qglass);box-shadow:inset 0 1px 0 rgba(255,255,255,.10)}
+.qrim::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:.6px;pointer-events:none;background:var(--gc-rim);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.9}
+.qsb{width:30px;height:30px;border-radius:50%;border:0;padding:0;font:700 17px/1 Inter,system-ui,sans-serif;color:#1b1406;cursor:pointer;flex:0 0 auto;
+ background:radial-gradient(circle at 35% 30%,var(--qm1),var(--qm2) 60%,var(--qm3));box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 2px 6px -3px rgba(0,0,0,.6);transition:transform .12s}
+.qsb:active{transform:scale(.88)}
+.qsi{width:52px;height:30px;border:0;background:transparent;text-align:center;font:700 17px/1 Inter,system-ui,sans-serif;color:var(--text-0);outline:none;-moz-appearance:textfield;transition:transform .2s cubic-bezier(.2,1.4,.4,1)}
+.qsi::-webkit-outer-spin-button,.qsi::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.qsi:focus{border-radius:8px;box-shadow:0 0 0 1.5px var(--qtext)}
+.qsi.bump{transform:scale(1.18)}
+.qsw{font:600 12px/1.3 Inter,system-ui,sans-serif;color:var(--qtext);white-space:nowrap}
+.qsw b{color:var(--text-0);font-size:14px}
+.qchip{height:30px;min-width:34px;padding:0 10px;border:0;border-radius:999px;background:transparent;font:700 13px/1 Inter,system-ui,sans-serif;color:var(--text-1);cursor:pointer;position:relative}
+.qchip[aria-pressed="true"]{color:#1b1406;background:radial-gradient(circle at 35% 30%,var(--qm1),var(--qm2) 60%,var(--qm3))}
+#qs2{flex-wrap:wrap;row-gap:4px}#qs2 #qsw2{flex-basis:100%;text-align:right;padding-right:6px}
+#qsbar{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 92px);transform:translateX(-50%);z-index:9999;display:flex;gap:3px;padding:4px;border-radius:999px;
  background:rgba(20,16,10,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 8px 24px -10px rgba(0,0,0,.7),inset 0 0 0 .6px rgba(233,184,78,.6);font:700 12px/1 Inter,system-ui,sans-serif}
-#qdemoBar button{border:0;border-radius:999px;padding:8px 10px;background:transparent;color:#e8d9b4;font:inherit;cursor:pointer}
-#qdemoBar button[aria-pressed="true"]{background:linear-gradient(180deg,#f3d27a,#b98a30);color:#1b1406}
+#qsbar button{border:0;border-radius:999px;padding:8px 11px;background:transparent;color:#e8d9b4;font:inherit;cursor:pointer}
+#qsbar button[aria-pressed="true"]{background:linear-gradient(180deg,#f3d27a,#b98a30);color:#1b1406}
 </style>
-<div id="qdemoBar" role="group" aria-label="Quantity demo"><button data-v="0" type="button">Now</button><button data-v="1" type="button">1 Stack</button><button data-v="2" type="button">2 Tula</button><button data-v="3" type="button">3 Dial</button><button data-v="4" type="button">4 Inline</button></div>
-<script id="qty-demo-js">
+<div id="qsbar" role="group" aria-label="Quantity demo"><button data-v="0" type="button">Now</button><button data-v="1" type="button">1 Slim</button><button data-v="2" type="button">2 Inline</button><button data-v="3" type="button">3 Quick</button></div>
+<script id="qty-demo2-js">
 (function(){
  var $=function(i){return document.getElementById(i);};
  var row=document.querySelector('#calculateBody .qty-row'); if(!row) return;
- var head=row.previousElementSibling; if(head) head.id='qdQtyHead';
- var units=document.getElementById('unitChips');
- function mk(html,id,after){var d=document.createElement('div');d.className='qd';d.id=id;d.innerHTML=html;after.parentNode.insertBefore(d,after.nextSibling);return d;}
- var B='<button class="qbtn" data-d="-1" aria-label="Less" type="button">−</button>', P='<button class="qbtn" data-d="1" aria-label="More" type="button">+</button>';
- mk('<div id="qdStack"></div><div style="flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-end;gap:6px"><div style="display:flex;align-items:center;gap:8px">'+B+'<span class="qnum" id="qn1">1</span>'+P+'</div><div class="qw" id="qw1" style="text-align:right"></div></div>','qd1',row);
- mk('<svg width="160" height="66" viewBox="0 0 160 66" aria-hidden="true"><defs><linearGradient id="qdg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="160" y2="66"><stop offset="0" stop-color="var(--qm1)"/><stop offset=".5" stop-color="var(--qm2)"/><stop offset="1" stop-color="var(--qm3)"/></linearGradient></defs><path d="M80 14 V60 M66 62 H94" stroke="url(#qdg)" stroke-width="3" stroke-linecap="round" fill="none"/><g id="qdBeam"><line x1="16" y1="14" x2="144" y2="14" stroke="url(#qdg)" stroke-width="4" stroke-linecap="round"/><path d="M16 14 L6 36 M16 14 L26 36 M4 36 Q16 46 28 36 Z" stroke="url(#qdg)" stroke-width="1.6" fill="rgba(255,255,255,.06)"/><path d="M144 14 L134 36 M144 14 L154 36 M132 36 Q144 46 156 36 Z" stroke="url(#qdg)" stroke-width="1.6" fill="rgba(255,255,255,.06)"/></g><circle cx="80" cy="14" r="4" fill="url(#qdg)"/></svg><div style="flex:1;display:flex;flex-direction:column;align-items:flex-end;gap:6px"><div style="display:flex;align-items:center;gap:8px">'+B+'<span class="qnum" id="qn2">1</span>'+P+'</div><div class="qw" id="qw2" style="text-align:right"></div></div>','qd2',$('qd1'));
- mk('<div id="qdDial"><div id="qdDialFace"><span class="qnum" id="qn3">1</span></div></div><div style="flex:1"><div class="qw" id="qw3"></div><div class="qw" style="opacity:.7;margin-top:4px">Swipe the dial sideways</div></div>','qd3',$('qd2'));
- mk('<div style="flex:1;min-width:0"><div style="font:700 15px/1.2 Inter,system-ui,sans-serif;color:var(--text-0)"><span id="qu4">10 Gram</span> <span class="qmult">× <span class="qnum" id="qn4" style="font-size:15px;min-width:14px">1</span></span></div><div class="qw" id="qw4"></div></div>'+B+P,'qd4',units||row);
- document.querySelectorAll('.qd .qbtn').forEach(function(b){b.addEventListener('click',function(){ (b.dataset.d==='1'?$('qtyPlus'):$('qtyMinus')).click(); });});
- var last=null, bars=0;
+ var head=row.previousElementSibling; if(head) head.id='qsQtyHead';
+ var units=$('unitChips');
+ function mk(html,id,after){var d=document.createElement('div');d.className='qs';d.id=id;d.innerHTML=html;after.parentNode.insertBefore(d,after.nextSibling);return d;}
+ var M='<button class="qsb" data-d="-1" aria-label="Decrease quantity" type="button">−</button>', P='<button class="qsb" data-d="1" aria-label="Increase quantity" type="button">+</button>';
+ var I=function(id){return '<input class="qsi" id="'+id+'" inputmode="decimal" type="text" autocomplete="off" aria-label="Quantity" value="1"/>';};
+ /* 1 Slim: one 38px pill — − [type] + · weight */
+ mk('<div class="qrim" style="display:flex;align-items:center;gap:2px;padding:4px">'+M+I('qsi1')+P+'</div><div class="qsw" id="qsw1"></div>','qs1',row);
+ /* 2 Inline: sits under the Weight chips, replaces the Quantity section */
+ mk('<div class="qrim" style="flex:1;display:flex;align-items:center;gap:6px;padding:4px 4px 4px 14px;min-width:0"><span class="qsw" style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis"><b id="qsu2">10 Gram</b> ×</span>'+M+I('qsi2')+P+'</div><div class="qsw" id="qsw2" style="text-align:right"></div>','qs2',units||row);
+ /* 3 Quick: 1 · 2 · 5 · 10 chips + typed box */
+ mk('<div class="qrim" style="display:flex;align-items:center;gap:2px;padding:4px" id="qsq"><button class="qchip" data-q="1" type="button">1</button><button class="qchip" data-q="2" type="button">2</button><button class="qchip" data-q="5" type="button">5</button><button class="qchip" data-q="10" type="button">10</button>'+I('qsi3')+'</div><div class="qsw" id="qsw3"></div>','qs3',row);
+ function setQty(v){ var q=$('qtyInput'); q.value=v; q.dispatchEvent(new Event('input',{bubbles:true})); q.dispatchEvent(new Event('change',{bubbles:true})); }
+ document.querySelectorAll('.qs .qsb').forEach(function(b){ b.addEventListener('click',function(){ (b.dataset.d==='1'?$('qtyPlus'):$('qtyMinus')).click(); }); });
+ document.querySelectorAll('.qs .qchip').forEach(function(b){ b.addEventListener('click',function(){ setQty(b.dataset.q); }); });
+ ['qsi1','qsi2','qsi3'].forEach(function(id){ var e=$(id);
+  e.addEventListener('input',function(){ var c=e.value.replace(/[^0-9.]/g,'').replace(/(\..*)\./g,'$1'); if(c!==e.value) e.value=c; if(c!=='' && c!=='.' && isFinite(+c)) setQty(c); });
+  // First tap selects the whole number so typing replaces it.
+  e.addEventListener('pointerdown',function(ev){ if(document.activeElement!==e){ ev.preventDefault(); e.focus(); e.select(); } });
+  e.addEventListener('focus',function(){ try{ e.select(); }catch(_){} });
+  e.addEventListener('blur',function(){ if(e.value===''||e.value==='.') e.value=$('qtyInput').value; });
+  e.addEventListener('keydown',function(ev){ if(ev.key==='Enter') e.blur(); }); });
  function note(){ var n=$('qtyWeightNote'), parts=[], cur='';
-  (function walk(el){ [].forEach.call(el.childNodes,function(c){ if(c.nodeName.toLowerCase()==='svg'||c.nodeName.toLowerCase()==='br'){ if(cur.trim()) parts.push(cur.trim()); cur=''; } else if(c.nodeType===3) cur+=c.nodeValue; else walk(c); }); })(n);
-  if(cur.trim()) parts.push(cur.trim());
-  return parts.map(function(x){return x.replace(/^=\s*/,'');}).filter(Boolean).join(' · '); }
+  (function walk(el){ [].forEach.call(el.childNodes,function(c){ var nn=c.nodeName.toLowerCase(); if(nn==='svg'||nn==='br'){ if(cur.trim()) parts.push(cur.trim()); cur=''; } else if(c.nodeType===3) cur+=c.nodeValue; else walk(c); }); })(n);
+  if(cur.trim()) parts.push(cur.trim()); return parts.map(function(x){return x.replace(/^=\s*/,'');}).filter(Boolean); }
+ var last=null;
  function sync(){
-  var n=parseFloat($('qtyInput').value)||0, nt=note();
-  if(n!==last){ var dir=last===null?0:(n>last?1:-1);
-   ['qn1','qn2','qn3','qn4'].forEach(function(id){var e=$(id); if(!dir){e.textContent=n;return;} e.className=e.className.replace(/ ?(up|dn)/g,'')+(dir>0?' up':' dn'); setTimeout(function(){e.textContent=n; e.className=e.className.replace(/ ?(up|dn)/g,'');},110);});
-   var st=$('qdStack'), k=Math.max(0,Math.min(6,Math.round(n)));
-   st.innerHTML=''; for(var i=0;i<k;i++){var d=document.createElement('div');d.className='qbar'+(dir>0&&i===k-1?' drop':'');st.appendChild(d);} if(n>6){var bd=document.createElement('div');bd.id='qdBadge';bd.textContent='× '+n;st.appendChild(bd);}
-   $('qdBeam').style.transform='rotate('+Math.min(16,n*2.2)+'deg)';
-   if(dir && navigator.vibrate) try{navigator.vibrate(6);}catch(_){}
-   last=n; }
-  ['qw1','qw2','qw3','qw4'].forEach(function(id){ var e=$(id), a=nt.split(' · '); var h='<b>= '+a[0]+'</b>'+(a.length>1?a.slice(1).join(' · '):''); if(e.innerHTML!==h) e.innerHTML=h; });
-  var sel=units&&units.querySelector('[aria-pressed="true"]'); if(sel){ var l=(sel.querySelector('.chip-label,.label,strong')||sel).innerText.split('\n')[0].trim(); if($('qu4').textContent!==l) $('qu4').textContent=l; }
+  var v=$('qtyInput').value, n=parseFloat(v)||0, a=note();
+  ['qsi1','qsi2','qsi3'].forEach(function(id){ var e=$(id); if(document.activeElement!==e && e.value!==v) e.value=v; });
+  if(last!==null && n!==last){ ['qsi1','qsi2','qsi3'].forEach(function(id){ var e=$(id); e.classList.add('bump'); setTimeout(function(){e.classList.remove('bump');},180); }); }
+  last=n;
+  var h='= <b>'+(a[0]||'')+'</b>'+(a[1]?' · '+a[1]:'');
+  ['qsw1','qsw2','qsw3'].forEach(function(id){ if($(id).innerHTML!==h) $(id).innerHTML=h; });
+  document.querySelectorAll('.qs .qchip').forEach(function(b){ b.setAttribute('aria-pressed',String(+b.dataset.q===n)); });
+  var sel=units&&units.querySelector('[aria-pressed="true"]'); if(sel){ var l=(sel.innerText||'').split('\n')[0].trim(); if($('qsu2').textContent!==l) $('qsu2').textContent=l; }
  }
  setInterval(sync,150); sync();
- var dial=$('qdDial'),sx=null,acc=0,rot=0;
- dial.addEventListener('pointerdown',function(e){sx=e.clientX;dial.setPointerCapture(e.pointerId);dial.style.cursor='grabbing';});
- dial.addEventListener('pointermove',function(e){if(sx===null)return;var dx=e.clientX-sx;sx=e.clientX;acc+=dx;rot+=dx*2.4;dial.style.transform='rotate('+rot+'deg)';$('qdDialFace').style.transform='rotate('+(-rot)+'deg)';
-  while(acc>=16){acc-=16;$('qtyPlus').click();} while(acc<=-16){acc+=16;$('qtyMinus').click();}});
- ['pointerup','pointercancel'].forEach(function(ev){dial.addEventListener(ev,function(){sx=null;dial.style.cursor='grab';});});
- var bar=$('qdemoBar');
- function set(v){ if(v==='0') document.documentElement.removeAttribute('data-qdemo'); else document.documentElement.setAttribute('data-qdemo',v);
+ var bar=$('qsbar');
+ function set(v){ if(v==='0') document.documentElement.removeAttribute('data-qs'); else document.documentElement.setAttribute('data-qs',v);
   bar.querySelectorAll('button').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.v===v));}); }
  bar.addEventListener('click',function(e){var b=e.target.closest('button'); if(b) set(b.dataset.v);});
  set('1');
