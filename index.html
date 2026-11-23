@@ -5047,7 +5047,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
 </div></div>
 <div class="section-body" id="calculateBody">
 <div class="section-sub purity-heading-row" style="margin-bottom:8px; display:flex; align-items:center; gap:6px;"><svg aria-hidden="true" class="icon icon-sm" viewbox="0 0 28 28"><use href="#dropBase"></use><path d="M10 11 12.2 7.3h3.6L18 11 14 21.5z" fill="none" opacity="0.85" stroke="var(--glyph)" stroke-linejoin="round" stroke-width="1.4"></path><path d="M10 11h8" opacity="0.85" stroke="var(--glyph)" stroke-width="1.4"></path></svg><span class="calc-heading-text">Purity</span><span aria-live="polite" class="selected-purity-heading" id="selectedPuritySummary"><svg aria-hidden="true" class="heading-result-icon" focusable="false" viewbox="0 0 28 28"><circle cx="14" cy="14" fill="url(#coinGrad)" r="11" stroke="var(--gold-700)" stroke-width="1.2"></circle><circle cx="14" cy="14" fill="none" r="8.2" stroke="rgba(255,250,225,.74)" stroke-width="1"></circle><path d="M14 7.7l1.5 4.8 4.8 1.5-4.8 1.5-1.5 4.8-1.5-4.8-4.8-1.5 4.8-1.5z" fill="var(--glyph)" opacity=".88"></path></svg><span class="purity-heading-muted">24k · 999.9‰  ·  </span><span class="purity-heading-percent">99.99%</span></span></div>
-<div aria-label="Purity category" class="weight-group-tabs" id="purityGroupTabs" role="group"><button aria-pressed="true" data-purity-group="custom" type="button">Custom</button><button aria-pressed="false" data-purity-group="bis" type="button">BIS</button><button aria-pressed="false" data-purity-group="refining" type="button">Bullion</button><button aria-pressed="false" data-purity-group="international" type="button">International</button></div><div aria-label="Select purity" class="seg" id="puritySeg" role="group"></div><div class="custom-weight-editor" hidden="" id="customPurityEditor"><label class="custom-purity-accessible-label" for="customPurityValue">Custom purity value</label><div class="custom-weight-input-wrap"><input id="customPurityValue" inputmode="decimal" max="1000" min="0.0001" step="any" type="number" value="91.74"/><span id="customPuritySuffix">%</span></div><small id="customPurityHelp">Enter gold purity as a percentage (0–100).</small></div>
+<div aria-label="Purity category" class="weight-group-tabs" id="purityGroupTabs" role="group"><button aria-pressed="true" data-purity-group="custom" type="button">Custom</button><button aria-pressed="false" data-purity-group="bis" type="button">BIS</button><button aria-pressed="false" data-purity-group="refining" type="button">Bullion</button><button aria-pressed="false" data-purity-group="international" type="button">International</button></div><div aria-label="Select purity" class="seg" id="puritySeg" role="group"></div><div class="custom-weight-editor" hidden="" id="customPurityEditor"><label class="custom-purity-accessible-label" for="customPurityValue">Custom purity value</label><div class="custom-weight-input-wrap"><input autocomplete="off" id="customPurityValue" inputmode="decimal" spellcheck="false" type="text" value="91.74"/><span id="customPuritySuffix">%</span></div><small id="customPurityHelp">Enter gold purity as a percentage (0–100).</small></div>
 <div class="section-sub weight-heading-row" style="margin:16px 0 8px; display:flex; align-items:center; gap:6px;"><svg aria-hidden="true" class="icon icon-sm" viewbox="0 0 28 28"><use href="#dropBase"></use><path d="M11.3 12.6a2.7 2.7 0 0 1 5.4 0v1.1h-5.4z" fill="none" opacity="0.85" stroke="var(--glyph)" stroke-linejoin="round" stroke-width="1.4"></path><rect fill="none" height="6.3" opacity="0.85" rx="2.4" stroke="var(--glyph)" stroke-width="1.4" width="8.8" x="9.6" y="13.5"></rect></svg><span class="calc-heading-text">Weight</span><span aria-live="polite" class="selected-weight-heading" id="selectedWeightSummary"><svg aria-hidden="true" class="heading-result-icon" focusable="false" viewbox="0 0 28 28"><circle cx="14" cy="14" fill="url(#coinGrad)" r="11" stroke="var(--gold-700)" stroke-width="1.2"></circle><path d="M9.2 12.6h9.6l1.7 6.6h-13z" fill="var(--gold-700)" stroke="var(--glyph)" stroke-linejoin="round" stroke-width=".8"></path><path d="M11 14.7h6M12.2 17h3.6" stroke="var(--gold-100)" stroke-linecap="round" stroke-width="1.1"></path><path d="M11.3 10h5.4" stroke="var(--glyph)" stroke-linecap="round" stroke-width="1.2"></path></svg><span class="weight-heading-muted">Gram · </span><span class="weight-heading-gold">1 g</span></span></div>
 <div aria-label="Weight unit category" class="weight-group-tabs" id="weightGroupTabs" role="group"><button aria-pressed="true" data-weight-group="everyday" type="button">Custom</button><button aria-pressed="false" data-weight-group="bullion" type="button">Bullion</button><button aria-pressed="false" data-weight-group="precision" type="button">Precision</button></div><div aria-label="Select weight unit" class="chip-row" id="unitChips" role="group"></div>
 <div class="custom-weight-editor" hidden="" id="customWeightEditor">
@@ -6289,7 +6289,8 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
       puritySeg.classList.remove('purity-indicator-ready');
     }
     visible.forEach(function(p,index){
-      var b=buttons[index],label=p.label+'<span class="sub">'+p.sub+'</span>';
+      var hm=function(x){x=String(x);return /^\d{4,}$/.test(x)?x.slice(0,3)+'.'+x.slice(3):x;};
+      var b=buttons[index],label=hm(p.label)+'<span class="sub">'+hm(p.sub)+'</span>';
       b.setAttribute('aria-pressed',state.purity===p.key?'true':'false');
       if(b.innerHTML!==label)b.innerHTML=label;
     });
@@ -6340,6 +6341,26 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
         saveState(); renderAll();
       }
     });
+    // Auto-format while typing (runs before the value is read below):
+    //   Purity %   : 9167 → 91.67  (decimal after 2 digits, up to 2 decimals)
+    //   Fineness ‰ : 9999 → 999.9  (decimal after 3 digits, up to 3 decimals)
+    document.getElementById('customPurityValue').addEventListener('input',function(e){
+      var fine=state.purity==='customfineness', N=fine?3:2, D=fine?3:2, v=this.value, out;
+      var del=e && e.inputType && e.inputType.indexOf('delete')===0;
+      var dot=v.indexOf('.');
+      if(dot>=0){
+        var i=v.slice(0,dot).replace(/\D/g,''), d=v.slice(dot+1).replace(/\D/g,'');
+        if(i.length>N){ d=i.slice(N)+d; i=i.slice(0,N); }
+        out=i+'.'+d.slice(0,D);
+      } else {
+        var dg=v.replace(/\D/g,'');
+        if(dg.length>N) out=dg.slice(0,N)+'.'+dg.slice(N,N+D);
+        else if(dg.length===N && !del) out=dg+'.';
+        else out=dg;
+      }
+      if(out!==v){ this.value=out; try{ this.setSelectionRange(out.length,out.length); }catch(_){} }
+    });
+    document.getElementById('customPurityValue').addEventListener('blur',function(){ if(/\.$/.test(this.value)) this.value=this.value.slice(0,-1); });
     document.getElementById('customPurityValue').addEventListener('input',function(){
       var n=Number(this.value),fine=state.purity==='customfineness';
       if(!Number.isFinite(n)||n<=0||n>(fine?1000:100))return;
