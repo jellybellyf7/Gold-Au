@@ -11510,6 +11510,10 @@ html:root #tab-calc .bd-row .l{flex-wrap:wrap!important;flex:1 1 auto;min-width:
 html:root #tab-calc .bd-row .l .row-ref{flex-basis:100%;margin-left:var(--bd-ref-indent,26px);margin-top:1px}
 html:root #tab-calc .bd-row .v{flex-basis:auto!important;margin-left:8px!important;margin-top:0!important;flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;line-height:1.25}
 html:root #tab-calc .bd-row .v small{margin-left:0!important;margin-top:4px}
+/* Bottom tab bar: sliding selector capsule gets the hairline metal glass rim (gold / silver / platinum). */
+html:root .bottom-nav .demo-nav-indicator{border-color:transparent!important}
+html:root .bottom-nav .demo-nav-indicator::before{content:""!important;position:absolute;inset:0;border-radius:inherit;padding:.6px;pointer-events:none;z-index:2;display:block!important;
+ background:var(--gc-rim)!important;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.95}
 /* MCX, FT and Jewel web-link buttons: plain text links, no background or shadow (all metals, both themes, every state). */
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger),
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger):is(:hover,:active,:focus){background:none!important;background-image:none!important;box-shadow:none!important;-webkit-tap-highlight-color:transparent}
