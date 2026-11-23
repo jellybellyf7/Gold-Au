@@ -11456,6 +11456,10 @@ html[data-metal="platinum"]:root{--cpe-bg:linear-gradient(160deg,rgba(196,212,23
 html[data-theme="light"]:root{--cpe-bg:linear-gradient(160deg,rgba(255,255,255,.80),rgba(243,207,110,.16));--cpe-field:rgba(255,255,255,.72);--cpe-line:rgba(185,138,48,.40);--cpe-line-on:rgba(156,114,36,.75);--cpe-ring:rgba(185,138,48,.16);--cpe-sheen:rgba(255,248,225,.55);--cpe-caret:#7A5718}
 html[data-metal="silver"][data-theme="light"]:root{--cpe-bg:linear-gradient(160deg,rgba(255,255,255,.80),rgba(190,197,207,.24));--cpe-line:rgba(110,118,130,.38);--cpe-line-on:rgba(80,88,100,.70);--cpe-ring:rgba(110,118,130,.16);--cpe-sheen:rgba(255,255,255,.6);--cpe-caret:#4B525D}
 html[data-metal="platinum"][data-theme="light"]:root{--cpe-bg:linear-gradient(160deg,rgba(255,255,255,.80),rgba(170,189,214,.24));--cpe-line:rgba(83,103,129,.38);--cpe-line-on:rgba(62,85,115,.70);--cpe-ring:rgba(83,103,129,.16);--cpe-sheen:rgba(240,246,255,.6);--cpe-caret:#3C5373}
+/* Calculate: Purity strip and Weight selector sliding capsules get the hairline metal glass rim (gold in Gold mode, metal-matched otherwise). */
+html:root #puritySeg .purity-indicator,html:root #unitChips .unit-indicator{border-color:transparent!important}
+html:root #puritySeg .purity-indicator::before,html:root #unitChips .unit-indicator::before{content:""!important;position:absolute;inset:0;border-radius:inherit;padding:.6px;pointer-events:none;z-index:2;display:block!important;
+ background:var(--gc-rim)!important;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.95}
 /* MCX, FT and Jewel web-link buttons: plain text links, no background or shadow (all metals, both themes, every state). */
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger),
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger):is(:hover,:active,:focus){background:none!important;background-image:none!important;box-shadow:none!important;-webkit-tap-highlight-color:transparent}
