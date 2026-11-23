@@ -11523,7 +11523,9 @@ html[data-theme="light"][data-metal="silver"]:root{--qr-text:#4B525D;--qr-line:r
 html[data-theme="light"][data-metal="platinum"]:root{--qr-text:#3C5373;--qr-line:rgba(62,85,115,.26)}
 html:root #calculateBody .qty-row .stepper{display:none!important}
 #qtyRuler{position:relative;flex:0 0 172px;height:34px;display:flex;align-items:center;border-radius:14px;background:var(--qr-glass);
- box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 6px 16px -12px rgba(0,0,0,.7);overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab}
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 6px 16px -12px rgba(0,0,0,.7);overflow:hidden;user-select:none;-webkit-user-select:none;cursor:grab}
+#qtyRuler .qr-track{touch-action:none}
+#qtyRuler #qtyInput{touch-action:manipulation;user-select:text;-webkit-user-select:text;cursor:text}
 #qtyRuler::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:.6px;pointer-events:none;background:var(--gc-rim);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.85;z-index:5}
 #qtyRuler #qtyInput{position:relative;z-index:4;flex:0 0 auto;width:44px;min-width:44px;max-width:118px;transition:width .22s cubic-bezier(.2,.9,.3,1);height:34px;margin:0;padding:0 0 0 4px;border:0!important;background:transparent!important;box-shadow:none!important;outline:none;
  text-align:center;font:600 17px/1 Inter,system-ui,sans-serif;color:var(--text-0);font-variant-numeric:tabular-nums;-moz-appearance:textfield;cursor:text}
@@ -12281,9 +12283,15 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
  function settle(){ var target=Math.round(pos/PX)*PX; (function go(){ pos+=(target-pos)*0.25; place(); if(Math.abs(target-pos)>0.4) raf=requestAnimationFrame(go); else { pos=target; place(); fromPos(); raf=0; } })(); }
  track.addEventListener('pointerup',function(){ r.style.cursor='grab'; rx=null; if(!moved) return; var v=-vx*16; (function coast(){ v*=0.92; pos=Math.max(0,Math.min(MAX*PX,pos+v)); place(); fromPos(); if(Math.abs(v)>0.5) raf=requestAnimationFrame(coast); else settle(); })(); });
  track.addEventListener('pointercancel',function(){ rx=null; r.style.cursor='grab'; });
- inp.addEventListener('pointerdown',function(e){ if(document.activeElement!==inp){ e.preventDefault(); inp.focus(); try{inp.select();}catch(_){} } });
+ // Every tap opens the keyboard — also after Enter, or after the keyboard was closed with Back (input still focused).
+ function openKb(){ if(document.activeElement===inp) inp.blur(); inp.focus({preventScroll:true}); try{inp.select();}catch(_){}
+  try{ if(window.AndroidBridge&&AndroidBridge.showKeyboard) AndroidBridge.showKeyboard(); }catch(_){} }
+ inp.addEventListener('pointerup',function(e){ e.preventDefault(); openKb(); });
+ inp.addEventListener('pointerdown',function(e){ e.preventDefault(); });
  inp.addEventListener('focus',function(){ try{inp.select();}catch(_){} });
- inp.addEventListener('keydown',function(e){ if(e.key==='Enter') inp.blur(); });
+ inp.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); inp.blur(); } });
+ // Keyboard dismissed with Back/swipe: release focus so the next tap is a fresh one.
+ if(window.visualViewport){ var vh=visualViewport.height; visualViewport.addEventListener('resize',function(){ var h=visualViewport.height; if(h>vh+80 && document.activeElement===inp) inp.blur(); vh=h; }); }
  // Longer typed numbers widen the number box; the ruler track (flex:1) narrows to match, total width unchanged.
  function fit(){ var len=String(inp.value||'').length||1; var w=Math.max(44,Math.min(118,14+len*10.5)); if(inp.style.width!==w+'px') inp.style.width=w+'px'; }
  inp.addEventListener('input',fit);
