@@ -11525,7 +11525,7 @@ html:root #calculateBody .qty-row .stepper{display:none!important}
 #qtyRuler{position:relative;flex:0 0 172px;height:34px;display:flex;align-items:center;border-radius:14px;background:var(--qr-glass);
  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 6px 16px -12px rgba(0,0,0,.7);overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab}
 #qtyRuler::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:.6px;pointer-events:none;background:var(--gc-rim);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.85;z-index:5}
-#qtyRuler #qtyInput{position:relative;z-index:4;flex:0 0 44px;width:44px;height:34px;margin:0;padding:0 0 0 4px;border:0!important;background:transparent!important;box-shadow:none!important;outline:none;
+#qtyRuler #qtyInput{position:relative;z-index:4;flex:0 0 auto;width:44px;min-width:44px;max-width:118px;transition:width .22s cubic-bezier(.2,.9,.3,1);height:34px;margin:0;padding:0 0 0 4px;border:0!important;background:transparent!important;box-shadow:none!important;outline:none;
  text-align:center;font:600 17px/1 Inter,system-ui,sans-serif;color:var(--text-0);font-variant-numeric:tabular-nums;-moz-appearance:textfield;cursor:text}
 #qtyRuler #qtyInput::-webkit-outer-spin-button,#qtyRuler #qtyInput::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
 #qtyRuler .qr-sep{position:relative;z-index:4;width:.6px;height:18px;background:var(--qr-line)}
@@ -12284,8 +12284,11 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
  inp.addEventListener('pointerdown',function(e){ if(document.activeElement!==inp){ e.preventDefault(); inp.focus(); try{inp.select();}catch(_){} } });
  inp.addEventListener('focus',function(){ try{inp.select();}catch(_){} });
  inp.addEventListener('keydown',function(e){ if(e.key==='Enter') inp.blur(); });
+ // Longer typed numbers widen the number box; the ruler track (flex:1) narrows to match, total width unchanged.
+ function fit(){ var len=String(inp.value||'').length||1; var w=Math.max(44,Math.min(118,14+len*10.5)); if(inp.style.width!==w+'px') inp.style.width=w+'px'; }
+ inp.addEventListener('input',fit);
  var last=null;
- function sync(){ var n=cur(); if(rx===null && !raf){ pos=Math.min(MAX,Math.max(0,n))*PX; place(); }
+ function sync(){ fit(); var n=cur(); if(rx===null && !raf){ pos=Math.min(MAX,Math.max(0,n))*PX; place(); }
   if(last!==null && n!==last && document.activeElement!==inp){ inp.classList.remove('qr-up','qr-dn'); void inp.offsetWidth; inp.classList.add(n>last?'qr-up':'qr-dn'); }
   last=n; }
  setInterval(sync,120); sync();
