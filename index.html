@@ -11438,6 +11438,8 @@ html:root #updatedNote *{color:inherit!important;font-weight:inherit!important}
  background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.02)),var(--gmt-bg,rgba(30,23,12,.86));backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);
  box-shadow:0 14px 32px -12px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.22);transition:opacity .28s ease,transform .32s cubic-bezier(.2,.9,.3,1.2)}
 .gc-metal-toast.show{opacity:1;transform:translate(-50%,0) scale(1)}
+.gc-metal-toast{width:max-content;max-width:calc(100vw - 28px);white-space:normal!important;line-height:1.3;text-align:left;box-sizing:border-box}
+.gc-metal-toast .gmt-sym{flex:0 0 auto}
 .gc-metal-toast::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:.6px;pointer-events:none;background:var(--gc-rim);
  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.95}
 .gc-metal-toast .gmt-sym{display:inline-grid;place-items:center;min-width:26px;height:26px;padding:0 4px;border-radius:999px;font-size:11.5px;font-weight:800;color:#1b1406;
@@ -12173,6 +12175,24 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
  }
  function refreshTag(){ try{ var el=document.getElementById('refDuty'); var inp=document.getElementById('dutyInput');
   if(el&&inp){ var v=inp.value||''; el.textContent='('+window.__gcDutyWefText()+' · '+(v||'0')+'%)'; } }catch(_){} }
+ function say(msg,icon){ try{ if(window.__gcNotice) window.__gcNotice(msg,icon,4200); else if(typeof showToast==='function') showToast(msg); }catch(_){} }
+ var checking=false;
+ function checkNow(){
+  if(checking) return; checking=true;
+  var m=metal(), done=function(){ checking=false; };
+  var url=(location.hostname==='goldau.vercel.app')?'/duty.json':URL_REMOTE;
+  if(!window.fetch){ done(); return; }
+  say('Checking official import duty\u2026','\u21bb');
+  fetch(url+'?t='+Date.now(),{cache:'no-store'}).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(j){
+   var ok=j&&j.metals&&['gold','silver','platinum'].every(function(k){ var x=j.metals[k]; return x&&isFinite(x.rate)&&/^\d{4}-\d{2}-\d{2}$/.test(x.wef); });
+   if(!ok) throw 0;
+   save(KEY,j); var d=j.metals[m], name=m.charAt(0).toUpperCase()+m.slice(1);
+   var wasApplied=applied[m]||'';
+   applyIfNewer(); refreshTag(); done();
+   if(d.wef>wasApplied) return; // applyIfNewer already showed "Import duty updated"
+   say('No update \u00b7 '+name+' '+d.rate+'% (wef '+nice(d.wef)+')','\u2713');
+  }).catch(function(){ done(); say('Couldn\u2019t check \u2014 check your internet','!'); });
+ }
  function fetchRemote(){
   if(!window.fetch) return;
   var url=(location.hostname==='goldau.vercel.app')?'/duty.json':URL_REMOTE;
@@ -12182,7 +12202,11 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
   }).catch(function(){});
  }
  document.addEventListener('gc:metal',function(){ setTimeout(function(){ applyIfNewer(); refreshTag(); },0); });
- function init(){ applyIfNewer(); refreshTag(); setTimeout(fetchRemote,1500); }
+ function init(){ applyIfNewer(); refreshTag();
+  // Turning the Market › Import duty toggle ON checks goldau.vercel.app/duty.json for an official update (no separate button).
+  var t=document.getElementById('dutyToggle');
+  if(t) t.addEventListener('click',function(){ setTimeout(function(){ if(t.getAttribute('aria-checked')==='true') checkNow(); },0); });
+ }
  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
 })();
 </script>
