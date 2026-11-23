@@ -11514,6 +11514,34 @@ html:root #tab-calc .bd-row .v small{margin-left:0!important;margin-top:4px}
 html:root .bottom-nav .demo-nav-indicator{border-color:transparent!important}
 html:root .bottom-nav .demo-nav-indicator::before{content:""!important;position:absolute;inset:0;border-radius:inherit;padding:.6px;pointer-events:none;z-index:2;display:block!important;
  background:var(--gc-rim)!important;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.95}
+/* Calculate › Quantity: slim ruler (34 px, Scrub-pill size). Number at left (tap to type), ticks under a fixed metal needle. */
+html:root{--qr-m1:#FFE7A6;--qr-m2:#E3A43A;--qr-m3:#8C6622;--qr-glass:rgba(243,207,110,.06);--qr-text:#F3D27A;--qr-line:rgba(243,207,110,.30);--qr-bg:#0e0b07}
+html[data-metal="silver"]:root{--qr-m1:#FFFFFF;--qr-m2:#C2C8D1;--qr-m3:#7E8590;--qr-glass:rgba(236,240,245,.05);--qr-text:#E8ECF2;--qr-line:rgba(220,226,234,.28);--qr-bg:#0c0d0f}
+html[data-metal="platinum"]:root{--qr-m1:#F2F7FF;--qr-m2:#A9BAD1;--qr-m3:#5F7591;--qr-glass:rgba(196,212,233,.06);--qr-text:#CBD9EC;--qr-line:rgba(184,199,219,.32);--qr-bg:#0a0d12}
+html[data-theme="light"]:root{--qr-glass:rgba(255,255,255,.7);--qr-text:#7A5718;--qr-line:rgba(156,114,36,.28);--qr-bg:#ffffff}
+html[data-theme="light"][data-metal="silver"]:root{--qr-text:#4B525D;--qr-line:rgba(80,88,100,.25)}
+html[data-theme="light"][data-metal="platinum"]:root{--qr-text:#3C5373;--qr-line:rgba(62,85,115,.26)}
+html:root #calculateBody .qty-row .stepper{display:none!important}
+#qtyRuler{position:relative;flex:0 0 172px;height:34px;display:flex;align-items:center;border-radius:14px;background:var(--qr-glass);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 6px 16px -12px rgba(0,0,0,.7);overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab}
+#qtyRuler::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:.6px;pointer-events:none;background:var(--gc-rim);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.85;z-index:5}
+#qtyRuler #qtyInput{position:relative;z-index:4;flex:0 0 44px;width:44px;height:34px;margin:0;padding:0 0 0 4px;border:0!important;background:transparent!important;box-shadow:none!important;outline:none;
+ text-align:center;font:600 17px/1 Inter,system-ui,sans-serif;color:var(--text-0);font-variant-numeric:tabular-nums;-moz-appearance:textfield;cursor:text}
+#qtyRuler #qtyInput::-webkit-outer-spin-button,#qtyRuler #qtyInput::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+#qtyRuler .qr-sep{position:relative;z-index:4;width:.6px;height:18px;background:var(--qr-line)}
+#qtyRuler .qr-track{position:relative;flex:1;height:100%;overflow:hidden}
+#qtyRuler .qr-ticks{position:absolute;left:50%;top:0;bottom:0;display:flex;align-items:flex-end;padding-bottom:4px;will-change:transform}
+#qtyRuler .qr-ticks i{display:block;width:10px;flex:0 0 10px;position:relative}
+#qtyRuler .qr-ticks i::before{content:"";position:absolute;left:4.5px;bottom:0;width:1px;height:6px;background:var(--qr-line)}
+#qtyRuler .qr-ticks i.maj::before{height:11px;background:var(--qr-text);opacity:.85}
+#qtyRuler .qr-ticks i span{position:absolute;bottom:13px;left:5px;transform:translateX(-50%);font:600 8.5px/1 Inter,system-ui,sans-serif;color:var(--qr-text);opacity:.75}
+#qtyRuler .qr-needle{position:absolute;left:50%;top:4px;bottom:3px;width:2px;margin-left:-1px;border-radius:2px;z-index:3;background:linear-gradient(180deg,var(--qr-m1),var(--qr-m2));box-shadow:0 0 6px var(--qr-line)}
+html[data-theme="light"] #qtyRuler .qr-needle{background:linear-gradient(180deg,var(--qr-m2),var(--qr-m3))}
+#qtyRuler .qr-fade{position:absolute;inset:0;pointer-events:none;z-index:2;background:linear-gradient(90deg,var(--qr-bg) 0,transparent 26%,transparent 74%,var(--qr-bg))}
+#qtyRuler #qtyInput.qr-up{animation:qrUp .22s cubic-bezier(.2,.9,.3,1)}#qtyRuler #qtyInput.qr-dn{animation:qrDn .22s cubic-bezier(.2,.9,.3,1)}
+@keyframes qrUp{from{transform:translateY(55%);opacity:.25}to{transform:none;opacity:1}}
+@keyframes qrDn{from{transform:translateY(-55%);opacity:.25}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){#qtyRuler #qtyInput{animation:none!important}}
 /* MCX, FT and Jewel web-link buttons: plain text links, no background or shadow (all metals, both themes, every state). */
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger),
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger):is(:hover,:active,:focus){background:none!important;background-image:none!important;box-shadow:none!important;-webkit-tap-highlight-color:transparent}
@@ -12229,6 +12257,38 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
   });
  }
  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+})();
+</script>
+<script id="qty-ruler-20261124">
+/* Calculate › Quantity ruler: swipe to change (momentum, snaps to whole numbers, haptic tick per step); tap the number to type.
+   Uses the app's own #qtyInput, so typing, Reset, print and screenshots keep working. */
+(function(){'use strict';
+ var row=document.querySelector('#calculateBody .qty-row'), inp=document.getElementById('qtyInput'); if(!row||!inp) return;
+ var MAX=100, PX=10;
+ var r=document.createElement('div'); r.id='qtyRuler'; r.setAttribute('role','group'); r.setAttribute('aria-label','Quantity ruler');
+ var t=''; for(var i=0;i<=MAX;i++) t+='<i class="'+(i%5===0?'maj':'')+'">'+(i%5===0?'<span>'+i+'</span>':'')+'</i>';
+ r.innerHTML='<span class="qr-sep"></span><div class="qr-track"><div class="qr-ticks">'+t+'</div><span class="qr-fade"></span><span class="qr-needle"></span></div>';
+ row.insertBefore(r,row.firstChild); r.insertBefore(inp,r.firstChild);
+ var ticks=r.querySelector('.qr-ticks'), track=r.querySelector('.qr-track');
+ function hap(){ try{ if(navigator.vibrate) navigator.vibrate(7); }catch(_){} }
+ function cur(){ return parseFloat(inp.value)||0; }
+ function setQty(v){ v=Math.max(0,Math.min(MAX,v)); if(v===Math.round(cur())&&cur()%1===0) return; inp.value=v; inp.dispatchEvent(new Event('input',{bubbles:true})); hap(); }
+ var pos=0,rx=null,vx=0,lt=0,raf=0,moved=false;
+ function place(){ ticks.style.transform='translateX('+(-pos-PX/2)+'px)'; }
+ function fromPos(){ var v=Math.round(pos/PX); if(v!==cur()) setQty(v); }
+ track.addEventListener('pointerdown',function(e){ cancelAnimationFrame(raf); raf=0; rx=e.clientX; vx=0; lt=performance.now(); moved=false; track.setPointerCapture(e.pointerId); r.style.cursor='grabbing'; });
+ track.addEventListener('pointermove',function(e){ if(rx===null) return; var now=performance.now(), dx=e.clientX-rx; if(Math.abs(dx)>1) moved=true; rx=e.clientX; vx=dx/Math.max(1,now-lt); lt=now; pos=Math.max(0,Math.min(MAX*PX,pos-dx)); place(); fromPos(); });
+ function settle(){ var target=Math.round(pos/PX)*PX; (function go(){ pos+=(target-pos)*0.25; place(); if(Math.abs(target-pos)>0.4) raf=requestAnimationFrame(go); else { pos=target; place(); fromPos(); raf=0; } })(); }
+ track.addEventListener('pointerup',function(){ r.style.cursor='grab'; rx=null; if(!moved) return; var v=-vx*16; (function coast(){ v*=0.92; pos=Math.max(0,Math.min(MAX*PX,pos+v)); place(); fromPos(); if(Math.abs(v)>0.5) raf=requestAnimationFrame(coast); else settle(); })(); });
+ track.addEventListener('pointercancel',function(){ rx=null; r.style.cursor='grab'; });
+ inp.addEventListener('pointerdown',function(e){ if(document.activeElement!==inp){ e.preventDefault(); inp.focus(); try{inp.select();}catch(_){} } });
+ inp.addEventListener('focus',function(){ try{inp.select();}catch(_){} });
+ inp.addEventListener('keydown',function(e){ if(e.key==='Enter') inp.blur(); });
+ var last=null;
+ function sync(){ var n=cur(); if(rx===null && !raf){ pos=Math.min(MAX,Math.max(0,n))*PX; place(); }
+  if(last!==null && n!==last && document.activeElement!==inp){ inp.classList.remove('qr-up','qr-dn'); void inp.offsetWidth; inp.classList.add(n>last?'qr-up':'qr-dn'); }
+  last=n; }
+ setInterval(sync,120); sync();
 })();
 </script>
 <script id="metal-switch-toast-20261120">
