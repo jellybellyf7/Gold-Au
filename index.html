@@ -6577,9 +6577,14 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
       var ref;
       if(!(f>0)) ref = purity.sub;
       else if(metal==='gold'){
-        // Trade rule: 916.5‰ to 916.8‰ (inclusive) is 22K exactly; elsewhere the karat is fineness × 24 / 1000.
-        var kt = (f>=916.5 && f<=916.8) ? '22' : fmt(f*24/1000,2);
-        ref = fmt(f, f>999?3:2) + '‰ · ' + kt + 'K';
+        // Karat trade rule: a fineness within the trade band of a whole karat counts as that karat
+        // (e.g. 916.5‰–916.8‰ → 22K, 958.2‰–958.5‰ → 23K, 749.8‰–750.2‰ → 18K, 999.9‰+ → 24K); elsewhere karat = fineness × 24 / 1000.
+        var kExact = Math.round(f*24/1000), kf = kExact*1000/24;
+        var kt = (kExact>=1 && f>=Math.ceil((kf-0.17)*10)/10 && f<=Math.floor((kf+0.14)*10)/10) ? String(kExact) : fmt(f*24/1000,2);
+        // One-word use-case name for the gold grade.
+        var gname = f>=999?'Bullion' : f>=995?'Bar' : f>=990?'Fine' : f>=958?'Thai' : f>=916?'BIS' : f>=875?'Gulf'
+                  : f>=833?'Antique' : f>=749.8?'America' : f>=583?'Europe' : f>=416?'Budget' : f>=374.5?'UK' : 'Alloy';
+        ref = fmt(f, f>999?3:2) + '‰ · ' + kt + 'K · ' + gname;
       }
       else {
         var name;
