@@ -6576,7 +6576,11 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
       f = Math.round(f*1000)/1000; // remove floating-point noise (e.g. 924.9999 → 925) before naming the grade
       var ref;
       if(!(f>0)) ref = purity.sub;
-      else if(metal==='gold') ref = fmt(f, f>999?3:2) + '‰ · ' + fmt(f*24/1000,2) + 'K';
+      else if(metal==='gold'){
+        // Trade rule: 916.5‰ to 916.8‰ (inclusive) is 22K exactly; elsewhere the karat is fineness × 24 / 1000.
+        var kt = (f>=916.5 && f<=916.8) ? '22' : fmt(f*24/1000,2);
+        ref = fmt(f, f>999?3:2) + '‰ · ' + kt + 'K';
+      }
       else {
         var name;
         if(metal==='silver') name = f>=999.9?'Bullion' : f>=959?'Fine' : f>=958?'Britannia' : f>=925?'Sterling' : f>=900?'Coin' : 'Jewel';
