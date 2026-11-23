@@ -1,0 +1,10 @@
+{
+  "updated": "2026-11-23",
+  "note": "Official Indian import duty (effective customs duty incl. AIDC) on bullion. Read by the Gold Calculator app. Change a rate together with its wef date when a new customs notification takes effect.",
+  "source": "Ministry of Finance (Dept. of Revenue) Notification Nos. 15/2026-Customs and 16/2026-Customs dated 12 May 2026, in force from 13 May 2026 (CBIC / e-Gazette; DD News 13 May 2026)",
+  "metals": {
+    "gold":     { "rate": 15,   "wef": "2026-05-13", "ref": "Notif. 15/2026 & 16/2026-Customs" },
+    "silver":   { "rate": 15,   "wef": "2026-05-13", "ref": "Notif. 15/2026 & 16/2026-Customs" },
+    "platinum": { "rate": 15.4, "wef": "2026-05-13", "ref": "Notif. 15/2026 & 16/2026-Customs" }
+  }
+}

@@ -6615,7 +6615,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
       }
       $('refPure').textContent = '(' + ref + ')';
     })();
-    $('refDuty').textContent = '(' + state.duty + '%)';
+    $('refDuty').textContent = '(' + (window.__gcDutyWefText ? window.__gcDutyWefText() + ' · ' : '') + state.duty + '%)';
     $('refAfterDuty').textContent = '(+' + state.duty + '%)';
     $('refMaking').textContent = '(+' + state.making + '%)';
     $('refGst').textContent = '(' + state.gst + '%)';
@@ -7110,6 +7110,8 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
       }
     });
     bindNumberInput('dutyInput','duty',0,true);
+    // Official duty updates (see official-import-duty script) set the duty directly, even while the Rates lock is on.
+    window.__gcSetDuty = function(v){ v=Number(v); if(!isFinite(v)||v<0) return; state.duty=v; $('dutyInput').value=formatInputNumber(v,2); saveState(); renderAll(); };
     bindNumberInput('gstInput','gst',0,true);
     // Format on every keystroke before calculator input handlers run.
     // Capture phase also handles mobile keyboards that keep the field focused.
@@ -11497,6 +11499,9 @@ html[data-metal="platinum"][data-theme="light"]:root{--cpe-bg:linear-gradient(16
 html:root #puritySeg .purity-indicator,html:root #unitChips .unit-indicator{border-color:transparent!important}
 html:root #puritySeg .purity-indicator::before,html:root #unitChips .unit-indicator::before{content:""!important;position:absolute;inset:0;border-radius:inherit;padding:.6px;pointer-events:none;z-index:2;display:block!important;
  background:var(--gc-rim)!important;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.95}
+/* Calculate breakdown (Metal Value, Import duty, After duty, Making, GST): tag stays with the label, amount on the next line, right-aligned. */
+html:root #tab-calc .bd-row .v{flex-basis:100%;margin-left:0;margin-top:3px;text-align:right}
+html:root #tab-calc .bd-row .l{flex-wrap:wrap;row-gap:2px}
 /* MCX, FT and Jewel web-link buttons: plain text links, no background or shadow (all metals, both themes, every state). */
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger),
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger):is(:hover,:active,:focus){background:none!important;background-image:none!important;box-shadow:none!important;-webkit-tap-highlight-color:transparent}
@@ -12131,6 +12136,53 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
  function tell(m){ try{ if(window.AndroidBridge && AndroidBridge.setAppIcon && /^(gold|silver|platinum)$/.test(m)) AndroidBridge.setAppIcon(m); }catch(_){} }
  document.addEventListener('gc:metal',function(e){ tell(e.detail && e.detail.metal); });
  function init(){ tell(window.__gcMetal||'gold'); }
+ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+})();
+</script>
+<script id="official-import-duty-20261123">
+/* Official Indian import duty per metal, with its "with effect from" date.
+   Built-in values: Notification Nos. 15/2026 & 16/2026-Customs dated 12 May 2026, in force from 13 May 2026
+   (gold 15%, silver 15%, platinum 15.4%). The app re-reads https://goldau.vercel.app/duty.json on start
+   (when online); when a metal's official rate gets a newer "wef" date, that metal's Import duty is updated once
+   and a notice is shown. A manual edit of the duty field is kept until the next official change. */
+(function(){'use strict';
+ var BUILTIN={updated:'2026-11-23',metals:{
+  gold:{rate:15,wef:'2026-05-13',ref:'Notif. 15/2026 & 16/2026-Customs'},
+  silver:{rate:15,wef:'2026-05-13',ref:'Notif. 15/2026 & 16/2026-Customs'},
+  platinum:{rate:15.4,wef:'2026-05-13',ref:'Notif. 15/2026 & 16/2026-Customs'}}};
+ var URL_REMOTE='https://goldau.vercel.app/duty.json';
+ var KEY='gcOfficialDuty', APPLIED='gcOfficialDutyApplied';
+ function load(k){ try{ return JSON.parse(localStorage.getItem(k)||'null'); }catch(_){ return null; } }
+ function save(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(_){} }
+ function table(){ var t=load(KEY); return (t&&t.metals)?t:BUILTIN; }
+ function metal(){ return window.__gcMetal||'gold'; }
+ var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+ function nice(iso){ var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(iso||''); return m? (+m[3])+' '+MON[+m[2]-1]+' '+m[1] : ''; }
+ window.__gcOfficialDuty=function(m){ var t=table(); return t.metals[m||metal()]||BUILTIN.metals[m||metal()]; };
+ window.__gcDutyWefText=function(){ var d=window.__gcOfficialDuty(); return d&&d.wef? 'wef: '+nice(d.wef) : ''; };
+ // First run: what is in the app now counts as already applied, so the user's current values are kept.
+ var applied=load(APPLIED); if(!applied){ applied={}; Object.keys(BUILTIN.metals).forEach(function(k){ applied[k]=BUILTIN.metals[k].wef; }); save(APPLIED,applied); }
+ function applyIfNewer(){
+  var m=metal(), d=window.__gcOfficialDuty(m); if(!d||!d.wef||!isFinite(d.rate)) return;
+  if((applied[m]||'')>=d.wef) return;
+  applied[m]=d.wef; save(APPLIED,applied);
+  var inp=document.getElementById('dutyInput'); if(!inp) return;
+  if(window.__gcSetDuty) window.__gcSetDuty(d.rate); else { inp.value=String(d.rate); inp.dispatchEvent(new Event('input',{bubbles:true})); }
+  var msg='Import duty updated: '+(m.charAt(0).toUpperCase()+m.slice(1))+' '+d.rate+'% (wef '+nice(d.wef)+')';
+  try{ if(window.__gcNotice) window.__gcNotice(msg,'\u20b9',4200); else if(typeof showToast==='function') showToast(msg); }catch(_){}
+ }
+ function refreshTag(){ try{ var el=document.getElementById('refDuty'); var inp=document.getElementById('dutyInput');
+  if(el&&inp){ var v=inp.value||''; el.textContent='('+window.__gcDutyWefText()+' · '+(v||'0')+'%)'; } }catch(_){} }
+ function fetchRemote(){
+  if(!window.fetch) return;
+  var url=(location.hostname==='goldau.vercel.app')?'/duty.json':URL_REMOTE;
+  fetch(url+'?t='+Date.now(),{cache:'no-store'}).then(function(r){ return r.ok?r.json():null; }).then(function(j){
+   if(!j||!j.metals) return; var ok=['gold','silver','platinum'].every(function(k){ var x=j.metals[k]; return x&&isFinite(x.rate)&&/^\d{4}-\d{2}-\d{2}$/.test(x.wef); });
+   if(!ok) return; save(KEY,j); applyIfNewer(); refreshTag();
+  }).catch(function(){});
+ }
+ document.addEventListener('gc:metal',function(){ setTimeout(function(){ applyIfNewer(); refreshTag(); },0); });
+ function init(){ applyIfNewer(); refreshTag(); setTimeout(fetchRemote,1500); }
  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
 })();
 </script>
