@@ -12302,7 +12302,8 @@ html[data-theme="light"] #qp3 .fade{background:linear-gradient(90deg,#fff 0,tran
 #qp4 .qg button{flex:0 0 34px;height:34px;border:0;background:transparent;color:var(--qtext);font:500 19px/1 Inter,system-ui,sans-serif;cursor:pointer;opacity:0;transition:opacity .2s}
 #qp4.open .qg button{opacity:1}
 #qp4 .x{font:600 13px/1 Inter,system-ui,sans-serif;color:var(--qtext);padding-left:12px}
-#qp4:not(.open) .qg button{pointer-events:none;flex-basis:0}
+#qp4:not(.open) .qg button{pointer-events:none;flex:0 0 0;width:0;min-width:0;padding:0;overflow:hidden}
+.qroll{flex:0 0 auto}
 #qpbar{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 92px);transform:translateX(-50%);z-index:9999;display:flex;gap:2px;padding:4px;border-radius:999px;
  background:rgba(20,16,10,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 8px 24px -10px rgba(0,0,0,.7),inset 0 0 0 .6px rgba(233,184,78,.6);font:700 11.5px/1 Inter,system-ui,sans-serif}
 #qpbar button{border:0;border-radius:999px;padding:8px 9px;background:transparent;color:#e8d9b4;font:inherit;cursor:pointer}
