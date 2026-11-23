@@ -6561,7 +6561,23 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     $('addOrderBtn').disabled = !canAddOrder;
     $('addOrderBtn').title = canAddOrder ? '' : !haveRequiredRates() ? 'Waiting for XAU/USD and USD/INR quotes' : 'Enter a positive quantity, weight and purity before adding';
 
-    $('refPure').textContent = '(' + purity.sub + ')';
+    // Custom Purity % / Fineness ‰: show the value actually used in the calculation (clamped to the metal's range).
+    (function(){
+      var ref = purity.sub;
+      if(purity.key==='custompercent' || purity.key==='customfineness'){
+        var cfg = window.__gcMetalCfg ? window.__gcMetalCfg() : {}, lo = cfg.minF||0, hi = cfg.maxF||1000;
+        var fmt = function(n,d){ return Number(n).toLocaleString('en-IN',{maximumFractionDigits:d}); };
+        if(purity.key==='custompercent'){
+          var pc = Math.min(hi/10, Math.max(lo/10, Number(state.customPurityPercent)||0));
+          ref = fmt(pc,4) + '%';
+        } else {
+          var fn = Math.min(hi, Math.max(lo, Number(state.customPurityFineness)||0));
+          ref = fmt(fn,2) + '‰';
+        }
+        if((window.__gcMetal||'gold')==='gold' && Number.isFinite(purity.karat)) ref += ' · ' + fmt(purity.karat,2) + 'K';
+      }
+      $('refPure').textContent = '(' + ref + ')';
+    })();
     $('refDuty').textContent = '(' + state.duty + '%)';
     $('refAfterDuty').textContent = '(+' + state.duty + '%)';
     $('refMaking').textContent = '(+' + state.making + '%)';
@@ -11424,6 +11440,22 @@ html[data-metal="silver"][data-theme="light"]:root{--ls-bg:linear-gradient(180de
 html[data-metal="platinum"][data-theme="light"]:root{--ls-bg:linear-gradient(180deg,rgba(255,255,255,.85),rgba(170,189,214,.28));--ls-fg:#3C5373}
 /* Android full screen: hide the top bar completely on scroll, including the camera-cutout / safe-area offset it sits below. */
 html .topbar.chrome-hidden{transform:translate3d(0,calc(-100% - 32px - env(safe-area-inset-top,0px) - var(--gc-cut-top,0px)),0)!important}
+/* Calculate › Custom Purity % / Fineness ‰ typing panel: metal-matched Liquid Glass with hairline metal rim. */
+html:root #customPurityEditor{border-color:transparent!important;background:var(--cpe-bg)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 6px 18px -12px rgba(0,0,0,.6)!important}
+html:root #customPurityEditor:focus-within{border-color:transparent!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 0 0 2px var(--cpe-ring),0 6px 20px -10px rgba(0,0,0,.55)!important}
+html:root #customPurityEditor::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:.6px;pointer-events:none;background:var(--gc-rim);
+ -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.9}
+html:root #customPurityEditor::before{background:linear-gradient(112deg,transparent 25%,var(--cpe-sheen) 48%,transparent 70%)!important}
+html:root #customPurityEditor .custom-weight-input-wrap{border-color:var(--cpe-line)!important;background:var(--cpe-field)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)!important}
+html:root #customPurityEditor .custom-weight-input-wrap:focus-within{border-color:var(--cpe-line-on)!important;box-shadow:0 0 0 2px var(--cpe-ring)!important}
+html:root #customPurityEditor .custom-weight-input-wrap input{caret-color:var(--cpe-caret)}
+html:root #customPurityEditor #customPuritySuffix{color:var(--cpe-caret)!important}
+html:root{--cpe-bg:linear-gradient(160deg,rgba(243,207,110,.12),rgba(140,102,34,.05));--cpe-field:rgba(233,184,78,.08);--cpe-line:rgba(233,184,78,.40);--cpe-line-on:rgba(243,207,110,.80);--cpe-ring:rgba(233,184,78,.18);--cpe-sheen:rgba(255,236,180,.20);--cpe-caret:#F3D27A}
+html[data-metal="silver"]:root{--cpe-bg:linear-gradient(160deg,rgba(236,240,245,.10),rgba(126,133,144,.04));--cpe-field:rgba(220,226,234,.07);--cpe-line:rgba(205,210,218,.40);--cpe-line-on:rgba(236,240,245,.80);--cpe-ring:rgba(205,210,218,.16);--cpe-sheen:rgba(255,255,255,.18);--cpe-caret:#E8ECF2}
+html[data-metal="platinum"]:root{--cpe-bg:linear-gradient(160deg,rgba(196,212,233,.12),rgba(104,123,148,.05));--cpe-field:rgba(184,199,219,.08);--cpe-line:rgba(160,180,206,.45);--cpe-line-on:rgba(205,220,240,.80);--cpe-ring:rgba(160,180,206,.18);--cpe-sheen:rgba(225,236,250,.20);--cpe-caret:#CBD9EC}
+html[data-theme="light"]:root{--cpe-bg:linear-gradient(160deg,rgba(255,255,255,.80),rgba(243,207,110,.16));--cpe-field:rgba(255,255,255,.72);--cpe-line:rgba(185,138,48,.40);--cpe-line-on:rgba(156,114,36,.75);--cpe-ring:rgba(185,138,48,.16);--cpe-sheen:rgba(255,248,225,.55);--cpe-caret:#7A5718}
+html[data-metal="silver"][data-theme="light"]:root{--cpe-bg:linear-gradient(160deg,rgba(255,255,255,.80),rgba(190,197,207,.24));--cpe-line:rgba(110,118,130,.38);--cpe-line-on:rgba(80,88,100,.70);--cpe-ring:rgba(110,118,130,.16);--cpe-sheen:rgba(255,255,255,.6);--cpe-caret:#4B525D}
+html[data-metal="platinum"][data-theme="light"]:root{--cpe-bg:linear-gradient(160deg,rgba(255,255,255,.80),rgba(170,189,214,.24));--cpe-line:rgba(83,103,129,.38);--cpe-line-on:rgba(62,85,115,.70);--cpe-ring:rgba(83,103,129,.16);--cpe-sheen:rgba(240,246,255,.6);--cpe-caret:#3C5373}
 /* MCX, FT and Jewel web-link buttons: plain text links, no background or shadow (all metals, both themes, every state). */
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger),
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger):is(:hover,:active,:focus){background:none!important;background-image:none!important;box-shadow:none!important;-webkit-tap-highlight-color:transparent}
