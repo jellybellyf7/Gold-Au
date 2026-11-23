@@ -6615,10 +6615,10 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
       }
       $('refPure').textContent = '(' + ref + ')';
     })();
-    $('refDuty').textContent = '(' + (window.__gcDutyWefText ? window.__gcDutyWefText() + ' · ' : '') + state.duty + '%)';
+    $('refDuty').textContent = (window.__gcDutyWefText && window.__gcDutyWefText() ? window.__gcDutyWefText() + ' ' : '') + '(' + state.duty + '%)';
     $('refAfterDuty').textContent = '(+' + state.duty + '%)';
     $('refMaking').textContent = '(+' + state.making + '%)';
-    $('refGst').textContent = '(' + (window.__gcGstWefText ? window.__gcGstWefText() + ' · ' : '') + state.gst + '%)';
+    $('refGst').textContent = (window.__gcGstWefText && window.__gcGstWefText() ? window.__gcGstWefText() + ' ' : '') + '(' + state.gst + '%)';
     $('rowDuty').style.display = state.dutyEnabled ? '' : 'none';
     $('rowAfterDuty').style.display = state.dutyEnabled ? '' : 'none';
     $('rowMaking').style.display = state.makingEnabled ? '' : 'none';
@@ -11505,6 +11505,8 @@ html:root #puritySeg .purity-indicator::before,html:root #unitChips .unit-indica
 /* Calculate breakdown (Metal Value, Import duty, After duty, Making, GST): tag stays with the label, amount on the next line, right-aligned. */
 html:root #tab-calc .bd-row .v{flex-basis:100%;margin-left:0;margin-top:3px;text-align:right}
 html:root #tab-calc .bd-row .l{flex-wrap:wrap;row-gap:2px}
+/* Calculate breakdown: the tag (purity/fineness/name, wef date and rate, +%) sits on its own line under the row name. */
+html:root #tab-calc .bd-row .l .row-ref{flex-basis:100%;margin-left:var(--bd-ref-indent,26px);margin-top:1px}
 /* MCX, FT and Jewel web-link buttons: plain text links, no background or shadow (all metals, both themes, every state). */
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger),
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger):is(:hover,:active,:focus){background:none!important;background-image:none!important;box-shadow:none!important;-webkit-tap-highlight-color:transparent}
@@ -12194,7 +12196,7 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
   return true;
  }
  function refreshTag(kind){ try{ var K=KINDS[kind], el=document.getElementById(K.tag), inp=document.getElementById(K.input);
-  if(el&&inp){ el.textContent='('+wefText(kind)+' · '+(inp.value||'0')+'%)'; } }catch(_){} }
+  if(el&&inp){ var w=wefText(kind); el.textContent=(w?w+' ':'')+'('+(inp.value||'0')+'%)'; } }catch(_){} }
  var checking={};
  function checkNow(kind){
   var K=KINDS[kind]; if(checking[kind]) return; checking[kind]=true;
