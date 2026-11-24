@@ -11527,7 +11527,7 @@ html:root #tab-calc .bd-row .v small{margin-left:0!important;margin-top:4px}
 html:root .bottom-nav .demo-nav-indicator{border-color:transparent!important}
 html:root .bottom-nav .demo-nav-indicator::before{content:""!important;position:absolute;inset:0;border-radius:inherit;padding:.6px;pointer-events:none;z-index:2;display:block!important;
  background:var(--gc-rim)!important;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.95}
-/* Calculate › Quantity: Segment pill (34 px). − | value | + — tap or hold to step, tap the number to type; width follows the value length. */
+/* Calculate › Quantity: Segment pill (34 px). − | value | + — tap or hold to step, drag sideways to scrub, tap the number to type; width follows the value length. */
 html:root{--qr-m1:#FFE7A6;--qr-m2:#E3A43A;--qr-m3:#8C6622;--qr-glass:rgba(243,207,110,.06);--qr-text:#F3D27A;--qr-line:rgba(243,207,110,.30);--qr-bg:#0e0b07}
 html[data-metal="silver"]:root{--qr-m1:#FFFFFF;--qr-m2:#C2C8D1;--qr-m3:#7E8590;--qr-glass:rgba(236,240,245,.05);--qr-text:#E8ECF2;--qr-line:rgba(220,226,234,.28);--qr-bg:#0c0d0f}
 html[data-metal="platinum"]:root{--qr-m1:#F2F7FF;--qr-m2:#A9BAD1;--qr-m3:#5F7591;--qr-glass:rgba(196,212,233,.06);--qr-text:#CBD9EC;--qr-line:rgba(184,199,219,.32);--qr-bg:#0a0d12}
@@ -11536,7 +11536,7 @@ html[data-theme="light"][data-metal="silver"]:root{--qr-text:#4B525D;--qr-line:r
 html[data-theme="light"][data-metal="platinum"]:root{--qr-text:#3C5373;--qr-line:rgba(62,85,115,.26)}
 html:root #calculateBody .qty-row .stepper{display:none!important}
 #qtyRuler{position:relative;flex:0 0 auto;height:34px;display:inline-flex;align-items:stretch;border-radius:14px;background:var(--qr-glass);
- box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 6px 16px -12px rgba(0,0,0,.7);overflow:hidden;user-select:none;-webkit-user-select:none;transition:box-shadow .2s}
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 6px 16px -12px rgba(0,0,0,.7);overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:pan-y;transition:box-shadow .2s}
 #qtyRuler::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:.6px;pointer-events:none;background:var(--gc-rim);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.85;z-index:5}
 #qtyRuler .qs-btn{position:relative;z-index:4;flex:0 0 38px;width:38px;border:0;margin:0;padding:0;background:transparent;color:var(--qr-text);font:500 20px/1 Inter,system-ui,sans-serif;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:background .15s,transform .12s}
 #qtyRuler .qs-btn:active,#qtyRuler .qs-btn.qs-hold{background:var(--qr-line)}
@@ -11545,6 +11545,9 @@ html:root #calculateBody .qty-row .stepper{display:none!important}
 #qtyRuler #qtyInput{position:relative;z-index:4;flex:0 0 auto;width:40px;min-width:40px;max-width:130px;transition:width .22s cubic-bezier(.2,.9,.3,1);height:34px;margin:0;padding:0 4px;border:0!important;background:transparent!important;box-shadow:none!important;outline:none;
  text-align:center;font:600 17px/1 Inter,system-ui,sans-serif;color:var(--text-0);font-variant-numeric:tabular-nums;-moz-appearance:textfield;touch-action:manipulation;user-select:text;-webkit-user-select:text;cursor:text}
 #qtyRuler #qtyInput::-webkit-outer-spin-button,#qtyRuler #qtyInput::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+#qtyRuler .qs-btn,#qtyRuler #qtyInput{touch-action:pan-y!important}
+#qtyRuler .qs-glow{position:absolute;top:0;bottom:0;left:50%;width:64px;margin-left:-32px;pointer-events:none;opacity:0;z-index:3;background:radial-gradient(closest-side,var(--qr-line),transparent);transition:opacity .2s}
+#qtyRuler.qs-drag{cursor:ew-resize}#qtyRuler.qs-drag .qs-glow{opacity:1}#qtyRuler.qs-drag .qs-btn{background:transparent}
 #qtyRuler.qs-edit{box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 0 0 1px var(--qr-line),0 6px 16px -12px rgba(0,0,0,.7)}
 #qtyRuler #qtyInput.qr-up{animation:qrUp .22s cubic-bezier(.2,.9,.3,1)}#qtyRuler #qtyInput.qr-dn{animation:qrDn .22s cubic-bezier(.2,.9,.3,1)}
 @keyframes qrUp{from{transform:translateY(55%);opacity:.25}to{transform:none;opacity:1}}
@@ -12295,7 +12298,7 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
  var row=document.querySelector('#calculateBody .qty-row'), inp=document.getElementById('qtyInput'); if(!row||!inp) return;
  var MAX=9999;
  var r=document.createElement('div'); r.id='qtyRuler'; r.setAttribute('role','group'); r.setAttribute('aria-label','Quantity');
- r.innerHTML='<button type="button" class="qs-btn" data-d="-1" aria-label="Decrease quantity">−</button><span class="qs-div" aria-hidden="true"></span><span class="qs-div qs-d2" aria-hidden="true"></span><button type="button" class="qs-btn" data-d="1" aria-label="Increase quantity">+</button>';
+ r.innerHTML='<span class="qs-glow" aria-hidden="true"></span><button type="button" class="qs-btn" data-d="-1" aria-label="Decrease quantity">−</button><span class="qs-div" aria-hidden="true"></span><span class="qs-div qs-d2" aria-hidden="true"></span><button type="button" class="qs-btn" data-d="1" aria-label="Increase quantity">+</button>';
  row.insertBefore(r,row.firstChild); r.insertBefore(inp,r.querySelector('.qs-d2'));
  function hap(ms){ try{ if(navigator.vibrate) navigator.vibrate(ms||7); }catch(_){} }
  function cur(){ return parseFloat(inp.value)||0; }
@@ -12304,16 +12307,29 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
  r.querySelectorAll('.qs-btn').forEach(function(b){
   var t=null,iv=null,n=0,d=+b.dataset.d;
   function stop(){ clearTimeout(t); clearInterval(iv); t=iv=null; b.classList.remove('qs-hold'); }
+  b._qsStop=stop;
   b.addEventListener('pointerdown',function(e){ e.preventDefault(); if(document.activeElement===inp) inp.blur(); stop(); n=0; step(d);
    t=setTimeout(function(){ b.classList.add('qs-hold'); iv=setInterval(function(){ n++; if(!step(d)) return stop(); if(n===10){ clearInterval(iv); iv=setInterval(function(){ if(!step(d)) stop(); },45); } },110); },380); });
-  ['pointerup','pointerleave','pointercancel'].forEach(function(ev){ b.addEventListener(ev,stop); });
+  ['pointerup','pointercancel'].forEach(function(ev){ b.addEventListener(ev,stop); });
+  b.addEventListener('pointerleave',function(){ if(!scrubbing) stop(); });
   b.addEventListener('contextmenu',function(e){ e.preventDefault(); });
  });
+ // Scrub: drag left / right anywhere on the pill — 1 step per 12 px, haptic tick per step. Vertical moves still scroll the page.
+ var glow=r.querySelector('.qs-glow'), sx=null, sy=0, acc=0, scrubbing=false, pid=null;
+ function stopHolds(){ r.querySelectorAll('.qs-btn').forEach(function(b){ if(b._qsStop) b._qsStop(); }); }
+ r.addEventListener('pointerdown',function(e){ sx=e.clientX; sy=e.clientY; acc=0; scrubbing=false; pid=e.pointerId; },true);
+ r.addEventListener('pointermove',function(e){ if(sx===null||e.pointerId!==pid) return;
+  var dx=e.clientX-sx; sx=e.clientX; acc+=dx;
+  if(!scrubbing){ if(Math.abs(acc)>6 && Math.abs(acc)>Math.abs(e.clientY-sy)){ scrubbing=true; stopHolds(); if(document.activeElement===inp) inp.blur(); r.classList.add('qs-drag'); try{ r.setPointerCapture(pid); }catch(_){} acc=0; } else return; }
+  var bx=r.getBoundingClientRect(); glow.style.left=(e.clientX-bx.left)+'px';
+  while(acc>=12){ acc-=12; step(1); } while(acc<=-12){ acc+=12; step(-1); } });
+ function endScrub(){ sx=null; if(scrubbing){ r.classList.remove('qs-drag'); glow.style.left='50%'; setTimeout(function(){ scrubbing=false; },0); } }
+ r.addEventListener('pointerup',endScrub); r.addEventListener('pointercancel',endScrub);
  // Every tap on the number opens the keyboard — also after Enter, or after the keyboard was closed with Back.
  function openKb(){ if(document.activeElement===inp) inp.blur(); inp.focus({preventScroll:true}); try{inp.select();}catch(_){}
   try{ if(window.AndroidBridge&&AndroidBridge.showKeyboard) AndroidBridge.showKeyboard(); }catch(_){} }
  inp.addEventListener('pointerdown',function(e){ e.preventDefault(); });
- inp.addEventListener('pointerup',function(e){ e.preventDefault(); openKb(); });
+ inp.addEventListener('pointerup',function(e){ e.preventDefault(); if(!scrubbing) openKb(); });
  inp.addEventListener('focus',function(){ r.classList.add('qs-edit'); try{inp.select();}catch(_){} });
  inp.addEventListener('blur',function(){ r.classList.remove('qs-edit'); });
  inp.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); inp.blur(); } });
