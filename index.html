@@ -12300,7 +12300,7 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
  var r=document.createElement('div'); r.id='qtyRuler'; r.setAttribute('role','group'); r.setAttribute('aria-label','Quantity');
  r.innerHTML='<span class="qs-glow" aria-hidden="true"></span><button type="button" class="qs-btn" data-d="-1" aria-label="Decrease quantity">−</button><span class="qs-div" aria-hidden="true"></span><span class="qs-div qs-d2" aria-hidden="true"></span><button type="button" class="qs-btn" data-d="1" aria-label="Increase quantity">+</button>';
  row.insertBefore(r,row.firstChild); r.insertBefore(inp,r.querySelector('.qs-d2'));
- function hap(ms){ try{ if(navigator.vibrate) navigator.vibrate(ms||7); }catch(_){} }
+ function hap(ms){ if(window.__gcHaptic) return window.__gcHaptic('tick'); try{ if(navigator.vibrate) navigator.vibrate(ms||7); }catch(_){} }
  function cur(){ return parseFloat(inp.value)||0; }
  function setQty(v){ v=Math.max(0,Math.min(MAX,v)); if(v===cur()) return false; inp.value=v; inp.dispatchEvent(new Event('input',{bubbles:true})); hap(7); return true; }
  function step(d){ var c=cur(); return setQty(d>0?Math.floor(c)+1:Math.ceil(c)-1); }
@@ -12342,6 +12342,44 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
   if(last!==null && n!==last && document.activeElement!==inp){ inp.classList.remove('qr-up','qr-dn'); void inp.offsetWidth; inp.classList.add(n>last?'qr-up':'qr-dn'); }
   last=n; }
  setInterval(sync,120); sync();
+})();
+</script>
+<script id="haptics-20261124">
+/* Subtle haptics: toggles, Reset toggles, Live Sync, theme switch; Calculate purity & weight strips and
+   Convert › Alloy composition fineness strip (tap = light click, scrolling past each chip = faint tick).
+   Android app uses the system's own light haptic (follows the phone's touch-feedback setting); browsers use a tiny vibrate. */
+(function(){'use strict';
+ var lastT=0;
+ window.__gcHaptic=function(kind){
+  var now=Date.now(); if(now-lastT<(kind==='tick'?28:15)) return; lastT=now;
+  try{ if(window.AndroidBridge&&AndroidBridge.haptic){ AndroidBridge.haptic(kind||'click'); return; } }catch(_){}
+  try{ if(navigator.vibrate) navigator.vibrate(kind==='tick'?4:8); }catch(_){}
+ };
+ var TAP='.ios-toggle,.reset-toggle,#forceSyncBtn,#bullionThemeToggle';
+ var STRIPS=['puritySeg','purityGroupTabs','unitChips','weightGroupTabs','differencePresets'];
+ document.addEventListener('click',function(e){
+  var t=e.target.closest&&e.target.closest(TAP); if(t){ if(!t.disabled) window.__gcHaptic('click'); return; }
+  var b=e.target.closest&&e.target.closest('button');
+  if(b && b.parentNode && STRIPS.indexOf(b.parentNode.id)>=0 && !b.hidden) window.__gcHaptic('click');
+ },true);
+ // Scrolling ticks: one faint tick each time the strip moves past a chip, only while the finger is on it (or its fling).
+ function hook(el){
+  if(!el || el.__gcHap) return; el.__gcHap=1;
+  var active=false, until=0, idx=null;
+  function step(){ var bs=el.querySelectorAll('button'), n=0, w=0; for(var i=0;i<bs.length;i++){ if(bs[i].offsetWidth){ n++; w+=bs[i].offsetWidth; } } return n?Math.max(24,w/n):60; }
+  el.addEventListener('touchstart',function(){ active=true; idx=Math.round(el.scrollLeft/step()); },{passive:true});
+  el.addEventListener('pointerdown',function(e){ if(e.pointerType==='mouse'){ active=true; idx=Math.round(el.scrollLeft/step()); } });
+  function off(){ active=false; until=Date.now()+900; }
+  el.addEventListener('touchend',off,{passive:true}); el.addEventListener('touchcancel',off,{passive:true});
+  el.addEventListener('pointerup',function(e){ if(e.pointerType==='mouse') off(); });
+  el.addEventListener('scroll',function(){
+   if(!active && Date.now()>until) return;
+   var i=Math.round(el.scrollLeft/step()); if(idx===null){ idx=i; return; }
+   if(i!==idx){ idx=i; window.__gcHaptic('tick'); }
+  },{passive:true});
+ }
+ function hookAll(){ STRIPS.forEach(function(id){ hook(document.getElementById(id)); }); }
+ hookAll(); document.addEventListener('DOMContentLoaded',hookAll); setTimeout(hookAll,1500);
 })();
 </script>
 <script id="metal-switch-toast-20261120">
