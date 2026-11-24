@@ -9128,7 +9128,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
       inputs=detail('Melted Weight',formatted(getInput('convMeltedWt'),'g'),'🔥')
             +detail('XRF Weight',formatted(getInput('convWeightInput'),'g'),'⚖️')
             +detail('XRF Purity',formatted(getInput('convPurityInput'),'%'),'🧪')
-            +detail('XRF Karat',esc(getInput('convKaratInput')),'💎');
+            +((window.__gcMetal&&window.__gcMetal!=='gold')?detail('XRF Fineness',esc(getInput('convKaratInput'))+(getInput('convKaratInput')?'‰':''),'💎'):detail('XRF Karat',esc(getInput('convKaratInput')),'💎'));
       outputs=result('24K Pure (999.9)',formatted(getText('out-24k').replace(/\s*g$/,'').trim(),'g'),null,'🥇')
              +result('24K (999)',formatted(getText('out-999').replace(/\s*g$/,'').trim(),'g'),null,'🥇')
              +result('22K (920)',formatted(getText('out-920').replace(/\s*g$/,'').trim(),'g'),null,'🪙')
@@ -11766,7 +11766,12 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
   if(convOrig) return true;
   var tab=$('tab-convert'); if(!tab) return false;
   convOrig={text:[],attr:[],tiles:[],presets:[]};
-  ['convMeltedWt','convKaratInput'].forEach(function(id){ var f=$(id)&&$(id).closest('.field'); if(f) f.classList.add('metal-gold-only'); });
+  /* Melted Weight and the XRF Karat strip stay in every metal; Silver/Platinum show it as XRF Fineness (‰). */
+  var ckw=$('convKaratInput')&&$('convKaratInput').parentNode;
+  if(ckw && !$('convKaratSuffix')){ var sx=document.createElement('span'); sx.id='convKaratSuffix'; sx.className='prefix'; sx.style.fontSize='12px'; sx.textContent='‰'; sx.hidden=true; ckw.appendChild(sx); }
+  var ckl=document.querySelector('label[for="convKaratInput"]');
+  if(ckl){ for(var cn=ckl.firstChild;cn;cn=cn.nextSibling){ if(cn.nodeType===3 && /XRF Karat/.test(cn.nodeValue)){ convOrig.kLabel=cn; break; } } }
+  if($('convPurityInput')) $('convPurityInput').addEventListener('input',function(){ convFineness(); });
   var kd=$('differenceKaratDisplay'); if(kd&&kd.closest('.pdc-detail-item')) kd.closest('.pdc-detail-item').classList.add('metal-gold-only');
   var w=document.createTreeWalker(tab,NodeFilter.SHOW_TEXT,null);
   for(var n=w.nextNode();n;n=w.nextNode()){ if(/\bgold\b/i.test(n.nodeValue) && !(n.parentNode&&/^(STYLE|SCRIPT)$/.test(n.parentNode.nodeName))){ if(/Total Gold Alloy/.test(n.nodeValue) && n.parentNode && n.parentNode.closest && n.parentNode.closest('label[for="differenceWeightInput"]')) convOrig.wtLabel=[n,n.nodeValue]; else convOrig.text.push([n,n.nodeValue]); } }
@@ -11781,6 +11786,18 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
   });
   return true;
  }
+ /* XRF Fineness for Silver/Platinum: purity % × 10, clamped to the metal's fineness range (e.g. 800–999.9‰), one decimal. */
+ function convFineness(){
+  var m=window.__gcMetal||'gold', gold=m==='gold', k=$('convKaratInput'), sx=$('convKaratSuffix'); if(!k) return;
+  if(convOrig&&convOrig.kLabel){ var lt=gold?'XRF Karat':'XRF Fineness'; if(convOrig.kLabel.nodeValue!==lt) convOrig.kLabel.nodeValue=lt; }
+  if(sx) sx.hidden=gold;
+  if(gold) return;
+  var c=CFG[m]||{}, cp=$('convPurityInput'), f=Number(String(cp&&cp.value||'').replace(/,/g,''))*10;
+  if(!(f>0)){ k.value=''; return; }
+  if(c.minF && f<c.minF) f=c.minF; if(c.maxF && f>c.maxF) f=c.maxF;
+  k.value=(Math.round(f*10)/10).toFixed(1);
+ }
+ window.__gcConvFineness=convFineness;
  function swapWord(t,name){ return t.replace(/\bGold\b/g,name).replace(/\bgold\b/g,name.toLowerCase()).replace(/\bGOLD\b/g,name.toUpperCase()); }
  function convApply(m){
   if(!convSetup()) return;
@@ -11798,6 +11815,8 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
   if(df){ var v=Number(String(df.value).replace(/,/g,'')); if(!gold && ((c.minF && (!(v>0)||v<c.minF)) || (c.maxF && v>c.maxF))) df.value=c.alloyF?c.alloyF[0]:'999.9'; df.dispatchEvent(new Event('input',{bubbles:true})); }
   var cp=$('convPurityInput'), mf=(c.minF||0)/10, pv=cp?Number(String(cp.value).replace(/,/g,'')):0;
   if(cp && mf && pv>0 && pv<mf){ cp.value=String(mf); cp.dispatchEvent(new Event('input',{bubbles:true})); }
+  if(gold && cp) cp.dispatchEvent(new Event('input',{bubbles:true})); /* restores karat text */
+  convFineness();
   if(cp && c.maxF && pv>c.maxF/10){ cp.value=String(c.maxF/10); cp.dispatchEvent(new Event('input',{bubbles:true})); }
   if(convOrig.wtLabel){ var wl=convOrig.wtLabel; var wt=gold?wl[1]:(c.alloyWtLabel||swapWord(wl[1],c.name)); if(wl[0].nodeValue!==wt) wl[0].nodeValue=wt; }
   if(typeof window.__gcCalcConv==='function') try{ window.__gcCalcConv(); }catch(_){}
@@ -11953,8 +11972,10 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
    var k24=$('out-24k')&&$('out-24k').parentNode.querySelector('.k'),k22=$('out-22k')&&$('out-22k').parentNode.querySelector('.k');
    return hero([['🥇','Yield · '+(k24?plain(k24):'24K'),txt('out-24k')],['💍','Yield · '+(k22?plain(k22):'22K'),txt('out-22k')]])
     +sec('🧪','XRF test inputs',table((window.__gcMetal&&window.__gcMetal!=='gold')?[
+      row('🔥','Melted Weight',withUnit(inp('convMeltedWt'),' g')),
       row('⚖️','XRF Weight',withUnit(inp('convWeightInput'),' g')),
-      row('🧪','XRF Purity',withUnit(inp('convPurityInput'),'%'))]:[
+      row('🧪','XRF Purity',withUnit(inp('convPurityInput'),'%')),
+      row('💎','XRF Fineness',withUnit(inp('convKaratInput'),'‰'))]:[
       row('🔥','Melted Weight',withUnit(inp('convMeltedWt'),' g')),
       row('⚖️','XRF Weight',withUnit(inp('convWeightInput'),' g')),
       row('🧪','XRF Purity',withUnit(inp('convPurityInput'),'%')),
