@@ -11696,7 +11696,7 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
   var b=e.target.closest('button[data-metal]'); if(!b) return;
   e.stopPropagation(); closeMenu();
   if(window.__gcSetMetal && window.__gcSetMetal(b.dataset.metal)){
-   try{ if(window.AndroidBridge || window.__gcForceMetalToast) window.__gcMetalToast(b.dataset.metal); }catch(_){}
+   try{ window.__gcMetalToast(b.dataset.metal); }catch(_){} /* metal glass notice on every platform */
   }
   try{ chip.focus({preventScroll:true}); }catch(_){}
  });
