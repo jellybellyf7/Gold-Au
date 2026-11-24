@@ -36,6 +36,9 @@ window.__gcMetals={
  window.__gcMetal=m;
  window.__gcPavanKeys=['sovereign','quarter_pavun','4gram','ta_nel','ta_kunrimani','ta_panavedai','ta_manjaadi','ta_varaaganedai','ta_kaasu','ta_kazhanchu','ta_palam']; /* Gold-only units: பவுன் family + traditional Tamil weights */
  window.__gcHideUnit=function(k){ return window.__gcMetal!=='gold' && window.__gcPavanKeys.indexOf(k)>=0; };
+ /* Calculate weight strip only: Platinum & Palladium drop tola, tael, baht, chi, luong, pennyweight, grain and carat. */
+ window.__gcPtPdStripHide=['tola','tael','baht','chi','luong','dwt','grain','carat_mass'];
+ window.__gcHideStripUnit=function(k){ return window.__gcHideUnit(k) || ((window.__gcMetal==='platinum'||window.__gcMetal==='palladium') && window.__gcPtPdStripHide.indexOf(k)>=0); };
  window.__gcMetalCfg=function(){ return window.__gcMetals[window.__gcMetal]||window.__gcMetals.gold; };
  document.documentElement.setAttribute('data-metal',m);
 })();
@@ -6507,7 +6510,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     if(!weightGroups[selectedWeightGroup].includes(state.unit)){
       // A different category is selected intentionally; retain the active calculation unit.
     }
-    var visible = UNITS.filter(function(u){return !window.__gcHideUnit(u.key) && Object.values(weightGroups).some(function(keys){return keys.indexOf(u.key)>=0;});}).sort(function(a,b){return Object.keys(weightGroups).reduce(function(all,g){return all.concat(weightGroups[g]);},[]).indexOf(a.key)-Object.keys(weightGroups).reduce(function(all,g){return all.concat(weightGroups[g]);},[]).indexOf(b.key);});
+    var visible = UNITS.filter(function(u){return !window.__gcHideStripUnit(u.key) && Object.values(weightGroups).some(function(keys){return keys.indexOf(u.key)>=0;});}).sort(function(a,b){return Object.keys(weightGroups).reduce(function(all,g){return all.concat(weightGroups[g]);},[]).indexOf(a.key)-Object.keys(weightGroups).reduce(function(all,g){return all.concat(weightGroups[g]);},[]).indexOf(b.key);});
     if(weightGroupTabs) weightGroupTabs.querySelectorAll('button').forEach(function(btn){btn.setAttribute('aria-pressed',btn.dataset.weightGroup===selectedWeightGroup?'true':'false');});
     syncWeightGroupIndicator();
     var buttons=unitChips.querySelectorAll('button');
@@ -7313,7 +7316,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
         state.purity = p.purity || null;
         state.mcxEnabled = c.hasMcx !== false; state.ftbarEnabled = c.hasFt !== false;
         setList(m);
-        if(window.__gcHideUnit(state.unit)) state.unit = 'gram';
+        if(window.__gcHideStripUnit(state.unit)) state.unit = 'gram';
       }
       window.__gcMetalSnap = function(){
         var cur = window.__gcMetal;
@@ -7346,7 +7349,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
         if(CFG[startMetal].dutyLinked && store.profiles.gold && isFinite(store.profiles.gold.duty)) state.duty = store.profiles.gold.duty;
         if(!LISTS[startMetal].some(function(p){ return p.key === state.purity; }) && prof.purity) state.purity = prof.purity;
         setList(startMetal);
-        if(window.__gcHideUnit(state.unit)) state.unit = 'gram';
+        if(window.__gcHideStripUnit(state.unit)) state.unit = 'gram';
       }
       /* Reset: platinum returns to its own default import duty. */
       $('resetRatesBtn').addEventListener('click', function(){
