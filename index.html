@@ -10,7 +10,7 @@
 <meta content="telephone=no" name="format-detection"/>
 <meta name="theme-color" content="#000000"/>
 <script id="gc-metal-boot-20261120">
-/* Metal mode (Gold / Silver / Platinum / Palladium): config and the saved choice, applied before first paint. */
+/* Metal mode (Gold / Silver / Platinum / Palladium / Copper): config and the saved choice, applied before first paint. */
 window.__gcMetals={
  gold:{name:'Gold',sym:'Au',code:'XAU',el:{z:79,w:'196.97',d:'19.32',mp:'1,064',bp:'2,970',mohs:'2.5',note:'Warm yellow lustre · most malleable metal'},unitG:10,unitLabel:'/10g',mcx:'Gold / Mini',ft:'24k/999‰',jewel:'22k/916‰',jvs:'22k',hasMcx:true,hasFt:true,minF:0,duty:15,
   hero:[{k:'XAU → IN₹ · 24K g',karat:24},{k:'22K · 916',karat:22}],range:'24K–14K'},
@@ -28,14 +28,20 @@ window.__gcMetals={
   hero:[{k:'XPD → IN₹ · 9995 g',karat:24*0.9995},{k:'Pd950 • g',karat:24*0.95}],range:'9995–500',
   yieldF:[999.5,999,950,500],yieldK:['999.5‰ • Bullion • 99.95%','999‰ • Pure • 99.90%','950‰ • Pd950 • 95.00%','500‰ • Pd500 • 50.00%'],
   alloyF:['999.5','999','990','950','900','800','500'],
-  purities:[['9995','Bullion',999.5],['999','Pure',999],['990','‰',990],['950','Jewel',950],['900','‰',900],['800','‰',800],['500','Hard',500]],customPct:95}
+  purities:[['9995','Bullion',999.5],['999','Pure',999],['990','‰',990],['950','Jewel',950],['900','‰',900],['800','‰',800],['500','Hard',500]],customPct:95},
+ copper:{name:'Copper',sym:'Cu',code:'XCU',apiCode:'HG',spotG:453.59237,spotDec:4,spotUnitTxt:' $/lb',defaultUnit:'kilogram',gst:18,el:{z:29,w:'63.546',d:'8.96',mp:'1,085',bp:'2,562',mohs:'3',note:'Reddish-orange lustre · best electrical conductor after silver'},maxF:999.99999,alloyWtLabel:'Total Copper Wt',jvsLabel:'Spot vs ₹ETP',unitG:1000,unitLabel:'/kg',jewel:'ETP 999‰',jvs:'ETP',hasMcx:false,hasFt:false,minF:940,duty:5.5,
+  hero:[{k:'XCU → IN₹ • kg',karat:24*0.9999,g:1000},{k:'999.9 • tonne',karat:24*0.9999,g:1000000}],range:'8N–No.2',
+  yieldF:[999.99999,999.9,999,940],yieldK:['8N • 99.999999%','4N • 99.99%','ETP • 99.90%','No.2 • 94.00%'],
+  alloyF:['999.99999','999.9999','999.999','999.99','999.9','999.5','999','990','940'],
+  purities:[['99999999','8N',999.99999],['9999999','7N',999.9999],['999999','6N',999.999],['99999','5N',999.99],['9999','4N',999.9],['9995','OFC',999.5],['999','ETP',999],['990','Bright',990],['940','No.2',940]],customPct:99.9}
 };
 (function(){
  var m='gold';
  try{ var v=JSON.parse(localStorage.getItem('gcMetalMode')||'{}').metal; if(window.__gcMetals[v]) m=v; }catch(e){}
  window.__gcMetal=m;
  window.__gcPavanKeys=['sovereign','quarter_pavun','4gram','ta_nel','ta_kunrimani','ta_panavedai','ta_manjaadi','ta_varaaganedai','ta_kaasu','ta_kazhanchu','ta_palam']; /* Gold-only units: பவுன் family + traditional Tamil weights */
- window.__gcHideUnit=function(k){ return window.__gcMetal!=='gold' && window.__gcPavanKeys.indexOf(k)>=0; };
+ window.__gcCopperUnits=['xrfwt','gram','10gram','kilogram','tonne','pound','troyoz','milligram','microgram'];
+ window.__gcHideUnit=function(k){ if(window.__gcMetal==='copper') return window.__gcCopperUnits.indexOf(k)<0; return (window.__gcMetal!=='gold' && window.__gcPavanKeys.indexOf(k)>=0) || k==='tonne' || k==='pound'; };
  /* Calculate weight strip only: Platinum & Palladium drop tola, tael, baht, chi, luong, pennyweight, grain and carat. */
  window.__gcPtPdStripHide=['tola','tael','baht','chi','luong','dwt','grain','carat_mass'];
  window.__gcHideStripUnit=function(k){ return window.__gcHideUnit(k) || ((window.__gcMetal==='platinum'||window.__gcMetal==='palladium') && window.__gcPtPdStripHide.indexOf(k)>=0); };
@@ -4689,6 +4695,67 @@ body.light #tab-insights .insights-section-header>.insights-double-actions>butto
 html,body,*{scrollbar-width:none!important;-ms-overflow-style:none!important}
 html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:none!important;width:0!important;height:0!important;background:transparent!important}
 </style>
+<style id="copper-wire-size-strip-20261124">
+/* Wire size chips mirror the Calculate weight-unit strip (auto-generated copy of #unitChips rules). */
+#cwSizes{margin-bottom:2px}
+#cwSizes{ position:relative; isolation:isolate; }
+#cwSizes .unit-indicator{ position:absolute; z-index:1; top:0; bottom:0; left:0; width:var(--unit-indicator-width, 0px); transform:translateX(var(--unit-indicator-x, 0px)); border-radius:var(--radius-pill); background:linear-gradient(135deg, var(--gold-300), var(--gold-700)); pointer-events:none; visibility:hidden; transition:none; }
+#cwSizes.unit-indicator-ready .unit-indicator{ visibility:visible; transition:transform .58s cubic-bezier(.2,.9,.3,1.15), width .42s cubic-bezier(.2,.9,.3,1.15); }
+#cwSizes .chip{ position:relative; transition:color .25s cubic-bezier(.4,0,.2,1), border-color .2s; }
+#cwSizes .chip > *{ position:relative; z-index:2; }
+#cwSizes.unit-indicator-ready .chip[aria-pressed="true"]{ background:transparent; }
+#cwSizes .unit-indicator{
+  background:linear-gradient(135deg, rgba(255,235,173,.24), rgba(210,157,56,.12) 55%, rgba(255,244,208,.2));
+  border:1.5px solid rgba(211,156,47,.95);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.65), inset 0 -1px 0 rgba(164,111,26,.12), 0 0 0 1px rgba(243,199,105,.18), 0 0 12px rgba(209,151,46,.27);
+  box-sizing:border-box;
+}
+#cwSizes .chip[aria-pressed="true"]{
+  color:var(--text-0);
+  text-shadow:0 1px 0 rgba(255,255,255,.15);
+}
+#cwSizes .chip:focus-visible{
+  outline:2px solid var(--gold-500); outline-offset:3px;
+}
+@media (prefers-reduced-motion: reduce){#cwSizes .unit-indicator{transition:none !important;}}
+#cwSizes .unit-indicator{overflow:hidden;}
+#cwSizes .unit-indicator::after{
+  content:"";position:absolute;inset:-45% -55%;pointer-events:none;
+  background:linear-gradient(110deg,transparent 43%,rgba(255,246,211,.65) 49%,transparent 55%);
+  transform:translateX(-135%) skewX(-12deg);opacity:0;
+}
+#cwSizes .unit-indicator.demo-chip-animate::after{
+  animation:demoMicroShimmer 440ms ease-out both;
+}
+@media(prefers-reduced-motion:reduce){#cwSizes .unit-indicator.demo-chip-animate::after{animation:none!important;}}
+#cwSizes .unit-indicator{
+  border-radius:9999px !important;
+  overflow:hidden !important;
+  background:
+    radial-gradient(ellipse at 50% 50%,rgba(226,170,63,.15) 0%,rgba(226,170,63,.06) 64%,transparent 100%),
+    linear-gradient(135deg,rgba(255,235,173,.24),rgba(210,157,56,.12) 55%,rgba(255,244,208,.20)) !important;
+  /* Inset light only: external blurred box-shadow can create rectangular seams on Android. */
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.65),
+             inset 0 -1px 0 rgba(164,111,26,.12),
+             inset 0 0 9px rgba(209,151,46,.15) !important;
+  filter:none !important;
+  -webkit-filter:none !important;
+  -webkit-clip-path:inset(0 round 9999px);
+  clip-path:inset(0 round 9999px);
+}
+#cwSizes .unit-indicator::after{border-radius:inherit;}
+#cwSizes{overflow-x:auto!important;overflow-y:hidden!important;flex-wrap:nowrap!important;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+#cwSizes::-webkit-scrollbar{display:none}
+#cwSizes>button{flex-shrink:0!important}
+:root[data-theme="light"] #cwSizes.unit-indicator-ready .chip[aria-pressed="true"]{
+ background:transparent!important;
+}
+html:root #cwSizes .unit-indicator{border-color:transparent!important}
+html:root #cwSizes .unit-indicator::before{content:""!important;position:absolute;inset:0;border-radius:inherit;padding:.6px;pointer-events:none;z-index:2;display:block!important;
+ background:var(--gc-rim)!important;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.95}
+#cwSizes .chip-text{font-family:'GC Tamil',Inter,system-ui,-apple-system,sans-serif}
+#copperWireCard #cwSizes{margin:0 0 12px}
+</style>
 </head>
 <body>
 <div aria-hidden="true" class="ambient"><div class="orb orb-a"></div><div class="orb orb-b"></div><div class="orb orb-c"></div></div>
@@ -4726,6 +4793,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
 <button type="button" role="menuitemradio" data-metal="silver" aria-checked="false"><i class="metal-tile is-silver" aria-hidden="true"><em>47</em><b>Ag</b></i><span><b>Silver</b><small>Ag · 9999–800</small></span><span class="metal-tick" aria-hidden="true">✓</span></button>
 <button type="button" role="menuitemradio" data-metal="platinum" aria-checked="false"><i class="metal-tile is-platinum" aria-hidden="true"><em>78</em><b>Pt</b></i><span><b>Platinum</b><small>Pt · 9995–850</small></span><span class="metal-tick" aria-hidden="true">✓</span></button>
 <button type="button" role="menuitemradio" data-metal="palladium" aria-checked="false"><i class="metal-tile is-palladium" aria-hidden="true"><em>46</em><b>Pd</b></i><span><b>Palladium</b><small>Pd · 9995–500</small></span><span class="metal-tick" aria-hidden="true">✓</span></button>
+<button type="button" role="menuitemradio" data-metal="copper" aria-checked="false"><i class="metal-tile is-copper" aria-hidden="true"><em>29</em><b>Cu</b></i><span><b>Copper</b><small>Cu · 8N–No.2</small></span><span class="metal-tick" aria-hidden="true">✓</span></button>
 </div>
 </div>
 </div>
@@ -4904,6 +4972,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
 <div aria-label="Print and reset active calculator" class="purity-unified-actions">
 <div class="purity-mode-actions purity-mode-actions-yield"><span class="a6-head-actions" style="display:inline-flex;align-items:center;gap:7px;flex:none;"><button aria-label="Undo XRF Yield" class="purity-history-flip-button" data-direction="undo" disabled="" id="historyYieldFlipBtn" title="Undo XRF Yield. Swipe up to undo or down to redo" type="button"><span aria-hidden="true" class="native-history-icon" data-redo-char="⤻" data-undo-char="⤺"></span></button><button aria-label="Print Purity Converter on A6 or save as PDF" class="a6-print-action" id="printPurityConverterA6" title="Print Purity Converter · A6 PDF" type="button"><svg aria-hidden="true" fill="none" height="17" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" viewbox="0 0 24 24" width="17"><path d="M7 8V3h10v5M7 17H5a2 2 0 0 1-2-2v-4a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v4a2 2 0 0 1-2 2h-2"></path><rect height="7" rx="1" width="10" x="7" y="14"></rect><path d="M17.5 11.5h.01"></path></svg></button><button aria-label="Save Purity Converter PNG screenshot" class="a6-shot-action" id="shotPurityConverterPng" title="Save Purity Converter · PNG" type="button"><svg aria-hidden="true" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" viewbox="0 0 24 24" width="20"><path d="M4 7h3l2-2h6l2 2h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"></path><circle cx="12" cy="13" r="3.5"></circle></svg></button><button aria-label="Reset converter" class="reset-toggle" id="resetConvertBtn" style="transform: scale(0.85); transform-origin: right center;" type="button"><span class="reset-knob"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 28 28"><path d="M9.3 9.8A6.3 6.3 0 1 1 8.3 16"></path><path d="M9.3 6.2v4.2h4.2"></path></svg></span></button></span></div>
 <div class="purity-mode-actions purity-mode-actions-alloy" hidden=""><span class="a6-head-actions" style="display:inline-flex;align-items:center;gap:7px;flex:none;"><button aria-label="Undo Alloy Composition" class="purity-history-flip-button" data-direction="undo" disabled="" id="historyAlloyFlipBtn" title="Undo Alloy Composition. Swipe up to undo or down to redo" type="button"><span aria-hidden="true" class="native-history-icon" data-redo-char="⤻" data-undo-char="⤺"></span></button><button aria-label="Print Purity Calculator on A6 or save as PDF" class="a6-print-action" id="printPurityCalculatorA6" title="Print Purity Calculator · A6 PDF" type="button"><svg aria-hidden="true" fill="none" height="17" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" viewbox="0 0 24 24" width="17"><path d="M7 8V3h10v5M7 17H5a2 2 0 0 1-2-2v-4a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v4a2 2 0 0 1-2 2h-2"></path><rect height="7" rx="1" width="10" x="7" y="14"></rect><path d="M17.5 11.5h.01"></path></svg></button><button aria-label="Save Purity Calculator PNG screenshot" class="a6-shot-action" id="shotPurityCalculatorPng" title="Save Purity Calculator · PNG" type="button"><svg aria-hidden="true" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" viewbox="0 0 24 24" width="20"><path d="M4 7h3l2-2h6l2 2h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"></path><circle cx="12" cy="13" r="3.5"></circle></svg></button>
+<div class="purity-mode-actions purity-mode-actions-wire" hidden=""></div>
 <button aria-label="Reset purity calculator" class="reset-toggle" id="resetDifferenceBtn" style="transform:scale(.85);transform-origin:right center;" type="button"><span class="reset-knob"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 28 28"><path d="M9.3 9.8A6.3 6.3 0 1 1 8.3 16"></path><path d="M9.3 6.2v4.2h4.2"></path></svg></span></button>
 </span></div>
 </div>
@@ -4918,6 +4987,9 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
 <g class="alloy-face alloy-face-left"><path d="M7 19 32 33v27L7 46Z"/></g>
 <g class="alloy-face alloy-face-right"><path d="M57 19 32 33v27l25-14Z"/></g>
 </svg></span><span>Alloy Composition</span>
+</button>
+<button aria-controls="purityWirePane" aria-selected="false" class="purity-unified-tab" data-unified-mode="wire" id="purityModeWire" data-wicon="a" role="tab" tabindex="-1" type="button">
+<span aria-hidden="true" class="purity-mode-emblem elite-convert-emblem"><svg class="wwi wwi-a" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle class="wwi-term" cx="3.5" cy="18" r="1.6"/><circle class="wwi-term" cx="24.5" cy="10" r="1.6"/><path class="wwi-wire" pathLength="100" d="M5 18c3.5 0 4-8 7-8s3.5 8 7 8c2.2 0 2.8-5 4-7.2"/><circle class="wwi-e" r="1.9" fill="currentColor" stroke="none"/></svg><svg class="wwi wwi-b" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="11" height="16" rx="2.4"/><g class="wwi-wind"><path d="M5.5 9.5l6 2.2M5.5 13.2l6 2.2M5.5 16.9l6 2.2"/></g><path class="wwi-pay" pathLength="100" d="M14 18.5h5.5c2 0 3-1.5 3-3.2V9"/><circle class="wwi-tip" cx="22.5" cy="8" r="1.3" fill="currentColor" stroke="none"/></svg><svg class="wwi wwi-c" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle class="wwi-jacket" pathLength="100" cx="14" cy="14" r="10.5"/><g class="wwi-strands" stroke-width="1.3"><circle cx="14" cy="14" r="2.2"/><circle cx="18.4" cy="14" r="2.2"/><circle cx="16.2" cy="17.8" r="2.2"/><circle cx="11.8" cy="17.8" r="2.2"/><circle cx="9.6" cy="14" r="2.2"/><circle cx="11.8" cy="10.2" r="2.2"/><circle cx="16.2" cy="10.2" r="2.2"/></g></svg><svg class="wwi wwi-d" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 24.5h16M14 24.5v-6"/><g class="wwi-pan"><path d="M5.5 18.5h17"/><g class="wwi-coil"><ellipse cx="11.5" cy="13.5" rx="3.8" ry="3.6"/><ellipse cx="16.5" cy="13.5" rx="3.8" ry="3.6"/></g></g><path class="wwi-needle" d="M14 21.8l0-2.6"/></svg></span><span>Wire Weight</span>
 </button>
 <span aria-hidden="true" class="purity-mode-magnet"></span>
 <span aria-hidden="true" class="purity-unified-tab-glint"></span>
@@ -5042,7 +5114,21 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
 </div>
 <p class="pdc-error" hidden="" id="differenceError" role="status"></p>
 </div>
-</div> </div>
+</div> <div aria-labelledby="purityModeWire" class="purity-unified-pane" id="purityWirePane" role="tabpanel" aria-hidden="true">
+<div id="copperWireCard" aria-label="Copper wire weight calculator">
+<p class="cw-sub">Copper conductor weight and value from size × length (density 8.96 g/cm³, ETP 999‰).</p>
+<div class="chip-row cw-sizes" id="cwSizes" role="group" aria-label="Conductor size"><span class="unit-indicator" aria-hidden="true"></span></div>
+<div class="cw-grid">
+<div class="field"><label for="cwArea">Size</label><div class="input-wrap"><input autocomplete="off" id="cwArea" inputmode="decimal" type="text" value="2.5"/><span class="prefix">mm²</span></div></div>
+<div class="field"><label for="cwLen">Length</label><div class="input-wrap"><input autocomplete="off" id="cwLen" inputmode="decimal" type="text" value="90"/><span class="prefix">m</span></div></div>
+<div class="field"><label for="cwCores">Cores</label><div class="input-wrap"><input autocomplete="off" id="cwCores" inputmode="numeric" type="text" value="1"/><span class="prefix">×</span></div></div>
+<div class="field"><label for="cwQty">Coils</label><div class="input-wrap"><input autocomplete="off" id="cwQty" inputmode="numeric" type="text" value="1"/><span class="prefix">×</span></div></div>
+</div>
+<div class="cw-out"><div><small>Copper weight</small><b id="cwWeight">—</b></div><div><small>Copper value</small><b id="cwValue">—</b></div></div>
+<p class="cw-note" id="cwNote">Waiting for the XCU → U$D copper rate.</p>
+</div>
+</div>
+</div>
 </div>
 </section>
 </div>
@@ -5639,6 +5725,10 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     { key:'ta_kaasu', label:'காசு', grams:5.0, sub:'5 g', weightGroup:'tamil', icon:'<ellipse cx="13" cy="14.6" rx="4.6" ry="3.6" fill="none" stroke="var(--glyph)" stroke-width="1.4" opacity="0.9"/><path d="M15.4 11.53A4.6 3.6 0 0 1 15.4 17.67Q14.2 14.6 15.4 11.53z" fill="var(--glyph)" opacity="0.85"/><path d="M18.6 8.2c1.6.6 2.4 2.2 1.9 3.8-1.6-.6-2.4-2.2-1.9-3.8z" fill="var(--glyph)" opacity="0.75"/>' },
     { key:'ta_palam', label:'பலம்', grams:20.0, sub:'20 g', weightGroup:'tamil', icon:'<ellipse cx="13" cy="14.6" rx="4.6" ry="3.6" fill="none" stroke="var(--glyph)" stroke-width="1.4" opacity="0.9"/><path d="M15.4 11.53A4.6 3.6 0 0 1 15.4 17.67Q14.2 14.6 15.4 11.53z" fill="var(--glyph)" opacity="0.85"/><path d="M18.6 8.2c1.6.6 2.4 2.2 1.9 3.8-1.6-.6-2.4-2.2-1.9-3.8z" fill="var(--glyph)" opacity="0.75"/>' }
   );
+  UNITS.push(
+    { key:'tonne', label:'Tonne', grams:1000000, sub:'1,000 kg', weightGroup:'bullion', icon:'<path d="M8.3 18.8h11.4l-2-8.6H10.3z" fill="none" stroke="var(--glyph)" stroke-width="1.4" stroke-linejoin="round" opacity="0.85"/><path d="M11.6 10.2a2.4 2.4 0 0 1 4.8 0" fill="none" stroke="var(--glyph)" stroke-width="1.3" opacity="0.85"/>' },
+    { key:'pound', label:'Pound', grams:453.59237, sub:'453.592 g', weightGroup:'bullion', icon:'<path d="M9.6 18.5h8.8l-1.5-7H11.1z" fill="none" stroke="var(--glyph)" stroke-width="1.4" stroke-linejoin="round" opacity="0.85"/><path d="M12.4 15.2h3.2" stroke="var(--glyph)" stroke-width="1.2" stroke-linecap="round" opacity="0.8"/>' }
+  );
   // Add parenthetical symbols to only the six user-selected units.
   // All other unit labels remain plain, without suffixes.
   var unitSymbolSuffix = {
@@ -5796,7 +5886,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
       if($('customPurityValue'))$('customPurityValue').value=state.purity==='customfineness'?state.customPurityFineness:state.customPurityPercent;
     }
     if(name==='market'){
-      var fields={spotInput:inputRateText(state.spot,0),usdinrInput:inputRateText(state.usdinr,2,2),dutyInput:formatInputNumber(state.duty,2),gstInput:formatInputNumber(state.gst,2),mcxInput:inputRateText(state.mcx10g24k,0),ftbarInput:state.ftbar10g24k?formatInputNumber(state.ftbar10g24k,0):'',makingInput:formatInputNumber(state.making,2)};
+      var fields={spotInput:inputRateText(state.spot,window.__gcMetal==='copper'?4:0),usdinrInput:inputRateText(state.usdinr,2,2),dutyInput:formatInputNumber(state.duty,2),gstInput:formatInputNumber(state.gst,2),mcxInput:inputRateText(state.mcx10g24k,0),ftbarInput:state.ftbar10g24k?formatInputNumber(state.ftbar10g24k,0):'',makingInput:formatInputNumber(state.making,2)};
       Object.keys(fields).forEach(function(id){if($(id))$(id).value=fields[id];});
     }
     saveState();renderAll();
@@ -5927,7 +6017,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
   var retryAfterInFlight = false;
 
   function fetchGoldApiXauUsd(){
-    var metalCode = window.__gcMetalCfg().code;
+    var metalCode = window.__gcMetalCfg().apiCode || window.__gcMetalCfg().code; // copper: shown as XCU, Gold-API symbol HG (US$ per lb)
     return fetchWithTimeout('https://api.gold-api.com/price/' + metalCode, {cache:'no-store', headers:{Accept:'application/json'}}, 10000)
       .then(function(res){
         if(!res.ok) throw new Error('Gold API HTTP ' + res.status);
@@ -6241,14 +6331,15 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
 
   function computeLine(unitGrams, karat, qty, s){
     var weight = unitGrams * qty;
-    var pureGramRateINR = (s.spot * s.usdinr) / TROY_OZ_G;
-    var pureGramRateUSD = s.spot / TROY_OZ_G;
+    var SPOT_G = (window.__gcMetalCfg && window.__gcMetalCfg().spotG) || TROY_OZ_G; // copper: COMEX $/lb
+    var pureGramRateINR = (s.spot * s.usdinr) / SPOT_G;
+    var pureGramRateUSD = s.spot / SPOT_G;
     var purityFactor = karat / 24;
     var pureValueINR = pureGramRateINR * purityFactor * weight;
     var pureValueUSD = pureGramRateUSD * purityFactor * weight;
     var dutyAmt = s.dutyEnabled ? pureValueINR * (s.duty/100) : 0;
     var afterDuty = pureValueINR + dutyAmt;
-    var makingAmt = s.makingEnabled ? afterDuty * (s.making/100) : 0;
+    var makingAmt = (s.makingEnabled && window.__gcMetal!=='copper') ? afterDuty * (s.making/100) : 0; // copper: no making/premium
     var preGst = afterDuty + makingAmt;
     var gstAmt = s.gstEnabled ? preGst * (s.gst/100) : 0;
     var afterGst = preGst + gstAmt;
@@ -6376,7 +6467,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     //   Purity %   : 9167 → 91.67  (decimal after 2 digits, up to 2 decimals)
     //   Fineness ‰ : 9999 → 999.9  (decimal after 3 digits, up to 3 decimals)
     document.getElementById('customPurityValue').addEventListener('input',function(e){
-      var fine=state.purity==='customfineness', N=fine?3:2, D=fine?3:2, v=this.value, out;
+      var fine=state.purity==='customfineness', cu=window.__gcMetal==='copper', N=fine?3:2, D=fine?(cu?5:3):(cu?6:2), v=this.value, out;
       var del=e && e.inputType && e.inputType.indexOf('delete')===0;
       var dot=v.indexOf('.');
       if(dot>=0){
@@ -6432,7 +6523,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     saveState();renderAll();
   });
   var selectedWeightGroup = 'everyday';
-  var weightGroups = { everyday:['xrfwt','gram','10gram','sovereign','2gram','5gram'], tamil:['ta_nel','ta_kunrimani','ta_manjaadi','ta_panavedai','ta_kazhanchu','ta_varaaganedai','ta_kaasu','ta_palam'], bullion:['50gram','100gram','500gram','kilogram','troyoz','tola','tael','baht','chi','luong'], precision:['milligram','microgram','dwt','grain','carat_mass'] };
+  var weightGroups = { everyday:['xrfwt','gram','10gram','sovereign','2gram','5gram'], tamil:['ta_nel','ta_kunrimani','ta_manjaadi','ta_panavedai','ta_kazhanchu','ta_varaaganedai','ta_kaasu','ta_palam'], bullion:['50gram','100gram','500gram','kilogram','tonne','pound','troyoz','tola','tael','baht','chi','luong'], precision:['milligram','microgram','dwt','grain','carat_mass'] };
   // Quick Rates uses the exact same groups, units and order as Weight Unit.
   // Its category selection is independent of calculator state and pricing.
   if(state.unit==='customwt')state.unit='gram';
@@ -6549,11 +6640,12 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     var r24 = computeLine(1, heroCfg[0].karat, 1, state);
     var r22 = computeLine(1, heroCfg[1].karat, 1, state);
     var gstFactor = state.gstEnabled ? 1 + (Number(state.gst)||0)/100 : 1;
+    var hg0 = heroCfg[0].g||1, hg1 = heroCfg[1].g||1; // copper: left card per kg, right card per tonne
     var heroDec = function(v){ return v < 1000 ? 2 : 0; };
-    $('hero24k').textContent = haveRequiredRates() ? fmtINR(r24.afterDuty * gstFactor, heroDec(r24.afterDuty * gstFactor)) : '—';
+    $('hero24k').textContent = haveRequiredRates() ? fmtINR(r24.afterDuty * gstFactor * hg0, heroDec(r24.afterDuty * gstFactor * hg0)) : '—';
     // Spot 22K without GST (duty as toggled), kept for Compare › Jewel vs Spot.
-    $('hero22k').setAttribute('data-ex-gst', haveRequiredRates() ? String(r22.afterDuty) : '');
-    $('hero22k').textContent = haveRequiredRates() ? fmtINR(r22.afterDuty * gstFactor, heroDec(r22.afterDuty * gstFactor)) : '—';
+    $('hero22k').setAttribute('data-ex-gst', haveRequiredRates() ? String(r22.afterDuty) : ''); // per gram
+    $('hero22k').textContent = haveRequiredRates() ? fmtINR(r22.afterDuty * gstFactor * hg1, heroDec(r22.afterDuty * gstFactor * hg1)) : '—';
     var inc = $('heroIncludesNote');
     if(inc){ var t = heroIncludesLabel(); inc.textContent = t; inc.hidden = !t; }
   }
@@ -6627,7 +6719,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
       else if(purity.key==='customfineness') f = Number(state.customPurityFineness)||0;
       else f = (Number(purity.karat)||0)/24*1000;
       if(purity.key==='custompercent' || purity.key==='customfineness') f = Math.min(hi, Math.max(lo, f));
-      f = Math.round(f*1000)/1000; // remove floating-point noise (e.g. 924.9999 → 925) before naming the grade
+      f = metal==='copper' ? Math.round(f*1e5)/1e5 : Math.round(f*1000)/1000; // remove floating-point noise (e.g. 924.9999 → 925) before naming the grade
       var ref;
       if(!(f>0)) ref = purity.sub;
       else if(metal==='gold'){
@@ -6644,8 +6736,9 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
         var name;
         if(metal==='silver') name = f>=999.9?'Bullion' : f>=959?'Fine' : f>=958?'Britannia' : f>=925?'Sterling' : f>=900?'Coin' : 'Jewel';
         else if(metal==='palladium') name = f>=999.5?'Bullion' : f>=999?'Pure' : f>=990?'Fine' : f>=950?'Jewel' : 'Hard';
+        else if(metal==='copper') name = f>=999.99999?'8N' : f>=999.9999?'7N' : f>=999.999?'6N' : f>=999.99?'5N' : f>=999.9?'4N' : f>=999.5?'OFC' : f>=999?'ETP' : f>=990?'Bright' : f>=940?'No.2' : 'Scrap';
         else name = f>=999.5?'Bullion' : f>=990?'Fine' : 'Jewel';
-        ref = fmt(f,3) + '‰ · ' + name;
+        ref = fmt(f, metal==='copper'?5:3) + '‰ · ' + name;
       }
       $('refPure').textContent = '(' + ref + ')';
     })();
@@ -6655,7 +6748,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     $('refGst').textContent = (window.__gcGstWefText && window.__gcGstWefText() ? window.__gcGstWefText() + ' ' : '') + '(' + state.gst + '%)';
     $('rowDuty').style.display = state.dutyEnabled ? '' : 'none';
     $('rowAfterDuty').style.display = state.dutyEnabled ? '' : 'none';
-    $('rowMaking').style.display = state.makingEnabled ? '' : 'none';
+    $('rowMaking').style.display = (state.makingEnabled && window.__gcMetal!=='copper') ? '' : 'none';
     $('rowGst').style.display = state.gstEnabled ? '' : 'none';
     $('legendDuty').style.display = state.dutyEnabled ? '' : 'none';
     $('legendGst').style.display = state.gstEnabled ? '' : 'none';
@@ -6756,7 +6849,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
       
       var overheadParts = [];
       if(state.dutyEnabled) overheadParts.push('Duty');
-      if(state.makingEnabled) overheadParts.push('Making');
+      if(state.makingEnabled && window.__gcMetal!=='copper') overheadParts.push('Making');
       if(state.gstEnabled) overheadParts.push('GST');
       $('basketOverheadRef').textContent = overheadParts.length > 0 ? overheadParts.join(' + ') : '';
 
@@ -6791,7 +6884,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     $('pBdDuty').textContent = fmtINR(line.dutyAmt,0);
     $('pBdAfterDuty').textContent = fmtINR(line.afterDuty,0);
     $('pBdMaking').textContent = fmtINR(line.makingAmt,0);
-    $('pRowMaking').style.display = state.makingEnabled ? '' : 'none';
+    $('pRowMaking').style.display = (state.makingEnabled && window.__gcMetal!=='copper') ? '' : 'none';
     $('pBdGst').textContent = fmtINR(line.gstAmt,0);
     $('pBdFinal').textContent = haveRequiredRates() ? fmtINR(line.afterGst,0) : '—';
     if(!haveRequiredRates()) ['pBdPure','pBdDuty','pBdAfterDuty','pBdMaking','pBdGst'].forEach(function(id){ $(id).textContent = '—'; });
@@ -6829,7 +6922,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
       
       var overheadParts = [];
       if(state.dutyEnabled) overheadParts.push('Duty');
-      if(state.makingEnabled) overheadParts.push('Making');
+      if(state.makingEnabled && window.__gcMetal!=='copper') overheadParts.push('Making');
       if(state.gstEnabled) overheadParts.push('GST');
       var pRef = $('pTotOverheadRef');
       if (pRef) pRef.textContent = overheadParts.length > 0 ? '(' + overheadParts.join(' + ') + ')' : '';
@@ -6861,7 +6954,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     $('mcxField').classList.toggle('disabled', !state.mcxEnabled);
     $('ftbarField').classList.toggle('disabled', !state.ftbarEnabled);
     $('makingField').classList.toggle('disabled', !state.makingEnabled);
-    if(document.activeElement !== $('spotInput')) $('spotInput').value = window.__gcMetal==='silver' ? inputRateText(state.spot, 2) : inputRateText(state.spot, 0);
+    if(document.activeElement !== $('spotInput')) $('spotInput').value = window.__gcMetal==='silver' ? inputRateText(state.spot, 2) : window.__gcMetal==='copper' ? inputRateText(state.spot, 4) : inputRateText(state.spot, 0);
     if(document.activeElement !== $('usdinrInput')) $('usdinrInput').value = inputRateText(state.usdinr, 2, 2);
     if(document.activeElement !== $('dutyInput')) $('dutyInput').value = formatInputNumber(state.duty, 2);
     if(document.activeElement !== $('gstInput')) $('gstInput').value = formatInputNumber(state.gst, 2);
@@ -7132,7 +7225,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     
 
 
-    $('spotInput').value = inputRateText(state.spot,0); $('usdinrInput').value = inputRateText(state.usdinr, 2, 2); $('dutyInput').value = formatInputNumber(state.duty,2);
+    $('spotInput').value = inputRateText(state.spot, window.__gcMetal==='copper'?4:0); $('usdinrInput').value = inputRateText(state.usdinr, 2, 2); $('dutyInput').value = formatInputNumber(state.duty,2);
     $('gstInput').value = formatInputNumber(state.gst,2); $('mcxInput').value = inputRateText(state.mcx10g24k,0); $('ftbarInput').value = state.ftbar10g24k ? formatInputNumber(state.ftbar10g24k,0) : ''; $('makingInput').value = formatInputNumber(state.making,2); $('qtyInput').value = fmtQtyInput(state.qty);
 
     bindNumberInput('spotInput','spot',0,true);
@@ -7277,11 +7370,11 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     /* Metal mode core: per-metal profiles swapped in and out of the shared calculator state. */
     (function(){
       var CFG = window.__gcMetals, KEY = 'gcMetalMode';
-      var FIELDS = ['spot','mcx10g24k','ftbar10g24k','duty','purity','customPurityPercent','customPurityFineness'];
+      var FIELDS = ['spot','mcx10g24k','ftbar10g24k','duty','purity','customPurityPercent','customPurityFineness','gst','unit'];
       var GOLD_LIST = PURITIES.slice();
       var CUSTOM = GOLD_LIST.filter(function(p){ return p.key==='custompercent' || p.key==='customfineness'; });
       var LISTS = { gold: GOLD_LIST };
-      ['silver','platinum','palladium'].forEach(function(m){
+      ['silver','platinum','palladium','copper'].forEach(function(m){
         LISTS[m] = [window.__gcXrfPurity].filter(Boolean).concat(CFG[m].purities.map(function(r){ return {key:m+'_'+r[0], label:r[0], sub:r[1], karat:24*r[2]/1000, group:'refining'}; }), CUSTOM);
       });
       var store = { metal: window.__gcMetal, profiles: {} };
@@ -7314,6 +7407,10 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
         state.customPurityPercent = pct;
         state.customPurityFineness = isFinite(p.customPurityFineness) && p.customPurityFineness ? p.customPurityFineness : Math.round(pct*100)/10;
         state.purity = p.purity || null;
+        /* GST and weight unit are kept per metal; copper starts at 18% GST and kilograms. */
+        state.gst = (p.gst != null && isFinite(p.gst)) ? p.gst : (c.gst != null ? c.gst : DEFAULTS.gst);
+        if(p.unit) state.unit = p.unit; else if(c.defaultUnit) state.unit = c.defaultUnit; else if(state.unit==='tonne'||state.unit==='pound') state.unit='kilogram';
+        if($('gstInput')) $('gstInput').value = formatInputNumber(state.gst,2);
         state.mcxEnabled = c.hasMcx !== false; state.ftbarEnabled = c.hasFt !== false;
         setList(m);
         if(window.__gcHideStripUnit(state.unit)) state.unit = 'gram';
@@ -8084,7 +8181,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     popup.style.left=Math.round(left)+'px';
     popup.style.top=Math.round(top)+'px';
   }
-  function metalSymbol(){ return ({gold:'TVC:GOLD',silver:'TVC:SILVER',platinum:'TVC:PLATINUM',palladium:'TVC:PALLADIUM'})[window.__gcMetal||'gold']||'TVC:GOLD'; }
+  function metalSymbol(){ return ({gold:'TVC:GOLD',silver:'TVC:SILVER',platinum:'TVC:PLATINUM',palladium:'TVC:PALLADIUM',copper:'VANTAGE:COPPER'})[window.__gcMetal||'gold']||'TVC:GOLD'; }
   document.addEventListener('gc:metal',function(){ if(host.dataset.symbol && host.dataset.symbol!==metalSymbol()){ host.dataset.initialized=''; if(!popup.hidden) loadQuote(); } });
   function loadQuote(){
     var sym=metalSymbol();
@@ -9238,13 +9335,13 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
   function init(){
     var card=document.getElementById('purityDifferenceCard');
     if(!card)return;
-    var buttons=[document.getElementById('purityModeYield'),document.getElementById('purityModeAlloy')];
-    var panes=[document.getElementById('purityYieldPane'),document.getElementById('purityAlloyPane')];
+    var buttons=[document.getElementById('purityModeYield'),document.getElementById('purityModeAlloy'),document.getElementById('purityModeWire')];
+    var panes=[document.getElementById('purityYieldPane'),document.getElementById('purityAlloyPane'),document.getElementById('purityWirePane')];
     var actions=card.querySelectorAll('.purity-mode-actions');
     var hint=document.getElementById('purityModeHint');
     var transfer=document.getElementById('puritySendToAlloy');
     var feedback=document.getElementById('purityBridgeFeedback');
-    var modes=['yield','alloy'];
+    var modes=['yield','alloy','wire'];
     var nav=card.querySelector('.purity-unified-navigation');
     var stage=document.getElementById('purityModeViewport');
     var handoffTimer=null,settleTimer=null,slideTimer=null;
@@ -9279,7 +9376,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     function activate(mode,focus){
       var index=modes.indexOf(mode);
       if(index<0)return;
-      var changed=(currentMode!==mode);
+      var changed=(currentMode!==mode);var prevIndex=modes.indexOf(currentMode);
       currentMode=mode;
       // Layout and values exist in both panels throughout the glide; only the
       // active pane accepts interaction. This avoids the previous visual jump.
@@ -9292,7 +9389,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
         buttons[i].classList.toggle('is-current',active);
         buttons[i].tabIndex=active?0:-1;
       });
-      card.setAttribute('data-purity-mode',mode);
+      card.setAttribute('data-purity-mode',mode);if(window.__gcConvRail)window.__gcConvRail(index,!isFirstActivation);
       hint.textContent=index===0?'XRF assay → 999.9, 999, 920 and 916 gold yield':'Fineness + alloy mass → pure gold and impurities';
       if(isFirstActivation){
         // Disable animation on initial startup so first render never scrolls in.
@@ -9313,14 +9410,14 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
           clearSlide();
           // Match the Calculate weight-unit rail: one continuous shimmer travelling
           // from the old selection to the new, including when moving backwards.
-          nav.setAttribute('data-rail-direction',index===1?'right':'left');
+          nav.setAttribute('data-rail-direction',index>prevIndex?'right':'left');
           void nav.offsetWidth; // restart the magnetic pulse for rapid switches
           card.classList.add('is-mode-sliding');
           slideTimer=window.setTimeout(clearSlide,850);
         }
       }
       if(focus)buttons[index].focus({preventScroll:true});
-      if(index===1){
+      if(index>=1){
         requestAnimationFrame(function(){window.dispatchEvent(new Event('resize'));fitStage();});
       }
     }
@@ -9349,7 +9446,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
       button.addEventListener('keydown',function(e){
         if(['ArrowRight','ArrowLeft','Home','End'].indexOf(e.key)<0)return;
         e.preventDefault();
-        var next=e.key==='Home'?0:e.key==='End'?1:(i+1)%2;
+        var n=window.__gcMetal==='copper'?3:2;var next=e.key==='Home'?0:e.key==='End'?n-1:e.key==='ArrowLeft'?(i-1+n)%n:(i+1)%n;
         clearHandoff();activate(modes[next],true);
       });
     });
@@ -9378,6 +9475,8 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     }
     window.addEventListener('resize',fitStage,{passive:true});
     activate('yield',false);
+    window.__gcConvertMode=function(){return currentMode;};
+    document.addEventListener('gc:metal',function(){ if(window.__gcMetal!=='copper'&&currentMode==='wire'){clearHandoff();activate('yield',false);} else fitStage(); });
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
   else init();
@@ -9963,7 +10062,7 @@ async function drawDom(ctx,node,offset,depth){
   ctx.strokeStyle=style.borderTopColor||'#ae863b';ctx.lineWidth=.8;ctx.stroke();
   var radius=Math.min(th-4,tw*.48)/2;
   var knobX=el.classList.contains('reset-toggle')?(el.classList.contains('flipped')?tx+tw-radius-2:tx+radius+2):(checked?tx+tw-radius-2:tx+radius+2);
-  ctx.beginPath();ctx.arc(knobX,ty+th/2,radius,0,Math.PI*2);ctx.fillStyle=(document.documentElement.dataset.metal==='silver'?'#fbfcfd':document.documentElement.dataset.metal==='platinum'?'#f4f8fd':document.documentElement.dataset.metal==='palladium'?'#f7f5f1':'#f8f5ef');ctx.fill();
+  ctx.beginPath();ctx.arc(knobX,ty+th/2,radius,0,Math.PI*2);ctx.fillStyle=(document.documentElement.dataset.metal==='silver'?'#fbfcfd':document.documentElement.dataset.metal==='platinum'?'#f4f8fd':document.documentElement.dataset.metal==='palladium'?'#f7f5f1':document.documentElement.dataset.metal==='copper'?'#fbeee5':'#f8f5ef');ctx.fill();
   ctx.restore();
   if(el.classList.contains('ios-toggle')){ctx.restore();return;}
  }
@@ -10374,7 +10473,7 @@ html:root[data-theme="light"],html:root[data-theme="light"] body{
 
 <script id="demo43-selected-selector-icon-motion-js">
 (function(){
-  const ids=['purityModeYield','purityModeAlloy','compareModeCompare','compareModeQuick'];
+  const ids=['purityModeYield','purityModeAlloy','purityModeWire','compareModeCompare','compareModeQuick'];
   const timers=new WeakMap();
   function animate(button){
     if(!button || !button.classList.contains('is-current')) return;
@@ -10382,7 +10481,7 @@ html:root[data-theme="light"],html:root[data-theme="light"] body{
     void button.offsetWidth;
     button.classList.add('demo43-icon-play');
     if(timers.has(button)) clearTimeout(timers.get(button));
-    timers.set(button,setTimeout(()=>button.classList.remove('demo43-icon-play'),button.id==='purityModeYield'?1420:(button.id==='purityModeAlloy'?1580:800)));
+    timers.set(button,setTimeout(()=>button.classList.remove('demo43-icon-play'),button.id==='purityModeYield'?1420:(button.id==='purityModeAlloy'?1580:(button.id==='purityModeWire'?1500:800))));
   }
   document.addEventListener('click',function(event){
     const button=event.target.closest('button');
@@ -10472,15 +10571,15 @@ html:root[data-theme="light"],html:root[data-theme="light"] body{
  var shown='';
  function placeholder(t){ if(!host) return; var d=document.createElement('div'); d.className='mcx-preview-placeholder'; d.textContent=t; host.replaceChildren(d); }
  function apply(){
-  var m=window.__gcMetal||'gold'; var want=(m==='platinum'||m==='palladium')?m:'default';
+  var m=window.__gcMetal||'gold'; var want=(m==='platinum'||m==='palladium'||m==='copper')?m:'default';
   if(want===shown) return; shown=want;
   if(want!=='default'){
-   var frag=document.createDocumentFragment(), LIST=want==='palladium'?PD:PT;
+   var frag=document.createDocumentFragment(), LIST=(want==='palladium'||want==='copper')?[]:PT;
    LIST.forEach(function(x,i){ var a=document.createElement('a'); a.href=x[1]; a.target='_blank'; a.rel='noopener noreferrer';
     a.className='mcx-dhan-open'+(i===0?' silver-chip-active':''); a.setAttribute('aria-selected',i===0?'true':'false');
     a.dataset.jewelPreview=x[2]?'true':'false'; a.textContent=x[0]; frag.appendChild(a); });
    rail.replaceChildren(frag);
-   if(want==='palladium'){
+   if(want==='palladium'||want==='copper'){
     if(hint) hint.textContent='';
     if(host) host.replaceChildren();
    } else {
@@ -11399,6 +11498,7 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
 .metal-chip{display:inline-flex;align-items:center;gap:.18em;padding:0;margin:0;border:0;background:none;font:inherit;letter-spacing:inherit;line-height:inherit;color:inherit;-webkit-text-fill-color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;border-radius:8px}
 .metal-chip .metal-name{white-space:nowrap}
 html[data-metal="platinum"] .metal-chip{font-size:.82em}
+html[data-metal="copper"] .metal-chip{font-size:.82em}
 html[data-metal="palladium"] .metal-chip{font-size:.74em}
 .metal-chip .metal-caret{width:.5em;height:.5em;flex:none;opacity:.8;transition:transform .2s;margin-top:.08em}
 .metal-chip[aria-expanded="true"] .metal-caret{transform:rotate(180deg)}
@@ -11407,6 +11507,7 @@ html[data-metal="palladium"] .metal-chip{font-size:.74em}
 .metal-dot{display:inline-block;width:12px;height:12px;border-radius:50%;flex:none;background:radial-gradient(circle at 35% 30%,#FFF1C2,#E8B64C 55%,#8A5A17)}
 .metal-dot.is-silver{background:radial-gradient(circle at 35% 30%,#FFFFFF,#BAC3CD 55%,#5D6672)}
 .metal-dot.is-platinum{background:radial-gradient(circle at 35% 30%,#F2F8FF,#9DB8D6 55%,#4B6788)}
+.metal-dot.is-copper{background:radial-gradient(circle at 35% 30%,#FEF7F3,#F2A781 55%,#B05223)}
 .metal-dot.is-palladium{background:radial-gradient(circle at 35% 30%,#FBF9F6,#C5BCAE 55%,#766C5D)}
 .metal-dot.is-gold{background:radial-gradient(circle at 35% 30%,#FFF1C2,#E8B64C 55%,#8A5A17)}
 .metal-menu{position:fixed;left:12px;top:70px;z-index:2147482000;width:204px;padding:6px;border-radius:18px;
@@ -11429,52 +11530,69 @@ html[data-metal="palladium"] .metal-chip{font-size:.74em}
 /* Metal accent colours: the app's gold palette variables, re-tinted. */
 html[data-metal="silver"]:not([data-theme="light"]){--gold-100:#FAFBFC;--gold-300:#EEF1F4;--gold-500:#C6CCD3;--gold-700:#959CA5;--gold-900:#61676F;--amber:#BCC2C9;--umber:#848A92;--glass-border:rgba(220,224,230,.15);--glass-border-strong:rgba(225,229,235,.32);--metal-filter:grayscale(1) brightness(1.12) contrast(.96);--metal-ring:rgba(215,220,228,.10)}
 html[data-metal="platinum"]:not([data-theme="light"]){--gold-100:#E4ECF5;--gold-300:#B3C9E2;--gold-500:#86A3C6;--gold-700:#5B7A9F;--gold-900:#3A516F;--amber:#9DB5D2;--umber:#5F7B9C;--glass-border:rgba(150,180,215,.17);--glass-border-strong:rgba(158,188,222,.36);--metal-filter:grayscale(1) sepia(1) hue-rotate(178deg) saturate(1.9) brightness(1.04);--metal-ring:rgba(110,170,235,.16)}
+html[data-metal="copper"]:not([data-theme="light"]){--gold-100:#FCE7DD;--gold-300:#F6BC9F;--gold-500:#ED8E5F;--gold-700:#CD622D;--gold-900:#914018;--amber:#F2A47D;--umber:#C76534;--glass-border:rgba(242,163,123,.17);--glass-border-strong:rgba(243,172,137,.36);--metal-filter:none;--metal-ring:rgba(240,150,105,.16)}
 html[data-metal="palladium"]:not([data-theme="light"]){--gold-100:#F0EDE9;--gold-300:#D4CCC1;--gold-500:#B3A999;--gold-700:#8B806F;--gold-900:#605749;--amber:#C3BAAC;--umber:#8A8071;--glass-border:rgba(196,185,169,.17);--glass-border-strong:rgba(203,193,177,.36);--metal-filter:grayscale(1) sepia(.38) saturate(.85) brightness(1.06);--metal-ring:rgba(199,178,146,.16)}
 html[data-metal="silver"][data-theme="light"]{--gold-100:#ECEEF1;--gold-300:#8E959D;--gold-500:#6A7179;--gold-700:#4A5058;--gold-900:#33383E;--amber:#7A8088;--umber:#575D65;--glass-border-strong:rgba(90,98,108,.35);--metal-filter:grayscale(1) brightness(1.02);--metal-ring:rgba(90,98,108,.12)}
 html[data-metal="platinum"][data-theme="light"]{--gold-100:#E1E9F2;--gold-300:#5D7FA6;--gold-500:#46668C;--gold-700:#334F70;--gold-900:#233850;--amber:#55779E;--umber:#3B5878;--glass-border-strong:rgba(55,85,120,.36);--metal-filter:grayscale(1) sepia(1) hue-rotate(178deg) saturate(2.2) brightness(.98);--metal-ring:rgba(40,100,170,.14)}
+html[data-metal="copper"][data-theme="light"]{--gold-100:#FBE4D8;--gold-300:#D6652D;--gold-500:#B84F1A;--gold-700:#943B0F;--gold-900:#692A0A;--amber:#CD5E26;--umber:#9E4315;--glass-border-strong:rgba(159,64,16,.36);--metal-filter:none;--metal-ring:rgba(191,76,19,.14)}
 html[data-metal="palladium"][data-theme="light"]{--gold-100:#EDEAE6;--gold-300:#918572;--gold-500:#786C5A;--gold-700:#5E5445;--gold-900:#433B30;--amber:#897D6A;--umber:#665C4D;--glass-border-strong:rgba(101,90,74,.36);--metal-filter:grayscale(1) sepia(.42) saturate(.85) brightness(.97) contrast(1.06);--metal-ring:rgba(132,110,78,.14)}
 /* Platinum: no MCX or FT strip. */
 
 
 html[data-metal="silver"] :is(.topbar,nav.bottom-nav),html[data-metal="platinum"] :is(.topbar,nav.bottom-nav){box-shadow:0 8px 30px rgba(0,0,0,.3),0 0 0 1px var(--metal-ring)!important}
+html[data-metal="copper"] :is(.topbar,nav.bottom-nav){box-shadow:0 8px 30px rgba(0,0,0,.3),0 0 0 1px var(--metal-ring)!important}
 html[data-metal="palladium"] :is(.topbar,nav.bottom-nav){box-shadow:0 8px 30px rgba(0,0,0,.3),0 0 0 1px var(--metal-ring)!important}
 html[data-metal="silver"] :is(.purity-unified-card,.purity-unified-navigation,.compare-unified-card),html[data-metal="platinum"] :is(.purity-unified-card,.purity-unified-navigation,.compare-unified-card){border-color:var(--glass-border-strong)!important}
+html[data-metal="copper"] :is(.purity-unified-card,.purity-unified-navigation,.compare-unified-card){border-color:var(--glass-border-strong)!important}
 html[data-metal="palladium"] :is(.purity-unified-card,.purity-unified-navigation,.compare-unified-card){border-color:var(--glass-border-strong)!important}
 html[data-metal="silver"] #purityDifferenceCard .pdc-details,html[data-metal="platinum"] #purityDifferenceCard .pdc-details{border-top-color:var(--glass-border-strong)!important}
+html[data-metal="copper"] #purityDifferenceCard .pdc-details{border-top-color:var(--glass-border-strong)!important}
 html[data-metal="palladium"] #purityDifferenceCard .pdc-details{border-top-color:var(--glass-border-strong)!important}
 
 /* Light mode: cool page and card surfaces for silver and platinum (gold keeps its cream). */
 html[data-metal="silver"][data-theme="light"]{--bg-0:#F3F4F6;--bg-1:#E7EAED;--bg-2:#D8DCE0;--glass:rgba(255,255,255,.88);--glass-strong:rgba(253,253,254,.96);--glass-border:rgba(95,104,115,.20);--text-0:#1F2327;--text-1:#454B53;--text-2:#6A7078;--shadow:rgba(40,48,58,.12)}
+{--bg-0:#F9F3F0;--bg-1:#F2E7E2;--bg-2:#E8D8D0;--glass:rgba(255,255,255,.88);--glass-strong:rgba(255,253,252,.96);--glass-border:rgba(137,94,73,.20);--text-0:#2F1F17;--text-1:#624536;--text-2:#8C6856;--shadow:rgba(72,41,26,.12)}
 {--bg-0:#F5F5F4;--bg-1:#EBEAE9;--bg-2:#DEDCDA;--glass:rgba(255,255,255,.88);--glass-strong:rgba(254,254,253,.96);--glass-border:rgba(109,106,101,.20);--text-0:#252321;--text-1:#4F4D49;--text-2:#74726E;--shadow:rgba(53,50,45,.12)}
 html[data-metal="platinum"][data-theme="light"]{--bg-0:#EEF4FB;--bg-1:#DFEAF6;--bg-2:#CADCF0;--glass:rgba(252,254,255,.88);--glass-strong:rgba(250,253,255,.96);--glass-border:rgba(40,100,170,.20);--text-0:#17212D;--text-1:#3A4A5D;--text-2:#5C6E83;--shadow:rgba(30,70,120,.12)}
+html[data-metal="copper"][data-theme="light"]{--bg-0:#FDF2EC;--bg-1:#FBE5DA;--bg-2:#F9D4C1;--glass:rgba(255,253,252,.88);--glass-strong:rgba(255,252,250,.96);--glass-border:rgba(191,76,19,.20);--text-0:#3B1A09;--text-1:#763D21;--text-2:#A25F3D;--shadow:rgba(136,55,14,.12)}
 html[data-metal="palladium"][data-theme="light"]{--bg-0:#F7F5F2;--bg-1:#EFEBE6;--bg-2:#E5DFD5;--glass:rgba(254,254,253,.88);--glass-strong:rgba(254,253,251,.96);--glass-border:rgba(132,110,78,.20);--text-0:#27231D;--text-1:#534D44;--text-2:#787167;--shadow:rgba(94,79,56,.12)}
 html[data-metal="silver"][data-theme="light"],html[data-metal="silver"][data-theme="light"] body,html[data-metal="silver"][data-theme="light"] #appRoot{background:#F3F4F6!important;background-color:#F3F4F6!important}
 html[data-metal="platinum"][data-theme="light"],html[data-metal="platinum"][data-theme="light"] body,html[data-metal="platinum"][data-theme="light"] #appRoot{background:#EEF4FB!important;background-color:#EEF4FB!important}
+html[data-metal="copper"][data-theme="light"],html[data-metal="copper"][data-theme="light"] body,html[data-metal="copper"][data-theme="light"] #appRoot{background:#FDF2EC!important;background-color:#FDF2EC!important}
 html[data-metal="palladium"][data-theme="light"],html[data-metal="palladium"][data-theme="light"] body,html[data-metal="palladium"][data-theme="light"] #appRoot{background:#F7F5F2!important;background-color:#F7F5F2!important}
 html[data-metal="silver"][data-theme="light"] .ambient{background:radial-gradient(ellipse 100% 54% at 50% -10%,#E3E7EB 0%,transparent 78%),linear-gradient(180deg,#F8F9FA,#F1F2F4)!important}
 html[data-metal="platinum"][data-theme="light"] .ambient{background:radial-gradient(ellipse 100% 54% at 50% -10%,#D6E6F7 0%,transparent 78%),linear-gradient(180deg,#F5F9FE,#ECF2FA)!important}
+html[data-metal="copper"][data-theme="light"] .ambient{background:radial-gradient(ellipse 100% 54% at 50% -10%,#FBE0D2 0%,transparent 78%),linear-gradient(180deg,#FEF8F5,#FDF0E9)!important}
 html[data-metal="palladium"][data-theme="light"] .ambient{background:radial-gradient(ellipse 100% 54% at 50% -10%,#EDE8E0 0%,transparent 78%),linear-gradient(180deg,#FBFAF8,#F6F4F0)!important}
 html[data-metal="silver"][data-theme="light"] .card{background:linear-gradient(150deg,#FFFFFF,#E9ECEF 72%,#F3F5F7)!important}
 html[data-metal="platinum"][data-theme="light"] .card{background:linear-gradient(150deg,#F9FCFF,#DDE9F6 72%,#EDF3FA)!important}
+html[data-metal="copper"][data-theme="light"] .card{background:linear-gradient(150deg,#FEFBFA,#FBE4D8 72%,#FDF0EA)!important}
 html[data-metal="palladium"][data-theme="light"] .card{background:linear-gradient(150deg,#FDFCFB,#EFEBE4 72%,#F6F4F1)!important}
 html[data-metal="silver"][data-theme="light"] .hero-stat{background:linear-gradient(145deg,#FFFFFF,#EEF0F3)!important}
 html[data-metal="platinum"][data-theme="light"] .hero-stat{background:linear-gradient(145deg,#FBFDFF,#E7EFF9)!important}
+html[data-metal="copper"][data-theme="light"] .hero-stat{background:linear-gradient(145deg,#FFFCFB,#FCECE4)!important}
 html[data-metal="palladium"][data-theme="light"] .hero-stat{background:linear-gradient(145deg,#FEFDFC,#F4F1EC)!important}
 html[data-metal="silver"][data-theme="light"] .topbar{background:rgba(252,252,253,.98)!important}
 html[data-metal="platinum"][data-theme="light"] .topbar{background:rgba(248,251,255,.98)!important}
+html[data-metal="copper"][data-theme="light"] .topbar{background:rgba(254,251,249,.98)!important}
 html[data-metal="palladium"][data-theme="light"] .topbar{background:rgba(253,252,250,.98)!important}
 html[data-metal="silver"] .bullion-theme-toggle,html[data-metal="platinum"] .bullion-theme-toggle{filter:var(--metal-filter)}
+html[data-metal="copper"] .bullion-theme-toggle{filter:var(--metal-filter)}
 html[data-metal="palladium"] .bullion-theme-toggle{filter:var(--metal-filter)}
 html[data-metal="silver"]:root :is(.card,.topbar,.bottom-nav),html[data-metal="platinum"]:root :is(.card,.topbar,.bottom-nav){border-color:var(--glass-border-strong)!important}
+html[data-metal="copper"]:root :is(.card,.topbar,.bottom-nav){border-color:var(--glass-border-strong)!important}
 html[data-metal="palladium"]:root :is(.card,.topbar,.bottom-nav){border-color:var(--glass-border-strong)!important}
 html[data-metal="silver"][data-theme="light"] .card.hero{background:linear-gradient(150deg,#FFFFFF,#E6E9ED 72%,#F2F4F6)!important}
 html[data-metal="platinum"][data-theme="light"] .card.hero{background:linear-gradient(150deg,#F8FBFF,#D9E7F6 72%,#ECF3FB)!important}
+html[data-metal="copper"][data-theme="light"] .card.hero{background:linear-gradient(150deg,#FEFBF9,#FBE1D4 72%,#FDF0EA)!important}
 html[data-metal="palladium"][data-theme="light"] .card.hero{background:linear-gradient(150deg,#FDFCFA,#EEE9E1 72%,#F7F4F0)!important}
 html[data-metal="silver"][data-theme="light"]:root :is(.field .input-wrap,.hero-stat,.quick-tile,#tab-bench .quick-tile,#purityYieldPane .quick-tile,.mcx-strip,.bd-final,.seg,.stepper,.date-pill,.date-pill,.sync-btn,.input-wrap){background:linear-gradient(145deg,#FFFFFF,#ECEEF1)!important}
 html[data-metal="platinum"][data-theme="light"]:root :is(.field .input-wrap,.hero-stat,.quick-tile,#tab-bench .quick-tile,#purityYieldPane .quick-tile,.mcx-strip,.bd-final,.seg,.stepper,.date-pill,.date-pill,.sync-btn,.input-wrap){background:linear-gradient(145deg,#FBFDFF,#E4EDF8)!important}
+html[data-metal="copper"][data-theme="light"]:root :is(.field .input-wrap,.hero-stat,.quick-tile,#tab-bench .quick-tile,#purityYieldPane .quick-tile,.mcx-strip,.bd-final,.seg,.stepper,.date-pill,.date-pill,.sync-btn,.input-wrap){background:linear-gradient(145deg,#FFFCFB,#FCE9E0)!important}
 html[data-metal="palladium"][data-theme="light"]:root :is(.field .input-wrap,.hero-stat,.quick-tile,#tab-bench .quick-tile,#purityYieldPane .quick-tile,.mcx-strip,.bd-final,.seg,.stepper,.date-pill,.date-pill,.sync-btn,.input-wrap){background:linear-gradient(145deg,#FEFDFC,#F2EFEA)!important}
 html[data-metal="silver"][data-theme="light"] .bottom-nav{background:rgba(252,252,253,.97)!important}
 html[data-metal="platinum"][data-theme="light"] .bottom-nav{background:rgba(247,251,255,.97)!important}
+html[data-metal="copper"][data-theme="light"] .bottom-nav{background:rgba(254,250,248,.97)!important}
 html[data-metal="palladium"][data-theme="light"] .bottom-nav{background:rgba(253,251,249,.97)!important}
 /* Top rate section card (outer .hero only, not the inner rate cards): hairline glittering metal glass rim, follows the selected metal. */
 html:root .card.hero::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:.6px;pointer-events:none;z-index:3;
@@ -11492,10 +11610,12 @@ html:root .hero .hero-stat::after{content:"";position:absolute;inset:-1px;border
 html:root{--gc-rim:linear-gradient(135deg,#FFF4C8 0%,#E9B84E 24%,#8C6622 50%,#F8D97E 74%,#B98A30 100%)}
 html[data-metal="silver"]:root{--gc-rim:linear-gradient(135deg,#FFFFFF 0%,#CDD2DA 24%,#7E8590 50%,#F3F5F8 74%,#A4ABB6 100%)}
 html[data-metal="platinum"]:root{--gc-rim:linear-gradient(135deg,#F5F9FF 0%,#B8C7DB 24%,#687B94 50%,#E4EDF9 74%,#90A3BD 100%)}
+html[data-metal="copper"]:root{--gc-rim:linear-gradient(135deg,#FEF9F6 0%,#F1BCA2 24%,#B76B45 50%,#FCEAE1 74%,#DC9571 100%)}
 html[data-metal="palladium"]:root{--gc-rim:linear-gradient(135deg,#FCFAF8 0%,#D1CBC2 24%,#878075 50%,#F3EFEA 74%,#B0A89D 100%)}
 html[data-theme="light"]:root{--gc-rim:linear-gradient(135deg,#F3D27A 0%,#B8862E 26%,#7A5718 50%,#D9AE4E 74%,#9C7224 100%)}
 html[data-metal="silver"][data-theme="light"]:root{--gc-rim:linear-gradient(135deg,#E2E6EC 0%,#9DA4AF 26%,#5F6672 50%,#BFC5CE 74%,#7E8692 100%)}
 html[data-metal="platinum"][data-theme="light"]:root{--gc-rim:linear-gradient(135deg,#DCE6F3 0%,#93A6C0 26%,#536781 50%,#B7C7DC 74%,#748AA7 100%)}
+html[data-metal="copper"][data-theme="light"]:root{--gc-rim:linear-gradient(135deg,#FBE1D4 0%,#DF9874 26%,#A25732 50%,#F3BCA0 74%,#CC794F 100%)}
 html[data-metal="palladium"][data-theme="light"]:root{--gc-rim:linear-gradient(135deg,#ECE8E3 0%,#B3ABA0 26%,#746C60 50%,#D1CBC2 74%,#989083 100%)}
 /* Convert: XRF Yield rate cards and Alloy Composition Pure / Impurities cards get the same hairline metal glass rim. */
 html:root #purityYieldPane .quick-tile,html:root #differenceResults .pdc-output{position:relative;border-color:transparent!important}
@@ -11522,8 +11642,10 @@ html:root #updatedNote *{color:inherit!important;font-weight:inherit!important}
  background:var(--gc-rim);box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 2px 6px -2px rgba(0,0,0,.4)}
 html[data-metal="silver"] .gc-metal-toast{--gmt-bg:rgba(24,26,30,.86)}
 html[data-metal="platinum"] .gc-metal-toast{--gmt-bg:rgba(18,25,36,.86)}
+html[data-metal="copper"] .gc-metal-toast{--gmt-bg:rgba(47,20,7,.86)}
 html[data-metal="palladium"] .gc-metal-toast{--gmt-bg:rgba(31,28,23,.86)}
 html[data-metal="silver"] .gc-metal-toast .gmt-sym,html[data-metal="platinum"] .gc-metal-toast .gmt-sym{color:#0f1722}
+html[data-metal="copper"] .gc-metal-toast .gmt-sym{color:#2D1204}
 html[data-metal="palladium"] .gc-metal-toast .gmt-sym{color:#1C1915}
 html[data-theme="light"] .gc-metal-toast{background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,255,255,.82));box-shadow:0 14px 30px -14px rgba(60,50,30,.35),inset 0 1px 0 #fff}
 html[data-theme="light"] .gc-metal-toast .gmt-sym{color:#fff;text-shadow:0 1px 1px rgba(0,0,0,.3)}
@@ -11541,10 +11663,12 @@ html:root #shotPngStatus::after{content:"";position:absolute;inset:0;border-radi
 html:root #shotPngStatus a{color:var(--gmt-link,#ffd76a)!important}
 html[data-metal="silver"] #shotPngStatus{--gmt-bg:rgba(24,26,30,.86);--gmt-link:#e8edf4}
 html[data-metal="platinum"] #shotPngStatus{--gmt-bg:rgba(18,25,36,.86);--gmt-link:#cddcf1}
+html[data-metal="copper"] #shotPngStatus{--gmt-bg:rgba(47,20,7,.86);--gmt-link:#F9D6C5}
 html[data-metal="palladium"] #shotPngStatus{--gmt-bg:rgba(31,28,23,.86);--gmt-link:#E7E1D7}
 html[data-theme="light"]:root #shotPngStatus{background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,255,255,.82))!important;box-shadow:0 14px 30px -14px rgba(60,50,30,.35),inset 0 1px 0 #fff!important;--gmt-link:#8a5f12}
 html[data-theme="light"][data-metal="silver"] #shotPngStatus{--gmt-link:#4b535f}
 html[data-theme="light"][data-metal="platinum"] #shotPngStatus{--gmt-link:#3d5578}
+html[data-theme="light"][data-metal="copper"] #shotPngStatus{--gmt-link:#9D4418}
 html[data-theme="light"][data-metal="palladium"] #shotPngStatus{--gmt-link:#675D4E}
 @keyframes gcShotIn{from{opacity:0;transform:translate(-50%,10px) scale(.97)}to{opacity:1;transform:translate(-50%,0) scale(1)}}
 /* Live Sync: subtle and compact (sits in line with the Rates / Reset toggles), metal-tinted glass with a hairline metal rim. */
@@ -11556,10 +11680,12 @@ html:root .rates-actions .sync-btn::before{content:""!important;position:absolut
 html:root{--ls-bg:linear-gradient(180deg,rgba(243,207,110,.17),rgba(140,102,34,.07));--ls-fg:#F3D27A}
 html[data-metal="silver"]:root{--ls-bg:linear-gradient(180deg,rgba(236,240,245,.15),rgba(126,133,144,.06));--ls-fg:#E8ECF2}
 html[data-metal="platinum"]:root{--ls-bg:linear-gradient(180deg,rgba(196,212,233,.16),rgba(104,123,148,.07));--ls-fg:#CBD9EC}
+html[data-metal="copper"]:root{--ls-bg:linear-gradient(180deg,rgba(248,203,181,.16),rgba(183,107,69,.07));--ls-fg:#F9D2BE}
 html[data-metal="palladium"]:root{--ls-bg:linear-gradient(180deg,rgba(222,216,207,.16),rgba(135,128,117,.07));--ls-fg:#E2DDD5}
 html[data-theme="light"]:root{--ls-bg:linear-gradient(180deg,rgba(255,255,255,.85),rgba(243,207,110,.22));--ls-fg:#7A5718}
 html[data-metal="silver"][data-theme="light"]:root{--ls-bg:linear-gradient(180deg,rgba(255,255,255,.85),rgba(190,197,207,.28));--ls-fg:#4B525D}
 html[data-metal="platinum"][data-theme="light"]:root{--ls-bg:linear-gradient(180deg,rgba(255,255,255,.85),rgba(170,189,214,.28));--ls-fg:#3C5373}
+html[data-metal="copper"][data-theme="light"]:root{--ls-bg:linear-gradient(180deg,rgba(255,255,255,.85),rgba(241,176,143,.28));--ls-fg:#964319}
 html[data-metal="palladium"][data-theme="light"]:root{--ls-bg:linear-gradient(180deg,rgba(255,255,255,.85),rgba(201,194,183,.28));--ls-fg:#635A4C}
 /* Android full screen: hide the top bar completely on scroll, including the camera-cutout / safe-area offset it sits below. */
 html .topbar.chrome-hidden{transform:translate3d(0,calc(-100% - 32px - env(safe-area-inset-top,0px) - var(--gc-cut-top,0px)),0)!important}
@@ -11576,10 +11702,12 @@ html:root #customPurityEditor #customPuritySuffix{color:var(--cpe-caret)!importa
 html:root{--cpe-bg:linear-gradient(160deg,rgba(243,207,110,.12),rgba(140,102,34,.05));--cpe-field:rgba(233,184,78,.08);--cpe-line:rgba(233,184,78,.40);--cpe-line-on:rgba(243,207,110,.80);--cpe-ring:rgba(233,184,78,.18);--cpe-sheen:rgba(255,236,180,.20);--cpe-caret:#F3D27A}
 html[data-metal="silver"]:root{--cpe-bg:linear-gradient(160deg,rgba(236,240,245,.10),rgba(126,133,144,.04));--cpe-field:rgba(220,226,234,.07);--cpe-line:rgba(205,210,218,.40);--cpe-line-on:rgba(236,240,245,.80);--cpe-ring:rgba(205,210,218,.16);--cpe-sheen:rgba(255,255,255,.18);--cpe-caret:#E8ECF2}
 html[data-metal="platinum"]:root{--cpe-bg:linear-gradient(160deg,rgba(196,212,233,.12),rgba(104,123,148,.05));--cpe-field:rgba(184,199,219,.08);--cpe-line:rgba(160,180,206,.45);--cpe-line-on:rgba(205,220,240,.80);--cpe-ring:rgba(160,180,206,.18);--cpe-sheen:rgba(225,236,250,.20);--cpe-caret:#CBD9EC}
+html[data-metal="copper"]:root{--cpe-bg:linear-gradient(160deg,rgba(248,203,181,.12),rgba(183,107,69,.05));--cpe-field:rgba(241,188,162,.08);--cpe-line:rgba(235,166,131,.45);--cpe-line-on:rgba(249,214,196,.80);--cpe-ring:rgba(235,166,131,.18);--cpe-sheen:rgba(252,233,223,.20);--cpe-caret:#F9D2BE}
 html[data-metal="palladium"]:root{--cpe-bg:linear-gradient(160deg,rgba(222,216,207,.12),rgba(135,128,117,.05));--cpe-field:rgba(209,203,194,.08);--cpe-line:rgba(193,185,173,.45);--cpe-line-on:rgba(230,224,215,.80);--cpe-ring:rgba(193,185,173,.18);--cpe-sheen:rgba(243,239,232,.20);--cpe-caret:#E2DDD5}
 html[data-theme="light"]:root{--cpe-bg:linear-gradient(160deg,rgba(255,255,255,.80),rgba(243,207,110,.16));--cpe-field:rgba(255,255,255,.72);--cpe-line:rgba(185,138,48,.40);--cpe-line-on:rgba(156,114,36,.75);--cpe-ring:rgba(185,138,48,.16);--cpe-sheen:rgba(255,248,225,.55);--cpe-caret:#7A5718}
 html[data-metal="silver"][data-theme="light"]:root{--cpe-bg:linear-gradient(160deg,rgba(255,255,255,.80),rgba(190,197,207,.24));--cpe-line:rgba(110,118,130,.38);--cpe-line-on:rgba(80,88,100,.70);--cpe-ring:rgba(110,118,130,.16);--cpe-sheen:rgba(255,255,255,.6);--cpe-caret:#4B525D}
 html[data-metal="platinum"][data-theme="light"]:root{--cpe-bg:linear-gradient(160deg,rgba(255,255,255,.80),rgba(170,189,214,.24));--cpe-line:rgba(83,103,129,.38);--cpe-line-on:rgba(62,85,115,.70);--cpe-ring:rgba(83,103,129,.16);--cpe-sheen:rgba(240,246,255,.6);--cpe-caret:#3C5373}
+html[data-metal="copper"][data-theme="light"]:root{--cpe-bg:linear-gradient(160deg,rgba(255,255,255,.80),rgba(241,176,143,.24));--cpe-line:rgba(162,87,50,.38);--cpe-line-on:rgba(149,68,28,.70);--cpe-ring:rgba(162,87,50,.16);--cpe-sheen:rgba(254,245,241,.6);--cpe-caret:#964319}
 html[data-metal="palladium"][data-theme="light"]:root{--cpe-bg:linear-gradient(160deg,rgba(255,255,255,.80),rgba(201,194,183,.24));--cpe-line:rgba(116,108,96,.38);--cpe-line-on:rgba(100,91,77,.70);--cpe-ring:rgba(116,108,96,.16);--cpe-sheen:rgba(251,248,244,.6);--cpe-caret:#635A4C}
 /* Calculate: Purity strip and Weight selector sliding capsules get the hairline metal glass rim (gold in Gold mode, metal-matched otherwise). */
 html:root #puritySeg .purity-indicator,html:root #unitChips .unit-indicator{border-color:transparent!important}
@@ -11596,16 +11724,19 @@ html:root #tab-calc .bd-row .v small{margin-left:0!important;margin-top:4px}
 /* Bottom tab bar: sliding selector capsule gets the hairline metal glass rim (gold / silver / platinum). */
 html:root .bottom-nav .demo-nav-indicator{border-color:transparent!important}
 {border-color:transparent!important}
+{border-color:transparent!important}
 html:root .bottom-nav .demo-nav-indicator::before{content:""!important;position:absolute;inset:0;border-radius:inherit;padding:.6px;pointer-events:none;z-index:2;display:block!important;
  background:var(--gc-rim)!important;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.95}
 /* Calculate › Quantity: Segment pill (34 px). − | value | + — tap or hold to step, drag sideways to scrub, tap the number to type; width follows the value length. */
 html:root{--qr-m1:#FFE7A6;--qr-m2:#E3A43A;--qr-m3:#8C6622;--qr-glass:rgba(243,207,110,.06);--qr-text:#F3D27A;--qr-line:rgba(243,207,110,.30);--qr-bg:#0e0b07}
 html[data-metal="silver"]:root{--qr-m1:#FFFFFF;--qr-m2:#C2C8D1;--qr-m3:#7E8590;--qr-glass:rgba(236,240,245,.05);--qr-text:#E8ECF2;--qr-line:rgba(220,226,234,.28);--qr-bg:#0c0d0f}
 html[data-metal="platinum"]:root{--qr-m1:#F2F7FF;--qr-m2:#A9BAD1;--qr-m3:#5F7591;--qr-glass:rgba(196,212,233,.06);--qr-text:#CBD9EC;--qr-line:rgba(184,199,219,.32);--qr-bg:#0a0d12}
+html[data-metal="copper"]:root{--qr-m1:#FEF7F3;--qr-m2:#EBAE8F;--qr-m3:#B6633A;--qr-glass:rgba(248,203,181,.06);--qr-text:#F9D2BE;--qr-line:rgba(241,188,162,.32);--qr-bg:#170B05}
 html[data-metal="palladium"]:root{--qr-m1:#FBF9F6;--qr-m2:#C5BFB5;--qr-m3:#827A6E;--qr-glass:rgba(222,216,207,.06);--qr-text:#E2DDD5;--qr-line:rgba(209,203,194,.32);--qr-bg:#100E0C}
 html[data-theme="light"]:root{--qr-glass:rgba(255,255,255,.7);--qr-text:#7A5718;--qr-line:rgba(156,114,36,.28);--qr-bg:#ffffff}
 html[data-theme="light"][data-metal="silver"]:root{--qr-text:#4B525D;--qr-line:rgba(80,88,100,.25)}
 html[data-theme="light"][data-metal="platinum"]:root{--qr-text:#3C5373;--qr-line:rgba(62,85,115,.26)}
+html[data-theme="light"][data-metal="copper"]:root{--qr-text:#964319;--qr-line:rgba(149,68,28,.26)}
 html[data-theme="light"][data-metal="palladium"]:root{--qr-text:#635A4C;--qr-line:rgba(100,91,77,.26)}
 html:root #calculateBody .qty-row .stepper{display:none!important}
 #qtyRuler{position:relative;flex:0 0 auto;height:34px;display:inline-flex;align-items:stretch;border-radius:14px;background:var(--qr-glass);
@@ -11627,8 +11758,8 @@ html:root #calculateBody .qty-row .stepper{display:none!important}
 @keyframes qrDn{from{transform:translateY(-55%);opacity:.25}to{transform:none;opacity:1}}
 @media (prefers-reduced-motion:reduce){#qtyRuler #qtyInput{animation:none!important}}
 /* Palladium: the Jewel panel has no web-link sources, so its link rail is hidden. */
-html[data-metal="palladium"] #jewelSourceActions,html[data-metal="palladium"] #readyMadeOverlay .silver-tap-hint{display:none!important}
-html[data-metal="palladium"] #readyMadeClose{margin-left:auto!important}
+html[data-metal="palladium"] #jewelSourceActions,html[data-metal="palladium"] #readyMadeOverlay .silver-tap-hint,html[data-metal="copper"] #jewelSourceActions,html[data-metal="copper"] #readyMadeOverlay .silver-tap-hint{display:none!important}
+html[data-metal="palladium"] #readyMadeClose,html[data-metal="copper"] #readyMadeClose{margin-left:auto!important}
 html:not([data-metal="gold"]) #quickWeightGroupTabs [data-quick-weight-group="tamil"],html:not([data-metal="gold"]) #weightGroupTabs [data-weight-group="tamil"]{display:none!important}
 /* Tamil weight names: embedded Noto Sans Tamil (Tamil letters only, via unicode-range) so chips look the same online, offline and in the APK. */
 @font-face{font-family:'GC Tamil';font-style:normal;font-weight:500;font-display:swap;unicode-range:U+0B80-0BFF,U+200C-200D,U+25CC;src:url(data:font/woff2;base64,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) format('woff2')}
@@ -11636,34 +11767,109 @@ html:not([data-metal="gold"]) #quickWeightGroupTabs [data-quick-weight-group="ta
 @font-face{font-family:'GC Tamil';font-style:normal;font-weight:700;font-display:swap;unicode-range:U+0B80-0BFF,U+200C-200D,U+25CC;src:url(data:font/woff2;base64,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) format('woff2')}
 #unitChips .chip-text,#weightGroupTabs button,#quickWeightGroupTabs button,#quickGrid,#tab-calc .bd-row,#tab-calc .qty-row,#selectedWeightSummary{font-family:'GC Tamil',Inter,system-ui,-apple-system,sans-serif}
 #quickWeightGroupTabs button{display:inline-flex;align-items:center;gap:4px;padding-left:7px!important;padding-right:8px!important}#quickWeightGroupTabs .qwg-icon{width:15px;height:15px;flex:0 0 15px}
+/* Copper mode */
+html[data-metal="copper"] #makingField,html[data-metal="copper"] #ftMakingRow{display:none!important} /* no making / premium strip for copper; GST moves up beside Import duty */
+html[data-metal="copper"] .card.hero .hero-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important} /* both cards exactly equal */
+html[data-metal="copper"] .card.hero .hero-stat{min-width:0}
+html[data-metal="copper"] .card.hero .hero-stat .k{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html[data-metal="copper"] .card.hero .hero-stat .v{letter-spacing:-.02em;white-space:nowrap}
+html[data-metal="copper"] #jewelField{display:none!important} /* no jewellery rate for copper */
+#copperWireCard{padding:2px 2px 4px}
+html:not([data-metal="copper"]) #purityModeWire,html:not([data-metal="copper"]) #tab-convert .purity-motion-track>#purityWirePane{display:none!important}
+html[data-metal="copper"] #tab-convert .purity-unified-navigation{display:flex!important;flex-wrap:nowrap!important;grid-template-columns:none!important;gap:5px!important;overflow-x:auto!important;overflow-y:hidden!important;scroll-snap-type:x mandatory!important;scroll-padding-inline:5px;scrollbar-width:none!important;overscroll-behavior-x:contain;touch-action:pan-x;-webkit-overflow-scrolling:touch}
+html[data-metal="copper"] #tab-convert .purity-unified-navigation::-webkit-scrollbar{display:none!important}
+html[data-metal="copper"] #tab-convert .purity-unified-navigation .purity-unified-tab{flex:0 0 calc((100% - 5px)/2)!important;width:calc((100% - 5px)/2)!important;max-width:calc((100% - 5px)/2)!important;min-width:0!important;padding:9px 5px!important;scroll-snap-align:start;scroll-snap-stop:always;text-align:center!important}
+html[data-metal="copper"] #tab-convert .purity-unified-navigation .purity-mode-magnet{left:var(--conv-active-left,5px)!important;width:var(--conv-active-width,calc((100% - 15px)/2))!important;transform:none!important;transition:left 620ms cubic-bezier(.21,1.04,.25,1),width 620ms cubic-bezier(.21,1.04,.25,1),box-shadow 400ms ease!important}
+html[data-metal="copper"] #tab-convert .purity-unified-card[data-purity-mode] .purity-unified-navigation .purity-mode-magnet{transform:none!important}
+@media(prefers-reduced-motion:reduce){html[data-metal="copper"] #tab-convert .purity-unified-navigation .purity-mode-magnet{transition:none!important}}
+html[data-metal="copper"] #tab-convert .purity-motion-track{grid-template-columns:repeat(3,minmax(0,1fr))!important;width:300%!important}
+html[data-metal="copper"] #tab-convert .purity-unified-card[data-purity-mode="alloy"] .purity-motion-track{transform:translate3d(-33.3333%,0,0)!important}
+html[data-metal="copper"] #tab-convert .purity-unified-card[data-purity-mode="wire"] .purity-motion-track{transform:translate3d(-66.6667%,0,0)!important}
+#purityModeWire .wwi{display:none!important}#purityModeWire[data-wicon="a"] .wwi-a,#purityModeWire[data-wicon="b"] .wwi-b,#purityModeWire[data-wicon="c"] .wwi-c,#purityModeWire[data-wicon="d"] .wwi-d{display:block!important}
+.wwi{display:block;width:26px;height:26px;overflow:visible}
+.wwi-a .wwi-e{offset-path:path('M5 18c3.5 0 4-8 7-8s3.5 8 7 8c2.2 0 2.8-5 4-7.2');offset-distance:52%;offset-rotate:0deg}
+.wwi-a .wwi-wire{stroke-dasharray:100;stroke-dashoffset:0}
+.wwi-b .wwi-tip{transform-box:view-box}
+.wwi-c .wwi-strands circle{transform-box:fill-box;transform-origin:center}
+.wwi-d .wwi-pan{transform-box:view-box}
+.wwi-d .wwi-needle{transform-box:view-box;transform-origin:14px 21.8px}
+.wwi-play .wwi-a .wwi-wire,#purityModeWire.demo43-icon-play .wwi-a .wwi-wire{animation:wwiDraw 1.1s cubic-bezier(.3,.7,.2,1) both}
+.wwi-play .wwi-a .wwi-e,#purityModeWire.demo43-icon-play .wwi-a .wwi-e{animation:wwiRun 1.25s cubic-bezier(.45,.05,.3,1) .1s both}
+.wwi-play .wwi-a .wwi-term,#purityModeWire.demo43-icon-play .wwi-a .wwi-term{animation:wwiPulse 1.3s ease-out both}
+.wwi-play .wwi-b .wwi-wind,#purityModeWire.demo43-icon-play .wwi-b .wwi-wind{animation:wwiWind 1.2s linear both}
+.wwi-play .wwi-b .wwi-pay,#purityModeWire.demo43-icon-play .wwi-b .wwi-pay{stroke-dasharray:100;animation:wwiDraw 1.2s cubic-bezier(.3,.7,.2,1) both}
+.wwi-play .wwi-b .wwi-tip,#purityModeWire.demo43-icon-play .wwi-b .wwi-tip{animation:wwiTip 1.2s ease-out both}
+.wwi-play .wwi-c .wwi-jacket,#purityModeWire.demo43-icon-play .wwi-c .wwi-jacket{stroke-dasharray:100;animation:wwiDraw .9s cubic-bezier(.3,.7,.2,1) both}
+.wwi-play .wwi-c .wwi-strands circle,#purityModeWire.demo43-icon-play .wwi-c .wwi-strands circle{animation:wwiPop .5s cubic-bezier(.2,1.5,.4,1) both}
+.wwi-play .wwi-c .wwi-strands circle:nth-child(2),#purityModeWire.demo43-icon-play .wwi-c .wwi-strands circle:nth-child(2){animation-delay:.18s}
+.wwi-play .wwi-c .wwi-strands circle:nth-child(3),#purityModeWire.demo43-icon-play .wwi-c .wwi-strands circle:nth-child(3){animation-delay:.26s}
+.wwi-play .wwi-c .wwi-strands circle:nth-child(4),#purityModeWire.demo43-icon-play .wwi-c .wwi-strands circle:nth-child(4){animation-delay:.34s}
+.wwi-play .wwi-c .wwi-strands circle:nth-child(5),#purityModeWire.demo43-icon-play .wwi-c .wwi-strands circle:nth-child(5){animation-delay:.42s}
+.wwi-play .wwi-c .wwi-strands circle:nth-child(6),#purityModeWire.demo43-icon-play .wwi-c .wwi-strands circle:nth-child(6){animation-delay:.50s}
+.wwi-play .wwi-c .wwi-strands circle:nth-child(7),#purityModeWire.demo43-icon-play .wwi-c .wwi-strands circle:nth-child(7){animation-delay:.58s}
+.wwi-play .wwi-d .wwi-coil,#purityModeWire.demo43-icon-play .wwi-d .wwi-coil{animation:wwiDrop 1.1s cubic-bezier(.3,.6,.3,1) both}
+.wwi-play .wwi-d .wwi-pan,#purityModeWire.demo43-icon-play .wwi-d .wwi-pan{animation:wwiSink 1.1s cubic-bezier(.3,.6,.3,1) both}
+.wwi-play .wwi-d .wwi-needle,#purityModeWire.demo43-icon-play .wwi-d .wwi-needle{animation:wwiNeedle 1.1s cubic-bezier(.3,.6,.3,1) both}
+@keyframes wwiDraw{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
+@keyframes wwiRun{0%{offset-distance:0%;opacity:0}12%{opacity:1}100%{offset-distance:100%;opacity:1}}
+@keyframes wwiPulse{0%,100%{stroke-width:1.6}35%{stroke-width:2.6}}
+@keyframes wwiWind{0%{transform:translateY(-3.7px)}100%{transform:translateY(0)}}
+@keyframes wwiTip{0%{opacity:0;transform:translate(-8px,9.5px)}100%{opacity:1;transform:none}}
+@keyframes wwiPop{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes wwiDrop{0%{transform:translateY(-7px);opacity:0}45%{transform:translateY(0);opacity:1}62%{transform:translateY(-1px)}100%{transform:none}}
+@keyframes wwiSink{0%,40%{transform:none}55%{transform:translateY(1.8px)}75%{transform:translateY(.4px)}100%{transform:translateY(.8px)}}
+@keyframes wwiNeedle{0%,40%{transform:none}55%{transform:rotate(38deg)}75%{transform:rotate(18deg)}100%{transform:rotate(24deg)}}
+.wwi-b .wwi-wind{clip-path:inset(1px 0 1px 0)}
+@media(prefers-reduced-motion:reduce){.wwi *{animation:none!important}}
+
+#copperWireCard .cw-sub{margin:2px 0 10px;font-size:11.5px;color:var(--text-2)}
+#copperWireCard .cw-sizes{margin:0 0 12px}
+#copperWireCard .cw-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#copperWireCard .cw-grid .field{margin:0}
+#copperWireCard .cw-out{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+#copperWireCard .cw-out>div{position:relative;padding:10px 12px;border-radius:16px;background:var(--glass-strong);border:1px solid var(--glass-border)}
+#copperWireCard .cw-out small{display:block;font-size:11px;color:var(--text-2)}#copperWireCard .cw-out b{display:block;margin-top:3px;font:700 18px/1.2 Inter,system-ui,sans-serif;color:var(--gold-300,var(--text-0))}
+#copperWireCard .cw-note{margin:8px 0 0;font-size:10.5px;color:var(--text-2)}
 /* MCX, FT and Jewel web-link buttons: plain text links, no background or shadow (all metals, both themes, every state). */
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger),
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger):is(:hover,:active,:focus){background:none!important;background-image:none!important;box-shadow:none!important;-webkit-tap-highlight-color:transparent}
 html[data-metal="platinum"] #mcxField,html[data-metal="platinum"] #ftbarField,html[data-metal="platinum"] #mcxStrip,html[data-metal="platinum"] #ftbarStrip,html[data-metal="platinum"] #mcxVsFtStrip{display:none!important}
+html[data-metal="copper"] #mcxField,html[data-metal="copper"] #ftbarField,html[data-metal="copper"] #mcxStrip,html[data-metal="copper"] #ftbarStrip,html[data-metal="copper"] #mcxVsFtStrip{display:none!important}
 html[data-metal="palladium"] #mcxField,html[data-metal="palladium"] #ftbarField,html[data-metal="palladium"] #mcxStrip,html[data-metal="palladium"] #ftbarStrip,html[data-metal="palladium"] #mcxVsFtStrip{display:none!important}
 html[data-metal="platinum"] #ftMakingRow.metal-empty-row{display:none!important}
+html[data-metal="copper"] #ftMakingRow.metal-empty-row{display:none!important}
 html[data-metal="palladium"] #ftMakingRow.metal-empty-row{display:none!important}
 html[data-metal="silver"] .metal-gold-only,html[data-metal="platinum"] .metal-gold-only{display:none!important}
+html[data-metal="copper"] .metal-gold-only{display:none!important}
 html[data-metal="palladium"] .metal-gold-only{display:none!important}
 html[data-metal="silver"] #purityDifferenceCard #purityAlloyPane .pdc-details,html[data-metal="platinum"] #purityDifferenceCard #purityAlloyPane .pdc-details{display:flex!important;justify-content:space-between!important;align-items:center}
+html[data-metal="copper"] #purityDifferenceCard #purityAlloyPane .pdc-details{display:flex!important;justify-content:space-between!important;align-items:center}
 html[data-metal="palladium"] #purityDifferenceCard #purityAlloyPane .pdc-details{display:flex!important;justify-content:space-between!important;align-items:center}
 html[data-metal="silver"] #purityDifferenceCard #purityAlloyPane .pdc-detail-item,html[data-metal="platinum"] #purityDifferenceCard #purityAlloyPane .pdc-detail-item{flex:0 0 auto!important;width:auto!important;max-width:50%;justify-content:flex-start;grid-column:auto!important}
+html[data-metal="copper"] #purityDifferenceCard #purityAlloyPane .pdc-detail-item{flex:0 0 auto!important;width:auto!important;max-width:50%;justify-content:flex-start;grid-column:auto!important}
 html[data-metal="palladium"] #purityDifferenceCard #purityAlloyPane .pdc-detail-item{flex:0 0 auto!important;width:auto!important;max-width:50%;justify-content:flex-start;grid-column:auto!important}
 .card.hero .hero-stat .k{white-space:nowrap!important}
 /* Making and Jewel keep their paired-row look in the platinum rows. */
 html[data-metal="platinum"] #ftGstRow #makingField .input-wrap{height:46px;width:100%;min-width:0}
+html[data-metal="copper"] #ftGstRow #makingField .input-wrap{height:46px;width:100%;min-width:0}
 html[data-metal="palladium"] #ftGstRow #makingField .input-wrap{height:46px;width:100%;min-width:0}
 html[data-metal="platinum"] #ftGstRow #makingField{border-top:0;padding-top:0;gap:6px}
+html[data-metal="copper"] #ftGstRow #makingField{border-top:0;padding-top:0;gap:6px}
 html[data-metal="palladium"] #ftGstRow #makingField{border-top:0;padding-top:0;gap:6px}
 html[data-metal="platinum"] #ftGstRow #makingField .field-top{min-height:30px}
+html[data-metal="copper"] #ftGstRow #makingField .field-top{min-height:30px}
 html[data-metal="palladium"] #ftGstRow #makingField .field-top{min-height:30px}
 html[data-metal="platinum"] #ftGstRow #makingField{flex:1 1 auto;min-width:0;gap:6px}
+html[data-metal="copper"] #ftGstRow #makingField{flex:1 1 auto;min-width:0;gap:6px}
 html[data-metal="palladium"] #ftGstRow #makingField{flex:1 1 auto;min-width:0;gap:6px}
 html[data-metal="platinum"] #ftGstRow #makingField .input-wrap{margin-top:auto}
+html[data-metal="copper"] #ftGstRow #makingField .input-wrap{margin-top:auto}
 html[data-metal="palladium"] #ftGstRow #makingField .input-wrap{margin-top:auto}
 html[data-metal="platinum"] #ftGstRow #makingField .input-wrap{padding:0 12px;border-radius:var(--radius-sm)}
+html[data-metal="copper"] #ftGstRow #makingField .input-wrap{padding:0 12px;border-radius:var(--radius-sm)}
 html[data-metal="palladium"] #ftGstRow #makingField .input-wrap{padding:0 12px;border-radius:var(--radius-sm)}
 html[data-metal="platinum"] #ftGstRow #makingField input{font-size:15px}
+html[data-metal="copper"] #ftGstRow #makingField input{font-size:15px}
 html[data-metal="palladium"] #ftGstRow #makingField input{font-size:15px}
 @media(max-width:360px){.metal-menu{width:190px}}
 </style>
@@ -11673,6 +11879,7 @@ html[data-metal="palladium"] #ftGstRow #makingField input{font-size:15px}
  background:linear-gradient(145deg,#FFF1C2,#E8B64C 55%,#9C6A1C);box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 3px 10px rgba(0,0,0,.35)}
 .metal-tile.is-silver{background:linear-gradient(145deg,#FFFFFF,#D3D8DE 55%,#8E959E);color:#15181c}
 .metal-tile.is-platinum{background:linear-gradient(145deg,#EEF3F8,#A9B9CB 55%,#5E7088);color:#0f1722}
+.metal-tile.is-copper{background:linear-gradient(145deg,#FDF0E9,#E3AC91 55%,#A9613D);color:#2D1204}
 .metal-tile.is-palladium{background:linear-gradient(145deg,#F5F3F1,#C1BBB3 55%,#7C756A);color:#1C1915}
 .metal-tile em{position:absolute;top:2px;left:4px;font:700 8.5px/1 'Inter',sans-serif;font-style:normal;opacity:.8}
 .metal-tile b{font:800 16px/1 'Manrope',sans-serif;margin-top:5px}
@@ -11684,6 +11891,7 @@ html[data-metal="palladium"] #ftGstRow #makingField input{font-size:15px}
  background:linear-gradient(150deg,#FFF3CC,#EBC062 42%,#B98325 78%,#7E5414);box-shadow:inset 0 1px 0 rgba(255,255,255,.7),inset 0 -10px 18px rgba(0,0,0,.18),0 10px 26px -12px rgba(0,0,0,.65)}
 html[data-metal="silver"] .mel-tile{background:linear-gradient(150deg,#FFFFFF,#E3E7EB 40%,#AEB5BE 78%,#7A828C);color:#14171b}
 html[data-metal="platinum"] .mel-tile{background:linear-gradient(150deg,#F1F5F9,#C3CFDC 40%,#8193A9 78%,#4F6077);color:#0e1520}
+html[data-metal="copper"] .mel-tile{background:linear-gradient(150deg,#FDF2ED,#EDC6B2 40%,#C88462 78%,#955231);color:#2A1104}
 html[data-metal="palladium"] .mel-tile{background:linear-gradient(150deg,#F7F5F3,#D5D1CA 40%,#9D978D 78%,#6B655B);color:#1B1813}
 .mel-tile em{position:absolute;top:7px;left:9px;font:800 12px/1 'Inter',sans-serif;font-style:normal;opacity:.85}
 .mel-tile b{font:800 34px/1 'Manrope',sans-serif;letter-spacing:-.5px}
@@ -11704,21 +11912,27 @@ html[data-metal="palladium"] .mel-tile{background:linear-gradient(150deg,#F7F5F3
  animation:gc-metal-sheen 9s ease-in-out infinite}
 html[data-metal="silver"] .card.hero .metal-sheen::before{width:26%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.10) 35%,rgba(255,255,255,.42) 50%,rgba(255,255,255,.10) 65%,transparent);animation-duration:5s}
 html[data-metal="platinum"] .card.hero .metal-sheen::before{width:60%;background:linear-gradient(90deg,transparent,rgba(205,220,240,.06) 30%,rgba(215,228,245,.17) 50%,rgba(205,220,240,.06) 70%,transparent);animation-duration:11s}
+html[data-metal="copper"] .card.hero .metal-sheen::before{width:60%;background:linear-gradient(90deg,transparent,rgba(249,214,196,.06) 30%,rgba(250,223,210,.17) 50%,rgba(249,214,196,.06) 70%,transparent);animation-duration:11s}
 html[data-metal="palladium"] .card.hero .metal-sheen::before{width:60%;background:linear-gradient(90deg,transparent,rgba(230,224,215,.06) 30%,rgba(236,231,224,.17) 50%,rgba(230,224,215,.06) 70%,transparent);animation-duration:11s}
 :root[data-theme="light"] .card.hero .metal-sheen::before{opacity:.8}
 @keyframes gc-metal-sheen{0%{left:-60%}55%{left:130%}100%{left:130%}}
 /* Capsule border shimmer speed: silver sparkles quickest, platinum moves slowest (heaviest) */
 html[data-metal="silver"] :is(.topbar,.bottom-nav)::after{animation-duration:3.6s!important}
 {animation-duration:3.6s!important}
+{animation-duration:3.6s!important}
 html[data-metal="platinum"] :is(.topbar,.bottom-nav)::after{animation-duration:8s!important}
+html[data-metal="copper"] :is(.topbar,.bottom-nav)::after{animation-duration:8s!important}
 html[data-metal="palladium"] :is(.topbar,.bottom-nav)::after{animation-duration:8s!important}
 /* Weight: silver light and reflective, platinum deep and smoked */
 html[data-metal="silver"]:not([data-theme="light"]) .card{box-shadow:0 14px 34px -22px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.22),inset 0 0 0 1px rgba(255,255,255,.03)!important}
 {box-shadow:0 14px 34px -22px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.22),inset 0 0 0 1px rgba(255,255,255,.03)!important}
+{box-shadow:0 14px 34px -22px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.22),inset 0 0 0 1px rgba(255,255,255,.03)!important}
 html[data-metal="platinum"]:not([data-theme="light"]) .card{box-shadow:0 28px 62px -26px rgba(0,0,0,.9),inset 0 1px 0 rgba(205,222,245,.14),inset 0 -1px 0 rgba(0,0,0,.4)!important}
+html[data-metal="copper"]:not([data-theme="light"]) .card{box-shadow:0 28px 62px -26px rgba(0,0,0,.9),inset 0 1px 0 rgba(250,217,200,.14),inset 0 -1px 0 rgba(0,0,0,.4)!important}
 html[data-metal="palladium"]:not([data-theme="light"]) .card{box-shadow:0 28px 62px -26px rgba(0,0,0,.9),inset 0 1px 0 rgba(233,227,217,.14),inset 0 -1px 0 rgba(0,0,0,.4)!important}
 html[data-metal="silver"][data-theme="light"] .card{box-shadow:0 10px 26px -18px rgba(40,48,58,.28),inset 0 1px 0 rgba(255,255,255,.95)!important}
 html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22px rgba(30,55,90,.42),inset 0 1px 0 rgba(255,255,255,.85)!important}
+html[data-metal="copper"][data-theme="light"] .card{box-shadow:0 20px 44px -22px rgba(109,44,11,.42),inset 0 1px 0 rgba(255,255,255,.85)!important}
 html[data-metal="palladium"][data-theme="light"] .card{box-shadow:0 20px 44px -22px rgba(73,63,47,.42),inset 0 1px 0 rgba(255,255,255,.85)!important}
 @media(prefers-reduced-motion:reduce){.card.hero .metal-sheen::before{animation:none;opacity:0}}
 </style>
@@ -11818,7 +12032,7 @@ html[data-metal="palladium"][data-theme="light"] .card{box-shadow:0 20px 44px -2
   var jewel=$('jewelField'), making=jSplit&&jSplit.querySelector('.making-only-row') || document.querySelector('.making-only-row');
   if(!jewel||!making||!mcxSplit||!gstSplit||!jSplit) return;
   if(!homes) homes={jewelNext:jewel.nextSibling, makingNext:making.nextSibling};
-  if(m==='platinum'||m==='palladium'){
+  if(m==='platinum'||m==='palladium'||m==='copper'){
    if(jewel.parentNode!==mcxSplit) mcxSplit.insertBefore(jewel,mcxSplit.firstChild);
    if(making.parentNode!==gstSplit) gstSplit.appendChild(making);
    jRow.classList.add('metal-empty-row');
@@ -11849,7 +12063,7 @@ html[data-metal="palladium"][data-theme="light"] .card{box-shadow:0 20px 44px -2
   if(heroK[0]) setText(heroK[0],c.hero[0].k);
   if(heroK[1]){ var sp=heroK[1].querySelector('span')||heroK[1]; setText(sp,c.hero[1].k); }
   var hero=document.querySelector('.card.hero'); if(hero) hero.setAttribute('aria-label',"Today's headline "+c.name.toLowerCase()+' rate');
-  var sl=document.querySelector('label[for="spotInput"]'); if(sl) setText(sl,c.code+' → U$D');
+  var sl=document.querySelector('label[for="spotInput"]'); if(sl) setText(sl,c.code+' → U$D'+(c.spotUnit||''));
   setText($('mcxLabelText'),c.mcx||'');
   var mi=$('mcxInput'); if(mi){ mi.setAttribute('aria-label','Enter MCX '+(c.mcx||'')+' price '+(c.unitG===1000?'per kilogram':'per 10 grams')); var mu=mi.parentNode.querySelector('.market-unit'); setText(mu,c.unitLabel); }
   setText(document.querySelector('#ftbarField .ft-purity-text'),c.ft||'');
@@ -11857,7 +12071,7 @@ html[data-metal="palladium"][data-theme="light"] .card{box-shadow:0 20px 44px -2
   setText(document.querySelector('#jewelField .jewel-purity-text'),c.jewel);
   var jl=document.querySelector('#jewelVsSpotStrip .l');
   if(jl){ var tn=jvsNode; if(!tn) jl.childNodes.forEach(function(n){ if(n.nodeType===3 && /Jewel vs Spot/.test(n.textContent)) tn=n; }); jvsNode=tn; var t=c.jvsLabel||('Jewel vs Spot ₹ '+c.jvs); if(tn){ if(tn.textContent.trim()!==t) tn.textContent=t; } else { var lab=jl.querySelector('.strip-label,span'); if(lab && /Jewel vs Spot/.test(lab.textContent)) setText(lab,t); } }
-  document.title=document.title.replace(/^(Gold|Silver|Platinum|Palladium)\b/,c.name);
+  document.title=document.title.replace(/^(Gold|Silver|Platinum|Palladium|Copper)\b/,c.name);
   layout(m);
   fitHero();
  }
@@ -12010,7 +12224,7 @@ html[data-metal="palladium"][data-theme="light"] .card{box-shadow:0 20px 44px -2
  }
  function ratesUsed(){
   return table([
-   row('🌍',(window.__gcMetalCfg?window.__gcMetalCfg().code:'XAU')+' → U$D',withUnit(inp('spotInput'),' $/oz t'),statusTag(txt('spotRateStatus'))),
+   row('🌍',(window.__gcMetalCfg?window.__gcMetalCfg().code:'XAU')+' → U$D',withUnit(inp('spotInput'),(window.__gcMetalCfg&&window.__gcMetalCfg().spotUnitTxt)||' $/oz t'),statusTag(txt('spotRateStatus'))),
    row('💱','U$D → IN₹',withUnit(inp('usdinrInput'),' ₹/$'),statusTag(txt('usdinrRateStatus'))),
    row('🛃','Import duty',withUnit(inp('dutyInput'),'%'),{tag:on('dutyToggle')?'ON':'OFF',tagCls:on('dutyToggle')?'up':''}),
    row('🧾','GST',withUnit(inp('gstInput'),'%'),{tag:on('gstToggle')?'ON':'OFF',tagCls:on('gstToggle')?'up':''}),
@@ -12027,7 +12241,7 @@ html[data-metal="palladium"][data-theme="light"] .card{box-shadow:0 20px 44px -2
    bench.push(row('💍','Jewel '+MC.jewel,inp('jewelInput')?'₹'+inp('jewelInput')+' /g':''));
    return hero([['🥇',MC.hero[0].k+(/ g$|• g$/.test(MC.hero[0].k)?'':' · per gram'),txt('hero24k')],['💍',MC.hero[1].k+(/ g$|• g$/.test(MC.hero[1].k)?'':' · per gram'),txt('hero22k')]])
     +sec('🌐','Global & currency rates',table([
-      row('🌍',MC.code+' → U$D',withUnit(inp('spotInput'),' $/oz t'),statusTag(txt('spotRateStatus'))),
+      row('🌍',MC.code+' → U$D',withUnit(inp('spotInput'),(window.__gcMetalCfg&&window.__gcMetalCfg().spotUnitTxt)||' $/oz t'),statusTag(txt('spotRateStatus'))),
       row('💱','U$D → IN₹',withUnit(inp('usdinrInput'),' ₹/$'),statusTag(txt('usdinrRateStatus')))]))
     +sec('🏷️','Duties & charges',table([
       row('🛃','Import duty',withUnit(inp('dutyInput'),'%'),{tag:on('dutyToggle')?'ON':'OFF',tagCls:on('dutyToggle')?'up':''}),
@@ -12599,6 +12813,104 @@ html[data-metal="palladium"] #readyMadeOverlay .silver-tap-hint{border:1px solid
 html[data-metal="palladium"] #readyMadeOverlay .mcx-preview-host{background:rgba(17,15,11,.13);border-top:1px solid rgba(240,235,227,.23)}
 html[data-metal="palladium"] #readyMadeOverlay .mcx-preview-placeholder{color:rgba(240,236,230,.8)}
 @media(prefers-reduced-transparency:reduce){html[data-metal="palladium"] #readyMadeOverlay .mcx-dhan-sheet{background:#312D28!important}
+}
+/* copper */
+html[data-metal="copper"] .mcx-dhan-overlay{background:rgba(9,4,2,.72)}
+html[data-metal="copper"] #usdinrQuotePopup,html[data-metal="copper"] #spotQuotePopup{
+  border:1.5px solid rgba(230,95,28,.95)!important;
+  background:linear-gradient(135deg,rgba(247,203,181,.24),rgba(231,100,35,.12) 55%,rgba(250,225,213,.20)),var(--bg-1)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.65),inset 0 -1px 0 rgba(171,70,19,.12),0 0 0 1px rgba(239,152,109,.18),0 12px 32px rgba(40,16,4,.24),0 0 14px rgba(230,94,25,.22)!important}
+html[data-metal="copper"] #usdinrQuotePopup::before,html[data-metal="copper"] #spotQuotePopup::before{
+  background:linear-gradient(115deg,transparent 30%,rgba(251,227,215,.25) 48%,transparent 65%)}
+html[data-metal="copper"] #usdinrQuotePopup,html[data-metal="copper"] #spotQuotePopup{
+  background:linear-gradient(155deg,rgba(163,100,69,.28),rgba(46,21,9,.63) 48%,rgba(33,14,4,.78))!important}
+html[data-metal="copper"] #usdinrQuotePopup .usdinr-quote-embed,html[data-metal="copper"] #spotQuotePopup .usdinr-quote-embed{
+  background:rgba(25,10,3,.66)!important}
+html[data-metal="copper"] #usdinrQuotePopup .usdinr-quote-loading,html[data-metal="copper"] #spotQuotePopup .usdinr-quote-loading{color:rgba(254,247,243,.8)!important}
+@media(prefers-reduced-transparency:reduce){html[data-metal="copper"] #usdinrQuotePopup,html[data-metal="copper"] #spotQuotePopup{background:#472412!important}
+}html[data-metal="copper"] #usdinrQuotePopup,html[data-metal="copper"] #spotQuotePopup{
+ background:linear-gradient(145deg,rgba(207,138,103,.15),rgba(58,26,10,.28) 50%,rgba(30,12,3,.38))!important}
+html[data-metal="copper"] #usdinrQuotePopup .usdinr-quote-embed,html[data-metal="copper"] #spotQuotePopup .usdinr-quote-embed{
+ background:rgba(38,15,4,.20)!important}
+@media(prefers-reduced-transparency:reduce){html[data-metal="copper"] #usdinrQuotePopup,html[data-metal="copper"] #spotQuotePopup{background:#472412!important}
+}html[data-metal="copper"] #usdinrQuotePopup::after,html[data-metal="copper"] #spotQuotePopup::after{
+  background:conic-gradient(from var(--silver-orbit),transparent 0deg,rgba(253,246,242,.08) 55deg,rgba(255,255,255,.90) 88deg,rgba(237,175,144,.90) 99deg,rgba(255,255,255,.28) 114deg,transparent 145deg,transparent 270deg,rgba(250,226,214,.30) 310deg,transparent 345deg)}
+html[data-metal="copper"] #mcxDhanOverlay,html[data-metal="copper"] #ftSangamOverlay{background:rgba(14,15,16,.53)}
+html[data-metal="copper"] #mcxDhanOverlay .mcx-dhan-sheet,html[data-metal="copper"] #ftSangamOverlay .mcx-dhan-sheet{
+  background:linear-gradient(145deg,rgba(207,138,103,.15),rgba(58,26,10,.28) 50%,rgba(30,12,3,.38))!important;
+  color:#FCEAE1}
+html[data-metal="copper"] #mcxDhanOverlay .mcx-dhan-sheet::after,html[data-metal="copper"] #ftSangamOverlay .mcx-dhan-sheet::after{
+  background:conic-gradient(from var(--silver-orbit),transparent 0deg,rgba(253,246,242,.08) 55deg,rgba(255,255,255,.90) 88deg,rgba(237,175,144,.90) 99deg,rgba(255,255,255,.28) 114deg,transparent 145deg,transparent 270deg,rgba(250,226,214,.30) 310deg,transparent 345deg)}
+html[data-metal="copper"] #mcxDhanOverlay .mcx-dhan-title,html[data-metal="copper"] #ftSangamOverlay .mcx-dhan-title{color:#FDF6F2}
+html[data-metal="copper"] #mcxDhanOverlay .mcx-dhan-subtitle,html[data-metal="copper"] #ftSangamOverlay .mcx-dhan-subtitle,html[data-metal="copper"] #mcxDhanOverlay .mcx-dhan-hint,html[data-metal="copper"] #ftSangamOverlay .mcx-dhan-hint,html[data-metal="copper"] #ftSangamOverlay #ftActiveProvider{color:#F0C7B3}
+html[data-metal="copper"] #mcxDhanOverlay .mcx-dhan-header,html[data-metal="copper"] #ftSangamOverlay .mcx-dhan-header,html[data-metal="copper"] #mcxDhanOverlay .mcx-dhan-actions,html[data-metal="copper"] #ftSangamOverlay .mcx-dhan-actions,html[data-metal="copper"] #ftSangamOverlay .ft-panel-link-groups,html[data-metal="copper"] #ftSangamOverlay .ft-provider-tools{
+ border-color:rgba(252,233,224,.17);background:rgba(58,24,6,.14)
+}
+html[data-metal="copper"] #mcxDhanOverlay .mcx-dhan-open,html[data-metal="copper"] #ftSangamOverlay .mcx-dhan-open,html[data-metal="copper"] #mcxDhanOverlay .mcx-dhan-close,html[data-metal="copper"] #ftSangamOverlay .mcx-dhan-close{
+ color:#FCEAE1!important;background:rgba(244,182,151,.12)!important;
+ border:1px solid rgba(252,239,232,.25)!important}
+html[data-metal="copper"] #ftSangamOverlay .ft-source-actions .ft-source-tab[aria-selected="true"]{border-color:rgba(253,246,242,.68)!important;background:rgba(246,199,176,.25)!important
+}
+html[data-metal="copper"] #mcxDhanOverlay .mcx-dhan-hint,html[data-metal="copper"] #ftSangamOverlay .mcx-dhan-hint{background:rgba(58,24,6,.18)}
+@media(prefers-reduced-transparency:reduce){html[data-metal="copper"] #mcxDhanOverlay .mcx-dhan-sheet,html[data-metal="copper"] #ftSangamOverlay .mcx-dhan-sheet{background:#472412!important}
+}html[data-metal="copper"] #mcxDhanOverlay .silver-tap-icon,html[data-metal="copper"] #ftSangamOverlay .silver-tap-icon{filter:drop-shadow(0 0 3px rgba(253,240,234,.35))}
+html[data-metal="copper"] #ftSangamOverlay .ft-preview-tab[aria-pressed="true"]{ border-color:rgba(251,226,214,.75)!important; background:rgba(247,204,183,.19)!important; box-shadow:0 0 12px rgba(251,232,222,.22), inset 0 0 10px rgba(253,246,242,.1)}
+html[data-metal="copper"] #usdinrQuotePopup,html[data-metal="copper"] #spotQuotePopup,html[data-metal="copper"] #mcxDhanOverlay .mcx-dhan-sheet,html[data-metal="copper"] #ftSangamOverlay .mcx-dhan-sheet{
+ background:linear-gradient(140deg,rgba(253,241,235,.115) 0%,rgba(218,123,75,.075) 24%,rgba(61,25,7,.135) 60%,rgba(22,9,2,.20) 100%)!important;
+ border:1px solid rgba(253,243,238,.22)!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.42),inset 0 -1px 0 rgba(248,208,188,.11),0 13px 35px rgba(0,0,0,.13)!important}
+html[data-metal="copper"] #mcxDhanOverlay,html[data-metal="copper"] #ftSangamOverlay{background:rgba(10,11,12,.29)!important}
+html[data-metal="copper"] #usdinrQuotePopup::after,html[data-metal="copper"] #spotQuotePopup::after,html[data-metal="copper"] #mcxDhanOverlay .mcx-dhan-sheet::after,html[data-metal="copper"] #ftSangamOverlay .mcx-dhan-sheet::after{
+ background:conic-gradient(from var(--silver-orbit),
+ rgba(255,255,255,.06) 0deg,rgba(255,255,255,.15) 25deg,
+ rgba(253,244,240,.92) 46deg,#fff 49deg,rgba(247,204,182,.96) 52deg,
+ rgba(255,255,255,.12) 66deg,transparent 93deg,transparent 154deg,
+ rgba(252,233,224,.11) 177deg,rgba(255,255,255,.70) 189deg,
+ rgba(245,193,167,.88) 195deg,transparent 214deg,transparent 300deg,
+ rgba(254,249,247,.32) 337deg,rgba(255,255,255,.06) 360deg)!important;
+ filter:drop-shadow(0 0 2px rgba(253,244,240,.65))}
+html[data-metal="copper"] #usdinrQuotePopup::before,html[data-metal="copper"] #spotQuotePopup::before,html[data-metal="copper"] #mcxDhanOverlay .mcx-dhan-sheet::before,html[data-metal="copper"] #ftSangamOverlay .mcx-dhan-sheet::before{
+ background:linear-gradient(125deg,rgba(255,255,255,.18),transparent 23%,transparent 76%,rgba(253,240,234,.07))}
+html[data-metal="copper"] #usdinrQuotePopup .usdinr-quote-embed,html[data-metal="copper"] #spotQuotePopup .usdinr-quote-embed{
+ background:rgba(34,14,4,.08)!important;border-color:rgba(253,245,241,.14)!important}
+@media(prefers-reduced-transparency:reduce){html[data-metal="copper"] #usdinrQuotePopup,html[data-metal="copper"] #spotQuotePopup,html[data-metal="copper"] #mcxDhanOverlay .mcx-dhan-sheet,html[data-metal="copper"] #ftSangamOverlay .mcx-dhan-sheet{background:#49220F!important}
+}html[data-metal="copper"] #mcxDhanOverlay .silver-tap-hint,html[data-metal="copper"] #ftSangamOverlay .silver-tap-hint{border:1px solid rgba(251,227,215,.22);background:linear-gradient(115deg,rgba(253,241,235,.12),rgba(214,143,108,.055));color:rgba(252,235,227,.78)}
+html[data-metal="copper"] #usdinrQuotePopup,html[data-metal="copper"] #spotQuotePopup{
+  background:linear-gradient(145deg,rgba(227,159,125,.09),rgba(66,28,8,.18) 55%,rgba(32,13,4,.23))!important}
+html[data-metal="copper"] #mcxDhanOverlay .silver-hint-footer{
+  border-top:1px solid rgba(252,233,224,.17);
+  background:rgba(58,24,6,.10)}
+html[data-metal="copper"] #mcxDhanOverlay .silver-hint-header{
+  background:rgba(58,24,6,.10)}
+html[data-metal="copper"] #mcxDhanOverlay .mcx-source-actions{
+  scrollbar-color:rgba(248,214,196,.32) transparent}
+html[data-metal="copper"] #mcxDhanOverlay .mcx-source-actions .mcx-dhan-open.silver-chip-active,html[data-metal="copper"] #ftSangamOverlay .ft-panel-link-groups .mcx-dhan-open.silver-chip-active{
+  background:linear-gradient(145deg,rgba(254,250,248,.27),rgba(214,131,89,.14))!important;
+  border-color:rgba(254,246,242,.86)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.48),inset 0 -1px 0 rgba(248,211,192,.16),0 0 13px rgba(251,229,218,.35),0 0 25px rgba(246,199,175,.15)!important}
+html[data-metal="copper"] #mcxDhanOverlay .mcx-source-actions .mcx-dhan-open::after,html[data-metal="copper"] #ftSangamOverlay .ft-panel-link-groups .mcx-dhan-open::after{
+  background:linear-gradient(90deg,transparent,rgba(253,245,241,.18) 23%,rgba(255,255,255,.86) 50%,rgba(252,239,232,.25) 76%,transparent)}
+html[data-metal="copper"] #mcxDhanOverlay .mcx-preview-host{
+  background:rgba(25,10,3,.13);border-top:1px solid rgba(251,228,216,.23)}
+html[data-metal="copper"] #mcxDhanOverlay .mcx-preview-placeholder{color:rgba(251,230,219,.8)}
+html[data-metal="copper"] #mcxDhanOverlay .mcx-provider-tools-matched #mcxDhanClose,html[data-metal="copper"] #ftSangamOverlay .ft-provider-tools #ftSangamClose{
+ color:#FBEBE3!important;
+ background:linear-gradient(135deg,rgba(255,255,255,.19),rgba(189,121,87,.09))!important;
+ border:1px solid rgba(252,236,228,.55)!important;
+ box-shadow:0 0 9px rgba(252,233,224,.15),inset 0 1px 0 rgba(255,255,255,.24)!important}
+html[data-metal="copper"] #readyMadeOverlay{background:rgba(14,15,16,.53)}
+html[data-metal="copper"] #readyMadeOverlay .mcx-dhan-sheet.mcx-shortcuts-sheet{
+ background:linear-gradient(145deg,rgba(207,138,103,.15),rgba(58,26,10,.28) 50%,rgba(30,12,3,.38))!important;color:#FCEAE1}
+html[data-metal="copper"] #readyMadeOverlay .mcx-dhan-sheet::after{background:conic-gradient(from var(--silver-orbit),transparent 0deg,rgba(253,246,242,.08) 55deg,rgba(255,255,255,.90) 88deg,rgba(237,175,144,.90) 99deg,rgba(255,255,255,.28) 114deg,transparent 145deg,transparent 270deg,rgba(250,226,214,.30) 310deg,transparent 345deg)}
+html[data-metal="copper"] #readyMadeOverlay .mcx-dhan-close{color:#FCEAE1!important;background:rgba(244,182,151,.12)!important;border:1px solid rgba(252,239,232,.25)!important}
+html[data-metal="copper"] #readyMadeOverlay .mcx-source-actions{background:rgba(58,24,6,.14);border-color:rgba(252,233,224,.17)}
+html[data-metal="copper"] #readyMadeOverlay .mcx-source-actions .mcx-dhan-open{color:#FCEAE1!important;background:rgba(244,182,151,.12)!important;border:1px solid rgba(252,239,232,.25)!important}
+html[data-metal="copper"] #readyMadeOverlay .mcx-source-actions .mcx-dhan-open.silver-chip-active{border-color:rgba(253,246,242,.75)!important;background:rgba(246,199,176,.25)!important;box-shadow:0 0 9px rgba(252,239,232,.3),inset 0 1px 0 rgba(255,255,255,.25)!important}
+html[data-metal="copper"] #readyMadeOverlay .mcx-provider-tools-matched{background:rgba(58,24,6,.14);border-bottom:1px solid rgba(252,233,224,.17)}
+html[data-metal="copper"] #readyMadeOverlay .silver-tap-hint{border:1px solid rgba(251,227,215,.22);background:linear-gradient(115deg,rgba(253,241,235,.12),rgba(214,143,108,.055));color:rgba(252,235,227,.78)!important}
+html[data-metal="copper"] #readyMadeOverlay .mcx-preview-host{background:rgba(25,10,3,.13);border-top:1px solid rgba(251,228,216,.23)}
+html[data-metal="copper"] #readyMadeOverlay .mcx-preview-placeholder{color:rgba(251,230,219,.8)}
+@media(prefers-reduced-transparency:reduce){html[data-metal="copper"] #readyMadeOverlay .mcx-dhan-sheet{background:#472412!important}
 }</style>
 <script id="metal-theme-engine-20261120">
 /* Metal theme engine: every fixed gold colour in the stylesheets (and SVG paints) is re-tinted
@@ -12615,6 +12927,7 @@ html[data-metal="palladium"] #readyMadeOverlay .mcx-preview-placeholder{color:rg
   var h,s,l=x[2];
   if(m==='silver'){ h=210; s=.035+x[1]*.045; l=l<.5? l*1.03 : Math.min(.985,l+(1-l)*.18); }
   else if(m==='palladium'){ h=36; s=.05+x[1]*.07; l=l*.97; }
+  else if(m==='copper'){ h=20; s=Math.min(.82,.38+x[1]*.42); l=l*.97; }
   else { h=213; s=.13+x[1]*.17; l=l*.95; }
   return rgb(h,Math.min(1,s),Math.max(0,Math.min(1,l)));
  }
@@ -12701,7 +13014,7 @@ html[data-metal="palladium"] #readyMadeOverlay .mcx-preview-placeholder{color:rg
 <script id="app-icon-follow-metal-20261121">
 /* Android app: the launcher icon follows the selected metal (Au GOLD / Ag SILVER / Pt PLATINUM). The app swaps it when it goes to the background. */
 (function(){
- function tell(m){ try{ if(window.AndroidBridge && AndroidBridge.setAppIcon && /^(gold|silver|platinum|palladium)$/.test(m)) AndroidBridge.setAppIcon(m); }catch(_){} }
+ function tell(m){ try{ if(window.AndroidBridge && AndroidBridge.setAppIcon && /^(gold|silver|platinum|palladium|copper)$/.test(m)) AndroidBridge.setAppIcon(m); }catch(_){} }
  document.addEventListener('gc:metal',function(e){ tell(e.detail && e.detail.metal); });
  function init(){ tell(window.__gcMetal||'gold'); }
  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
@@ -12722,12 +13035,14 @@ html[data-metal="palladium"] #readyMadeOverlay .mcx-preview-placeholder{color:rg
    gold:{rate:15,wef:'2026-05-13',ref:'Notif. 15/2026 & 16/2026-Customs'},
    silver:{rate:15,wef:'2026-05-13',ref:'Notif. 15/2026 & 16/2026-Customs'},
    platinum:{rate:15.4,wef:'2026-05-13',ref:'Notif. 15/2026 & 16/2026-Customs'},
-   palladium:{rate:15.4,wef:'2026-05-13',ref:'Heading 7110 (with platinum) · Notif. 15/2026 & 16/2026-Customs'}},
+   palladium:{rate:15.4,wef:'2026-05-13',ref:'Heading 7110 (with platinum) · Notif. 15/2026 & 16/2026-Customs'},
+   copper:{rate:5.5,wef:'',ref:'BCD 5% + SWS 10% of BCD · refined copper cathode (7403 11 00)'}},
   gst:{
    gold:{rate:3,wef:'2017-07-01',ref:'GST 3% (HSN 7108)'},
    silver:{rate:3,wef:'2017-07-01',ref:'GST 3% (HSN 7106)'},
    platinum:{rate:3,wef:'2017-07-01',ref:'GST 3% (HSN 7110)'},
-   palladium:{rate:3,wef:'2017-07-01',ref:'GST 3% (HSN 7110)'}}};
+   palladium:{rate:3,wef:'2017-07-01',ref:'GST 3% (HSN 7110)'},
+   copper:{rate:18,wef:'',ref:'GST 18% (HSN 7403)'}}};
  var URL_REMOTE='https://goldau.vercel.app/duty.json', KEY='gcOfficialDuty';
  var KINDS={
   duty:{group:'metals',applied:'gcOfficialDutyApplied',input:'dutyInput',tag:'refDuty',toggle:'dutyToggle',label:'Import duty',icon:'₹',setter:'__gcSetDuty'},
@@ -12857,7 +13172,7 @@ html[data-metal="palladium"] #readyMadeOverlay .mcx-preview-placeholder{color:rg
  };
  /* iPhone / iPad: no haptics (iOS Safari/Chrome give web pages no way to trigger them). Android only. */
  var TAP='.ios-toggle,.reset-toggle,#forceSyncBtn,#bullionThemeToggle,.bottom-nav [data-target],.live-check,#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger,.mcx-dhan-open,#metalSwitch,#datePill';
- var STRIPS=['puritySeg','purityGroupTabs','unitChips','weightGroupTabs','differencePresets','quickWeightGroupTabs'];
+ var STRIPS=['puritySeg','purityGroupTabs','unitChips','weightGroupTabs','differencePresets','quickWeightGroupTabs','cwSizes'];
  document.addEventListener('click',function(e){
   var mm=e.target.closest&&e.target.closest('#metalMenu [data-metal]');
   if(mm){ window.__gcHaptic('click'); setTimeout(function(){ window.__gcHaptic('tick'); },110); return; } /* mode chosen: soft double "confirm" */
@@ -12894,6 +13209,79 @@ html[data-metal="palladium"] #readyMadeOverlay .mcx-preview-placeholder{color:rg
 })();
 </script>
 <script id="tamil-tab-indicator-20261124">document.addEventListener("gc:metal",function(){try{window.__gcQuickTamilReset&&window.__gcQuickTamilReset();}catch(_){}setTimeout(function(){try{window.__gcQuickTamilReset&&window.__gcQuickTamilReset();}catch(_){}},60);requestAnimationFrame(function(){requestAnimationFrame(function(){window.dispatchEvent(new Event("resize"));});});});</script>
+<script id="copper-mode-ui-20261124">
+/* Copper mode extras: /lb unit on the XCU strip; wire weight calculator. */
+(function(){'use strict';
+ /* Convert selector rail (copper): two equal headings visible, swipeable, highlight follows the chosen tab like Insights. */
+ window.__gcConvRail=function(index,animate){
+  var nav=document.querySelector('#purityDifferenceCard .purity-unified-navigation'); if(!nav) return;
+  if(window.__gcMetal!=='copper'){ nav.style.removeProperty('--conv-active-left'); nav.style.removeProperty('--conv-active-width'); nav.scrollLeft=0; return; }
+  var tabs=[].slice.call(nav.querySelectorAll('.purity-unified-tab')).filter(function(t){return t.offsetWidth>0;});
+  if(index==null){ index=Math.max(0,tabs.findIndex(function(t){return t.classList.contains('is-current');})); }
+  var tab=tabs[index]; if(!tab) return;
+  nav.style.setProperty('--conv-active-left',tab.offsetLeft+'px');
+  nav.style.setProperty('--conv-active-width',tab.offsetWidth+'px');
+  var step=tabs.length>1?tabs[1].offsetLeft-tabs[0].offsetLeft:0;
+  var visibleLeft=Math.max(0,Math.min(tabs.length-2,Math.round(nav.scrollLeft/Math.max(1,step))));
+  var leftmost=index<=visibleLeft?Math.max(0,index-1):Math.min(index,tabs.length-2);
+  var target=Math.max(0,tabs[leftmost].offsetLeft-tabs[0].offsetLeft);
+  if(Math.abs(nav.scrollLeft-target)>1){ var reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches; nav.scrollTo({left:target,behavior:(animate&&!reduced)?'smooth':'auto'}); }
+ };
+ function railSync(){ requestAnimationFrame(function(){ window.__gcConvRail(null,false); }); }
+ document.addEventListener('gc:metal',railSync); window.addEventListener('resize',railSync,{passive:true});
+ document.addEventListener('click',function(e){ if(e.target.closest&&e.target.closest('.tab-btn,[data-target="tab-convert"]')) setTimeout(railSync,60); },true);
+ railSync();
+
+ function swapText(root,from,to){ if(!root) return; var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT),n; while(n=w.nextNode()){ if(n.nodeValue.trim()===from) n.nodeValue=n.nodeValue.replace(from,to); } }
+ function labels(){ var cu=window.__gcMetal==='copper', a=cu?'Making':'Premium', b=cu?'Premium':'Making';
+  swapText(document.querySelector('label[for="makingInput"]'),a,b); swapText(document.querySelector('#rowMaking .l'),a,b); swapText(document.getElementById('pRowMaking'),a,b); }
+ var SIZES=[0.75,1,1.5,2.5,4,6,10,16,25,35,50,70,95,120];
+ var host=document.getElementById('cwSizes');
+ if(host){ SIZES.forEach(function(v){ var b=document.createElement('button'); b.type='button'; b.className='chip'; b.dataset.v=v; b.setAttribute('aria-pressed','false');
+   var r=Math.max(1.6,Math.min(6.2,1.5+Math.sqrt(v)*0.45));
+   b.innerHTML='<svg class="icon icon-sm" viewBox="0 0 28 28" aria-hidden="true"><use href="#dropBase"/><circle cx="14" cy="14" r="'+(r+1.6).toFixed(2)+'" fill="none" stroke="var(--glyph)" stroke-width="1.1" opacity="0.55"/><circle cx="14" cy="14" r="'+r.toFixed(2)+'" fill="var(--glyph)" opacity="0.85"/></svg><span class="chip-text">'+v+' mm²<span class="chip-sub">'+(v*8.96).toLocaleString('en-IN',{maximumFractionDigits:2})+' g/m</span></span>';
+   b.addEventListener('click',function(){ document.getElementById('cwArea').value=v; calc(); syncInd(true); }); host.appendChild(b); }); }
+ /* Moving highlighter + keep the chosen chip in view — same as Calculate's weight-unit strip. */
+ function syncInd(scroll){ if(!host) return; var a=host.querySelector('button[aria-pressed="true"]'), ind=host.querySelector('.unit-indicator');
+  if(!a||!a.offsetWidth){ host.classList.remove('unit-indicator-ready'); return; }
+  if(scroll){ var l=a.offsetLeft, r=l+a.offsetWidth, vl=host.scrollLeft, vr=vl+host.clientWidth, m=8, t=vl; if(l<vl+m)t=Math.max(0,l-m); else if(r>vr-m)t=r-host.clientWidth+m; if(Math.abs(t-vl)>1) host.scrollTo({left:t,behavior:'smooth'}); }
+  host.style.setProperty('--unit-indicator-x',a.offsetLeft+'px'); host.style.setProperty('--unit-indicator-width',a.offsetWidth+'px');
+  if(!host.classList.contains('unit-indicator-ready')){ void ind.offsetWidth; host.classList.add('unit-indicator-ready'); } }
+ if(host){ if(window.ResizeObserver) new ResizeObserver(function(){ syncInd(false); }).observe(host);
+  host.addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; requestAnimationFrame(function(){ var ind=host.querySelector('.unit-indicator'); ind.classList.remove('demo-chip-animate'); void ind.offsetWidth; ind.classList.add('demo-chip-animate'); }); });
+  document.addEventListener('click',function(e){ if(e.target.closest&&e.target.closest('#purityModeWire,[data-target="tab-convert"]')) setTimeout(function(){ syncInd(true); },80); },true); }
+ function num(id){ var n=parseFloat(String((document.getElementById(id)||{}).value||'').replace(/,/g,'')); return isFinite(n)?n:0; }
+ function calc(){
+  var area=num('cwArea'), len=num('cwLen'), cores=Math.max(1,num('cwCores')||1), qty=Math.max(1,num('cwQty')||1);
+  if(host){ var ch=false; host.querySelectorAll('button').forEach(function(b){ var on=String(Number(b.dataset.v)===area); if(b.getAttribute('aria-pressed')!==on){ b.setAttribute('aria-pressed',on); ch=true; } }); if(ch) requestAnimationFrame(function(){ syncInd(false); }); }
+  var kg=area*len*cores*qty*0.00896; // mm² × m × 8.96 g/cm³ = kg
+  var W=document.getElementById('cwWeight'), V=document.getElementById('cwValue'), N=document.getElementById('cwNote');
+  if(!(kg>0)){ W.textContent='—'; V.textContent='—'; return; }
+  W.textContent = kg>=1 ? kg.toLocaleString('en-IN',{maximumFractionDigits:3})+' kg' : (kg*1000).toLocaleString('en-IN',{maximumFractionDigits:1})+' g';
+  var spot=num('spotInput'), fx=num('usdinrInput');
+  if(spot>0 && fx>0){ var perKg=spot*fx/0.45359237*0.999; V.textContent='₹'+Math.round(kg*perKg).toLocaleString('en-IN'); N.textContent='At ₹'+Math.round(perKg).toLocaleString('en-IN')+'/kg (XCU $'+spot+'/lb × ₹'+fx+', ETP 999‰). Before duty, GST and premium.'; }
+  else { V.textContent='—'; N.textContent='Enter the HG → U$D rate in Market to see the value.'; }
+ }
+ ['cwArea','cwLen','cwCores','cwQty'].forEach(function(id){ var e=document.getElementById(id); if(e) e.addEventListener('input',calc); });
+ ['spotInput','usdinrInput'].forEach(function(id){ var e=document.getElementById(id); if(e){ e.addEventListener('input',calc); e.addEventListener('change',calc); } });
+ var unitEl=document.querySelector('#spotInput ~ .market-unit'), unitOrig=unitEl?unitEl.textContent:'';
+ function spotUnit(){ if(unitEl) unitEl.textContent = window.__gcMetal==='copper' ? '/lb' : unitOrig; }
+ /* Copper Market layout: Import duty | GST share one row (the Jewel, MCX and Premium strips are not used). */
+ var gstF=document.getElementById('gstInput'); gstF=gstF&&gstF.closest('.field'); var gstHome=gstF&&gstF.parentNode, gstNext=gstF&&gstF.nextSibling;
+ function arrange(){ var duty=document.getElementById('dutyInput'); duty=duty&&duty.closest('.field'); if(!gstF||!duty) return;
+  if(window.__gcMetal==='copper'){ if(gstF.parentNode!==duty.parentNode) duty.parentNode.insertBefore(gstF,duty.nextSibling); }
+  else if(gstF.parentNode!==gstHome){ gstHome.insertBefore(gstF,gstNext&&gstNext.parentNode===gstHome?gstNext:null); } }
+ /* Top cards: shrink the value just enough to fit (e.g. ₹11,79,667 per tonne on small phones). */
+ function fitHero(){ document.querySelectorAll('.card.hero .hero-stat .v').forEach(function(v){ v.style.fontSize=''; if(window.__gcMetal!=='copper') return;
+   var fs=parseFloat(getComputedStyle(v).fontSize)||28, n=0; while(v.scrollWidth>v.clientWidth+1 && fs>14 && n++<20){ fs-=1; v.style.fontSize=fs+'px'; } });
+  var a=document.getElementById('hero24k'), b=document.getElementById('hero22k'); if(a&&b&&a.style.fontSize!==b.style.fontSize){ var m=Math.min(parseFloat(getComputedStyle(a).fontSize),parseFloat(getComputedStyle(b).fontSize)); a.style.fontSize=b.style.fontSize=m+'px'; } }
+ if(window.MutationObserver){ ['hero24k','hero22k'].forEach(function(id){ var e=document.getElementById(id); if(e) new MutationObserver(function(){ requestAnimationFrame(fitHero); }).observe(e,{childList:true,characterData:true,subtree:true}); }); }
+ window.addEventListener('resize',function(){ requestAnimationFrame(fitHero); },{passive:true});
+ document.addEventListener('gc:metal',function(){ calc(); spotUnit(); arrange(); requestAnimationFrame(fitHero); });
+ spotUnit(); arrange(); requestAnimationFrame(fitHero);
+ calc(); setInterval(function(){ if(window.__gcMetal==='copper') calc(); },3000);
+})();
+</script>
 <script id="metal-switch-toast-20261120">
 /* Metal mode switch notice (Android app): in-app Liquid Glass toast with a hairline metal rim, replacing the plain system toast. */
 (function(){

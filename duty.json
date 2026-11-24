@@ -1,17 +1,59 @@
 {
-  "updated": "2026-11-24",
-  "note": "Official Indian rates read by the Gold Calculator app when the Market 'Import duty' or 'GST' toggle is switched on. When a rate changes, change it together with its wef date (YYYY-MM-DD).",
-  "source": "Import duty: Ministry of Finance (Dept. of Revenue) Notification Nos. 15/2026-Customs and 16/2026-Customs dated 12 May 2026, in force from 13 May 2026. GST: 3% on gold, silver and platinum since GST began on 1 July 2017; retained at 3% in the GST 2.0 rate changes effective 22 Sep 2025.",
-  "metals": {
-    "gold":     { "rate": 15,   "wef": "2026-05-13", "ref": "Notif. 15/2026 & 16/2026-Customs" },
-    "silver":   { "rate": 15,   "wef": "2026-05-13", "ref": "Notif. 15/2026 & 16/2026-Customs" },
-    "platinum": { "rate": 15.4, "wef": "2026-05-13", "ref": "Notif. 15/2026 & 16/2026-Customs" },
-    "palladium": { "rate": 15.4, "wef": "2026-05-13", "ref": "Heading 7110 with platinum (assumed; confirm palladium line 7110 21)" }
+ "updated": "2026-11-24",
+ "note": "Official Indian rates read by the Gold Calculator app when the Market 'Import duty' or 'GST' toggle is switched on. When a rate changes, change it together with its wef date (YYYY-MM-DD).",
+ "source": "Import duty: Ministry of Finance (Dept. of Revenue) Notification Nos. 15/2026-Customs and 16/2026-Customs dated 12 May 2026, in force from 13 May 2026. GST: 3% on gold, silver and platinum since GST began on 1 July 2017; retained at 3% in the GST 2.0 rate changes effective 22 Sep 2025.",
+ "metals": {
+  "gold": {
+   "rate": 15,
+   "wef": "2026-05-13",
+   "ref": "Notif. 15/2026 & 16/2026-Customs"
   },
-  "gst": {
-    "gold":     { "rate": 3, "wef": "2017-07-01", "ref": "GST 3% (HSN 7108)" },
-    "silver":   { "rate": 3, "wef": "2017-07-01", "ref": "GST 3% (HSN 7106)" },
-    "platinum": { "rate": 3, "wef": "2017-07-01", "ref": "GST 3% (HSN 7110)" },
-    "palladium": { "rate": 3, "wef": "2017-07-01", "ref": "GST 3% (HSN 7110)" }
+  "silver": {
+   "rate": 15,
+   "wef": "2026-05-13",
+   "ref": "Notif. 15/2026 & 16/2026-Customs"
+  },
+  "platinum": {
+   "rate": 15.4,
+   "wef": "2026-05-13",
+   "ref": "Notif. 15/2026 & 16/2026-Customs"
+  },
+  "palladium": {
+   "rate": 15.4,
+   "wef": "2026-05-13",
+   "ref": "Heading 7110 with platinum (assumed; confirm palladium line 7110 21)"
+  },
+  "copper": {
+   "rate": 5.5,
+   "wef": "",
+   "ref": "BCD 5% + SWS 10% of BCD · refined copper cathode (7403 11 00)"
   }
+ },
+ "gst": {
+  "gold": {
+   "rate": 3,
+   "wef": "2017-07-01",
+   "ref": "GST 3% (HSN 7108)"
+  },
+  "silver": {
+   "rate": 3,
+   "wef": "2017-07-01",
+   "ref": "GST 3% (HSN 7106)"
+  },
+  "platinum": {
+   "rate": 3,
+   "wef": "2017-07-01",
+   "ref": "GST 3% (HSN 7110)"
+  },
+  "palladium": {
+   "rate": 3,
+   "wef": "2017-07-01",
+   "ref": "GST 3% (HSN 7110)"
+  },
+  "copper": {
+   "rate": 18,
+   "wef": "2017-07-01",
+   "ref": "GST 18% (HSN 7403)"
+  }
+ }
 }
