@@ -10440,13 +10440,7 @@ html:root[data-theme="light"],html:root[data-theme="light"] body{
   ['Bangalore Refinery · 10 g Pt Bar','https://www.bangalorerefinery.com/products/10-gram-platinum-bar-999-purity'],
   ['Bangalore Refinery · Today\u2019s Rates','https://www.bangalorerefinery.com/pages/todays-rates'],
   ['Pure Platinum · Bullion','https://pureplatinumweb.myshopify.com/collections/bullion']];
- var PD=[
-  ['CoinSwitch · Palladium Today','https://coinswitch.co/palladium-rates/palladium-rate-today-in-india'],
-  ['Lemonn · Palladium Rates','https://lemonn.co.in/palladium-rates'],
-  ['BankBazaar · Palladium Price','https://www.bankbazaar.com/commodity-price/palladium-price.html'],
-  ['MetalCharts · Palladium in INR','https://metalcharts.org/palladium-price-in-inr'],
-  ['PNG Jewellers · Metal Rates','https://www.pngjewellers.com/pages/metal-rates?srsltid=AYCX9vLMUJY2RmTp_USfst9_EfCUqKv4_HvrRO82It_ke9EMzMFbekdr'],
-  ['Bangalore Refinery · Today\u2019s Rates','https://www.bangalorerefinery.com/pages/todays-rates']];
+ var PD=[]; /* Palladium: no web-link sources in the Jewel panel. */
  var shown='';
  function placeholder(t){ if(!host) return; var d=document.createElement('div'); d.className='mcx-preview-placeholder'; d.textContent=t; host.replaceChildren(d); }
  function apply(){
@@ -10459,8 +10453,8 @@ html:root[data-theme="light"],html:root[data-theme="light"] body{
     a.dataset.jewelPreview=x[2]?'true':'false'; a.textContent=x[0]; frag.appendChild(a); });
    rail.replaceChildren(frag);
    if(want==='palladium'){
-    if(hint) hint.textContent='\u261e Double tap a source to open it';
-    placeholder('Palladium rate sources \u2014 double tap any source to open its website.');
+    if(hint) hint.textContent='';
+    if(host) host.replaceChildren();
    } else {
     if(hint) hint.textContent='\u261e Augmont: tap to preview \u00b7 All: double tap to open';
     placeholder('Tap Augmont to preview here. The other sites block in-app preview \u2014 double tap any source to open its website.');
@@ -11604,6 +11598,9 @@ html:root #calculateBody .qty-row .stepper{display:none!important}
 @keyframes qrUp{from{transform:translateY(55%);opacity:.25}to{transform:none;opacity:1}}
 @keyframes qrDn{from{transform:translateY(-55%);opacity:.25}to{transform:none;opacity:1}}
 @media (prefers-reduced-motion:reduce){#qtyRuler #qtyInput{animation:none!important}}
+/* Palladium: the Jewel panel has no web-link sources, so its link rail is hidden. */
+html[data-metal="palladium"] #jewelSourceActions,html[data-metal="palladium"] #readyMadeOverlay .silver-tap-hint{display:none!important}
+html[data-metal="palladium"] #readyMadeClose{margin-left:auto!important}
 /* MCX, FT and Jewel web-link buttons: plain text links, no background or shadow (all metals, both themes, every state). */
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger),
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger):is(:hover,:active,:focus){background:none!important;background-image:none!important;box-shadow:none!important;-webkit-tap-highlight-color:transparent}
