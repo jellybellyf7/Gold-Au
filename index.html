@@ -12346,16 +12346,16 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
 </script>
 <script id="haptics-20261124">
 /* Subtle haptics: toggles, Reset toggles, Live Sync, theme switch; Calculate purity & weight strips and
-   Metal mode button + mode chosen, date/time pop-up, Convert/Compare/Insights tabs (tap or swipe), Insights widget scrolling, title bar & tab capsule hide/show; Market live/cache status buttons, MCX / FT / Jewel web-link buttons and their panel links; Quick rates grouping tabs, bottom tab capsule; Convert › Alloy composition fineness strip (tap = light click, scrolling past each chip = faint tick).
-   Android app uses the system's own light haptic (follows the phone's touch-feedback setting); browsers use a tiny vibrate. */
+   Metal mode button + mode chosen, date/time pop-up, Convert/Compare/Insights tabs (tap or swipe); Market live/cache status buttons, MCX / FT / Jewel web-link buttons and their panel links; Quick rates grouping tabs, bottom tab capsule; Convert › Alloy composition fineness strip (tap = light click, scrolling past each chip = faint tick).
+   Page scrolling / moving gives no haptic. Android app uses the system's lightest haptics (follows the phone's touch-feedback setting); browsers use a tiny vibrate. */
 (function(){'use strict';
  var lastT=0, armed=false;
  ['pointerdown','touchstart','keydown'].forEach(function(ev){ addEventListener(ev,function(){ armed=true; },{capture:true,passive:true}); });
  window.__gcHaptic=function(kind){
   if(!armed) return; /* never buzz on start-up or restored state — only after the user touches the app */
-  var now=Date.now(); if(now-lastT<(kind==='tick'?28:15)) return; lastT=now;
+  var now=Date.now(); if(now-lastT<(kind==='tick'?28:120)) return; /* one gentle tap per action, never doubled */ lastT=now;
   try{ if(window.AndroidBridge&&AndroidBridge.haptic){ AndroidBridge.haptic(kind||'click'); return; } }catch(_){}
-  try{ if(navigator.vibrate) navigator.vibrate(kind==='tick'?4:8); }catch(_){}
+  try{ if(navigator.vibrate) navigator.vibrate(kind==='tick'?3:5); }catch(_){}
  };
  var TAP='.ios-toggle,.reset-toggle,#forceSyncBtn,#bullionThemeToggle,.bottom-nav [data-target],.live-check,#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger,.mcx-dhan-open,#metalSwitch,#datePill';
  var STRIPS=['puritySeg','purityGroupTabs','unitChips','weightGroupTabs','differencePresets','quickWeightGroupTabs'];
@@ -12391,12 +12391,6 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
    new MutationObserver(function(){ if(b.getAttribute('aria-selected')==='true') window.__gcHaptic('click'); }).observe(b,{attributes:true,attributeFilter:['aria-selected']});
  }); }
  watchTabs(); setTimeout(watchTabs,1500);
- // Top title bar + bottom tab capsule: one faint tick as they slide away / slide back with page scrolling.
- (function(){ var tb=document.querySelector('.topbar'); if(!tb) return; var was=tb.classList.contains('chrome-hidden');
-   new MutationObserver(function(){ var h=tb.classList.contains('chrome-hidden'); if(h!==was){ was=h; window.__gcHaptic('tick'); } }).observe(tb,{attributes:true,attributeFilter:['class']}); })();
- // Insights widgets: faint tick per widget while you drag / fling a widget list.
- function hookWidgets(){ document.querySelectorAll('#tab-insights .compare-market-widgets').forEach(function(w){ hook(w,true,'.compare-market-widget'); }); }
- hookWidgets(); setTimeout(hookWidgets,1500); setTimeout(hookWidgets,5000);
  hookAll(); document.addEventListener('DOMContentLoaded',hookAll); setTimeout(hookAll,1500);
 })();
 </script>
