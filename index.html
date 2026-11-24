@@ -12357,30 +12357,7 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
   try{ if(window.AndroidBridge&&AndroidBridge.haptic){ AndroidBridge.haptic(kind||'click'); return; } }catch(_){}
   try{ if(navigator.vibrate){ navigator.vibrate(kind==='tick'?3:5); return; } }catch(_){}
  };
- /* iPhone / iPad (Safari, Chrome — all WebKit): no vibrate API, and since iOS 26.5 a script can no longer fire the
-    switch haptic. A haptic still plays when the finger itself lands on a native <input type=checkbox switch>, so on iOS each
-    tappable control gets an invisible switch covering it: the tap toggles that switch (system haptic) and the click still
-    bubbles to the button, which works exactly as before. Links are skipped (a switch inside a link would stop it opening). */
- var IOS=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
- function iosTap(){}
- if(IOS){
-  var st=document.createElement('style');
-  st.textContent='.gc-hsw{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;margin:0!important;padding:0!important;opacity:.011!important;z-index:30!important;cursor:pointer;-webkit-tap-highlight-color:transparent;border-radius:inherit}';
-  document.head.appendChild(st);
-  var IOS_SEL='.ios-toggle,.reset-toggle,#forceSyncBtn,#bullionThemeToggle,.bottom-nav [data-target],button.live-check,#metalChip,#metalMenu [data-metal],#datePill,.purity-unified-tab,#qtyRuler .qs-btn,#puritySeg>button,#purityGroupTabs>button,#unitChips>button,#weightGroupTabs>button,#differencePresets>button,#quickWeightGroupTabs>button,button#mcxWatchlistLink,button#ftSangamShortcut,button#readyMadeTrigger';
-  function arm(el){
-   if(el.tagName==='A' || el.closest('a,label')) return;
-   for(var c=el.firstElementChild;c;c=c.nextElementSibling){ if(c.classList&&c.classList.contains('gc-hsw')) return; }
-   if(getComputedStyle(el).position==='static') el.style.position='relative';
-   var sw=document.createElement('input'); sw.type='checkbox'; sw.setAttribute('switch',''); sw.className='gc-hsw';
-   sw.tabIndex=-1; sw.setAttribute('aria-hidden','true');
-   ['change','input'].forEach(function(ev){ sw.addEventListener(ev,function(e){ e.stopPropagation(); }); });
-   el.appendChild(sw);
-  }
-  function armAll(){ try{ document.querySelectorAll(IOS_SEL).forEach(arm); }catch(_){} }
-  var armT=null; new MutationObserver(function(){ if(!armT) armT=setTimeout(function(){ armT=null; armAll(); },60); }).observe(document.documentElement,{childList:true,subtree:true});
-  armAll(); document.addEventListener('DOMContentLoaded',armAll);
- }
+ /* iPhone / iPad: no haptics (iOS Safari/Chrome give web pages no way to trigger them). Android only. */
  var TAP='.ios-toggle,.reset-toggle,#forceSyncBtn,#bullionThemeToggle,.bottom-nav [data-target],.live-check,#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger,.mcx-dhan-open,#metalSwitch,#datePill';
  var STRIPS=['puritySeg','purityGroupTabs','unitChips','weightGroupTabs','differencePresets','quickWeightGroupTabs'];
  document.addEventListener('click',function(e){
