@@ -11527,7 +11527,7 @@ html:root #tab-calc .bd-row .v small{margin-left:0!important;margin-top:4px}
 html:root .bottom-nav .demo-nav-indicator{border-color:transparent!important}
 html:root .bottom-nav .demo-nav-indicator::before{content:""!important;position:absolute;inset:0;border-radius:inherit;padding:.6px;pointer-events:none;z-index:2;display:block!important;
  background:var(--gc-rim)!important;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.95}
-/* Calculate › Quantity: slim ruler (34 px, Scrub-pill size). Number at left (tap to type), ticks under a fixed metal needle. */
+/* Calculate › Quantity: Scrub pill (34 px). ‹ value › — swipe sideways to change, tap to type; pill width follows the value length. */
 html:root{--qr-m1:#FFE7A6;--qr-m2:#E3A43A;--qr-m3:#8C6622;--qr-glass:rgba(243,207,110,.06);--qr-text:#F3D27A;--qr-line:rgba(243,207,110,.30);--qr-bg:#0e0b07}
 html[data-metal="silver"]:root{--qr-m1:#FFFFFF;--qr-m2:#C2C8D1;--qr-m3:#7E8590;--qr-glass:rgba(236,240,245,.05);--qr-text:#E8ECF2;--qr-line:rgba(220,226,234,.28);--qr-bg:#0c0d0f}
 html[data-metal="platinum"]:root{--qr-m1:#F2F7FF;--qr-m2:#A9BAD1;--qr-m3:#5F7591;--qr-glass:rgba(196,212,233,.06);--qr-text:#CBD9EC;--qr-line:rgba(184,199,219,.32);--qr-bg:#0a0d12}
@@ -11535,24 +11535,17 @@ html[data-theme="light"]:root{--qr-glass:rgba(255,255,255,.7);--qr-text:#7A5718;
 html[data-theme="light"][data-metal="silver"]:root{--qr-text:#4B525D;--qr-line:rgba(80,88,100,.25)}
 html[data-theme="light"][data-metal="platinum"]:root{--qr-text:#3C5373;--qr-line:rgba(62,85,115,.26)}
 html:root #calculateBody .qty-row .stepper{display:none!important}
-#qtyRuler{position:relative;flex:0 0 172px;height:34px;display:flex;align-items:center;border-radius:14px;background:var(--qr-glass);
- box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 6px 16px -12px rgba(0,0,0,.7);overflow:hidden;user-select:none;-webkit-user-select:none;cursor:grab}
-#qtyRuler .qr-track{touch-action:none}
-#qtyRuler #qtyInput{touch-action:manipulation;user-select:text;-webkit-user-select:text;cursor:text}
+#qtyRuler{position:relative;flex:0 0 auto;height:34px;display:inline-flex;align-items:center;gap:2px;padding:0 9px;border-radius:14px;background:var(--qr-glass);
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 6px 16px -12px rgba(0,0,0,.7);overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:none;cursor:ew-resize;transition:box-shadow .2s}
 #qtyRuler::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:.6px;pointer-events:none;background:var(--gc-rim);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.85;z-index:5}
-#qtyRuler #qtyInput{position:relative;z-index:4;flex:0 0 auto;width:44px;min-width:44px;max-width:118px;transition:width .22s cubic-bezier(.2,.9,.3,1);height:34px;margin:0;padding:0 0 0 4px;border:0!important;background:transparent!important;box-shadow:none!important;outline:none;
- text-align:center;font:600 17px/1 Inter,system-ui,sans-serif;color:var(--text-0);font-variant-numeric:tabular-nums;-moz-appearance:textfield;cursor:text}
+#qtyRuler #qtyInput{position:relative;z-index:4;flex:0 0 auto;width:30px;min-width:30px;max-width:120px;transition:width .22s cubic-bezier(.2,.9,.3,1);height:34px;margin:0;padding:0;border:0!important;background:transparent!important;box-shadow:none!important;outline:none;pointer-events:none;
+ text-align:center;font:600 17px/1 Inter,system-ui,sans-serif;color:var(--text-0);font-variant-numeric:tabular-nums;-moz-appearance:textfield}
 #qtyRuler #qtyInput::-webkit-outer-spin-button,#qtyRuler #qtyInput::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-#qtyRuler .qr-sep{position:relative;z-index:4;width:.6px;height:18px;background:var(--qr-line)}
-#qtyRuler .qr-track{position:relative;flex:1;height:100%;overflow:hidden}
-#qtyRuler .qr-ticks{position:absolute;left:50%;top:0;bottom:0;display:flex;align-items:flex-end;padding-bottom:4px;will-change:transform}
-#qtyRuler .qr-ticks i{display:block;width:10px;flex:0 0 10px;position:relative}
-#qtyRuler .qr-ticks i::before{content:"";position:absolute;left:4.5px;bottom:0;width:1px;height:6px;background:var(--qr-line)}
-#qtyRuler .qr-ticks i.maj::before{height:11px;background:var(--qr-text);opacity:.85}
-#qtyRuler .qr-ticks i span{position:absolute;bottom:13px;left:5px;transform:translateX(-50%);font:600 8.5px/1 Inter,system-ui,sans-serif;color:var(--qr-text);opacity:.75}
-#qtyRuler .qr-needle{position:absolute;left:50%;top:4px;bottom:3px;width:2px;margin-left:-1px;border-radius:2px;z-index:3;background:linear-gradient(180deg,var(--qr-m1),var(--qr-m2));box-shadow:0 0 6px var(--qr-line)}
-html[data-theme="light"] #qtyRuler .qr-needle{background:linear-gradient(180deg,var(--qr-m2),var(--qr-m3))}
-#qtyRuler .qr-fade{position:absolute;inset:0;pointer-events:none;z-index:2;background:linear-gradient(90deg,var(--qr-bg) 0,transparent 26%,transparent 74%,var(--qr-bg))}
+#qtyRuler .qs-chev{position:relative;z-index:4;flex:0 0 auto;color:var(--qr-text);opacity:.55;font:500 15px/1 Inter,system-ui,sans-serif;transition:opacity .2s,transform .2s}
+#qtyRuler .qs-glow{position:absolute;top:0;bottom:0;left:50%;width:60px;margin-left:-30px;pointer-events:none;opacity:0;z-index:2;background:radial-gradient(closest-side,var(--qr-line),transparent);transition:opacity .2s}
+#qtyRuler.qs-drag .qs-glow{opacity:1}#qtyRuler.qs-drag .qs-chev{opacity:1}
+#qtyRuler.qs-drag .qs-l{transform:translateX(-2px)}#qtyRuler.qs-drag .qs-r{transform:translateX(2px)}
+#qtyRuler.qs-edit{cursor:text;box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 0 0 1px var(--qr-line),0 6px 16px -12px rgba(0,0,0,.7)}
 #qtyRuler #qtyInput.qr-up{animation:qrUp .22s cubic-bezier(.2,.9,.3,1)}#qtyRuler #qtyInput.qr-dn{animation:qrDn .22s cubic-bezier(.2,.9,.3,1)}
 @keyframes qrUp{from{transform:translateY(55%);opacity:.25}to{transform:none;opacity:1}}
 @keyframes qrDn{from{transform:translateY(-55%);opacity:.25}to{transform:none;opacity:1}}
@@ -12296,42 +12289,42 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
 })();
 </script>
 <script id="qty-ruler-20261124">
-/* Calculate › Quantity ruler: swipe to change (momentum, snaps to whole numbers, haptic tick per step); tap the number to type.
-   Uses the app's own #qtyInput, so typing, Reset, print and screenshots keep working. */
+/* Calculate › Quantity Scrub pill: drag sideways to change (1 per 12 px, haptic tick per step); tap to type.
+   Uses the app's own #qtyInput, so typing, Reset, print, screenshots and the "= g / பவுன்" result keep working. */
 (function(){'use strict';
  var row=document.querySelector('#calculateBody .qty-row'), inp=document.getElementById('qtyInput'); if(!row||!inp) return;
- var MAX=100, PX=10;
- var r=document.createElement('div'); r.id='qtyRuler'; r.setAttribute('role','group'); r.setAttribute('aria-label','Quantity ruler');
- var t=''; for(var i=0;i<=MAX;i++) t+='<i class="'+(i%5===0?'maj':'')+'">'+(i%5===0?'<span>'+i+'</span>':'')+'</i>';
- r.innerHTML='<span class="qr-sep"></span><div class="qr-track"><div class="qr-ticks">'+t+'</div><span class="qr-fade"></span><span class="qr-needle"></span></div>';
- row.insertBefore(r,row.firstChild); r.insertBefore(inp,r.firstChild);
- var ticks=r.querySelector('.qr-ticks'), track=r.querySelector('.qr-track');
- function hap(){ try{ if(navigator.vibrate) navigator.vibrate(7); }catch(_){} }
+ var STEP=12, MAX=9999;
+ var r=document.createElement('div'); r.id='qtyRuler'; r.setAttribute('role','group'); r.setAttribute('aria-label','Quantity — swipe sideways or tap to type');
+ r.innerHTML='<span class="qs-glow"></span><span class="qs-chev qs-l" aria-hidden="true">‹</span><span class="qs-chev qs-r" aria-hidden="true">›</span>';
+ row.insertBefore(r,row.firstChild); r.insertBefore(inp,r.querySelector('.qs-r'));
+ var glow=r.querySelector('.qs-glow');
+ function hap(ms){ try{ if(navigator.vibrate) navigator.vibrate(ms||7); }catch(_){} }
  function cur(){ return parseFloat(inp.value)||0; }
- function setQty(v){ v=Math.max(0,Math.min(MAX,v)); if(v===Math.round(cur())&&cur()%1===0) return; inp.value=v; inp.dispatchEvent(new Event('input',{bubbles:true})); hap(); }
- var pos=0,rx=null,vx=0,lt=0,raf=0,moved=false;
- function place(){ ticks.style.transform='translateX('+(-pos-PX/2)+'px)'; }
- function fromPos(){ var v=Math.round(pos/PX); if(v!==cur()) setQty(v); }
- track.addEventListener('pointerdown',function(e){ cancelAnimationFrame(raf); raf=0; rx=e.clientX; vx=0; lt=performance.now(); moved=false; track.setPointerCapture(e.pointerId); r.style.cursor='grabbing'; });
- track.addEventListener('pointermove',function(e){ if(rx===null) return; var now=performance.now(), dx=e.clientX-rx; if(Math.abs(dx)>1) moved=true; rx=e.clientX; vx=dx/Math.max(1,now-lt); lt=now; pos=Math.max(0,Math.min(MAX*PX,pos-dx)); place(); fromPos(); });
- function settle(){ var target=Math.round(pos/PX)*PX; (function go(){ pos+=(target-pos)*0.25; place(); if(Math.abs(target-pos)>0.4) raf=requestAnimationFrame(go); else { pos=target; place(); fromPos(); raf=0; } })(); }
- track.addEventListener('pointerup',function(){ r.style.cursor='grab'; rx=null; if(!moved) return; var v=-vx*16; (function coast(){ v*=0.92; pos=Math.max(0,Math.min(MAX*PX,pos+v)); place(); fromPos(); if(Math.abs(v)>0.5) raf=requestAnimationFrame(coast); else settle(); })(); });
- track.addEventListener('pointercancel',function(){ rx=null; r.style.cursor='grab'; });
- // Every tap opens the keyboard — also after Enter, or after the keyboard was closed with Back (input still focused).
- function openKb(){ if(document.activeElement===inp) inp.blur(); inp.focus({preventScroll:true}); try{inp.select();}catch(_){}
+ function setQty(v){ v=Math.max(0,Math.min(MAX,v)); if(v===cur()) return; inp.value=v; inp.dispatchEvent(new Event('input',{bubbles:true})); hap(7); }
+ function step(d){ var c=cur(); setQty(d>0?Math.floor(c)+1:Math.ceil(c)-1); }
+ function editing(){ return document.activeElement===inp; }
+ // Every tap opens the keyboard — also after Enter, or after the keyboard was closed with Back.
+ function openKb(){ if(editing()) inp.blur(); inp.focus({preventScroll:true}); try{inp.select();}catch(_){}
   try{ if(window.AndroidBridge&&AndroidBridge.showKeyboard) AndroidBridge.showKeyboard(); }catch(_){} }
- inp.addEventListener('pointerup',function(e){ e.preventDefault(); openKb(); });
- inp.addEventListener('pointerdown',function(e){ e.preventDefault(); });
- inp.addEventListener('focus',function(){ try{inp.select();}catch(_){} });
+ var sx=null, acc=0, moved=false, pid=null;
+ r.addEventListener('pointerdown',function(e){ sx=e.clientX; acc=0; moved=false; pid=e.pointerId; try{ r.setPointerCapture(e.pointerId); }catch(_){} if(!editing()) e.preventDefault(); });
+ r.addEventListener('pointermove',function(e){ if(sx===null||e.pointerId!==pid) return; var dx=e.clientX-sx; sx=e.clientX; acc+=dx;
+  var b=r.getBoundingClientRect(); glow.style.left=(e.clientX-b.left)+'px';
+  if(!moved && Math.abs(acc)>4){ moved=true; if(editing()) inp.blur(); r.classList.add('qs-drag'); }
+  if(moved){ while(acc>=STEP){ acc-=STEP; step(1); } while(acc<=-STEP){ acc+=STEP; step(-1); } } });
+ function end(e,cancel){ if(sx===null) return; sx=null; r.classList.remove('qs-drag'); glow.style.left='50%'; if(!moved && !cancel){ e.preventDefault(); openKb(); } }
+ r.addEventListener('pointerup',function(e){ end(e,false); });
+ r.addEventListener('pointercancel',function(e){ end(e,true); });
+ inp.addEventListener('focus',function(){ r.classList.add('qs-edit'); try{inp.select();}catch(_){} });
+ inp.addEventListener('blur',function(){ r.classList.remove('qs-edit'); hap(5); });
  inp.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); inp.blur(); } });
- // Keyboard dismissed with Back/swipe: release focus so the next tap is a fresh one.
- if(window.visualViewport){ var vh=visualViewport.height; visualViewport.addEventListener('resize',function(){ var h=visualViewport.height; if(h>vh+80 && document.activeElement===inp) inp.blur(); vh=h; }); }
- // Longer typed numbers widen the number box; the ruler track (flex:1) narrows to match, total width unchanged.
- function fit(){ var len=String(inp.value||'').length||1; var w=Math.max(44,Math.min(118,14+len*10.5)); if(inp.style.width!==w+'px') inp.style.width=w+'px'; }
+ if(window.visualViewport){ var vh=visualViewport.height; visualViewport.addEventListener('resize',function(){ var h=visualViewport.height; if(h>vh+80 && editing()) inp.blur(); vh=h; }); }
+ // Pill width follows the value length (1 → 1250 → 987654).
+ function fit(){ var len=String(inp.value||'').length||1; var w=Math.max(30,Math.min(120,10+len*10.5)); if(inp.style.width!==w+'px') inp.style.width=w+'px'; }
  inp.addEventListener('input',fit);
  var last=null;
- function sync(){ fit(); var n=cur(); if(rx===null && !raf){ pos=Math.min(MAX,Math.max(0,n))*PX; place(); }
-  if(last!==null && n!==last && document.activeElement!==inp){ inp.classList.remove('qr-up','qr-dn'); void inp.offsetWidth; inp.classList.add(n>last?'qr-up':'qr-dn'); }
+ function sync(){ fit(); var n=cur();
+  if(last!==null && n!==last && !editing()){ inp.classList.remove('qr-up','qr-dn'); void inp.offsetWidth; inp.classList.add(n>last?'qr-up':'qr-dn'); }
   last=n; }
  setInterval(sync,120); sync();
 })();
