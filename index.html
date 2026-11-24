@@ -10,7 +10,7 @@
 <meta content="telephone=no" name="format-detection"/>
 <meta name="theme-color" content="#000000"/>
 <script id="gc-metal-boot-20261120">
-/* Metal mode (Gold / Silver / Platinum): config and the saved choice, applied before first paint. */
+/* Metal mode (Gold / Silver / Platinum / Palladium): config and the saved choice, applied before first paint. */
 window.__gcMetals={
  gold:{name:'Gold',sym:'Au',code:'XAU',el:{z:79,w:'196.97',d:'19.32',mp:'1,064',bp:'2,970',mohs:'2.5',note:'Warm yellow lustre · most malleable metal'},unitG:10,unitLabel:'/10g',mcx:'Gold / Mini',ft:'24k/999‰',jewel:'22k/916‰',jvs:'22k',hasMcx:true,hasFt:true,minF:0,duty:15,
   hero:[{k:'XAU → IN₹ · 24K g',karat:24},{k:'22K · 916',karat:22}],range:'24K–14K'},
@@ -23,7 +23,12 @@ window.__gcMetals={
   hero:[{k:'XPT → IN₹ · 9995 g',karat:24*0.9995},{k:'Pt950 • g',karat:24*0.95}],range:'9995–850',
   yieldF:[999.5,999,950,900],yieldK:['999.5‰ • Fine • 99.95%','999‰ • Fine • 99.90%','950‰ • Pt950 • 95.00%','900‰ • 90.00%'],
   alloyF:['999.5','999','950','900','850'],
-  purities:[['9995','Fine',999.5],['999','Fine',999],['950','Jewellery',950],['900','‰',900],['850','‰',850]],customPct:95}
+  purities:[['9995','Fine',999.5],['999','Fine',999],['950','Jewellery',950],['900','‰',900],['850','‰',850]],customPct:95},
+ palladium:{name:'Palladium',sym:'Pd',code:'XPD',el:{z:46,w:'106.42',d:'12.02',mp:'1,555',bp:'2,963',mohs:'4.75',note:'Steel-white with a warm grey tint · lightest of the platinum group'},maxF:999.5,alloyWtLabel:'Total Palladium Wt',jvsLabel:'Spot vs ₹Pd950',unitG:10,unitLabel:'/10g',jewel:'950‰',jvs:'Pd950',hasMcx:false,hasFt:false,minF:500,duty:15.4,
+  hero:[{k:'XPD → IN₹ · 9995 g',karat:24*0.9995},{k:'Pd950 • g',karat:24*0.95}],range:'9995–500',
+  yieldF:[999.5,999,950,500],yieldK:['999.5‰ • Bullion • 99.95%','999‰ • Pure • 99.90%','950‰ • Pd950 • 95.00%','500‰ • Pd500 • 50.00%'],
+  alloyF:['999.5','999','990','950','900','800','500'],
+  purities:[['9995','Bullion',999.5],['999','Pure',999],['990','‰',990],['950','Jewel',950],['900','‰',900],['800','‰',800],['500','Hard',500]],customPct:95}
 };
 (function(){
  var m='gold';
@@ -4717,6 +4722,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
 <button type="button" role="menuitemradio" data-metal="gold" aria-checked="true"><i class="metal-tile is-gold" aria-hidden="true"><em>79</em><b>Au</b></i><span><b>Gold</b><small>Au · 24K–14K</small></span><span class="metal-tick" aria-hidden="true">✓</span></button>
 <button type="button" role="menuitemradio" data-metal="silver" aria-checked="false"><i class="metal-tile is-silver" aria-hidden="true"><em>47</em><b>Ag</b></i><span><b>Silver</b><small>Ag · 9999–800</small></span><span class="metal-tick" aria-hidden="true">✓</span></button>
 <button type="button" role="menuitemradio" data-metal="platinum" aria-checked="false"><i class="metal-tile is-platinum" aria-hidden="true"><em>78</em><b>Pt</b></i><span><b>Platinum</b><small>Pt · 9995–850</small></span><span class="metal-tick" aria-hidden="true">✓</span></button>
+<button type="button" role="menuitemradio" data-metal="palladium" aria-checked="false"><i class="metal-tile is-palladium" aria-hidden="true"><em>46</em><b>Pd</b></i><span><b>Palladium</b><small>Pd · 9995–500</small></span><span class="metal-tick" aria-hidden="true">✓</span></button>
 </div>
 </div>
 </div>
@@ -6612,6 +6618,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
       else {
         var name;
         if(metal==='silver') name = f>=999.9?'Bullion' : f>=959?'Fine' : f>=958?'Britannia' : f>=925?'Sterling' : f>=900?'Coin' : 'Jewel';
+        else if(metal==='palladium') name = f>=999.5?'Bullion' : f>=999?'Pure' : f>=990?'Fine' : f>=950?'Jewel' : 'Hard';
         else name = f>=999.5?'Bullion' : f>=990?'Fine' : 'Jewel';
         ref = fmt(f,3) + '‰ · ' + name;
       }
@@ -7246,7 +7253,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
       var GOLD_LIST = PURITIES.slice();
       var CUSTOM = GOLD_LIST.filter(function(p){ return p.key==='custompercent' || p.key==='customfineness'; });
       var LISTS = { gold: GOLD_LIST };
-      ['silver','platinum'].forEach(function(m){
+      ['silver','platinum','palladium'].forEach(function(m){
         LISTS[m] = [window.__gcXrfPurity].filter(Boolean).concat(CFG[m].purities.map(function(r){ return {key:m+'_'+r[0], label:r[0], sub:r[1], karat:24*r[2]/1000, group:'refining'}; }), CUSTOM);
       });
       var store = { metal: window.__gcMetal, profiles: {} };
@@ -8049,7 +8056,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     popup.style.left=Math.round(left)+'px';
     popup.style.top=Math.round(top)+'px';
   }
-  function metalSymbol(){ return ({gold:'TVC:GOLD',silver:'TVC:SILVER',platinum:'TVC:PLATINUM'})[window.__gcMetal||'gold']||'TVC:GOLD'; }
+  function metalSymbol(){ return ({gold:'TVC:GOLD',silver:'TVC:SILVER',platinum:'TVC:PLATINUM',palladium:'TVC:PALLADIUM'})[window.__gcMetal||'gold']||'TVC:GOLD'; }
   document.addEventListener('gc:metal',function(){ if(host.dataset.symbol && host.dataset.symbol!==metalSymbol()){ host.dataset.initialized=''; if(!popup.hidden) loadQuote(); } });
   function loadQuote(){
     var sym=metalSymbol();
@@ -9928,7 +9935,7 @@ async function drawDom(ctx,node,offset,depth){
   ctx.strokeStyle=style.borderTopColor||'#ae863b';ctx.lineWidth=.8;ctx.stroke();
   var radius=Math.min(th-4,tw*.48)/2;
   var knobX=el.classList.contains('reset-toggle')?(el.classList.contains('flipped')?tx+tw-radius-2:tx+radius+2):(checked?tx+tw-radius-2:tx+radius+2);
-  ctx.beginPath();ctx.arc(knobX,ty+th/2,radius,0,Math.PI*2);ctx.fillStyle=(document.documentElement.dataset.metal==='silver'?'#fbfcfd':document.documentElement.dataset.metal==='platinum'?'#f4f8fd':'#f8f5ef');ctx.fill();
+  ctx.beginPath();ctx.arc(knobX,ty+th/2,radius,0,Math.PI*2);ctx.fillStyle=(document.documentElement.dataset.metal==='silver'?'#fbfcfd':document.documentElement.dataset.metal==='platinum'?'#f4f8fd':document.documentElement.dataset.metal==='palladium'?'#f7f5f1':'#f8f5ef');ctx.fill();
   ctx.restore();
   if(el.classList.contains('ios-toggle')){ctx.restore();return;}
  }
@@ -10419,7 +10426,7 @@ html:root[data-theme="light"],html:root[data-theme="light"] body{
 
 
 <script id="jewel-links-platinum-20261122">
-/* Jewel web-link panel: Platinum mode shows platinum rate / bullion sources; Gold and Silver keep the original jewellery sources. */
+/* Jewel web-link panel: Platinum / Palladium modes show their own rate / bullion sources; Gold and Silver keep the original jewellery sources. */
 (function(){'use strict';
  var rail=document.getElementById('jewelSourceActions'), host=document.getElementById('jewelPreviewHost');
  var hint=document.querySelector('#readyMadeOverlay .silver-tap-hint');
@@ -10433,19 +10440,31 @@ html:root[data-theme="light"],html:root[data-theme="light"] body{
   ['Bangalore Refinery · 10 g Pt Bar','https://www.bangalorerefinery.com/products/10-gram-platinum-bar-999-purity'],
   ['Bangalore Refinery · Today\u2019s Rates','https://www.bangalorerefinery.com/pages/todays-rates'],
   ['Pure Platinum · Bullion','https://pureplatinumweb.myshopify.com/collections/bullion']];
+ var PD=[
+  ['CoinSwitch · Palladium Today','https://coinswitch.co/palladium-rates/palladium-rate-today-in-india'],
+  ['Lemonn · Palladium Rates','https://lemonn.co.in/palladium-rates'],
+  ['BankBazaar · Palladium Price','https://www.bankbazaar.com/commodity-price/palladium-price.html'],
+  ['MetalCharts · Palladium in INR','https://metalcharts.org/palladium-price-in-inr'],
+  ['PNG Jewellers · Metal Rates','https://www.pngjewellers.com/pages/metal-rates?srsltid=AYCX9vLMUJY2RmTp_USfst9_EfCUqKv4_HvrRO82It_ke9EMzMFbekdr'],
+  ['Bangalore Refinery · Today\u2019s Rates','https://www.bangalorerefinery.com/pages/todays-rates']];
  var shown='';
  function placeholder(t){ if(!host) return; var d=document.createElement('div'); d.className='mcx-preview-placeholder'; d.textContent=t; host.replaceChildren(d); }
  function apply(){
-  var m=window.__gcMetal||'gold'; var want=(m==='platinum')?'platinum':'default';
+  var m=window.__gcMetal||'gold'; var want=(m==='platinum'||m==='palladium')?m:'default';
   if(want===shown) return; shown=want;
-  if(want==='platinum'){
-   var frag=document.createDocumentFragment();
-   PT.forEach(function(x,i){ var a=document.createElement('a'); a.href=x[1]; a.target='_blank'; a.rel='noopener noreferrer';
+  if(want!=='default'){
+   var frag=document.createDocumentFragment(), LIST=want==='palladium'?PD:PT;
+   LIST.forEach(function(x,i){ var a=document.createElement('a'); a.href=x[1]; a.target='_blank'; a.rel='noopener noreferrer';
     a.className='mcx-dhan-open'+(i===0?' silver-chip-active':''); a.setAttribute('aria-selected',i===0?'true':'false');
     a.dataset.jewelPreview=x[2]?'true':'false'; a.textContent=x[0]; frag.appendChild(a); });
    rail.replaceChildren(frag);
-   if(hint) hint.textContent='\u261e Augmont: tap to preview \u00b7 All: double tap to open';
-   placeholder('Tap Augmont to preview here. The other sites block in-app preview \u2014 double tap any source to open its website.');
+   if(want==='palladium'){
+    if(hint) hint.textContent='\u261e Double tap a source to open it';
+    placeholder('Palladium rate sources \u2014 double tap any source to open its website.');
+   } else {
+    if(hint) hint.textContent='\u261e Augmont: tap to preview \u00b7 All: double tap to open';
+    placeholder('Tap Augmont to preview here. The other sites block in-app preview \u2014 double tap any source to open its website.');
+   }
   } else {
    rail.innerHTML=ORIG; if(hint) hint.textContent=ORIG_HINT;
   }
@@ -11358,6 +11377,7 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
 .metal-chip{display:inline-flex;align-items:center;gap:.18em;padding:0;margin:0;border:0;background:none;font:inherit;letter-spacing:inherit;line-height:inherit;color:inherit;-webkit-text-fill-color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;border-radius:8px}
 .metal-chip .metal-name{white-space:nowrap}
 html[data-metal="platinum"] .metal-chip{font-size:.82em}
+html[data-metal="palladium"] .metal-chip{font-size:.74em}
 .metal-chip .metal-caret{width:.5em;height:.5em;flex:none;opacity:.8;transition:transform .2s;margin-top:.08em}
 .metal-chip[aria-expanded="true"] .metal-caret{transform:rotate(180deg)}
 .metal-chip:focus-visible{outline:2px solid var(--gold-500);outline-offset:1px}
@@ -11365,6 +11385,7 @@ html[data-metal="platinum"] .metal-chip{font-size:.82em}
 .metal-dot{display:inline-block;width:12px;height:12px;border-radius:50%;flex:none;background:radial-gradient(circle at 35% 30%,#FFF1C2,#E8B64C 55%,#8A5A17)}
 .metal-dot.is-silver{background:radial-gradient(circle at 35% 30%,#FFFFFF,#BAC3CD 55%,#5D6672)}
 .metal-dot.is-platinum{background:radial-gradient(circle at 35% 30%,#F2F8FF,#9DB8D6 55%,#4B6788)}
+.metal-dot.is-palladium{background:radial-gradient(circle at 35% 30%,#FBF9F6,#C5BCAE 55%,#766C5D)}
 .metal-dot.is-gold{background:radial-gradient(circle at 35% 30%,#FFF1C2,#E8B64C 55%,#8A5A17)}
 .metal-menu{position:fixed;left:12px;top:70px;z-index:2147482000;width:204px;padding:6px;border-radius:18px;
  background:linear-gradient(160deg,color-mix(in srgb,var(--gold-300) 16%,transparent),color-mix(in srgb,var(--gold-900) 22%,transparent) 70%),var(--glass-strong);
@@ -11386,36 +11407,53 @@ html[data-metal="platinum"] .metal-chip{font-size:.82em}
 /* Metal accent colours: the app's gold palette variables, re-tinted. */
 html[data-metal="silver"]:not([data-theme="light"]){--gold-100:#FAFBFC;--gold-300:#EEF1F4;--gold-500:#C6CCD3;--gold-700:#959CA5;--gold-900:#61676F;--amber:#BCC2C9;--umber:#848A92;--glass-border:rgba(220,224,230,.15);--glass-border-strong:rgba(225,229,235,.32);--metal-filter:grayscale(1) brightness(1.12) contrast(.96);--metal-ring:rgba(215,220,228,.10)}
 html[data-metal="platinum"]:not([data-theme="light"]){--gold-100:#E4ECF5;--gold-300:#B3C9E2;--gold-500:#86A3C6;--gold-700:#5B7A9F;--gold-900:#3A516F;--amber:#9DB5D2;--umber:#5F7B9C;--glass-border:rgba(150,180,215,.17);--glass-border-strong:rgba(158,188,222,.36);--metal-filter:grayscale(1) sepia(1) hue-rotate(178deg) saturate(1.9) brightness(1.04);--metal-ring:rgba(110,170,235,.16)}
+html[data-metal="palladium"]:not([data-theme="light"]){--gold-100:#F0EDE9;--gold-300:#D4CCC1;--gold-500:#B3A999;--gold-700:#8B806F;--gold-900:#605749;--amber:#C3BAAC;--umber:#8A8071;--glass-border:rgba(196,185,169,.17);--glass-border-strong:rgba(203,193,177,.36);--metal-filter:grayscale(1) sepia(1) hue-rotate(178deg) saturate(1.9) brightness(1.04);--metal-ring:rgba(199,178,146,.16)}
 html[data-metal="silver"][data-theme="light"]{--gold-100:#ECEEF1;--gold-300:#8E959D;--gold-500:#6A7179;--gold-700:#4A5058;--gold-900:#33383E;--amber:#7A8088;--umber:#575D65;--glass-border-strong:rgba(90,98,108,.35);--metal-filter:grayscale(1) brightness(1.02);--metal-ring:rgba(90,98,108,.12)}
 html[data-metal="platinum"][data-theme="light"]{--gold-100:#E1E9F2;--gold-300:#5D7FA6;--gold-500:#46668C;--gold-700:#334F70;--gold-900:#233850;--amber:#55779E;--umber:#3B5878;--glass-border-strong:rgba(55,85,120,.36);--metal-filter:grayscale(1) sepia(1) hue-rotate(178deg) saturate(2.2) brightness(.98);--metal-ring:rgba(40,100,170,.14)}
+html[data-metal="palladium"][data-theme="light"]{--gold-100:#EDEAE6;--gold-300:#918572;--gold-500:#786C5A;--gold-700:#5E5445;--gold-900:#433B30;--amber:#897D6A;--umber:#665C4D;--glass-border-strong:rgba(101,90,74,.36);--metal-filter:grayscale(1) sepia(1) hue-rotate(178deg) saturate(2.2) brightness(.98);--metal-ring:rgba(132,110,78,.14)}
 /* Platinum: no MCX or FT strip. */
 
 
 html[data-metal="silver"] :is(.topbar,nav.bottom-nav),html[data-metal="platinum"] :is(.topbar,nav.bottom-nav){box-shadow:0 8px 30px rgba(0,0,0,.3),0 0 0 1px var(--metal-ring)!important}
+html[data-metal="palladium"] :is(.topbar,nav.bottom-nav){box-shadow:0 8px 30px rgba(0,0,0,.3),0 0 0 1px var(--metal-ring)!important}
 html[data-metal="silver"] :is(.purity-unified-card,.purity-unified-navigation,.compare-unified-card),html[data-metal="platinum"] :is(.purity-unified-card,.purity-unified-navigation,.compare-unified-card){border-color:var(--glass-border-strong)!important}
+html[data-metal="palladium"] :is(.purity-unified-card,.purity-unified-navigation,.compare-unified-card){border-color:var(--glass-border-strong)!important}
 html[data-metal="silver"] #purityDifferenceCard .pdc-details,html[data-metal="platinum"] #purityDifferenceCard .pdc-details{border-top-color:var(--glass-border-strong)!important}
+html[data-metal="palladium"] #purityDifferenceCard .pdc-details{border-top-color:var(--glass-border-strong)!important}
 
 /* Light mode: cool page and card surfaces for silver and platinum (gold keeps its cream). */
 html[data-metal="silver"][data-theme="light"]{--bg-0:#F3F4F6;--bg-1:#E7EAED;--bg-2:#D8DCE0;--glass:rgba(255,255,255,.88);--glass-strong:rgba(253,253,254,.96);--glass-border:rgba(95,104,115,.20);--text-0:#1F2327;--text-1:#454B53;--text-2:#6A7078;--shadow:rgba(40,48,58,.12)}
+{--bg-0:#F5F5F4;--bg-1:#EBEAE9;--bg-2:#DEDCDA;--glass:rgba(255,255,255,.88);--glass-strong:rgba(254,254,253,.96);--glass-border:rgba(109,106,101,.20);--text-0:#252321;--text-1:#4F4D49;--text-2:#74726E;--shadow:rgba(53,50,45,.12)}
 html[data-metal="platinum"][data-theme="light"]{--bg-0:#EEF4FB;--bg-1:#DFEAF6;--bg-2:#CADCF0;--glass:rgba(252,254,255,.88);--glass-strong:rgba(250,253,255,.96);--glass-border:rgba(40,100,170,.20);--text-0:#17212D;--text-1:#3A4A5D;--text-2:#5C6E83;--shadow:rgba(30,70,120,.12)}
+html[data-metal="palladium"][data-theme="light"]{--bg-0:#F7F5F2;--bg-1:#EFEBE6;--bg-2:#E5DFD5;--glass:rgba(254,254,253,.88);--glass-strong:rgba(254,253,251,.96);--glass-border:rgba(132,110,78,.20);--text-0:#27231D;--text-1:#534D44;--text-2:#787167;--shadow:rgba(94,79,56,.12)}
 html[data-metal="silver"][data-theme="light"],html[data-metal="silver"][data-theme="light"] body,html[data-metal="silver"][data-theme="light"] #appRoot{background:#F3F4F6!important;background-color:#F3F4F6!important}
 html[data-metal="platinum"][data-theme="light"],html[data-metal="platinum"][data-theme="light"] body,html[data-metal="platinum"][data-theme="light"] #appRoot{background:#EEF4FB!important;background-color:#EEF4FB!important}
+html[data-metal="palladium"][data-theme="light"],html[data-metal="palladium"][data-theme="light"] body,html[data-metal="palladium"][data-theme="light"] #appRoot{background:#F7F5F2!important;background-color:#F7F5F2!important}
 html[data-metal="silver"][data-theme="light"] .ambient{background:radial-gradient(ellipse 100% 54% at 50% -10%,#E3E7EB 0%,transparent 78%),linear-gradient(180deg,#F8F9FA,#F1F2F4)!important}
 html[data-metal="platinum"][data-theme="light"] .ambient{background:radial-gradient(ellipse 100% 54% at 50% -10%,#D6E6F7 0%,transparent 78%),linear-gradient(180deg,#F5F9FE,#ECF2FA)!important}
+html[data-metal="palladium"][data-theme="light"] .ambient{background:radial-gradient(ellipse 100% 54% at 50% -10%,#EDE8E0 0%,transparent 78%),linear-gradient(180deg,#FBFAF8,#F6F4F0)!important}
 html[data-metal="silver"][data-theme="light"] .card{background:linear-gradient(150deg,#FFFFFF,#E9ECEF 72%,#F3F5F7)!important}
 html[data-metal="platinum"][data-theme="light"] .card{background:linear-gradient(150deg,#F9FCFF,#DDE9F6 72%,#EDF3FA)!important}
+html[data-metal="palladium"][data-theme="light"] .card{background:linear-gradient(150deg,#FDFCFB,#EFEBE4 72%,#F6F4F1)!important}
 html[data-metal="silver"][data-theme="light"] .hero-stat{background:linear-gradient(145deg,#FFFFFF,#EEF0F3)!important}
 html[data-metal="platinum"][data-theme="light"] .hero-stat{background:linear-gradient(145deg,#FBFDFF,#E7EFF9)!important}
+html[data-metal="palladium"][data-theme="light"] .hero-stat{background:linear-gradient(145deg,#FEFDFC,#F4F1EC)!important}
 html[data-metal="silver"][data-theme="light"] .topbar{background:rgba(252,252,253,.98)!important}
 html[data-metal="platinum"][data-theme="light"] .topbar{background:rgba(248,251,255,.98)!important}
+html[data-metal="palladium"][data-theme="light"] .topbar{background:rgba(253,252,250,.98)!important}
 html[data-metal="silver"] .bullion-theme-toggle,html[data-metal="platinum"] .bullion-theme-toggle{filter:var(--metal-filter)}
+html[data-metal="palladium"] .bullion-theme-toggle{filter:var(--metal-filter)}
 html[data-metal="silver"]:root :is(.card,.topbar,.bottom-nav),html[data-metal="platinum"]:root :is(.card,.topbar,.bottom-nav){border-color:var(--glass-border-strong)!important}
+html[data-metal="palladium"]:root :is(.card,.topbar,.bottom-nav){border-color:var(--glass-border-strong)!important}
 html[data-metal="silver"][data-theme="light"] .card.hero{background:linear-gradient(150deg,#FFFFFF,#E6E9ED 72%,#F2F4F6)!important}
 html[data-metal="platinum"][data-theme="light"] .card.hero{background:linear-gradient(150deg,#F8FBFF,#D9E7F6 72%,#ECF3FB)!important}
+html[data-metal="palladium"][data-theme="light"] .card.hero{background:linear-gradient(150deg,#FDFCFA,#EEE9E1 72%,#F7F4F0)!important}
 html[data-metal="silver"][data-theme="light"]:root :is(.field .input-wrap,.hero-stat,.quick-tile,#tab-bench .quick-tile,#purityYieldPane .quick-tile,.mcx-strip,.bd-final,.seg,.stepper,.date-pill,.date-pill,.sync-btn,.input-wrap){background:linear-gradient(145deg,#FFFFFF,#ECEEF1)!important}
 html[data-metal="platinum"][data-theme="light"]:root :is(.field .input-wrap,.hero-stat,.quick-tile,#tab-bench .quick-tile,#purityYieldPane .quick-tile,.mcx-strip,.bd-final,.seg,.stepper,.date-pill,.date-pill,.sync-btn,.input-wrap){background:linear-gradient(145deg,#FBFDFF,#E4EDF8)!important}
+html[data-metal="palladium"][data-theme="light"]:root :is(.field .input-wrap,.hero-stat,.quick-tile,#tab-bench .quick-tile,#purityYieldPane .quick-tile,.mcx-strip,.bd-final,.seg,.stepper,.date-pill,.date-pill,.sync-btn,.input-wrap){background:linear-gradient(145deg,#FEFDFC,#F2EFEA)!important}
 html[data-metal="silver"][data-theme="light"] .bottom-nav{background:rgba(252,252,253,.97)!important}
 html[data-metal="platinum"][data-theme="light"] .bottom-nav{background:rgba(247,251,255,.97)!important}
+html[data-metal="palladium"][data-theme="light"] .bottom-nav{background:rgba(253,251,249,.97)!important}
 /* Top rate section card (outer .hero only, not the inner rate cards): hairline glittering metal glass rim, follows the selected metal. */
 html:root .card.hero::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:.6px;pointer-events:none;z-index:3;
  background:linear-gradient(105deg,transparent 0 38%,rgba(255,255,255,.95) 46%,#fff 50%,rgba(255,255,255,.95) 54%,transparent 62% 100%) 0 0/320% 100% no-repeat,
@@ -11432,9 +11470,11 @@ html:root .hero .hero-stat::after{content:"";position:absolute;inset:-1px;border
 html:root{--gc-rim:linear-gradient(135deg,#FFF4C8 0%,#E9B84E 24%,#8C6622 50%,#F8D97E 74%,#B98A30 100%)}
 html[data-metal="silver"]:root{--gc-rim:linear-gradient(135deg,#FFFFFF 0%,#CDD2DA 24%,#7E8590 50%,#F3F5F8 74%,#A4ABB6 100%)}
 html[data-metal="platinum"]:root{--gc-rim:linear-gradient(135deg,#F5F9FF 0%,#B8C7DB 24%,#687B94 50%,#E4EDF9 74%,#90A3BD 100%)}
+html[data-metal="palladium"]:root{--gc-rim:linear-gradient(135deg,#FCFAF8 0%,#D1CBC2 24%,#878075 50%,#F3EFEA 74%,#B0A89D 100%)}
 html[data-theme="light"]:root{--gc-rim:linear-gradient(135deg,#F3D27A 0%,#B8862E 26%,#7A5718 50%,#D9AE4E 74%,#9C7224 100%)}
 html[data-metal="silver"][data-theme="light"]:root{--gc-rim:linear-gradient(135deg,#E2E6EC 0%,#9DA4AF 26%,#5F6672 50%,#BFC5CE 74%,#7E8692 100%)}
 html[data-metal="platinum"][data-theme="light"]:root{--gc-rim:linear-gradient(135deg,#DCE6F3 0%,#93A6C0 26%,#536781 50%,#B7C7DC 74%,#748AA7 100%)}
+html[data-metal="palladium"][data-theme="light"]:root{--gc-rim:linear-gradient(135deg,#ECE8E3 0%,#B3ABA0 26%,#746C60 50%,#D1CBC2 74%,#989083 100%)}
 /* Convert: XRF Yield rate cards and Alloy Composition Pure / Impurities cards get the same hairline metal glass rim. */
 html:root #purityYieldPane .quick-tile,html:root #differenceResults .pdc-output{position:relative;border-color:transparent!important}
 html:root #purityYieldPane .quick-tile::after,html:root #differenceResults .pdc-output::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:.6px;pointer-events:none;z-index:2;
@@ -11460,7 +11500,9 @@ html:root #updatedNote *{color:inherit!important;font-weight:inherit!important}
  background:var(--gc-rim);box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 2px 6px -2px rgba(0,0,0,.4)}
 html[data-metal="silver"] .gc-metal-toast{--gmt-bg:rgba(24,26,30,.86)}
 html[data-metal="platinum"] .gc-metal-toast{--gmt-bg:rgba(18,25,36,.86)}
+html[data-metal="palladium"] .gc-metal-toast{--gmt-bg:rgba(31,28,23,.86)}
 html[data-metal="silver"] .gc-metal-toast .gmt-sym,html[data-metal="platinum"] .gc-metal-toast .gmt-sym{color:#0f1722}
+html[data-metal="palladium"] .gc-metal-toast .gmt-sym{color:#1C1915}
 html[data-theme="light"] .gc-metal-toast{background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,255,255,.82));box-shadow:0 14px 30px -14px rgba(60,50,30,.35),inset 0 1px 0 #fff}
 html[data-theme="light"] .gc-metal-toast .gmt-sym{color:#fff;text-shadow:0 1px 1px rgba(0,0,0,.3)}
 @media (prefers-reduced-motion:reduce){.gc-metal-toast{transition:opacity .2s}}
@@ -11477,9 +11519,11 @@ html:root #shotPngStatus::after{content:"";position:absolute;inset:0;border-radi
 html:root #shotPngStatus a{color:var(--gmt-link,#ffd76a)!important}
 html[data-metal="silver"] #shotPngStatus{--gmt-bg:rgba(24,26,30,.86);--gmt-link:#e8edf4}
 html[data-metal="platinum"] #shotPngStatus{--gmt-bg:rgba(18,25,36,.86);--gmt-link:#cddcf1}
+html[data-metal="palladium"] #shotPngStatus{--gmt-bg:rgba(31,28,23,.86);--gmt-link:#E7E1D7}
 html[data-theme="light"]:root #shotPngStatus{background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,255,255,.82))!important;box-shadow:0 14px 30px -14px rgba(60,50,30,.35),inset 0 1px 0 #fff!important;--gmt-link:#8a5f12}
 html[data-theme="light"][data-metal="silver"] #shotPngStatus{--gmt-link:#4b535f}
 html[data-theme="light"][data-metal="platinum"] #shotPngStatus{--gmt-link:#3d5578}
+html[data-theme="light"][data-metal="palladium"] #shotPngStatus{--gmt-link:#675D4E}
 @keyframes gcShotIn{from{opacity:0;transform:translate(-50%,10px) scale(.97)}to{opacity:1;transform:translate(-50%,0) scale(1)}}
 /* Live Sync: subtle and compact (sits in line with the Rates / Reset toggles), metal-tinted glass with a hairline metal rim. */
 html:root .rates-actions .sync-btn{min-height:28px!important;height:28px;padding:0 12px!important;gap:6px!important;font-size:11.5px!important;font-weight:600!important;letter-spacing:0!important;
@@ -11490,9 +11534,11 @@ html:root .rates-actions .sync-btn::before{content:""!important;position:absolut
 html:root{--ls-bg:linear-gradient(180deg,rgba(243,207,110,.17),rgba(140,102,34,.07));--ls-fg:#F3D27A}
 html[data-metal="silver"]:root{--ls-bg:linear-gradient(180deg,rgba(236,240,245,.15),rgba(126,133,144,.06));--ls-fg:#E8ECF2}
 html[data-metal="platinum"]:root{--ls-bg:linear-gradient(180deg,rgba(196,212,233,.16),rgba(104,123,148,.07));--ls-fg:#CBD9EC}
+html[data-metal="palladium"]:root{--ls-bg:linear-gradient(180deg,rgba(222,216,207,.16),rgba(135,128,117,.07));--ls-fg:#E2DDD5}
 html[data-theme="light"]:root{--ls-bg:linear-gradient(180deg,rgba(255,255,255,.85),rgba(243,207,110,.22));--ls-fg:#7A5718}
 html[data-metal="silver"][data-theme="light"]:root{--ls-bg:linear-gradient(180deg,rgba(255,255,255,.85),rgba(190,197,207,.28));--ls-fg:#4B525D}
 html[data-metal="platinum"][data-theme="light"]:root{--ls-bg:linear-gradient(180deg,rgba(255,255,255,.85),rgba(170,189,214,.28));--ls-fg:#3C5373}
+html[data-metal="palladium"][data-theme="light"]:root{--ls-bg:linear-gradient(180deg,rgba(255,255,255,.85),rgba(201,194,183,.28));--ls-fg:#635A4C}
 /* Android full screen: hide the top bar completely on scroll, including the camera-cutout / safe-area offset it sits below. */
 html .topbar.chrome-hidden{transform:translate3d(0,calc(-100% - 32px - env(safe-area-inset-top,0px) - var(--gc-cut-top,0px)),0)!important}
 /* Calculate › Custom Purity % / Fineness ‰ typing panel: metal-matched Liquid Glass with hairline metal rim. */
@@ -11508,9 +11554,11 @@ html:root #customPurityEditor #customPuritySuffix{color:var(--cpe-caret)!importa
 html:root{--cpe-bg:linear-gradient(160deg,rgba(243,207,110,.12),rgba(140,102,34,.05));--cpe-field:rgba(233,184,78,.08);--cpe-line:rgba(233,184,78,.40);--cpe-line-on:rgba(243,207,110,.80);--cpe-ring:rgba(233,184,78,.18);--cpe-sheen:rgba(255,236,180,.20);--cpe-caret:#F3D27A}
 html[data-metal="silver"]:root{--cpe-bg:linear-gradient(160deg,rgba(236,240,245,.10),rgba(126,133,144,.04));--cpe-field:rgba(220,226,234,.07);--cpe-line:rgba(205,210,218,.40);--cpe-line-on:rgba(236,240,245,.80);--cpe-ring:rgba(205,210,218,.16);--cpe-sheen:rgba(255,255,255,.18);--cpe-caret:#E8ECF2}
 html[data-metal="platinum"]:root{--cpe-bg:linear-gradient(160deg,rgba(196,212,233,.12),rgba(104,123,148,.05));--cpe-field:rgba(184,199,219,.08);--cpe-line:rgba(160,180,206,.45);--cpe-line-on:rgba(205,220,240,.80);--cpe-ring:rgba(160,180,206,.18);--cpe-sheen:rgba(225,236,250,.20);--cpe-caret:#CBD9EC}
+html[data-metal="palladium"]:root{--cpe-bg:linear-gradient(160deg,rgba(222,216,207,.12),rgba(135,128,117,.05));--cpe-field:rgba(209,203,194,.08);--cpe-line:rgba(193,185,173,.45);--cpe-line-on:rgba(230,224,215,.80);--cpe-ring:rgba(193,185,173,.18);--cpe-sheen:rgba(243,239,232,.20);--cpe-caret:#E2DDD5}
 html[data-theme="light"]:root{--cpe-bg:linear-gradient(160deg,rgba(255,255,255,.80),rgba(243,207,110,.16));--cpe-field:rgba(255,255,255,.72);--cpe-line:rgba(185,138,48,.40);--cpe-line-on:rgba(156,114,36,.75);--cpe-ring:rgba(185,138,48,.16);--cpe-sheen:rgba(255,248,225,.55);--cpe-caret:#7A5718}
 html[data-metal="silver"][data-theme="light"]:root{--cpe-bg:linear-gradient(160deg,rgba(255,255,255,.80),rgba(190,197,207,.24));--cpe-line:rgba(110,118,130,.38);--cpe-line-on:rgba(80,88,100,.70);--cpe-ring:rgba(110,118,130,.16);--cpe-sheen:rgba(255,255,255,.6);--cpe-caret:#4B525D}
 html[data-metal="platinum"][data-theme="light"]:root{--cpe-bg:linear-gradient(160deg,rgba(255,255,255,.80),rgba(170,189,214,.24));--cpe-line:rgba(83,103,129,.38);--cpe-line-on:rgba(62,85,115,.70);--cpe-ring:rgba(83,103,129,.16);--cpe-sheen:rgba(240,246,255,.6);--cpe-caret:#3C5373}
+html[data-metal="palladium"][data-theme="light"]:root{--cpe-bg:linear-gradient(160deg,rgba(255,255,255,.80),rgba(201,194,183,.24));--cpe-line:rgba(116,108,96,.38);--cpe-line-on:rgba(100,91,77,.70);--cpe-ring:rgba(116,108,96,.16);--cpe-sheen:rgba(251,248,244,.6);--cpe-caret:#635A4C}
 /* Calculate: Purity strip and Weight selector sliding capsules get the hairline metal glass rim (gold in Gold mode, metal-matched otherwise). */
 html:root #puritySeg .purity-indicator,html:root #unitChips .unit-indicator{border-color:transparent!important}
 html:root #puritySeg .purity-indicator::before,html:root #unitChips .unit-indicator::before{content:""!important;position:absolute;inset:0;border-radius:inherit;padding:.6px;pointer-events:none;z-index:2;display:block!important;
@@ -11525,15 +11573,18 @@ html:root #tab-calc .bd-row .v{flex-basis:auto!important;margin-left:8px!importa
 html:root #tab-calc .bd-row .v small{margin-left:0!important;margin-top:4px}
 /* Bottom tab bar: sliding selector capsule gets the hairline metal glass rim (gold / silver / platinum). */
 html:root .bottom-nav .demo-nav-indicator{border-color:transparent!important}
+{border-color:transparent!important}
 html:root .bottom-nav .demo-nav-indicator::before{content:""!important;position:absolute;inset:0;border-radius:inherit;padding:.6px;pointer-events:none;z-index:2;display:block!important;
  background:var(--gc-rim)!important;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.95}
 /* Calculate › Quantity: Segment pill (34 px). − | value | + — tap or hold to step, drag sideways to scrub, tap the number to type; width follows the value length. */
 html:root{--qr-m1:#FFE7A6;--qr-m2:#E3A43A;--qr-m3:#8C6622;--qr-glass:rgba(243,207,110,.06);--qr-text:#F3D27A;--qr-line:rgba(243,207,110,.30);--qr-bg:#0e0b07}
 html[data-metal="silver"]:root{--qr-m1:#FFFFFF;--qr-m2:#C2C8D1;--qr-m3:#7E8590;--qr-glass:rgba(236,240,245,.05);--qr-text:#E8ECF2;--qr-line:rgba(220,226,234,.28);--qr-bg:#0c0d0f}
 html[data-metal="platinum"]:root{--qr-m1:#F2F7FF;--qr-m2:#A9BAD1;--qr-m3:#5F7591;--qr-glass:rgba(196,212,233,.06);--qr-text:#CBD9EC;--qr-line:rgba(184,199,219,.32);--qr-bg:#0a0d12}
+html[data-metal="palladium"]:root{--qr-m1:#FBF9F6;--qr-m2:#C5BFB5;--qr-m3:#827A6E;--qr-glass:rgba(222,216,207,.06);--qr-text:#E2DDD5;--qr-line:rgba(209,203,194,.32);--qr-bg:#100E0C}
 html[data-theme="light"]:root{--qr-glass:rgba(255,255,255,.7);--qr-text:#7A5718;--qr-line:rgba(156,114,36,.28);--qr-bg:#ffffff}
 html[data-theme="light"][data-metal="silver"]:root{--qr-text:#4B525D;--qr-line:rgba(80,88,100,.25)}
 html[data-theme="light"][data-metal="platinum"]:root{--qr-text:#3C5373;--qr-line:rgba(62,85,115,.26)}
+html[data-theme="light"][data-metal="palladium"]:root{--qr-text:#635A4C;--qr-line:rgba(100,91,77,.26)}
 html:root #calculateBody .qty-row .stepper{display:none!important}
 #qtyRuler{position:relative;flex:0 0 auto;height:34px;display:inline-flex;align-items:stretch;border-radius:14px;background:var(--qr-glass);
  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 6px 16px -12px rgba(0,0,0,.7);overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:pan-y;transition:box-shadow .2s}
@@ -11557,19 +11608,31 @@ html:root #calculateBody .qty-row .stepper{display:none!important}
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger),
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger):is(:hover,:active,:focus){background:none!important;background-image:none!important;box-shadow:none!important;-webkit-tap-highlight-color:transparent}
 html[data-metal="platinum"] #mcxField,html[data-metal="platinum"] #ftbarField,html[data-metal="platinum"] #mcxStrip,html[data-metal="platinum"] #ftbarStrip,html[data-metal="platinum"] #mcxVsFtStrip{display:none!important}
+html[data-metal="palladium"] #mcxField,html[data-metal="palladium"] #ftbarField,html[data-metal="palladium"] #mcxStrip,html[data-metal="palladium"] #ftbarStrip,html[data-metal="palladium"] #mcxVsFtStrip{display:none!important}
 html[data-metal="platinum"] #ftMakingRow.metal-empty-row{display:none!important}
+html[data-metal="palladium"] #ftMakingRow.metal-empty-row{display:none!important}
 html[data-metal="silver"] .metal-gold-only,html[data-metal="platinum"] .metal-gold-only{display:none!important}
+html[data-metal="palladium"] .metal-gold-only{display:none!important}
 html[data-metal="silver"] #purityDifferenceCard #purityAlloyPane .pdc-details,html[data-metal="platinum"] #purityDifferenceCard #purityAlloyPane .pdc-details{display:flex!important;justify-content:space-between!important;align-items:center}
+html[data-metal="palladium"] #purityDifferenceCard #purityAlloyPane .pdc-details{display:flex!important;justify-content:space-between!important;align-items:center}
 html[data-metal="silver"] #purityDifferenceCard #purityAlloyPane .pdc-detail-item,html[data-metal="platinum"] #purityDifferenceCard #purityAlloyPane .pdc-detail-item{flex:0 0 auto!important;width:auto!important;max-width:50%;justify-content:flex-start;grid-column:auto!important}
+html[data-metal="palladium"] #purityDifferenceCard #purityAlloyPane .pdc-detail-item{flex:0 0 auto!important;width:auto!important;max-width:50%;justify-content:flex-start;grid-column:auto!important}
 .card.hero .hero-stat .k{white-space:nowrap!important}
 /* Making and Jewel keep their paired-row look in the platinum rows. */
 html[data-metal="platinum"] #ftGstRow #makingField .input-wrap{height:46px;width:100%;min-width:0}
+html[data-metal="palladium"] #ftGstRow #makingField .input-wrap{height:46px;width:100%;min-width:0}
 html[data-metal="platinum"] #ftGstRow #makingField{border-top:0;padding-top:0;gap:6px}
+html[data-metal="palladium"] #ftGstRow #makingField{border-top:0;padding-top:0;gap:6px}
 html[data-metal="platinum"] #ftGstRow #makingField .field-top{min-height:30px}
+html[data-metal="palladium"] #ftGstRow #makingField .field-top{min-height:30px}
 html[data-metal="platinum"] #ftGstRow #makingField{flex:1 1 auto;min-width:0;gap:6px}
+html[data-metal="palladium"] #ftGstRow #makingField{flex:1 1 auto;min-width:0;gap:6px}
 html[data-metal="platinum"] #ftGstRow #makingField .input-wrap{margin-top:auto}
+html[data-metal="palladium"] #ftGstRow #makingField .input-wrap{margin-top:auto}
 html[data-metal="platinum"] #ftGstRow #makingField .input-wrap{padding:0 12px;border-radius:var(--radius-sm)}
+html[data-metal="palladium"] #ftGstRow #makingField .input-wrap{padding:0 12px;border-radius:var(--radius-sm)}
 html[data-metal="platinum"] #ftGstRow #makingField input{font-size:15px}
+html[data-metal="palladium"] #ftGstRow #makingField input{font-size:15px}
 @media(max-width:360px){.metal-menu{width:190px}}
 </style>
 <style id="metal-character-css-20261120">
@@ -11578,6 +11641,7 @@ html[data-metal="platinum"] #ftGstRow #makingField input{font-size:15px}
  background:linear-gradient(145deg,#FFF1C2,#E8B64C 55%,#9C6A1C);box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 3px 10px rgba(0,0,0,.35)}
 .metal-tile.is-silver{background:linear-gradient(145deg,#FFFFFF,#D3D8DE 55%,#8E959E);color:#15181c}
 .metal-tile.is-platinum{background:linear-gradient(145deg,#EEF3F8,#A9B9CB 55%,#5E7088);color:#0f1722}
+.metal-tile.is-palladium{background:linear-gradient(145deg,#F5F3F1,#C1BBB3 55%,#7C756A);color:#1C1915}
 .metal-tile em{position:absolute;top:2px;left:4px;font:700 8.5px/1 'Inter',sans-serif;font-style:normal;opacity:.8}
 .metal-tile b{font:800 16px/1 'Manrope',sans-serif;margin-top:5px}
 .metal-tile small{position:absolute;bottom:2px;left:0;right:0;text-align:center;font:600 7px/1 'Inter',sans-serif;opacity:.75}
@@ -11588,6 +11652,7 @@ html[data-metal="platinum"] #ftGstRow #makingField input{font-size:15px}
  background:linear-gradient(150deg,#FFF3CC,#EBC062 42%,#B98325 78%,#7E5414);box-shadow:inset 0 1px 0 rgba(255,255,255,.7),inset 0 -10px 18px rgba(0,0,0,.18),0 10px 26px -12px rgba(0,0,0,.65)}
 html[data-metal="silver"] .mel-tile{background:linear-gradient(150deg,#FFFFFF,#E3E7EB 40%,#AEB5BE 78%,#7A828C);color:#14171b}
 html[data-metal="platinum"] .mel-tile{background:linear-gradient(150deg,#F1F5F9,#C3CFDC 40%,#8193A9 78%,#4F6077);color:#0e1520}
+html[data-metal="palladium"] .mel-tile{background:linear-gradient(150deg,#F7F5F3,#D5D1CA 40%,#9D978D 78%,#6B655B);color:#1B1813}
 .mel-tile em{position:absolute;top:7px;left:9px;font:800 12px/1 'Inter',sans-serif;font-style:normal;opacity:.85}
 .mel-tile b{font:800 34px/1 'Manrope',sans-serif;letter-spacing:-.5px}
 .mel-tile span{font:700 11px/1.2 'Inter',sans-serif;margin-top:3px}
@@ -11607,16 +11672,22 @@ html[data-metal="platinum"] .mel-tile{background:linear-gradient(150deg,#F1F5F9,
  animation:gc-metal-sheen 9s ease-in-out infinite}
 html[data-metal="silver"] .card.hero .metal-sheen::before{width:26%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.10) 35%,rgba(255,255,255,.42) 50%,rgba(255,255,255,.10) 65%,transparent);animation-duration:5s}
 html[data-metal="platinum"] .card.hero .metal-sheen::before{width:60%;background:linear-gradient(90deg,transparent,rgba(205,220,240,.06) 30%,rgba(215,228,245,.17) 50%,rgba(205,220,240,.06) 70%,transparent);animation-duration:11s}
+html[data-metal="palladium"] .card.hero .metal-sheen::before{width:60%;background:linear-gradient(90deg,transparent,rgba(230,224,215,.06) 30%,rgba(236,231,224,.17) 50%,rgba(230,224,215,.06) 70%,transparent);animation-duration:11s}
 :root[data-theme="light"] .card.hero .metal-sheen::before{opacity:.8}
 @keyframes gc-metal-sheen{0%{left:-60%}55%{left:130%}100%{left:130%}}
 /* Capsule border shimmer speed: silver sparkles quickest, platinum moves slowest (heaviest) */
 html[data-metal="silver"] :is(.topbar,.bottom-nav)::after{animation-duration:3.6s!important}
+{animation-duration:3.6s!important}
 html[data-metal="platinum"] :is(.topbar,.bottom-nav)::after{animation-duration:8s!important}
+html[data-metal="palladium"] :is(.topbar,.bottom-nav)::after{animation-duration:8s!important}
 /* Weight: silver light and reflective, platinum deep and smoked */
 html[data-metal="silver"]:not([data-theme="light"]) .card{box-shadow:0 14px 34px -22px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.22),inset 0 0 0 1px rgba(255,255,255,.03)!important}
+{box-shadow:0 14px 34px -22px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.22),inset 0 0 0 1px rgba(255,255,255,.03)!important}
 html[data-metal="platinum"]:not([data-theme="light"]) .card{box-shadow:0 28px 62px -26px rgba(0,0,0,.9),inset 0 1px 0 rgba(205,222,245,.14),inset 0 -1px 0 rgba(0,0,0,.4)!important}
+html[data-metal="palladium"]:not([data-theme="light"]) .card{box-shadow:0 28px 62px -26px rgba(0,0,0,.9),inset 0 1px 0 rgba(233,227,217,.14),inset 0 -1px 0 rgba(0,0,0,.4)!important}
 html[data-metal="silver"][data-theme="light"] .card{box-shadow:0 10px 26px -18px rgba(40,48,58,.28),inset 0 1px 0 rgba(255,255,255,.95)!important}
 html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22px rgba(30,55,90,.42),inset 0 1px 0 rgba(255,255,255,.85)!important}
+html[data-metal="palladium"][data-theme="light"] .card{box-shadow:0 20px 44px -22px rgba(73,63,47,.42),inset 0 1px 0 rgba(255,255,255,.85)!important}
 @media(prefers-reduced-motion:reduce){.card.hero .metal-sheen::before{animation:none;opacity:0}}
 </style>
 <style id="a4-section-report-css-20261119">
@@ -11715,7 +11786,7 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
   var jewel=$('jewelField'), making=jSplit&&jSplit.querySelector('.making-only-row') || document.querySelector('.making-only-row');
   if(!jewel||!making||!mcxSplit||!gstSplit||!jSplit) return;
   if(!homes) homes={jewelNext:jewel.nextSibling, makingNext:making.nextSibling};
-  if(m==='platinum'){
+  if(m==='platinum'||m==='palladium'){
    if(jewel.parentNode!==mcxSplit) mcxSplit.insertBefore(jewel,mcxSplit.firstChild);
    if(making.parentNode!==gstSplit) gstSplit.appendChild(making);
    jRow.classList.add('metal-empty-row');
@@ -11754,7 +11825,7 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
   setText(document.querySelector('#jewelField .jewel-purity-text'),c.jewel);
   var jl=document.querySelector('#jewelVsSpotStrip .l');
   if(jl){ var tn=jvsNode; if(!tn) jl.childNodes.forEach(function(n){ if(n.nodeType===3 && /Jewel vs Spot/.test(n.textContent)) tn=n; }); jvsNode=tn; var t=c.jvsLabel||('Jewel vs Spot ₹ '+c.jvs); if(tn){ if(tn.textContent.trim()!==t) tn.textContent=t; } else { var lab=jl.querySelector('.strip-label,span'); if(lab && /Jewel vs Spot/.test(lab.textContent)) setText(lab,t); } }
-  document.title=document.title.replace(/^(Gold|Silver|Platinum)\b/,c.name);
+  document.title=document.title.replace(/^(Gold|Silver|Platinum|Palladium)\b/,c.name);
   layout(m);
   fitHero();
  }
@@ -12119,6 +12190,7 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
   var x=hsl(r,g,b); if(!warm(x[0],x[1])) return null;
   var h,s,l=x[2];
   if(m==='silver'){ h=210; s=.035+x[1]*.045; l=l<.5? l*1.03 : Math.min(.985,l+(1-l)*.18); }
+  else if(m==='palladium'){ h=36; s=.05+x[1]*.07; l=l*.97; }
   else { h=213; s=.13+x[1]*.17; l=l*.95; }
   return rgb(h,Math.min(1,s),Math.max(0,Math.min(1,l)));
  }
@@ -12205,7 +12277,7 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
 <script id="app-icon-follow-metal-20261121">
 /* Android app: the launcher icon follows the selected metal (Au GOLD / Ag SILVER / Pt PLATINUM). The app swaps it when it goes to the background. */
 (function(){
- function tell(m){ try{ if(window.AndroidBridge && AndroidBridge.setAppIcon && /^(gold|silver|platinum)$/.test(m)) AndroidBridge.setAppIcon(m); }catch(_){} }
+ function tell(m){ try{ if(window.AndroidBridge && AndroidBridge.setAppIcon && /^(gold|silver|platinum|palladium)$/.test(m)) AndroidBridge.setAppIcon(m); }catch(_){} }
  document.addEventListener('gc:metal',function(e){ tell(e.detail && e.detail.metal); });
  function init(){ tell(window.__gcMetal||'gold'); }
  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
@@ -12225,11 +12297,13 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
   metals:{
    gold:{rate:15,wef:'2026-05-13',ref:'Notif. 15/2026 & 16/2026-Customs'},
    silver:{rate:15,wef:'2026-05-13',ref:'Notif. 15/2026 & 16/2026-Customs'},
-   platinum:{rate:15.4,wef:'2026-05-13',ref:'Notif. 15/2026 & 16/2026-Customs'}},
+   platinum:{rate:15.4,wef:'2026-05-13',ref:'Notif. 15/2026 & 16/2026-Customs'},
+   palladium:{rate:15.4,wef:'2026-05-13',ref:'Heading 7110 (with platinum) · Notif. 15/2026 & 16/2026-Customs'}},
   gst:{
    gold:{rate:3,wef:'2017-07-01',ref:'GST 3% (HSN 7108)'},
    silver:{rate:3,wef:'2017-07-01',ref:'GST 3% (HSN 7106)'},
-   platinum:{rate:3,wef:'2017-07-01',ref:'GST 3% (HSN 7110)'}}};
+   platinum:{rate:3,wef:'2017-07-01',ref:'GST 3% (HSN 7110)'},
+   palladium:{rate:3,wef:'2017-07-01',ref:'GST 3% (HSN 7110)'}}};
  var URL_REMOTE='https://goldau.vercel.app/duty.json', KEY='gcOfficialDuty';
  var KINDS={
   duty:{group:'metals',applied:'gcOfficialDutyApplied',input:'dutyInput',tag:'refDuty',toggle:'dutyToggle',label:'Import duty',icon:'₹',setter:'__gcSetDuty'},
@@ -12241,7 +12315,7 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
  var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
  function nice(iso){ var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(iso||''); return m? (+m[3])+' '+MON[+m[2]-1]+' '+m[1] : ''; }
  function valid(g){ return g&&['gold','silver','platinum'].every(function(k){ var x=g[k]; return x&&isFinite(x.rate)&&/^\d{4}-\d{2}-\d{2}$/.test(x.wef); }); }
- function official(kind,m){ var K=KINDS[kind], t=load(KEY)||{}, g=valid(t[K.group])?t[K.group]:BUILTIN[K.group]; return g[m||metal()]; }
+ function official(kind,m){ var K=KINDS[kind], t=load(KEY)||{}, g=valid(t[K.group])?t[K.group]:BUILTIN[K.group]; m=m||metal(); return g[m]||BUILTIN[K.group][m]; }
  window.__gcOfficialDuty=function(m){ return official('duty',m); };
  window.__gcOfficialGst=function(m){ return official('gst',m); };
  function wefText(kind){ var d=official(kind); return d&&d.wef? 'wef: '+nice(d.wef) : ''; }
