@@ -6206,6 +6206,8 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
     a.karat=24*Math.max(minF/10,Math.min(maxF/10,Number(state.customPurityPercent)||0))/100;
     b.karat=24*Math.max(minF,Math.min(maxF,Number(state.customPurityFineness)||0))/1000;
   }
+  /* The XRF chip object is shared by every metal's purity strip (always the first chip). */
+  window.__gcXrfPurity = window.__gcXrfPurity || PURITIES.filter(function(p){ return p.key==='xrf'; })[0];
   function purityByKey(k){ for(var i=0;i<PURITIES.length;i++){ if(PURITIES[i].key===k) return PURITIES[i]; } return PURITIES[0]; }
 
   function computeLine(unitGrams, karat, qty, s){
@@ -6925,6 +6927,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
         if(raw.indexOf('.')===-1 && (raw.length===3||raw.length===4))raw=raw.slice(0,2)+'.'+raw.slice(2);
         var xrfPercent=Number(raw);
         if(Number.isFinite(xrfPercent) && xrfPercent>99.9999) xrfPercent=99.9999;
+        if(window.__gcMetal && window.__gcMetal!=='gold' && Number.isFinite(xrfPercent) && xrfPercent>0){ var xmc=window.__gcMetalCfg(); if(xmc.minF) xrfPercent=Math.max(xmc.minF/10,xrfPercent); if(xmc.maxF) xrfPercent=Math.min(xmc.maxF/10,xrfPercent); }
         karat=Number.isFinite(xrfPercent) && xrfPercent>0 ? xrfPercent*24/100 : NaN;
       }else karat=NaN;
     }else if(p.key==='custompercent'){
@@ -7244,7 +7247,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
       var CUSTOM = GOLD_LIST.filter(function(p){ return p.key==='custompercent' || p.key==='customfineness'; });
       var LISTS = { gold: GOLD_LIST };
       ['silver','platinum'].forEach(function(m){
-        LISTS[m] = CFG[m].purities.map(function(r){ return {key:m+'_'+r[0], label:r[0], sub:r[1], karat:24*r[2]/1000, group:'refining'}; }).concat(CUSTOM);
+        LISTS[m] = [window.__gcXrfPurity].filter(Boolean).concat(CFG[m].purities.map(function(r){ return {key:m+'_'+r[0], label:r[0], sub:r[1], karat:24*r[2]/1000, group:'refining'}; }), CUSTOM);
       });
       var store = { metal: window.__gcMetal, profiles: {} };
       try{ var sv = JSON.parse(localStorage.getItem(KEY)||'null'); if(sv && sv.profiles) store.profiles = sv.profiles; }catch(e){}
@@ -7258,7 +7261,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
       function setList(m){
         var list = LISTS[m] || GOLD_LIST;
         PURITIES.length = 0; Array.prototype.push.apply(PURITIES, list);
-        if(!list.some(function(p){ return p.key === state.purity; })) state.purity = list[0].key;
+        if(!list.some(function(p){ return p.key === state.purity; })) state.purity = (list[0] && list[0].key === 'xrf' && list[1] ? list[1] : list[0]).key;
       }
       function applyProfile(m, p){
         var c = CFG[m];
@@ -7519,9 +7522,18 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
 
     function updateKarat() {
         var p = getInternalPurity(convP.value);
-        var xrfObj = PURITIES[0];
-        
-        if(p > 0) {
+        var xrfObj = window.__gcXrfPurity || PURITIES[0];
+        var xm = window.__gcMetal || 'gold';
+        if(p > 0 && xm !== 'gold') {
+            // Silver / Platinum: XRF chip follows the metal's fineness rule (clamped, ‰).
+            var xc = window.__gcMetalCfg ? window.__gcMetalCfg() : {};
+            if(xc.minF && p < xc.minF/10) p = xc.minF/10;
+            if(xc.maxF && p > xc.maxF/10) p = xc.maxF/10;
+            var xf = (Math.round(p * 100) / 10).toFixed(1);
+            convK.value = xf;
+            xrfObj.karat = p * 24 / 100;
+            xrfObj.sub = xf + '‰';
+        } else if(p > 0) {
             var k = (p * 24 / 100);
             // Keep exact XRF fineness; rounding to a nominal karat changes metal value.
             // e.g. 99.99% must remain 23.9976K, not be promoted to 24K.
@@ -7574,6 +7586,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{display:non
       $('out-22k').innerHTML = '<span class="conv-val" style="font-size:24px;">' + (pure > 0 ? fmtOut(pure / 0.916) : '0') + '</span> <span style="font-size:12px; font-weight:600; color:var(--text-2);">g</span>';
     }
     window.__gcCalcConv = calcConv;
+    window.__gcUpdateKarat = updateKarat;
 
 
     tickClock(); setInterval(tickClock, 1000);
@@ -11815,7 +11828,7 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
   if(df){ var v=Number(String(df.value).replace(/,/g,'')); if(!gold && ((c.minF && (!(v>0)||v<c.minF)) || (c.maxF && v>c.maxF))) df.value=c.alloyF?c.alloyF[0]:'999.9'; df.dispatchEvent(new Event('input',{bubbles:true})); }
   var cp=$('convPurityInput'), mf=(c.minF||0)/10, pv=cp?Number(String(cp.value).replace(/,/g,'')):0;
   if(cp && mf && pv>0 && pv<mf){ cp.value=String(mf); cp.dispatchEvent(new Event('input',{bubbles:true})); }
-  if(gold && cp) cp.dispatchEvent(new Event('input',{bubbles:true})); /* restores karat text */
+  try{ if(window.__gcUpdateKarat) window.__gcUpdateKarat(); }catch(_){} /* XRF chip + strip follow the metal */
   convFineness();
   if(cp && c.maxF && pv>c.maxF/10){ cp.value=String(c.maxF/10); cp.dispatchEvent(new Event('input',{bubbles:true})); }
   if(convOrig.wtLabel){ var wl=convOrig.wtLabel; var wt=gold?wl[1]:(c.alloyWtLabel||swapWord(wl[1],c.name)); if(wl[0].nodeValue!==wt) wl[0].nodeValue=wt; }
