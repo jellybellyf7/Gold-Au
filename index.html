@@ -12346,7 +12346,7 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
 </script>
 <script id="haptics-20261124">
 /* Subtle haptics: toggles, Reset toggles, Live Sync, theme switch; Calculate purity & weight strips and
-   Quick rates grouping tabs, bottom tab capsule; Convert › Alloy composition fineness strip (tap = light click, scrolling past each chip = faint tick).
+   Market live/cache status buttons, MCX / FT / Jewel web-link buttons and their panel links; Quick rates grouping tabs, bottom tab capsule; Convert › Alloy composition fineness strip (tap = light click, scrolling past each chip = faint tick).
    Android app uses the system's own light haptic (follows the phone's touch-feedback setting); browsers use a tiny vibrate. */
 (function(){'use strict';
  var lastT=0;
@@ -12355,7 +12355,7 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
   try{ if(window.AndroidBridge&&AndroidBridge.haptic){ AndroidBridge.haptic(kind||'click'); return; } }catch(_){}
   try{ if(navigator.vibrate) navigator.vibrate(kind==='tick'?4:8); }catch(_){}
  };
- var TAP='.ios-toggle,.reset-toggle,#forceSyncBtn,#bullionThemeToggle,.bottom-nav [data-target]';
+ var TAP='.ios-toggle,.reset-toggle,#forceSyncBtn,#bullionThemeToggle,.bottom-nav [data-target],.live-check,#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger,.mcx-dhan-open';
  var STRIPS=['puritySeg','purityGroupTabs','unitChips','weightGroupTabs','differencePresets','quickWeightGroupTabs'];
  document.addEventListener('click',function(e){
   var t=e.target.closest&&e.target.closest(TAP); if(t){ if(!t.disabled) window.__gcHaptic('click'); return; }
