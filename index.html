@@ -12355,14 +12355,32 @@ html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22
   if(!armed) return; /* never buzz on start-up or restored state — only after the user touches the app */
   var now=Date.now(); if(now-lastT<(kind==='tick'?28:120)) return; /* one gentle tap per action, never doubled */ lastT=now;
   try{ if(window.AndroidBridge&&AndroidBridge.haptic){ AndroidBridge.haptic(kind||'click'); return; } }catch(_){}
-  try{ if(navigator.vibrate) navigator.vibrate(kind==='tick'?3:5); }catch(_){}
+  try{ if(navigator.vibrate){ navigator.vibrate(kind==='tick'?3:5); return; } }catch(_){}
+  iosTap();
  };
+ /* iPhone / iPad Safari (iOS 18+) has no vibrate API, but toggling a native <input type=checkbox switch>
+    during a tap plays the system's light haptic. A hidden switch is toggled for each haptic. */
+ var iosLbl=null;
+ function iosTap(){
+  try{
+   if(!iosLbl){
+    var isIOS=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+    if(!isIOS){ iosLbl=false; return; }
+    iosLbl=document.createElement('label'); iosLbl.setAttribute('aria-hidden','true');
+    iosLbl.style.cssText='position:fixed;left:-9999px;top:0;width:1px;height:1px;opacity:0;pointer-events:none;overflow:hidden';
+    var cb=document.createElement('input'); cb.type='checkbox'; cb.setAttribute('switch',''); cb.tabIndex=-1;
+    iosLbl.appendChild(cb); document.body.appendChild(iosLbl);
+   }
+   if(iosLbl) iosLbl.click();
+  }catch(_){}
+ }
  var TAP='.ios-toggle,.reset-toggle,#forceSyncBtn,#bullionThemeToggle,.bottom-nav [data-target],.live-check,#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger,.mcx-dhan-open,#metalSwitch,#datePill';
  var STRIPS=['puritySeg','purityGroupTabs','unitChips','weightGroupTabs','differencePresets','quickWeightGroupTabs'];
  document.addEventListener('click',function(e){
+  if(iosLbl && e.target && (e.target===iosLbl || iosLbl.contains(e.target))) return;
   var mm=e.target.closest&&e.target.closest('#metalMenu [data-metal]');
   if(mm){ window.__gcHaptic('click'); setTimeout(function(){ window.__gcHaptic('tick'); },110); return; } /* mode chosen: soft double "confirm" */
-  var t=e.target.closest&&e.target.closest(TAP); if(t){ if(!t.disabled) window.__gcHaptic('click'); return; }
+  var t=e.target.closest&&e.target.closest(TAP+',.purity-unified-tab'); if(t){ if(!t.disabled) window.__gcHaptic('click'); return; }
   var b=e.target.closest&&e.target.closest('button');
   if(b && b.parentNode && STRIPS.indexOf(b.parentNode.id)>=0 && !b.hidden) window.__gcHaptic('click');
  },true);
