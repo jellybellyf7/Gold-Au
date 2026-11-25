@@ -13999,7 +13999,7 @@ html[data-metal="emerald"] #readyMadeOverlay .mcx-preview-placeholder{color:rgba
  var r=document.createElement('div'); r.id='qtyRuler'; r.setAttribute('role','group'); r.setAttribute('aria-label','Quantity');
  r.innerHTML='<span class="qs-glow" aria-hidden="true"></span><button type="button" class="qs-btn" data-d="-1" aria-label="Decrease quantity">−</button><span class="qs-div" aria-hidden="true"></span><span class="qs-div qs-d2" aria-hidden="true"></span><button type="button" class="qs-btn" data-d="1" aria-label="Increase quantity">+</button>';
  row.insertBefore(r,row.firstChild); r.insertBefore(inp,r.querySelector('.qs-d2'));
- function hap(ms){ if(window.__gcHaptic) return window.__gcHaptic('tick'); try{ if(navigator.vibrate) navigator.vibrate(ms||7); }catch(_){} }
+ function hap(ms){ if(window.__gcHaptic) return window.__gcHaptic('tick'); try{ if(navigator.vibrate) navigator.vibrate(3); }catch(_){} }
  function cur(){ return parseFloat(inp.value)||0; }
  function setQty(v){ v=Math.max(0,Math.min(MAX,v)); if(v===cur()) return false; inp.value=v; inp.dispatchEvent(new Event('input',{bubbles:true})); hap(7); return true; }
  function step(d){ var c=cur(); return setQty(d>0?Math.floor(c)+1:Math.ceil(c)-1); }
@@ -14054,7 +14054,7 @@ html[data-metal="emerald"] #readyMadeOverlay .mcx-preview-placeholder{color:rgba
   if(!armed) return; /* never buzz on start-up or restored state — only after the user touches the app */
   var now=Date.now(); if(now-lastT<(kind==='tick'?28:120)) return; /* one gentle tap per action, never doubled */ lastT=now;
   try{ if(window.AndroidBridge&&AndroidBridge.haptic){ AndroidBridge.haptic(kind||'click'); return; } }catch(_){}
-  try{ if(navigator.vibrate){ navigator.vibrate(kind==='tick'?3:5); return; } }catch(_){}
+  try{ if(navigator.vibrate){ navigator.vibrate(3); return; } }catch(_){} /* same very light pulse for every action */
  };
  /* iPhone / iPad: no haptics (iOS Safari/Chrome give web pages no way to trigger them). Android only. */
  var TAP='.ios-toggle,.reset-toggle,#forceSyncBtn,#bullionThemeToggle,.bottom-nav [data-target],.live-check,#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger,.mcx-dhan-open,#metalSwitch,#datePill';
