@@ -29,9 +29,9 @@
    "ref": "BCD 5% + SWS 10% of BCD · refined copper cathode (7403 11 00)"
   },
   "diamond": {
-   "rate": 5,
+   "rate": 5.5,
    "wef": "",
-   "ref": "BCD 5% · cut & polished diamonds (7102 39)"
+   "ref": "BCD 5% + SWS 10% of BCD · cut & polished (7102 39) / lab-grown (7104 91)"
   }
  },
  "gst": {
@@ -63,7 +63,8 @@
   "diamond": {
    "rate": 1.5,
    "wef": "2022-07-18",
-   "ref": "GST 1.5% cut & polished (HSN 7102)"
+   "ref": "GST 1.5% natural cut & polished (HSN 7102) · lab-grown loose 0.25% (HSN 7104)",
+   "lab": 0.25
   }
  }
 }

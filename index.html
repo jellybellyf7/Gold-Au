@@ -34,7 +34,7 @@ window.__gcMetals={
   yieldF:[999.99999,999.9,999,940],yieldK:['8N • 99.999999%','4N • 99.99%','ETP • 99.90%','No.2 • 94.00%'],
   alloyF:['999.99999','999.9999','999.999','999.99','999.9','999.5','999','990','940'],
   purities:[['99999999','8N',999.99999],['9999999','7N',999.9999],['999999','6N',999.999],['99999','5N',999.99],['9999','4N',999.9],['9995','OFC',999.5],['999','ETP',999],['990','Bright',990],['940','No.2',940]],customPct:99.9},
- diamond:{name:'Diamond',sym:'C',code:'DIA',noLive:true,spotG:0.2,spotDec:0,spotUnitTxt:' $/ct',defaultUnit:'carat_mass',gst:1.5,el:{z:6,w:'12.011',d:'3.51',mp:'~3,550',bp:'~4,027',mohs:'10',note:'Colourless brilliance with spectral fire · hardest natural material'},maxF:1000,alloyWtLabel:'Total Stone Wt',jvsLabel:'Rate vs ₹/ct',unitG:0.2,unitLabel:'/ct',jewel:'',jvs:'ct',hasMcx:false,hasFt:false,minF:1000,duty:5,
+ diamond:{name:'Diamond',sym:'C',code:'DIA',noLive:true,spotG:0.2,spotDec:0,spotUnitTxt:' $/ct',defaultUnit:'carat_mass',gst:1.5,el:{z:6,w:'12.011',d:'3.51',mp:'~3,550',bp:'~4,027',mohs:'10',note:'Colourless brilliance with spectral fire · hardest natural material'},maxF:1000,alloyWtLabel:'Total Stone Wt',jvsLabel:'Rate vs ₹/ct',unitG:0.2,unitLabel:'/ct',jewel:'',jvs:'ct',hasMcx:false,hasFt:false,minF:1000,duty:5.5,
   hero:[{k:'Natural → IN₹ • 1 ct',karat:24,g:0.2},{k:'Lab → IN₹ • 1 ct',karat:24,g:0.2}],range:'D–M · FL–I3',
   yieldF:[1000,1000,1000,1000],yieldK:['Stone','Stone','Stone','Stone'],
   alloyF:['1000'],
@@ -13466,14 +13466,14 @@ html[data-metal="diamond"] #readyMadeOverlay .mcx-preview-placeholder{color:rgba
    platinum:{rate:15.4,wef:'2026-05-13',ref:'Notif. 15/2026 & 16/2026-Customs'},
    palladium:{rate:15.4,wef:'2026-05-13',ref:'Heading 7110 (with platinum) · Notif. 15/2026 & 16/2026-Customs'},
    copper:{rate:5.5,wef:'',ref:'BCD 5% + SWS 10% of BCD · refined copper cathode (7403 11 00)'},
-   diamond:{rate:5,wef:'',ref:'BCD 5% · cut & polished diamonds (7102 39)'}},
+   diamond:{rate:5.5,wef:'',ref:'BCD 5% + SWS 10% of BCD · cut & polished (7102 39) / lab-grown (7104 91)'}},
   gst:{
    gold:{rate:3,wef:'2017-07-01',ref:'GST 3% (HSN 7108)'},
    silver:{rate:3,wef:'2017-07-01',ref:'GST 3% (HSN 7106)'},
    platinum:{rate:3,wef:'2017-07-01',ref:'GST 3% (HSN 7110)'},
    palladium:{rate:3,wef:'2017-07-01',ref:'GST 3% (HSN 7110)'},
    copper:{rate:18,wef:'',ref:'GST 18% (HSN 7403)'},
-   diamond:{rate:1.5,wef:'2022-07-18',ref:'GST 1.5% cut & polished (HSN 7102)'}}};
+   diamond:{rate:1.5,wef:'2022-07-18',ref:'GST 1.5% natural cut & polished (HSN 7102) · lab-grown loose 0.25% (HSN 7104)'}}};
  var URL_REMOTE='https://goldau.vercel.app/duty.json', KEY='gcOfficialDuty';
  var KINDS={
   duty:{group:'metals',applied:'gcOfficialDutyApplied',input:'dutyInput',tag:'refDuty',toggle:'dutyToggle',label:'Import duty',icon:'₹',setter:'__gcSetDuty'},
@@ -13840,7 +13840,7 @@ html[data-metal="diamond"] #readyMadeOverlay .mcx-preview-placeholder{color:rgba
    $('csRate').textContent = r>0 ? '$'+Number(r).toLocaleString('en-US')+'/ct'+(fx>0?' · ₹'+Math.round(r*fx).toLocaleString('en-IN')+'/ct':'') : 'No rate for this grade yet — enter $/ct in Market'; }
  var _rr=render; render=function(){ _rr();
    $('diaGradeLine').textContent = G.type==='lab' ? 'Lab-grown · '+G.shape+' · GIA '+G.lab : 'Natural · '+G.shape+' · '+G.color+' · '+G.clarity+' · '+ab(G.cut)+'/'+ab(G.polish)+'/'+ab(G.sym)+' · Fluor. '+G.fluor;
-   var sig=G.type+G.shape+G.color+G.clarity+G.cut+G.polish+G.sym+G.fluor+G.lab; if(render.sig!==sig){ render.sig=sig; drawTabs(); } sumSync(); engineSync(); if(window.__gcDiaFields) window.__gcDiaFields(); heroSync(); };
+   var sig=G.type+G.shape+G.color+G.clarity+G.cut+G.polish+G.sym+G.fluor+G.lab; if(render.sig!==sig){ render.sig=sig; drawTabs(); } sumSync(); gstShow(false); engineSync(); if(window.__gcDiaFields) window.__gcDiaFields(); heroSync(); };
 
  /* icon motion trigger (diamond only) */
  document.addEventListener('click',function(e){ if(!isD()||!e.target.closest) return; var b=e.target.closest('.dia-chips .chip,#unitChips .chip,#diaSplit button'); if(!b) return;
@@ -13921,18 +13921,26 @@ html[data-metal="diamond"] #readyMadeOverlay .mcx-preview-placeholder{color:rgba
  /* Index ↗: double-tap opens StoneAlgo diamond price index */
  (function(){ var lastI=0; document.addEventListener('click',function(e){ var btn=e.target.closest&&e.target.closest('#diaIndexBtn'); if(!btn) return; e.preventDefault(); var t=Date.now();
    if(t-lastI<350){ lastI=0; if(window.__gcHaptic) window.__gcHaptic('click'); window.open('https://www.stonealgo.com/diamond-prices/','_blank','noopener'); } else { lastI=t; if(window.__gcHaptic) window.__gcHaptic('tick'); } }); })();
+
+ /* GST by type: natural cut & polished 1.5% (HSN 7102), lab-grown loose 0.25% (HSN 7104) — each type keeps its own value */
+ var GSTD={natural:1.5,lab:0.25}, GS={natural:1.5,lab:0.25}; try{ var gq=JSON.parse(localStorage.getItem('gcDiaGst')||'null'); if(gq){ if(gq.natural>=0) GS.natural=+gq.natural; if(gq.lab>=0) GS.lab=+gq.lab; } }catch(_){}
+ var gstT=null, gIn=$('gstInput');
+ function gstShow(force){ if(!isD()||!gIn) return; if(gstT===G.type&&!force) return; gstT=G.type; var v=GS[G.type];
+   if(Math.abs(num('gstInput')-v)>1e-9){ var ro=gIn.hasAttribute('readonly'); gIn.removeAttribute('readonly'); gIn.value=String(v); gIn.dispatchEvent(new Event('input',{bubbles:true})); if(ro) gIn.setAttribute('readonly',''); } }
+ if(gIn) gIn.addEventListener('input',function(){ if(!isD()||gstT!==G.type) return; var v=num('gstInput'); if(v>=0&&gIn.value!==''){ GS[G.type]=v; try{ localStorage.setItem('gcDiaGst',JSON.stringify(GS)); }catch(_){} } setTimeout(heroSync,0); });
+ window.__gcDiaGst=function(t){ return GS[t]; };
  /* engine spot always equals the selected type's saved rate */
  function engineSync(){ if(!isD()) return; var want=R[key()]||0, cur=num('spotInput'); if(Math.abs(cur-want)>1e-9){ skip=true; setSpot(want>0?want:''); skip=false; } }
  /* top cards: Natural → IN₹ • 1 ct and Lab → IN₹ • 1 ct */
  function heroSync(){ if(!isD()) return; var fx=num('usdinrInput'), d=num('dutyInput'), g=num('gstInput');
    var dOn=($('dutyToggle')||{getAttribute:function(){return 'true';}}).getAttribute('aria-checked')!=='false', gOn=($('gstToggle')||{getAttribute:function(){return 'false';}}).getAttribute('aria-checked')==='true';
-   var c=(window.__gcDiaCarat?window.__gcDiaCarat():1), f=fx*(dOn?1+d/100:1)*(gOn?1+g/100:1)*c;
+   var c=(window.__gcDiaCarat?window.__gcDiaCarat():1), fb=fx*(dOn?1+d/100:1)*c, gN=gOn?1+((window.__gcDiaGst?window.__gcDiaGst('natural'):g))/100:1, gL=gOn?1+((window.__gcDiaGst?window.__gcDiaGst('lab'):g))/100:1;
    var ks=document.querySelectorAll('.card.hero .hero-stat .k'); var cl=(+c.toFixed(3))+' ct'; if(ks[0]&&ks[0].textContent!=='Natural → IN₹ • '+cl) ks[0].textContent='Natural → IN₹ • '+cl; if(ks[1]){ var sp=ks[1].querySelector('span')||ks[1]; if(sp.textContent!=='Lab → IN₹ • '+cl) sp.textContent='Lab → IN₹ • '+cl; }
-   [['hero24k',R[key('natural')]],['hero22k',R[key('lab')]]].forEach(function(x){ var el=$(x[0]); if(!el) return; var t=(x[1]>0&&fx>0)?'₹'+Math.round(x[1]*f).toLocaleString('en-IN'):'—'; if(el.textContent!==t) el.textContent=t; }); }
+   [['hero24k',R[key('natural')],gN],['hero22k',R[key('lab')],gL]].forEach(function(x){ var el=$(x[0]); if(!el) return; var t=(x[1]>0&&fx>0)?'₹'+Math.round(x[1]*fb*x[2]).toLocaleString('en-IN'):'—'; if(el.textContent!==t) el.textContent=t; }); }
  ['hero24k','hero22k'].forEach(function(id){ var el=$(id); if(el&&window.MutationObserver) new MutationObserver(function(){ if(isD()) heroSync(); }).observe(el,{childList:true,characterData:true,subtree:true}); });
  ['usdinrInput','dutyInput','gstInput'].forEach(function(id){ var e=$(id); if(e) e.addEventListener('input',function(){ setTimeout(heroSync,0); }); });
  document.addEventListener('click',function(e){ if(e.target.closest&&e.target.closest('#dutyToggle,#gstToggle')) setTimeout(heroSync,30); },true);
- document.addEventListener('gc:metal',function(){ setPane(PANE,false); setTimeout(function(){ engineSync(); heroSync(); },60); });
+ document.addEventListener('gc:metal',function(){ setPane(PANE,false); setTimeout(function(){ gstShow(true); engineSync(); heroSync(); },60); });
  setPane(PANE,false);
  render(); setInterval(function(){ if(isD()) render(); },3000);
 })();
