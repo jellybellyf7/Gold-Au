@@ -38,6 +38,11 @@ window.__gcMetals={
   hero:[{k:'Natural → IN₹ • 1 ct',karat:24,g:0.2},{k:'Lab → IN₹ • 1 ct',karat:24,g:0.2}],range:'D–M · FL–I3',
   yieldF:[1000,1000,1000,1000],yieldK:['Stone','Stone','Stone','Stone'],
   alloyF:['1000'],
+  purities:[['1000','Stone',1000]],customPct:100},
+ emerald:{name:'Emerald',sym:'Be',code:'EMR',noLive:true,spotG:0.2,spotDec:0,spotUnitTxt:' $/ct',defaultUnit:'carat_mass',gst:0.25,el:{z:4,w:'537.5',d:'2.72',mp:'~1,410',bp:'—',mohs:'7.5–8',note:'Green beryl Be₃Al₂Si₆O₁₈ · coloured by chromium & vanadium · jardin inclusions'},maxF:1000,alloyWtLabel:'Total Stone Wt',jvsLabel:'Rate vs ₹/ct',unitG:0.2,unitLabel:'/ct',jewel:'',jvs:'ct',hasMcx:false,hasFt:false,minF:1000,duty:5.5,
+  hero:[{k:'Natural → IN₹ • 1 ct',karat:24,g:0.2},{k:'Synthetic → IN₹ • 1 ct',karat:24,g:0.2}],range:'Natural · Synthetic',
+  yieldF:[1000,1000,1000,1000],yieldK:['Stone','Stone','Stone','Stone'],
+  alloyF:['1000'],
   purities:[['1000','Stone',1000]],customPct:100}
 };
 (function(){
@@ -48,7 +53,8 @@ window.__gcMetals={
  window.__gcCopperUnits=['xrfwt','gram','10gram','kilogram','tonne','pound','troyoz','milligram','microgram'];
  window.__gcDiaUnits=['carat_mass','cent','ct_10','ct_25','ct_50','ct_75','ct_150','ct_200','ct_300','ct_500','gram','milligram'];
  window.__gcDiaOnly=['cent','ct_10','ct_25','ct_50','ct_75','ct_150','ct_200','ct_300','ct_500'];
- window.__gcHideUnit=function(k){ if(window.__gcMetal==='diamond') return window.__gcDiaUnits.indexOf(k)<0; if(window.__gcDiaOnly.indexOf(k)>=0) return true; if(window.__gcMetal==='copper') return window.__gcCopperUnits.indexOf(k)<0; return (window.__gcMetal!=='gold' && window.__gcPavanKeys.indexOf(k)>=0) || k==='tonne' || k==='pound'; };
+ window.__gcEmrUnits=['carat_mass','ratti','cent','ct_25','ct_50','ct_75','ct_150','ct_200','ct_300','ct_500','gram','milligram'];
+ window.__gcHideUnit=function(k){ if(window.__gcMetal==='emerald') return window.__gcEmrUnits.indexOf(k)<0; if(k==='ratti') return true; if(window.__gcMetal==='diamond') return window.__gcDiaUnits.indexOf(k)<0; if(window.__gcDiaOnly.indexOf(k)>=0) return true; if(window.__gcMetal==='copper') return window.__gcCopperUnits.indexOf(k)<0; return (window.__gcMetal!=='gold' && window.__gcPavanKeys.indexOf(k)>=0) || k==='tonne' || k==='pound'; };
  /* Calculate weight strip only: Platinum & Palladium drop tola, tael, baht, chi, luong, pennyweight, grain and carat. */
  window.__gcPtPdStripHide=['tola','tael','baht','chi','luong','dwt','grain','carat_mass'];
  window.__gcHideStripUnit=function(k){ return window.__gcHideUnit(k) || ((window.__gcMetal==='platinum'||window.__gcMetal==='palladium') && window.__gcPtPdStripHide.indexOf(k)>=0); };
@@ -4823,6 +4829,66 @@ html:root :is(#diaType,#diaShape,#diaColor,#diaClarity,#diaCut,#diaPolish,#diaSy
  background:var(--gc-rim)!important;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.95}
 :is(#diaType,#diaShape,#diaColor,#diaClarity,#diaCut,#diaPolish,#diaSym,#diaFluor,#diaLabGrade,#dsShape,#diaGTabs) .chip-text{font-family:'GC Tamil',Inter,system-ui,-apple-system,sans-serif}
 </style>
+<style id="emerald-chip-strips-20261125">
+/* Emerald grade and shape chips mirror the Calculate weight-unit strip. */
+:is(#emrType,#emrShape,#emrColor,#emrClarity,#emrCut,#emrPolish,#emrSym,#emrFluor,#emrLabGrade,#esShape,#emrGTabs){margin-bottom:2px}
+:is(#emrType,#emrShape,#emrColor,#emrClarity,#emrCut,#emrPolish,#emrSym,#emrFluor,#emrLabGrade,#esShape,#emrGTabs){ position:relative; isolation:isolate; }
+:is(#emrType,#emrShape,#emrColor,#emrClarity,#emrCut,#emrPolish,#emrSym,#emrFluor,#emrLabGrade,#esShape,#emrGTabs) .unit-indicator{ position:absolute; z-index:1; top:0; bottom:0; left:0; width:var(--unit-indicator-width, 0px); transform:translateX(var(--unit-indicator-x, 0px)); border-radius:var(--radius-pill); background:linear-gradient(135deg, var(--gold-300), var(--gold-700)); pointer-events:none; visibility:hidden; transition:none; }
+:is(#emrType,#emrShape,#emrColor,#emrClarity,#emrCut,#emrPolish,#emrSym,#emrFluor,#emrLabGrade,#esShape,#emrGTabs).unit-indicator-ready .unit-indicator{ visibility:visible; transition:transform .58s cubic-bezier(.2,.9,.3,1.15), width .42s cubic-bezier(.2,.9,.3,1.15); }
+:is(#emrType,#emrShape,#emrColor,#emrClarity,#emrCut,#emrPolish,#emrSym,#emrFluor,#emrLabGrade,#esShape,#emrGTabs) .chip{ position:relative; transition:color .25s cubic-bezier(.4,0,.2,1), border-color .2s; }
+:is(#emrType,#emrShape,#emrColor,#emrClarity,#emrCut,#emrPolish,#emrSym,#emrFluor,#emrLabGrade,#esShape,#emrGTabs) .chip > *{ position:relative; z-index:2; }
+:is(#emrType,#emrShape,#emrColor,#emrClarity,#emrCut,#emrPolish,#emrSym,#emrFluor,#emrLabGrade,#esShape,#emrGTabs).unit-indicator-ready .chip[aria-pressed="true"]{ background:transparent; }
+:is(#emrType,#emrShape,#emrColor,#emrClarity,#emrCut,#emrPolish,#emrSym,#emrFluor,#emrLabGrade,#esShape,#emrGTabs) .unit-indicator{
+  background:linear-gradient(135deg, rgba(255,235,173,.24), rgba(210,157,56,.12) 55%, rgba(255,244,208,.2));
+  border:1.5px solid rgba(211,156,47,.95);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.65), inset 0 -1px 0 rgba(164,111,26,.12), 0 0 0 1px rgba(243,199,105,.18), 0 0 12px rgba(209,151,46,.27);
+  box-sizing:border-box;
+}
+:is(#emrType,#emrShape,#emrColor,#emrClarity,#emrCut,#emrPolish,#emrSym,#emrFluor,#emrLabGrade,#esShape,#emrGTabs) .chip[aria-pressed="true"]{
+  color:var(--text-0);
+  text-shadow:0 1px 0 rgba(255,255,255,.15);
+}
+:is(#emrType,#emrShape,#emrColor,#emrClarity,#emrCut,#emrPolish,#emrSym,#emrFluor,#emrLabGrade,#esShape,#emrGTabs) .chip:focus-visible{
+  outline:2px solid var(--gold-500); outline-offset:3px;
+}
+@media (prefers-reduced-motion: reduce){:is(#emrType,#emrShape,#emrColor,#emrClarity,#emrCut,#emrPolish,#emrSym,#emrFluor,#emrLabGrade,#esShape,#emrGTabs) .unit-indicator{transition:none !important;}}
+:is(#emrType,#emrShape,#emrColor,#emrClarity,#emrCut,#emrPolish,#emrSym,#emrFluor,#emrLabGrade,#esShape,#emrGTabs) .unit-indicator{overflow:hidden;}
+:is(#emrType,#emrShape,#emrColor,#emrClarity,#emrCut,#emrPolish,#emrSym,#emrFluor,#emrLabGrade,#esShape,#emrGTabs) .unit-indicator::after{
+  content:"";position:absolute;inset:-45% -55%;pointer-events:none;
+  background:linear-gradient(110deg,transparent 43%,rgba(255,246,211,.65) 49%,transparent 55%);
+  transform:translateX(-135%) skewX(-12deg);opacity:0;
+}
+:is(#emrType,#emrShape,#emrColor,#emrClarity,#emrCut,#emrPolish,#emrSym,#emrFluor,#emrLabGrade,#esShape,#emrGTabs) .unit-indicator.demo-chip-animate::after{
+  animation:demoMicroShimmer 440ms ease-out both;
+}
+@media(prefers-reduced-motion:reduce){:is(#emrType,#emrShape,#emrColor,#emrClarity,#emrCut,#emrPolish,#emrSym,#emrFluor,#emrLabGrade,#esShape,#emrGTabs) .unit-indicator.demo-chip-animate::after{animation:none!important;}}
+:is(#emrType,#emrShape,#emrColor,#emrClarity,#emrCut,#emrPolish,#emrSym,#emrFluor,#emrLabGrade,#esShape,#emrGTabs) .unit-indicator{
+  border-radius:9999px !important;
+  overflow:hidden !important;
+  background:
+    radial-gradient(ellipse at 50% 50%,rgba(226,170,63,.15) 0%,rgba(226,170,63,.06) 64%,transparent 100%),
+    linear-gradient(135deg,rgba(255,235,173,.24),rgba(210,157,56,.12) 55%,rgba(255,244,208,.20)) !important;
+  /* Inset light only: external blurred box-shadow can create rectangular seams on Android. */
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.65),
+             inset 0 -1px 0 rgba(164,111,26,.12),
+             inset 0 0 9px rgba(209,151,46,.15) !important;
+  filter:none !important;
+  -webkit-filter:none !important;
+  -webkit-clip-path:inset(0 round 9999px);
+  clip-path:inset(0 round 9999px);
+}
+:is(#emrType,#emrShape,#emrColor,#emrClarity,#emrCut,#emrPolish,#emrSym,#emrFluor,#emrLabGrade,#esShape,#emrGTabs) .unit-indicator::after{border-radius:inherit;}
+:is(#emrType,#emrShape,#emrColor,#emrClarity,#emrCut,#emrPolish,#emrSym,#emrFluor,#emrLabGrade,#esShape,#emrGTabs){overflow-x:auto!important;overflow-y:hidden!important;flex-wrap:nowrap!important;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+:is(#emrType,#emrShape,#emrColor,#emrClarity,#emrCut,#emrPolish,#emrSym,#emrFluor,#emrLabGrade,#esShape,#emrGTabs)::-webkit-scrollbar{display:none}
+:is(#emrType,#emrShape,#emrColor,#emrClarity,#emrCut,#emrPolish,#emrSym,#emrFluor,#emrLabGrade,#esShape,#emrGTabs)>button{flex-shrink:0!important}
+:root[data-theme="light"] :is(#emrType,#emrShape,#emrColor,#emrClarity,#emrCut,#emrPolish,#emrSym,#emrFluor,#emrLabGrade,#esShape,#emrGTabs).unit-indicator-ready .chip[aria-pressed="true"]{
+ background:transparent!important;
+}
+html:root :is(#emrType,#emrShape,#emrColor,#emrClarity,#emrCut,#emrPolish,#emrSym,#emrFluor,#emrLabGrade,#esShape,#emrGTabs) .unit-indicator{border-color:transparent!important}
+html:root :is(#emrType,#emrShape,#emrColor,#emrClarity,#emrCut,#emrPolish,#emrSym,#emrFluor,#emrLabGrade,#esShape,#emrGTabs) .unit-indicator::before{content:""!important;position:absolute;inset:0;border-radius:inherit;padding:.6px;pointer-events:none;z-index:2;display:block!important;
+ background:var(--gc-rim)!important;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.95}
+:is(#emrType,#emrShape,#emrColor,#emrClarity,#emrCut,#emrPolish,#emrSym,#emrFluor,#emrLabGrade,#esShape,#emrGTabs) .chip-text{font-family:'GC Tamil',Inter,system-ui,-apple-system,sans-serif}
+</style>
 <style id="diamond-mode-css-20261124">
 /* Diamond mode: icy colourless glass with a faint spectral fire. */
 html[data-metal="diamond"]:root{--gc-rim:linear-gradient(120deg,#FFFFFF 0%,#D7E9FF 18%,#FFE3F4 36%,#FFF6D2 52%,#D8FFF0 68%,#E4E1FF 84%,#FFFFFF 100%)}
@@ -4867,6 +4933,51 @@ html[data-metal="diamond"] #jewelSourceActions,html[data-metal="diamond"] #ready
 @keyframes diaFire{0%{background-position:0% 50%}100%{background-position:200% 50%}}
 html[data-metal="diamond"] .card.hero .hero-stat .v{background:linear-gradient(100deg,var(--text-0) 0%,var(--text-0) 40%,#cfe6ff 46%,#ffd9ef 50%,#fff2c4 54%,var(--text-0) 60%,var(--text-0) 100%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:diaFire 6s linear infinite}
 @media(prefers-reduced-motion:reduce){html[data-metal="diamond"] .card.hero .hero-stat .v{animation:none}}
+</style>
+<style id="emerald-mode-css-20261125">
+/* Emerald mode: icy colourless glass with a faint spectral fire. */
+html[data-metal="emerald"]:root{--gc-rim:linear-gradient(120deg,#E3ECE7 0%,#AFC8BA 20%,#6E9884 40%,#D2DFD7 55%,#4F7766 75%,#B9CEC2 88%,#E3ECE7 100%)}
+html[data-metal="emerald"] .brand-text .metal-chip{font-size:.74em}
+.metal-tile.is-emerald{background:linear-gradient(145deg,#C9D9CF,#6F9583 50%,#3A5649);color:#F3F7F4;box-shadow:inset 0 0 0 1px rgba(230,245,236,.4)}
+.metal-dot.is-emerald{background:conic-gradient(from 30deg,#e1ebe5,#86a898,#4b6e5f,#a9c3b5,#3d5c4f,#c7d8ce,#e1ebe5)}
+html[data-metal="emerald"] #puritySeg,html[data-metal="emerald"] #purityGroupTabs,html[data-metal="emerald"] #tab-calc .purity-heading-row,html[data-metal="emerald"] #weightGroupTabs,html[data-metal="emerald"] #customWeightEditor{display:none!important}
+html[data-metal="emerald"] #tab-calc .weight-heading-row{margin-top:18px!important}
+html[data-metal="emerald"] #makingField,html[data-metal="emerald"] #ftMakingRow,html[data-metal="emerald"] #jewelField{display:none!important}
+html[data-metal="emerald"] #purityDifferenceCard{display:none!important}
+html:not([data-metal="emerald"]) #emrGrade,html:not([data-metal="emerald"]) #emrSizeCard{display:none!important}
+html[data-metal="emerald"] .card.hero .hero-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important}
+html[data-metal="emerald"] .card.hero .hero-stat{min-width:0}
+html[data-metal="emerald"] .card.hero .hero-stat .k{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html[data-metal="emerald"] #jewelSourceActions,html[data-metal="emerald"] #readyMadeOverlay .silver-tap-hint{display:none!important}
+#emrGrade{margin:0 0 4px}
+#emrGrade[data-type="lab"] .emr-nat,#emrGrade:not([data-type="lab"]) .emr-lab,#emrGrade:not([data-round="1"]) .emr-cut-only{display:none!important}
+.emr-tag{margin-left:auto;font-size:10px;font-weight:600;letter-spacing:.02em;color:var(--text-2);opacity:.85}
+.emr-crit{margin:9px 2px 0;font-size:11px;line-height:1.45;color:var(--text-2)}
+#emrGrade .emr-seg{margin:0 0 4px}
+#emrGrade .emr-head{margin:12px 0 7px;display:flex;align-items:center;gap:6px}
+#emrGrade>.emr-head:first-child{margin-top:0}
+#emrGrade .emr-nat>.emr-head:first-child,#emrGrade .emr-lab>.emr-head:first-child{margin-top:12px}
+.emr-chips{margin:0}
+.emr-chips .chip .emr-ic{width:21px;height:21px;flex:none;color:var(--text-1);opacity:.95}
+.emr-chips .chip[aria-pressed="true"] .emr-ic{color:var(--text-0)}
+.emr-rate{position:relative;margin-top:14px;padding:12px;border-radius:18px;background:var(--glass-strong);border:1px solid var(--glass-border)}
+.emr-rate::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:.6px;background:var(--gc-rim);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;opacity:.8}
+.emr-rate-grade{font:700 12.5px/1.3 Inter,system-ui,sans-serif;color:var(--text-0)}
+.emr-rate-tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:9px}
+.emr-rate-tiles>div,.emr-out>div{position:relative;padding:9px 11px;border-radius:14px;background:color-mix(in srgb,var(--glass-strong) 70%,transparent);border:1px solid var(--glass-border)}
+.emr-rate-tiles>div.is-on{border-color:transparent;box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
+.emr-rate-tiles>div.is-on::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:.8px;background:var(--gc-rim);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.emr-rate-tiles small,.emr-out small{display:block;font-size:11px;color:var(--text-2)}
+.emr-rate-tiles b,.emr-out b{display:block;margin-top:2px;font:750 17px/1.2 Inter,system-ui,sans-serif;color:var(--text-0)}
+.emr-rate-tiles i,.emr-out i{display:block;margin-top:2px;font-style:normal;font-size:11px;color:var(--text-2)}
+.emr-rate-note,.emr-sub{margin:9px 0 0;font-size:11px;line-height:1.4;color:var(--text-2)}
+#emrSizeCard .emr-sub{margin:2px 0 10px}
+#emrSizeCard .emr-chips{margin-bottom:12px}
+.emr-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.emr-grid .field{margin:0}
+.emr-out{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.emr-out-one{grid-template-columns:1fr}
+@keyframes emrFire{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+html[data-metal="emerald"] .card.hero .hero-stat .v{background:linear-gradient(100deg,var(--text-0) 0%,var(--text-0) 40%,#cfe0d6 46%,#eef5f1 50%,#a9c5b6 54%,var(--text-0) 60%,var(--text-0) 100%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:emrFire 6s linear infinite}
+@media(prefers-reduced-motion:reduce){html[data-metal="emerald"] .card.hero .hero-stat .v{animation:none}}
 </style>
 <style id="diamond-split-20261125">
 /* ---------- Grading | Calculate switch (diamond only) ---------- */
@@ -4987,6 +5098,139 @@ html[data-metal="diamond"] #calculateBody[data-dpane="calc"] #diaCalcSum{display
 #diaCalcSum small{display:block;margin-top:2px;font-size:11px;color:var(--text-2)}
 #diaCalcSum .cs-go{flex:none;font:700 11px Inter,system-ui,sans-serif;color:var(--text-1);padding:6px 10px;border-radius:999px;border:1px solid var(--glass-border)}
 </style>
+<style id="emerald-split-20261125">
+/* ---------- Grading | Calculate switch (diamond only) ---------- */
+#emrSplit{display:none}
+html[data-metal="emerald"] #emrSplit{display:grid}
+#emrSplit{position:relative;grid-template-columns:1fr 1fr;gap:5px;padding:5px;margin:0 0 14px;border-radius:22px;background:var(--glass-strong);border:1px solid var(--glass-border);box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
+#emrSplit button{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:8px;min-height:46px;border:0;border-radius:17px;background:transparent;color:var(--text-2);font:700 13.5px/1.1 Inter,system-ui,sans-serif;letter-spacing:-.1px;transition:color .3s ease}
+#emrSplit button[aria-selected="true"]{color:var(--text-0)}
+#emrSplit button svg{width:22px;height:22px;flex:none}
+#emrSplit .es-mag{position:absolute;top:5px;bottom:5px;left:5px;width:calc((100% - 15px)/2);border-radius:17px;background:linear-gradient(160deg,color-mix(in srgb,var(--text-0) 16%,transparent),color-mix(in srgb,var(--text-0) 6%,transparent));box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 6px 16px rgba(0,0,0,.28);transition:transform .58s cubic-bezier(.21,1.04,.25,1)}
+#emrSplit .es-mag::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:.8px;background:var(--gc-rim);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+#calculateBody[data-dpane="calc"] #emrSplit .es-mag{transform:translateX(calc(100% + 5px))}
+@keyframes esIn{from{opacity:0;transform:translateX(var(--es-from,24px))}to{opacity:1;transform:none}}
+html[data-metal="emerald"] #calculateBody.es-anim>*:not(#emrSplit){animation:esIn .42s cubic-bezier(.2,.9,.25,1) both}
+@media(prefers-reduced-motion:reduce){html[data-metal="emerald"] #calculateBody.es-anim>*{animation:none!important}}
+/* panes */
+html[data-metal="emerald"] #calculateBody[data-dpane="grade"]>*:not(#emrSplit):not(#emrGrade){display:none!important}
+html[data-metal="emerald"] #calculateBody[data-dpane="calc"] #emrGrade{display:none!important}
+html[data-metal="emerald"] #calculateBody[data-dpane="calc"] .weight-heading-row{margin-top:4px!important}
+/* grading pane */
+#emrGrade .emr-head{display:none!important}
+#emrGrade .emr-nat,#emrGrade .emr-lab{display:block!important}
+#emrGrade :is(#emrShape,#emrColor,#emrClarity,#emrCut,#emrPolish,#emrSym,#emrFluor,#emrLabGrade){display:none!important}
+#emrGrade .emr-crit{display:none}
+#emrGrade[data-gtab="shape"] #emrShape,#emrGrade[data-gtab="color"] #emrColor,#emrGrade[data-gtab="clarity"] #emrClarity,#emrGrade[data-gtab="cut"] #emrCut,#emrGrade[data-gtab="polish"] #emrPolish,#emrGrade[data-gtab="sym"] #emrSym,#emrGrade[data-gtab="origin"] #emrCut,#emrGrade[data-gtab="treat"] #emrPolish,#emrGrade[data-gtab="cert"] #emrSym,#emrGrade[data-gtab="method"] #emrLabGrade,#emrGrade[data-gtab="fluor"] #emrFluor,#emrGrade[data-gtab="gia"] #emrLabGrade{display:flex!important}
+#emrGrade[data-gtab="gia"] .emr-crit{display:block}
+.eg-h{display:flex;align-items:center;gap:7px;margin:0 0 12px;font:600 13.5px/1.2 Inter,system-ui,sans-serif;color:var(--text-1)}
+.eg-h small{margin-left:auto;font-size:10.5px;font-weight:600;color:var(--text-2)}
+#egHint{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--text-1)}
+#egHint .emr-ic{width:17px;height:17px;color:var(--text-1)}
+.eg-h+.chip-row{margin-bottom:0}
+.eg-h.eg-grad{margin-top:16px}
+#emrGTabs{position:relative}
+html[data-metal="emerald"] #emrGTabs{display:flex!important;margin:0 0 10px}
+#emrGTabs .chip{padding-top:8px;padding-bottom:8px}
+#emrGTabs .chip .chip-text{font-size:12.5px}
+#emrGTabs .chip .chip-sub{font-size:11px;font-weight:700;color:var(--text-1)}
+
+/* ---------- Emerald icon motion: plays once on selection, each by its own nature ---------- */
+html[data-metal="emerald"] .emr-play .emr-ic,html[data-metal="emerald"] .emr-play .icon{transform-origin:50% 50%;transform-box:fill-box}
+html[data-metal="emerald"] .emr-ic *{transform-box:fill-box;transform-origin:50% 50%}
+@keyframes dGlint{0%{transform:scale(.86) rotate(-8deg);filter:none}55%{transform:scale(1.08) rotate(3deg);filter:drop-shadow(0 0 3.5px rgba(225,240,255,.95))}100%{transform:none;filter:none}}
+@keyframes dTurn{0%{transform:perspective(60px) rotateY(0)}100%{transform:perspective(60px) rotateY(360deg)}}
+@keyframes dTint{0%{filter:none;transform:scale(1)}40%{filter:saturate(2.4) brightness(1.25) drop-shadow(0 0 3px rgba(255,214,140,.7));transform:scale(1.07)}100%{filter:none;transform:none}}
+@keyframes dTwinkle{0%{opacity:0;transform:scale(.2)}60%{opacity:1;transform:scale(1.5)}100%{opacity:1;transform:none}}
+@keyframes dPop{0%{opacity:0;transform:translateY(2px) scale(.3)}70%{opacity:1;transform:scale(1.25)}100%{opacity:1;transform:none}}
+@keyframes dShine{0%{filter:none}45%{filter:brightness(1.6) drop-shadow(0 0 3px rgba(255,255,255,.9))}100%{filter:none}}
+@keyframes dMirror{0%{transform:scaleX(1)}45%{transform:scaleX(-1)}100%{transform:scaleX(1)}}
+@keyframes dGlow{0%{opacity:.2;transform:scale(.55)}55%{opacity:1;transform:scale(1.18)}100%{opacity:1;transform:none}}
+@keyframes dGlowIc{0%,100%{filter:none}50%{filter:drop-shadow(0 0 4px rgba(140,180,255,.95))}}
+@keyframes dBubble{0%{transform:rotate(0)}25%{transform:rotate(-10deg)}55%{transform:rotate(8deg)}80%{transform:rotate(-3deg)}100%{transform:none}}
+@keyframes dStar{0%{transform:rotate(-72deg) scale(.7);filter:none}60%{transform:rotate(6deg) scale(1.12);filter:drop-shadow(0 0 3px rgba(255,236,170,.9))}100%{transform:none;filter:none}}
+/* type */
+html[data-metal="emerald"] #emrType .emr-play[data-v="natural"] .emr-ic{animation:dGlint .8s cubic-bezier(.3,.7,.2,1)}
+html[data-metal="emerald"] #emrType .emr-play[data-v="lab"] .emr-ic{animation:dBubble .8s ease-out}
+/* shape: the stone turns on its table, like on a turntable */
+html[data-metal="emerald"] :is(#emrShape,#esShape) .emr-play .emr-ic,html[data-metal="emerald"] #emrGTabs .emr-play[data-v="shape"] .emr-ic{animation:dTurn .9s cubic-bezier(.35,.1,.25,1)}
+/* colour: body tint warms then settles */
+html[data-metal="emerald"] :is(#emrColor) .emr-play .emr-ic,html[data-metal="emerald"] #emrGTabs .emr-play[data-v="color"] .emr-ic{animation:dTint .8s ease-out}
+/* clarity: inclusions twinkle in */
+html[data-metal="emerald"] :is(#emrClarity) .emr-play .emr-ic circle,html[data-metal="emerald"] #emrGTabs .emr-play[data-v="clarity"] .emr-ic circle{animation:dTwinkle .5s cubic-bezier(.2,1.4,.4,1) both}
+html[data-metal="emerald"] .emr-play .emr-ic circle:nth-of-type(2){animation-delay:.08s}html[data-metal="emerald"] .emr-play .emr-ic circle:nth-of-type(3){animation-delay:.16s}html[data-metal="emerald"] .emr-play .emr-ic circle:nth-of-type(4){animation-delay:.24s}html[data-metal="emerald"] .emr-play .emr-ic circle:nth-of-type(5){animation-delay:.32s}html[data-metal="emerald"] .emr-play .emr-ic circle:nth-of-type(6){animation-delay:.4s}
+html[data-metal="emerald"] #emrClarity .emr-play[data-v="FL"] .emr-ic,html[data-metal="emerald"] #emrClarity .emr-play[data-v="IF"] .emr-ic{animation:dGlint .8s cubic-bezier(.3,.7,.2,1)}
+/* cut: facet marks pop in */
+html[data-metal="emerald"] :is(#emrCut) .emr-play .emr-ic path:not(:first-child),html[data-metal="emerald"] #emrGTabs .emr-play[data-v="cut"] .emr-ic path:not(:first-child){animation:dPop .45s cubic-bezier(.2,1.4,.4,1) both}
+html[data-metal="emerald"] #emrCut .emr-play .emr-ic path:nth-child(3){animation-delay:.08s}html[data-metal="emerald"] #emrCut .emr-play .emr-ic path:nth-child(4){animation-delay:.16s}html[data-metal="emerald"] #emrCut .emr-play .emr-ic path:nth-child(5){animation-delay:.24s}
+/* polish: surface shine */
+html[data-metal="emerald"] :is(#emrPolish) .emr-play .emr-ic,html[data-metal="emerald"] #emrGTabs .emr-play[data-v="polish"] .emr-ic{animation:dShine .7s ease-out}
+html[data-metal="emerald"] #emrPolish .emr-play .emr-ic path:not(:first-child){animation:dPop .45s cubic-bezier(.2,1.4,.4,1) both}
+/* symmetry: mirrors across its axis */
+html[data-metal="emerald"] :is(#emrSym) .emr-play .emr-ic,html[data-metal="emerald"] #emrGTabs .emr-play[data-v="sym"] .emr-ic{animation:dMirror .7s cubic-bezier(.45,.05,.3,1)}
+/* fluorescence: UV glow blooms */
+html[data-metal="emerald"] :is(#emrFluor) .emr-play .emr-ic circle,html[data-metal="emerald"] #emrGTabs .emr-play[data-v="fluor"] .emr-ic circle{animation:dGlow .7s ease-out both}
+html[data-metal="emerald"] :is(#emrFluor) .emr-play .emr-ic,html[data-metal="emerald"] #emrGTabs .emr-play[data-v="fluor"] .emr-ic{animation:dGlowIc .8s ease-out}
+/* GIA lab assessment: star turns and catches light */
+html[data-metal="emerald"] :is(#emrLabGrade) .emr-play .emr-ic,html[data-metal="emerald"] #emrGTabs .emr-play[data-v="gia"] .emr-ic{animation:dStar .8s cubic-bezier(.3,.7,.2,1)}
+/* carat weight chips and Grading/Calculate switch: brilliance glint */
+html[data-metal="emerald"] #unitChips .emr-play svg,html[data-metal="emerald"] #emrSplit .emr-play svg{animation:dGlint .8s cubic-bezier(.3,.7,.2,1)}
+@media(prefers-reduced-motion:reduce){html[data-metal="emerald"] .emr-play *{animation:none!important}}
+
+.emr-src{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.emr-src a{display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border-radius:999px;border:1px solid var(--glass-border);background:color-mix(in srgb,var(--glass-strong) 80%,transparent);color:var(--text-0);font:700 11.5px/1 Inter,system-ui,sans-serif;text-decoration:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.14)}
+.emr-src a svg{width:13px;height:13px}
+.emr-src small{flex-basis:100%;font-size:10.5px;color:var(--text-2)}
+
+/* EMR → U$D: your own $/ct — no live-quote widget button */
+html[data-metal="emerald"] #spotLiveLink{display:none!important}
+
+/* Market: two own-rate strips (Natural, Lab) replace the single EMR → U$D field */
+html:not([data-metal="emerald"]) .emr-rate-field{display:none!important}
+/* roomier heading-to-strip spacing in diamond mode */
+html[data-metal="emerald"] .card .field{row-gap:11px!important;gap:11px!important}
+html[data-metal="emerald"] .emr-spot-engine{display:none!important}
+
+html[data-metal="emerald"] .emr-rate-field .input-wrap:not(.emr-editing) input{cursor:pointer;caret-color:transparent}
+html[data-metal="emerald"] .emr-rate-field .input-wrap.emr-editing{box-shadow:0 0 0 1.5px color-mix(in srgb,var(--text-0) 55%,transparent),0 0 14px rgba(210,232,255,.25)}
+.emr-index-link{display:inline-flex!important;align-items:center;gap:3px;height:auto!important;min-height:0!important;padding:4px 10px!important;border-radius:999px!important;font:700 11.5px/1.2 Inter,system-ui,sans-serif!important;text-decoration:none;color:var(--text-0)!important;border:1px solid var(--glass-border);background:color-mix(in srgb,var(--glass-strong) 85%,transparent)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.16)!important}
+
+.emr-idx-zone{flex:1 1 auto;min-height:0;position:relative;background:var(--glass)}
+.emr-idx-frame{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
+.emr-idx-tab[aria-selected="true"]{color:var(--text-0)!important;border-color:color-mix(in srgb,var(--text-0) 45%,transparent)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 0 12px rgba(210,232,255,.18)}
+html[data-metal="emerald"] .mcx-dhan-overlay{background:rgba(6,8,11,.72)}
+.emr-carat-pick{cursor:pointer}
+.emr-carat-pick .emr-chev{margin-left:2px;opacity:.75}
+.emr-carat-pop{position:fixed;z-index:600;display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:10px;border-radius:20px;background:var(--glass-strong,rgba(28,32,38,.92));backdrop-filter:blur(26px) saturate(1.4);-webkit-backdrop-filter:blur(26px) saturate(1.4);border:1px solid var(--glass-border);box-shadow:0 16px 44px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.16);opacity:0;transform:translateY(-6px) scale(.98);transition:opacity .18s ease,transform .22s cubic-bezier(.2,1,.3,1)}
+.emr-carat-pop.open{opacity:1;transform:none}
+.emr-carat-pop::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:.8px;background:var(--gc-rim);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.emr-carat-pop button{display:flex;align-items:baseline;justify-content:center;gap:2px;padding:9px 0;border-radius:12px;border:1px solid var(--glass-border);background:transparent;color:var(--text-1);font:750 13.5px/1 Inter,system-ui,sans-serif}
+.emr-carat-pop button small{font-size:9.5px;font-weight:600;color:var(--text-2)}
+.emr-carat-pop button[aria-selected="true"]{color:var(--text-0);background:color-mix(in srgb,var(--text-0) 13%,transparent);border-color:color-mix(in srgb,var(--text-0) 45%,transparent);box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
+/* grading summary shown on the Calculate pane */
+#emrCalcSum{display:none}
+html[data-metal="emerald"] #calculateBody[data-dpane="calc"] #emrCalcSum{display:flex}
+#emrCalcSum{position:relative;align-items:center;gap:10px;width:100%;margin:0 0 14px;padding:10px 12px;border-radius:16px;border:1px solid var(--glass-border);background:var(--glass-strong);color:var(--text-0);text-align:left;font:inherit}
+#emrCalcSum::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:.6px;background:var(--gc-rim);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.6;pointer-events:none}
+#emrCalcSum .cs-t{flex:1;min-width:0}
+#emrCalcSum b{display:block;font:700 12.5px/1.3 Inter,system-ui,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#emrCalcSum small{display:block;margin-top:2px;font-size:11px;color:var(--text-2)}
+#emrCalcSum .cs-go{flex:none;font:700 11px Inter,system-ui,sans-serif;color:var(--text-1);padding:6px 10px;border-radius:999px;border:1px solid var(--glass-border)}
+
+/* emerald icon motion: origin pin drops, oil drop fills, certificate stamps, method bubbles */
+@keyframes eDrop{0%{transform:translateY(-5px);opacity:.3}60%{transform:translateY(1px);opacity:1}100%{transform:none}}
+@keyframes eFill{0%{transform:scale(.2);opacity:0}70%{transform:scale(1.15);opacity:.9}100%{transform:none;opacity:.75}}
+@keyframes eStamp{0%{transform:scale(1.35) rotate(-12deg);opacity:.2}55%{transform:scale(.94) rotate(2deg);opacity:1}100%{transform:none}}
+@keyframes eBubble{0%{transform:translateY(3px);opacity:0}100%{transform:none;opacity:1}}
+@keyframes eLeaf{0%{filter:none;transform:scale(1)}40%{filter:saturate(1.25) brightness(1.08) drop-shadow(0 0 3px rgba(150,195,172,.55));transform:scale(1.07)}100%{filter:none;transform:none}}
+html[data-metal="emerald"] #emrCut .emr-play .emr-ic,html[data-metal="emerald"] #emrGTabs .emr-play[data-v="origin"] .emr-ic{animation:eDrop .6s cubic-bezier(.3,1.4,.4,1)}
+html[data-metal="emerald"] #emrPolish .emr-play .emr-ic circle,html[data-metal="emerald"] #emrGTabs .emr-play[data-v="treat"] .emr-ic circle{animation:eFill .6s ease-out both}
+html[data-metal="emerald"] #emrSym .emr-play .emr-ic,html[data-metal="emerald"] #emrGTabs .emr-play[data-v="cert"] .emr-ic{animation:eStamp .6s cubic-bezier(.3,.9,.3,1)}
+html[data-metal="emerald"] #emrLabGrade .emr-play .emr-ic circle,html[data-metal="emerald"] #emrGTabs .emr-play[data-v="method"] .emr-ic{animation:eBubble .6s ease-out both}
+html[data-metal="emerald"] #emrLabGrade .emr-play .emr-ic circle:nth-of-type(2){animation-delay:.1s}html[data-metal="emerald"] #emrLabGrade .emr-play .emr-ic circle:nth-of-type(3){animation-delay:.2s}
+html[data-metal="emerald"] #emrColor .emr-play .emr-ic,html[data-metal="emerald"] #emrGTabs .emr-play[data-v="color"] .emr-ic{animation:eLeaf .8s ease-out!important}
+@media(prefers-reduced-motion:reduce){html[data-metal="emerald"] .emr-play *{animation:none!important}}
+</style>
 </head>
 <body>
 <div aria-hidden="true" class="ambient"><div class="orb orb-a"></div><div class="orb orb-b"></div><div class="orb orb-c"></div></div>
@@ -5026,6 +5270,7 @@ html[data-metal="diamond"] #calculateBody[data-dpane="calc"] #diaCalcSum{display
 <button type="button" role="menuitemradio" data-metal="palladium" aria-checked="false"><i class="metal-tile is-palladium" aria-hidden="true"><em>46</em><b>Pd</b></i><span><b>Palladium</b><small>Pd · 9995–500</small></span><span class="metal-tick" aria-hidden="true">✓</span></button>
 <button type="button" role="menuitemradio" data-metal="copper" aria-checked="false"><i class="metal-tile is-copper" aria-hidden="true"><em>29</em><b>Cu</b></i><span><b>Copper</b><small>Cu · 8N–No.2</small></span><span class="metal-tick" aria-hidden="true">✓</span></button>
 <button type="button" role="menuitemradio" data-metal="diamond" aria-checked="false"><i class="metal-tile is-diamond" aria-hidden="true"><em>6</em><b>C</b></i><span><b>Diamond</b><small>C · D–M · FL–I3</small></span><span class="metal-tick" aria-hidden="true">✓</span></button>
+<button type="button" role="menuitemradio" data-metal="emerald" aria-checked="false"><i class="metal-tile is-emerald" aria-hidden="true"><em>4</em><b>Be</b></i><span><b>Emerald</b><small>Be · Natural · Synthetic</small></span><span class="metal-tick" aria-hidden="true">✓</span></button>
 </div>
 </div>
 </div>
@@ -5208,6 +5453,19 @@ html[data-metal="diamond"] #calculateBody[data-dpane="calc"] #diaCalcSum{display
 <div class="dia-out"><div><small>Est. weight</small><b id="dsCt">—</b><i id="dsCents"></i></div><div><small>In grams</small><b id="dsG">—</b><i id="dsMg"></i></div></div>
 <div class="dia-out dia-out-one"><div><small id="dsValLbl">Value at your grade rate</small><b id="dsVal">—</b><i id="dsValNote"></i></div></div>
 </section>
+<section aria-label="Emerald size to carat" class="card" id="emrSizeCard">
+<div class="section-head-static"><span class="section-head"><h2><svg aria-hidden="true" class="icon icon-md" viewBox="0 0 28 28"><use href="#dropBase"/><path d="M8.5 10h11l3 3.3L14 22.5l-8.5-9.2z" fill="none" stroke="var(--glyph)" stroke-width="1.5" stroke-linejoin="round"/><path d="M5.5 13.3h17M11.8 10 14 13.3 16.2 10" fill="none" stroke="var(--glyph)" stroke-width="1.1" opacity=".7"/></svg> Emerald Size</h2></span></div>
+<p class="emr-sub">Measured size (mm) → estimated carat and ratti by shape, using emerald’s density (2.72 natural · 2.68 synthetic). About ±10 %; weigh for the exact figure.</p>
+<div class="chip-row emr-chips" id="esShape" role="group" aria-label="Shape"></div>
+<div class="emr-grid">
+<div class="field"><label for="esLen" id="esLenLbl">Diameter</label><div class="input-wrap"><input autocomplete="off" id="esLen" inputmode="decimal" type="text" value="6.5"/><span class="prefix">mm</span></div></div>
+<div class="field" id="esWidF"><label for="esWid">Width</label><div class="input-wrap"><input autocomplete="off" id="esWid" inputmode="decimal" type="text" value="6.5"/><span class="prefix">mm</span></div></div>
+<div class="field"><label for="esDep">Depth</label><div class="input-wrap"><input autocomplete="off" id="esDep" inputmode="decimal" type="text" value="4.0"/><span class="prefix">mm</span></div></div>
+<div class="field"><label for="esQty">Stones</label><div class="input-wrap"><input autocomplete="off" id="esQty" inputmode="numeric" type="text" value="1"/><span class="prefix">×</span></div></div>
+</div>
+<div class="emr-out"><div><small>Est. weight</small><b id="esCt">—</b><i id="esCents"></i></div><div><small>In grams</small><b id="esG">—</b><i id="esMg"></i></div></div>
+<div class="emr-out emr-out-one"><div><small id="esValLbl">Value at your grade rate</small><b id="esVal">—</b><i id="esValNote"></i></div></div>
+</section>
 <section aria-label="Gold Purity and Yield Calculator" class="card purity-unified-card" data-purity-mode="yield" data-unit-text-fx="shimmer" id="purityDifferenceCard">
 <div class="section-head-static purity-unified-header">
 <span class="section-head"><h2>
@@ -5387,7 +5645,9 @@ html[data-metal="diamond"] #calculateBody[data-dpane="calc"] #diaCalcSum{display
 </div></div>
 <div class="section-body" id="calculateBody">
 <div id="diaSplit" role="tablist" aria-label="Diamond calculator"><span class="ds-mag" aria-hidden="true"></span><button type="button" role="tab" data-p="grade" aria-selected="true"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 9.5h11l3.2 3.6L14 23 5.3 13.1z"/><path d="M5.3 13.1h17.4M11.6 9.5 14 13.1l2.4-3.6M10.4 13.1 14 23l3.6-9.9" opacity=".55"/><path d="M21.5 4.5v3M20 6h3" opacity=".8"/></svg><span>Grading</span></button><button type="button" role="tab" data-p="calc" aria-selected="false"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="7" y="4.5" width="14" height="19" rx="3"/><rect x="9.6" y="7.2" width="8.8" height="3.8" rx="1"/><path d="M10.5 14.5h.01M14 14.5h.01M17.5 14.5h.01M10.5 18h.01M14 18h.01M17.5 18h.01" stroke-width="2.2"/></svg><span>Calculate</span></button></div>
+<div id="emrSplit" role="tablist" aria-label="Emerald calculator"><span class="es-mag" aria-hidden="true"></span><button type="button" role="tab" data-p="grade" aria-selected="true"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 9.5h11l3.2 3.6L14 23 5.3 13.1z"/><path d="M5.3 13.1h17.4M11.6 9.5 14 13.1l2.4-3.6M10.4 13.1 14 23l3.6-9.9" opacity=".55"/><path d="M21.5 4.5v3M20 6h3" opacity=".8"/></svg><span>Grading</span></button><button type="button" role="tab" data-p="calc" aria-selected="false"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="7" y="4.5" width="14" height="19" rx="3"/><rect x="9.6" y="7.2" width="8.8" height="3.8" rx="1"/><path d="M10.5 14.5h.01M14 14.5h.01M17.5 14.5h.01M10.5 18h.01M14 18h.01M17.5 18h.01" stroke-width="2.2"/></svg><span>Calculate</span></button></div>
 <button type="button" id="diaCalcSum"><span class="cs-t"><b id="csGrade"></b><small id="csRate"></small></span><span class="cs-go">Edit grade</span></button>
+<button type="button" id="emrCalcSum"><span class="cs-t"><b id="ecsGrade"></b><small id="ecsRate"></small></span><span class="cs-go">Edit grade</span></button>
 <div id="diaGrade" class="dia-grade" aria-label="Diamond grade">
 <div class="section-sub dia-head"><svg aria-hidden="true" class="icon icon-sm" viewBox="0 0 28 28"><use href="#dropBase"/><path d="M9.5 10.5h9l2.6 3L14 21l-7.1-7.5z" fill="none" stroke="var(--glyph)" stroke-width="1.4" stroke-linejoin="round"/></svg> Diamond Type</div>
 <div class="chip-row dia-chips" id="diaType" role="group" aria-label="Diamond type"></div>
@@ -5404,6 +5664,24 @@ html[data-metal="diamond"] #calculateBody[data-dpane="calc"] #diaCalcSum{display
 <div class="dia-rate-grade" id="diaGradeLine"></div>
 <div class="dia-rate-tiles"><div><small>Natural</small><b id="diaNat">—</b><i id="diaNatInr"></i></div><div><small>Lab-grown</small><b id="diaLab">—</b><i id="diaLabInr"></i></div></div>
 <p class="dia-rate-note" id="diaRateNote">Your rate for this grade: enter it in Market → DIA → U$D ($/ct). Each grade remembers its own rate.</p>
+</div>
+</div>
+<div id="emrGrade" class="emr-grade" aria-label="Emerald grade">
+<div class="section-sub emr-head"><svg aria-hidden="true" class="icon icon-sm" viewBox="0 0 28 28"><use href="#dropBase"/><path d="M9.5 10.5h9l2.6 3L14 21l-7.1-7.5z" fill="none" stroke="var(--glyph)" stroke-width="1.4" stroke-linejoin="round"/></svg> Emerald Type</div>
+<div class="chip-row emr-chips" id="emrType" role="group" aria-label="Emerald type"></div>
+<div class="section-sub emr-head">Shape</div><div class="chip-row emr-chips" id="emrShape" role="group" aria-label="Shape"></div>
+<div class="emr-nat"><div class="section-sub emr-head">Colour <span class="emr-tag">GIA D-to-Z</span></div><div class="chip-row emr-chips" id="emrColor" role="group" aria-label="Colour"></div>
+<div class="section-sub emr-head">Clarity <span class="emr-tag">GIA 11 grades</span></div><div class="chip-row emr-chips" id="emrClarity" role="group" aria-label="Clarity"></div></div>
+<div class="emr-nat"><div class="section-sub emr-head emr-cut-only">Cut <span class="emr-tag">GIA · round brilliant only</span></div><div class="chip-row emr-chips emr-cut-only" id="emrCut" role="group" aria-label="Cut grade"></div>
+<div class="section-sub emr-head">Polish</div><div class="chip-row emr-chips" id="emrPolish" role="group" aria-label="Polish"></div>
+<div class="section-sub emr-head">Symmetry</div><div class="chip-row emr-chips" id="emrSym" role="group" aria-label="Symmetry"></div>
+<div class="section-sub emr-head">Fluorescence</div><div class="chip-row emr-chips" id="emrFluor" role="group" aria-label="Fluorescence"></div></div>
+<div class="emr-lab"><div class="section-sub emr-head">GIA Lab-Grown Assessment</div><div class="chip-row emr-chips" id="emrLabGrade" role="group" aria-label="GIA laboratory-grown assessment"></div>
+<p class="emr-crit" id="emrCrit"></p></div>
+<div class="emr-rate" id="emrRateBox">
+<div class="emr-rate-grade" id="emrGradeLine"></div>
+<div class="emr-rate-tiles"><div><small>Natural</small><b id="emrNat">—</b><i id="emrNatInr"></i></div><div><small>Synthetic</small><b id="emrLab">—</b><i id="emrLabInr"></i></div></div>
+<p class="emr-rate-note" id="emrRateNote">Your rate for this grade: enter it in Market → EMR → U$D ($/ct). Each grade remembers its own rate.</p>
 </div>
 </div>
 
@@ -6006,6 +6284,7 @@ html[data-metal="diamond"] #calculateBody[data-dpane="calc"] #diaCalcSum{display
     { key:'ct_300', label:'3 ct', grams:0.6, sub:'0.6 g', weightGroup:'precision', icon:'<path d="M8.2 8.6h11.6l3.9 4.1L14 23.6l-9.7-10.9z" fill="none" stroke="var(--glyph)" stroke-width="1.55" stroke-linejoin="round" opacity="0.85"/><path d="M4.3 12.7h19.4M11.2 8.6l2.8 4.1 2.8-4.1M14 12.7v10.9" stroke="var(--glyph)" stroke-width="1" fill="none" opacity="0.6"/>' },
     { key:'ct_500', label:'5 ct', grams:1, sub:'1 g', weightGroup:'precision', icon:'<path d="M7.8 8.2h12.4l4.2 4.4L14 24.2 3.6 12.6z" fill="none" stroke="var(--glyph)" stroke-width="1.6" stroke-linejoin="round" opacity="0.9"/><path d="M3.6 12.6h20.8M11 8.2l3 4.4 3-4.4M9.4 12.6 14 24.2l4.6-11.6" stroke="var(--glyph)" stroke-width="1" fill="none" opacity="0.6"/>' }
   );
+  UNITS.push({ key:'ratti', label:'Ratti', grams:0.182, sub:'0.91 ct', weightGroup:'precision', icon:'<ellipse cx="14" cy="14.5" rx="5.2" ry="4.2" fill="var(--glyph)" opacity="0.85"/><path d="M14 10.3c.6-1.6 1.8-2.6 3.4-2.9" fill="none" stroke="var(--glyph)" stroke-width="1.2" stroke-linecap="round" opacity="0.8"/>' });
   // Add parenthetical symbols to only the six user-selected units.
   // All other unit labels remain plain, without suffixes.
   var unitSymbolSuffix = {
@@ -6617,7 +6896,7 @@ html[data-metal="diamond"] #calculateBody[data-dpane="calc"] #diaCalcSum{display
     var pureValueUSD = pureGramRateUSD * purityFactor * weight;
     var dutyAmt = s.dutyEnabled ? pureValueINR * (s.duty/100) : 0;
     var afterDuty = pureValueINR + dutyAmt;
-    var makingAmt = (s.makingEnabled && !/^(copper|diamond)$/.test(window.__gcMetal)) ? afterDuty * (s.making/100) : 0; // copper: no making/premium
+    var makingAmt = (s.makingEnabled && !/^(copper|diamond|emerald)$/.test(window.__gcMetal)) ? afterDuty * (s.making/100) : 0; // copper: no making/premium
     var preGst = afterDuty + makingAmt;
     var gstAmt = s.gstEnabled ? preGst * (s.gst/100) : 0;
     var afterGst = preGst + gstAmt;
@@ -6801,7 +7080,7 @@ html[data-metal="diamond"] #calculateBody[data-dpane="calc"] #diaCalcSum{display
     saveState();renderAll();
   });
   var selectedWeightGroup = 'everyday';
-  var weightGroups = { everyday:['xrfwt','gram','10gram','sovereign','2gram','5gram'], tamil:['ta_nel','ta_kunrimani','ta_manjaadi','ta_panavedai','ta_kazhanchu','ta_varaaganedai','ta_kaasu','ta_palam'], bullion:['50gram','100gram','500gram','kilogram','tonne','pound','troyoz','tola','tael','baht','chi','luong'], precision:['milligram','microgram','dwt','grain','carat_mass','cent','ct_10','ct_25','ct_50','ct_75','ct_150','ct_200','ct_300','ct_500'] };
+  var weightGroups = { everyday:['xrfwt','gram','10gram','sovereign','2gram','5gram'], tamil:['ta_nel','ta_kunrimani','ta_manjaadi','ta_panavedai','ta_kazhanchu','ta_varaaganedai','ta_kaasu','ta_palam'], bullion:['50gram','100gram','500gram','kilogram','tonne','pound','troyoz','tola','tael','baht','chi','luong'], precision:['milligram','microgram','dwt','grain','carat_mass','ratti','cent','ct_10','ct_25','ct_50','ct_75','ct_150','ct_200','ct_300','ct_500'] };
   // Quick Rates uses the exact same groups, units and order as Weight Unit.
   // Its category selection is independent of calculator state and pricing.
   if(state.unit==='customwt')state.unit='gram';
@@ -7018,7 +7297,7 @@ html[data-metal="diamond"] #calculateBody[data-dpane="calc"] #diaCalcSum{display
         else name = f>=999.5?'Bullion' : f>=990?'Fine' : 'Jewel';
         ref = fmt(f, metal==='copper'?5:3) + '‰ · ' + name;
       }
-      $('refPure').textContent = '(' + (window.__gcMetal==='diamond' && window.__gcDiaRef ? window.__gcDiaRef() : ref) + ')';
+      $('refPure').textContent = '(' + (window.__gcMetal==='diamond' && window.__gcDiaRef ? window.__gcDiaRef() : window.__gcMetal==='emerald' && window.__gcEmrRef ? window.__gcEmrRef() : ref) + ')';
     })();
     $('refDuty').textContent = (window.__gcDutyWefText && window.__gcDutyWefText() ? window.__gcDutyWefText() + ' ' : '') + '(' + state.duty + '%)';
     $('refAfterDuty').textContent = '(+' + state.duty + '%)';
@@ -7026,7 +7305,7 @@ html[data-metal="diamond"] #calculateBody[data-dpane="calc"] #diaCalcSum{display
     $('refGst').textContent = (window.__gcGstWefText && window.__gcGstWefText() ? window.__gcGstWefText() + ' ' : '') + '(' + state.gst + '%)';
     $('rowDuty').style.display = state.dutyEnabled ? '' : 'none';
     $('rowAfterDuty').style.display = state.dutyEnabled ? '' : 'none';
-    $('rowMaking').style.display = (state.makingEnabled && !/^(copper|diamond)$/.test(window.__gcMetal)) ? '' : 'none';
+    $('rowMaking').style.display = (state.makingEnabled && !/^(copper|diamond|emerald)$/.test(window.__gcMetal)) ? '' : 'none';
     $('rowGst').style.display = state.gstEnabled ? '' : 'none';
     $('legendDuty').style.display = state.dutyEnabled ? '' : 'none';
     $('legendGst').style.display = state.gstEnabled ? '' : 'none';
@@ -7127,7 +7406,7 @@ html[data-metal="diamond"] #calculateBody[data-dpane="calc"] #diaCalcSum{display
       
       var overheadParts = [];
       if(state.dutyEnabled) overheadParts.push('Duty');
-      if(state.makingEnabled && !/^(copper|diamond)$/.test(window.__gcMetal)) overheadParts.push('Making');
+      if(state.makingEnabled && !/^(copper|diamond|emerald)$/.test(window.__gcMetal)) overheadParts.push('Making');
       if(state.gstEnabled) overheadParts.push('GST');
       $('basketOverheadRef').textContent = overheadParts.length > 0 ? overheadParts.join(' + ') : '';
 
@@ -7162,7 +7441,7 @@ html[data-metal="diamond"] #calculateBody[data-dpane="calc"] #diaCalcSum{display
     $('pBdDuty').textContent = fmtINR(line.dutyAmt,0);
     $('pBdAfterDuty').textContent = fmtINR(line.afterDuty,0);
     $('pBdMaking').textContent = fmtINR(line.makingAmt,0);
-    $('pRowMaking').style.display = (state.makingEnabled && !/^(copper|diamond)$/.test(window.__gcMetal)) ? '' : 'none';
+    $('pRowMaking').style.display = (state.makingEnabled && !/^(copper|diamond|emerald)$/.test(window.__gcMetal)) ? '' : 'none';
     $('pBdGst').textContent = fmtINR(line.gstAmt,0);
     $('pBdFinal').textContent = haveRequiredRates() ? fmtINR(line.afterGst,0) : '—';
     if(!haveRequiredRates()) ['pBdPure','pBdDuty','pBdAfterDuty','pBdMaking','pBdGst'].forEach(function(id){ $(id).textContent = '—'; });
@@ -7200,7 +7479,7 @@ html[data-metal="diamond"] #calculateBody[data-dpane="calc"] #diaCalcSum{display
       
       var overheadParts = [];
       if(state.dutyEnabled) overheadParts.push('Duty');
-      if(state.makingEnabled && !/^(copper|diamond)$/.test(window.__gcMetal)) overheadParts.push('Making');
+      if(state.makingEnabled && !/^(copper|diamond|emerald)$/.test(window.__gcMetal)) overheadParts.push('Making');
       if(state.gstEnabled) overheadParts.push('GST');
       var pRef = $('pTotOverheadRef');
       if (pRef) pRef.textContent = overheadParts.length > 0 ? '(' + overheadParts.join(' + ') + ')' : '';
@@ -7652,7 +7931,7 @@ html[data-metal="diamond"] #calculateBody[data-dpane="calc"] #diaCalcSum{display
       var GOLD_LIST = PURITIES.slice();
       var CUSTOM = GOLD_LIST.filter(function(p){ return p.key==='custompercent' || p.key==='customfineness'; });
       var LISTS = { gold: GOLD_LIST };
-      ['silver','platinum','palladium','copper','diamond'].forEach(function(m){
+      ['silver','platinum','palladium','copper','diamond','emerald'].forEach(function(m){
         LISTS[m] = [window.__gcXrfPurity].filter(Boolean).concat(CFG[m].purities.map(function(r){ return {key:m+'_'+r[0], label:r[0], sub:r[1], karat:24*r[2]/1000, group:'refining'}; }), CUSTOM);
       });
       var store = { metal: window.__gcMetal, profiles: {} };
@@ -8459,7 +8738,7 @@ html[data-metal="diamond"] #calculateBody[data-dpane="calc"] #diaCalcSum{display
     popup.style.left=Math.round(left)+'px';
     popup.style.top=Math.round(top)+'px';
   }
-  function metalSymbol(){ return ({gold:'TVC:GOLD',silver:'TVC:SILVER',platinum:'TVC:PLATINUM',palladium:'TVC:PALLADIUM',copper:'VANTAGE:COPPER',diamond:''})[window.__gcMetal||'gold']||'TVC:GOLD'; }
+  function metalSymbol(){ return ({gold:'TVC:GOLD',silver:'TVC:SILVER',platinum:'TVC:PLATINUM',palladium:'TVC:PALLADIUM',copper:'VANTAGE:COPPER',diamond:'',emerald:''})[window.__gcMetal||'gold']||'TVC:GOLD'; }
   document.addEventListener('gc:metal',function(){ if(host.dataset.symbol && host.dataset.symbol!==metalSymbol()){ host.dataset.initialized=''; if(!popup.hidden) loadQuote(); } });
   function loadQuote(){
     var sym=metalSymbol();
@@ -10340,7 +10619,7 @@ async function drawDom(ctx,node,offset,depth){
   ctx.strokeStyle=style.borderTopColor||'#ae863b';ctx.lineWidth=.8;ctx.stroke();
   var radius=Math.min(th-4,tw*.48)/2;
   var knobX=el.classList.contains('reset-toggle')?(el.classList.contains('flipped')?tx+tw-radius-2:tx+radius+2):(checked?tx+tw-radius-2:tx+radius+2);
-  ctx.beginPath();ctx.arc(knobX,ty+th/2,radius,0,Math.PI*2);ctx.fillStyle=(document.documentElement.dataset.metal==='silver'?'#fbfcfd':document.documentElement.dataset.metal==='platinum'?'#f4f8fd':document.documentElement.dataset.metal==='palladium'?'#f7f5f1':document.documentElement.dataset.metal==='copper'?'#fbeee5':document.documentElement.dataset.metal==='diamond'?'#f7fbff':'#f8f5ef');ctx.fill();
+  ctx.beginPath();ctx.arc(knobX,ty+th/2,radius,0,Math.PI*2);ctx.fillStyle=(document.documentElement.dataset.metal==='silver'?'#fbfcfd':document.documentElement.dataset.metal==='platinum'?'#f4f8fd':document.documentElement.dataset.metal==='palladium'?'#f7f5f1':document.documentElement.dataset.metal==='copper'?'#fbeee5':document.documentElement.dataset.metal==='diamond'?'#f7fbff':document.documentElement.dataset.metal==='emerald'?'#eef3f0':'#f8f5ef');ctx.fill();
   ctx.restore();
   if(el.classList.contains('ios-toggle')){ctx.restore();return;}
  }
@@ -10849,15 +11128,15 @@ html:root[data-theme="light"],html:root[data-theme="light"] body{
  var shown='';
  function placeholder(t){ if(!host) return; var d=document.createElement('div'); d.className='mcx-preview-placeholder'; d.textContent=t; host.replaceChildren(d); }
  function apply(){
-  var m=window.__gcMetal||'gold'; var want=(m==='platinum'||m==='palladium'||m==='copper'||m==='diamond')?m:'default';
+  var m=window.__gcMetal||'gold'; var want=(m==='platinum'||m==='palladium'||m==='copper'||m==='diamond'||m==='emerald')?m:'default';
   if(want===shown) return; shown=want;
   if(want!=='default'){
-   var frag=document.createDocumentFragment(), LIST=(want==='palladium'||want==='copper'||want==='diamond')?[]:PT;
+   var frag=document.createDocumentFragment(), LIST=(want==='palladium'||want==='copper'||want==='diamond'||want==='emerald')?[]:PT;
    LIST.forEach(function(x,i){ var a=document.createElement('a'); a.href=x[1]; a.target='_blank'; a.rel='noopener noreferrer';
     a.className='mcx-dhan-open'+(i===0?' silver-chip-active':''); a.setAttribute('aria-selected',i===0?'true':'false');
     a.dataset.jewelPreview=x[2]?'true':'false'; a.textContent=x[0]; frag.appendChild(a); });
    rail.replaceChildren(frag);
-   if(want==='palladium'||want==='copper'||want==='diamond'){
+   if(want==='palladium'||want==='copper'||want==='diamond'||want==='emerald'){
     if(hint) hint.textContent='';
     if(host) host.replaceChildren();
    } else {
@@ -11776,6 +12055,7 @@ w.document.open();w.document.write('<!doctype html><html><head><meta charset="ut
 .metal-chip{display:inline-flex;align-items:center;gap:.18em;padding:0;margin:0;border:0;background:none;font:inherit;letter-spacing:inherit;line-height:inherit;color:inherit;-webkit-text-fill-color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;border-radius:8px}
 .metal-chip .metal-name{white-space:nowrap}
 html[data-metal="platinum"] .metal-chip{font-size:.82em}
+html[data-metal="emerald"] .metal-chip{font-size:.82em}
 html[data-metal="diamond"] .metal-chip{font-size:.82em}
 html[data-metal="copper"] .metal-chip{font-size:.82em}
 html[data-metal="palladium"] .metal-chip{font-size:.74em}
@@ -11786,6 +12066,7 @@ html[data-metal="palladium"] .metal-chip{font-size:.74em}
 .metal-dot{display:inline-block;width:12px;height:12px;border-radius:50%;flex:none;background:radial-gradient(circle at 35% 30%,#FFF1C2,#E8B64C 55%,#8A5A17)}
 .metal-dot.is-silver{background:radial-gradient(circle at 35% 30%,#FFFFFF,#BAC3CD 55%,#5D6672)}
 .metal-dot.is-platinum{background:radial-gradient(circle at 35% 30%,#F2F8FF,#9DB8D6 55%,#4B6788)}
+.metal-dot.is-emerald{background:radial-gradient(circle at 35% 30%,#D1E6DB,#8DC1A7 55%,#427B5F)}
 .metal-dot.is-diamond{background:radial-gradient(circle at 35% 30%,#F9FBFD,#B4C3CE 55%,#5E707E)}
 .metal-dot.is-copper{background:radial-gradient(circle at 35% 30%,#FEF7F3,#F2A781 55%,#B05223)}
 .metal-dot.is-palladium{background:radial-gradient(circle at 35% 30%,#FBF9F6,#C5BCAE 55%,#766C5D)}
@@ -11810,11 +12091,13 @@ html[data-metal="palladium"] .metal-chip{font-size:.74em}
 /* Metal accent colours: the app's gold palette variables, re-tinted. */
 html[data-metal="silver"]:not([data-theme="light"]){--gold-100:#FAFBFC;--gold-300:#EEF1F4;--gold-500:#C6CCD3;--gold-700:#959CA5;--gold-900:#61676F;--amber:#BCC2C9;--umber:#848A92;--glass-border:rgba(220,224,230,.15);--glass-border-strong:rgba(225,229,235,.32);--metal-filter:grayscale(1) brightness(1.12) contrast(.96);--metal-ring:rgba(215,220,228,.10)}
 html[data-metal="platinum"]:not([data-theme="light"]){--gold-100:#E4ECF5;--gold-300:#B3C9E2;--gold-500:#86A3C6;--gold-700:#5B7A9F;--gold-900:#3A516F;--amber:#9DB5D2;--umber:#5F7B9C;--glass-border:rgba(150,180,215,.17);--glass-border-strong:rgba(158,188,222,.36);--metal-filter:grayscale(1) sepia(1) hue-rotate(178deg) saturate(1.9) brightness(1.04);--metal-ring:rgba(110,170,235,.16)}
+html[data-metal="emerald"]:not([data-theme="light"]){--gold-100:#C8E1D5;--gold-300:#A0CCB6;--gold-500:#76B595;--gold-700:#4F9271;--gold-900:#35634C;--amber:#8AC0A5;--umber:#4F9371;--glass-border:rgba(137,191,164,.17);--glass-border-strong:rgba(146,196,171,.36);--metal-filter:none;--metal-ring:rgba(125,185,155,.16)}
 html[data-metal="diamond"]:not([data-theme="light"]){--gold-100:#F4F6F8;--gold-300:#C9D4DD;--gold-500:#9EAFBB;--gold-700:#718593;--gold-900:#4A5A66;--amber:#B3C1CB;--umber:#738592;--glass-border:rgba(175,192,204,.17);--glass-border-strong:rgba(183,200,212,.36);--metal-filter:none;--metal-ring:rgba(151,184,208,.16)}
 html[data-metal="copper"]:not([data-theme="light"]){--gold-100:#FCE7DD;--gold-300:#F6BC9F;--gold-500:#ED8E5F;--gold-700:#CD622D;--gold-900:#914018;--amber:#F2A47D;--umber:#C76534;--glass-border:rgba(242,163,123,.17);--glass-border-strong:rgba(243,172,137,.36);--metal-filter:none;--metal-ring:rgba(240,150,105,.16)}
 html[data-metal="palladium"]:not([data-theme="light"]){--gold-100:#F0EDE9;--gold-300:#D4CCC1;--gold-500:#B3A999;--gold-700:#8B806F;--gold-900:#605749;--amber:#C3BAAC;--umber:#8A8071;--glass-border:rgba(196,185,169,.17);--glass-border-strong:rgba(203,193,177,.36);--metal-filter:grayscale(1) sepia(.38) saturate(.85) brightness(1.06);--metal-ring:rgba(199,178,146,.16)}
 html[data-metal="silver"][data-theme="light"]{--gold-100:#ECEEF1;--gold-300:#8E959D;--gold-500:#6A7179;--gold-700:#4A5058;--gold-900:#33383E;--amber:#7A8088;--umber:#575D65;--glass-border-strong:rgba(90,98,108,.35);--metal-filter:grayscale(1) brightness(1.02);--metal-ring:rgba(90,98,108,.12)}
 html[data-metal="platinum"][data-theme="light"]{--gold-100:#E1E9F2;--gold-300:#5D7FA6;--gold-500:#46668C;--gold-700:#334F70;--gold-900:#233850;--amber:#55779E;--umber:#3B5878;--glass-border-strong:rgba(55,85,120,.36);--metal-filter:grayscale(1) sepia(1) hue-rotate(178deg) saturate(2.2) brightness(.98);--metal-ring:rgba(40,100,170,.14)}
+html[data-metal="emerald"][data-theme="light"]{--gold-100:#C5E0D2;--gold-300:#529875;--gold-500:#427B5F;--gold-700:#335F49;--gold-900:#244334;--amber:#4D8E6D;--umber:#386951;--glass-border-strong:rgba(55,102,79,.36);--metal-filter:none;--metal-ring:rgba(66,123,95,.14)}
 html[data-metal="diamond"][data-theme="light"]{--gold-100:#F0F3F5;--gold-300:#758A98;--gold-500:#5B707F;--gold-700:#455765;--gold-900:#303E48;--amber:#6B8291;--umber:#4D606D;--glass-border-strong:rgba(74,94,108,.36);--metal-filter:none;--metal-ring:rgba(75,115,143,.14)}
 html[data-metal="copper"][data-theme="light"]{--gold-100:#FBE4D8;--gold-300:#D6652D;--gold-500:#B84F1A;--gold-700:#943B0F;--gold-900:#692A0A;--amber:#CD5E26;--umber:#9E4315;--glass-border-strong:rgba(159,64,16,.36);--metal-filter:none;--metal-ring:rgba(191,76,19,.14)}
 html[data-metal="palladium"][data-theme="light"]{--gold-100:#EDEAE6;--gold-300:#918572;--gold-500:#786C5A;--gold-700:#5E5445;--gold-900:#433B30;--amber:#897D6A;--umber:#665C4D;--glass-border-strong:rgba(101,90,74,.36);--metal-filter:grayscale(1) sepia(.42) saturate(.85) brightness(.97) contrast(1.06);--metal-ring:rgba(132,110,78,.14)}
@@ -11822,72 +12105,87 @@ html[data-metal="palladium"][data-theme="light"]{--gold-100:#EDEAE6;--gold-300:#
 
 
 html[data-metal="silver"] :is(.topbar,nav.bottom-nav),html[data-metal="platinum"] :is(.topbar,nav.bottom-nav){box-shadow:0 8px 30px rgba(0,0,0,.3),0 0 0 1px var(--metal-ring)!important}
+html[data-metal="emerald"] :is(.topbar,nav.bottom-nav){box-shadow:0 8px 30px rgba(0,0,0,.3),0 0 0 1px var(--metal-ring)!important}
 html[data-metal="diamond"] :is(.topbar,nav.bottom-nav){box-shadow:0 8px 30px rgba(0,0,0,.3),0 0 0 1px var(--metal-ring)!important}
 html[data-metal="copper"] :is(.topbar,nav.bottom-nav){box-shadow:0 8px 30px rgba(0,0,0,.3),0 0 0 1px var(--metal-ring)!important}
 html[data-metal="palladium"] :is(.topbar,nav.bottom-nav){box-shadow:0 8px 30px rgba(0,0,0,.3),0 0 0 1px var(--metal-ring)!important}
 html[data-metal="silver"] :is(.purity-unified-card,.purity-unified-navigation,.compare-unified-card),html[data-metal="platinum"] :is(.purity-unified-card,.purity-unified-navigation,.compare-unified-card){border-color:var(--glass-border-strong)!important}
+html[data-metal="emerald"] :is(.purity-unified-card,.purity-unified-navigation,.compare-unified-card){border-color:var(--glass-border-strong)!important}
 html[data-metal="diamond"] :is(.purity-unified-card,.purity-unified-navigation,.compare-unified-card){border-color:var(--glass-border-strong)!important}
 html[data-metal="copper"] :is(.purity-unified-card,.purity-unified-navigation,.compare-unified-card){border-color:var(--glass-border-strong)!important}
 html[data-metal="palladium"] :is(.purity-unified-card,.purity-unified-navigation,.compare-unified-card){border-color:var(--glass-border-strong)!important}
 html[data-metal="silver"] #purityDifferenceCard .pdc-details,html[data-metal="platinum"] #purityDifferenceCard .pdc-details{border-top-color:var(--glass-border-strong)!important}
+html[data-metal="emerald"] #purityDifferenceCard .pdc-details{border-top-color:var(--glass-border-strong)!important}
 html[data-metal="diamond"] #purityDifferenceCard .pdc-details{border-top-color:var(--glass-border-strong)!important}
 html[data-metal="copper"] #purityDifferenceCard .pdc-details{border-top-color:var(--glass-border-strong)!important}
 html[data-metal="palladium"] #purityDifferenceCard .pdc-details{border-top-color:var(--glass-border-strong)!important}
 
 /* Light mode: cool page and card surfaces for silver and platinum (gold keeps its cream). */
 html[data-metal="silver"][data-theme="light"]{--bg-0:#F3F4F6;--bg-1:#E7EAED;--bg-2:#D8DCE0;--glass:rgba(255,255,255,.88);--glass-strong:rgba(253,253,254,.96);--glass-border:rgba(95,104,115,.20);--text-0:#1F2327;--text-1:#454B53;--text-2:#6A7078;--shadow:rgba(40,48,58,.12)}
+{--bg-0:#D3E4DB;--bg-1:#C8DDD3;--bg-2:#BBD1C6;--glass:rgba(255,255,255,.88);--glass-strong:rgba(209,230,219,.96);--glass-border:rgba(77,112,94,.20);--text-0:#192620;--text-1:#385044;--text-2:#577466;--shadow:rgba(32,56,44,.12)}
 {--bg-0:#FBFBFB;--bg-1:#F3F3F4;--bg-2:#E3E5E6;--glass:rgba(255,255,255,.88);--glass-strong:rgba(251,251,252,.96);--glass-border:rgba(104,110,114,.20);--text-0:#222526;--text-1:#4B5053;--text-2:#727679;--shadow:rgba(46,52,56,.12)}
 {--bg-0:#F9F3F0;--bg-1:#F2E7E2;--bg-2:#E8D8D0;--glass:rgba(255,255,255,.88);--glass-strong:rgba(255,253,252,.96);--glass-border:rgba(137,94,73,.20);--text-0:#2F1F17;--text-1:#624536;--text-2:#8C6856;--shadow:rgba(72,41,26,.12)}
 {--bg-0:#F5F5F4;--bg-1:#EBEAE9;--bg-2:#DEDCDA;--glass:rgba(255,255,255,.88);--glass-strong:rgba(254,254,253,.96);--glass-border:rgba(109,106,101,.20);--text-0:#252321;--text-1:#4F4D49;--text-2:#74726E;--shadow:rgba(53,50,45,.12)}
 html[data-metal="platinum"][data-theme="light"]{--bg-0:#EEF4FB;--bg-1:#DFEAF6;--bg-2:#CADCF0;--glass:rgba(252,254,255,.88);--glass-strong:rgba(250,253,255,.96);--glass-border:rgba(40,100,170,.20);--text-0:#17212D;--text-1:#3A4A5D;--text-2:#5C6E83;--shadow:rgba(30,70,120,.12)}
+html[data-metal="emerald"][data-theme="light"]{--bg-0:#D1E6DB;--bg-1:#C6E0D3;--bg-2:#B6D8C7;--glass:rgba(209,230,219,.88);--glass-strong:rgba(209,230,219,.96);--glass-border:rgba(66,123,95,.20);--text-0:#15281F;--text-1:#305844;--text-2:#4A7F64;--shadow:rgba(47,88,68,.12)}
 html[data-metal="diamond"][data-theme="light"]{--bg-0:#FAFBFC;--bg-1:#F1F4F7;--bg-2:#DFE7ED;--glass:rgba(249,251,253,.88);--glass-strong:rgba(249,251,253,.96);--glass-border:rgba(75,115,143,.20);--text-0:#1E2429;--text-1:#455058;--text-2:#6A767E;--shadow:rgba(55,82,101,.12)}
 html[data-metal="copper"][data-theme="light"]{--bg-0:#FDF2EC;--bg-1:#FBE5DA;--bg-2:#F9D4C1;--glass:rgba(255,253,252,.88);--glass-strong:rgba(255,252,250,.96);--glass-border:rgba(191,76,19,.20);--text-0:#3B1A09;--text-1:#763D21;--text-2:#A25F3D;--shadow:rgba(136,55,14,.12)}
 html[data-metal="palladium"][data-theme="light"]{--bg-0:#F7F5F2;--bg-1:#EFEBE6;--bg-2:#E5DFD5;--glass:rgba(254,254,253,.88);--glass-strong:rgba(254,253,251,.96);--glass-border:rgba(132,110,78,.20);--text-0:#27231D;--text-1:#534D44;--text-2:#787167;--shadow:rgba(94,79,56,.12)}
 html[data-metal="silver"][data-theme="light"],html[data-metal="silver"][data-theme="light"] body,html[data-metal="silver"][data-theme="light"] #appRoot{background:#F3F4F6!important;background-color:#F3F4F6!important}
 html[data-metal="platinum"][data-theme="light"],html[data-metal="platinum"][data-theme="light"] body,html[data-metal="platinum"][data-theme="light"] #appRoot{background:#EEF4FB!important;background-color:#EEF4FB!important}
+html[data-metal="emerald"][data-theme="light"],html[data-metal="emerald"][data-theme="light"] body,html[data-metal="emerald"][data-theme="light"] #appRoot{background:#D1E6DB!important;background-color:#D1E6DB!important}
 html[data-metal="diamond"][data-theme="light"],html[data-metal="diamond"][data-theme="light"] body,html[data-metal="diamond"][data-theme="light"] #appRoot{background:#FAFBFC!important;background-color:#FAFBFC!important}
 html[data-metal="copper"][data-theme="light"],html[data-metal="copper"][data-theme="light"] body,html[data-metal="copper"][data-theme="light"] #appRoot{background:#FDF2EC!important;background-color:#FDF2EC!important}
 html[data-metal="palladium"][data-theme="light"],html[data-metal="palladium"][data-theme="light"] body,html[data-metal="palladium"][data-theme="light"] #appRoot{background:#F7F5F2!important;background-color:#F7F5F2!important}
 html[data-metal="silver"][data-theme="light"] .ambient{background:radial-gradient(ellipse 100% 54% at 50% -10%,#E3E7EB 0%,transparent 78%),linear-gradient(180deg,#F8F9FA,#F1F2F4)!important}
 html[data-metal="platinum"][data-theme="light"] .ambient{background:radial-gradient(ellipse 100% 54% at 50% -10%,#D6E6F7 0%,transparent 78%),linear-gradient(180deg,#F5F9FE,#ECF2FA)!important}
+html[data-metal="emerald"][data-theme="light"] .ambient{background:radial-gradient(ellipse 100% 54% at 50% -10%,#C1DECF 0%,transparent 78%),linear-gradient(180deg,#D1E6DB,#D0E6DB)!important}
 html[data-metal="diamond"][data-theme="light"] .ambient{background:radial-gradient(ellipse 100% 54% at 50% -10%,#EBF1F5 0%,transparent 78%),linear-gradient(180deg,#FAFBFD,#FAFBFC)!important}
 html[data-metal="copper"][data-theme="light"] .ambient{background:radial-gradient(ellipse 100% 54% at 50% -10%,#FBE0D2 0%,transparent 78%),linear-gradient(180deg,#FEF8F5,#FDF0E9)!important}
 html[data-metal="palladium"][data-theme="light"] .ambient{background:radial-gradient(ellipse 100% 54% at 50% -10%,#EDE8E0 0%,transparent 78%),linear-gradient(180deg,#FBFAF8,#F6F4F0)!important}
 html[data-metal="silver"][data-theme="light"] .card{background:linear-gradient(150deg,#FFFFFF,#E9ECEF 72%,#F3F5F7)!important}
 html[data-metal="platinum"][data-theme="light"] .card{background:linear-gradient(150deg,#F9FCFF,#DDE9F6 72%,#EDF3FA)!important}
+html[data-metal="emerald"][data-theme="light"] .card{background:linear-gradient(150deg,#D1E6DB,#C5E0D2 72%,#D0E6DB)!important}
 html[data-metal="diamond"][data-theme="light"] .card{background:linear-gradient(150deg,#F9FBFD,#EFF3F6 72%,#FAFBFC)!important}
 html[data-metal="copper"][data-theme="light"] .card{background:linear-gradient(150deg,#FEFBFA,#FBE4D8 72%,#FDF0EA)!important}
 html[data-metal="palladium"][data-theme="light"] .card{background:linear-gradient(150deg,#FDFCFB,#EFEBE4 72%,#F6F4F1)!important}
 html[data-metal="silver"][data-theme="light"] .hero-stat{background:linear-gradient(145deg,#FFFFFF,#EEF0F3)!important}
 html[data-metal="platinum"][data-theme="light"] .hero-stat{background:linear-gradient(145deg,#FBFDFF,#E7EFF9)!important}
+html[data-metal="emerald"][data-theme="light"] .hero-stat{background:linear-gradient(145deg,#D1E6DB,#CCE4D8)!important}
 html[data-metal="diamond"][data-theme="light"] .hero-stat{background:linear-gradient(145deg,#F9FBFD,#F8FAFB)!important}
 html[data-metal="copper"][data-theme="light"] .hero-stat{background:linear-gradient(145deg,#FFFCFB,#FCECE4)!important}
 html[data-metal="palladium"][data-theme="light"] .hero-stat{background:linear-gradient(145deg,#FEFDFC,#F4F1EC)!important}
 html[data-metal="silver"][data-theme="light"] .topbar{background:rgba(252,252,253,.98)!important}
 html[data-metal="platinum"][data-theme="light"] .topbar{background:rgba(248,251,255,.98)!important}
+html[data-metal="emerald"][data-theme="light"] .topbar{background:rgba(209,230,219,.98)!important}
 html[data-metal="diamond"][data-theme="light"] .topbar{background:rgba(249,251,253,.98)!important}
 html[data-metal="copper"][data-theme="light"] .topbar{background:rgba(254,251,249,.98)!important}
 html[data-metal="palladium"][data-theme="light"] .topbar{background:rgba(253,252,250,.98)!important}
 html[data-metal="silver"] .bullion-theme-toggle,html[data-metal="platinum"] .bullion-theme-toggle{filter:var(--metal-filter)}
+html[data-metal="emerald"] .bullion-theme-toggle{filter:var(--metal-filter)}
 html[data-metal="diamond"] .bullion-theme-toggle{filter:var(--metal-filter)}
 html[data-metal="copper"] .bullion-theme-toggle{filter:var(--metal-filter)}
 html[data-metal="palladium"] .bullion-theme-toggle{filter:var(--metal-filter)}
 html[data-metal="silver"]:root :is(.card,.topbar,.bottom-nav),html[data-metal="platinum"]:root :is(.card,.topbar,.bottom-nav){border-color:var(--glass-border-strong)!important}
+html[data-metal="emerald"]:root :is(.card,.topbar,.bottom-nav){border-color:var(--glass-border-strong)!important}
 html[data-metal="diamond"]:root :is(.card,.topbar,.bottom-nav){border-color:var(--glass-border-strong)!important}
 html[data-metal="copper"]:root :is(.card,.topbar,.bottom-nav){border-color:var(--glass-border-strong)!important}
 html[data-metal="palladium"]:root :is(.card,.topbar,.bottom-nav){border-color:var(--glass-border-strong)!important}
 html[data-metal="silver"][data-theme="light"] .card.hero{background:linear-gradient(150deg,#FFFFFF,#E6E9ED 72%,#F2F4F6)!important}
 html[data-metal="platinum"][data-theme="light"] .card.hero{background:linear-gradient(150deg,#F8FBFF,#D9E7F6 72%,#ECF3FB)!important}
+html[data-metal="emerald"][data-theme="light"] .card.hero{background:linear-gradient(150deg,#D1E6DB,#C2DED0 72%,#D0E6DB)!important}
 html[data-metal="diamond"][data-theme="light"] .card.hero{background:linear-gradient(150deg,#F9FBFD,#ECF1F5 72%,#FAFBFC)!important}
 html[data-metal="copper"][data-theme="light"] .card.hero{background:linear-gradient(150deg,#FEFBF9,#FBE1D4 72%,#FDF0EA)!important}
 html[data-metal="palladium"][data-theme="light"] .card.hero{background:linear-gradient(150deg,#FDFCFA,#EEE9E1 72%,#F7F4F0)!important}
 html[data-metal="silver"][data-theme="light"]:root :is(.field .input-wrap,.hero-stat,.quick-tile,#tab-bench .quick-tile,#purityYieldPane .quick-tile,.mcx-strip,.bd-final,.seg,.stepper,.date-pill,.date-pill,.sync-btn,.input-wrap){background:linear-gradient(145deg,#FFFFFF,#ECEEF1)!important}
 html[data-metal="platinum"][data-theme="light"]:root :is(.field .input-wrap,.hero-stat,.quick-tile,#tab-bench .quick-tile,#purityYieldPane .quick-tile,.mcx-strip,.bd-final,.seg,.stepper,.date-pill,.date-pill,.sync-btn,.input-wrap){background:linear-gradient(145deg,#FBFDFF,#E4EDF8)!important}
+html[data-metal="emerald"][data-theme="light"]:root :is(.field .input-wrap,.hero-stat,.quick-tile,#tab-bench .quick-tile,#purityYieldPane .quick-tile,.mcx-strip,.bd-final,.seg,.stepper,.date-pill,.date-pill,.sync-btn,.input-wrap){background:linear-gradient(145deg,#D1E6DB,#CAE2D6)!important}
 html[data-metal="diamond"][data-theme="light"]:root :is(.field .input-wrap,.hero-stat,.quick-tile,#tab-bench .quick-tile,#purityYieldPane .quick-tile,.mcx-strip,.bd-final,.seg,.stepper,.date-pill,.date-pill,.sync-btn,.input-wrap){background:linear-gradient(145deg,#F9FBFD,#F5F8FA)!important}
 html[data-metal="copper"][data-theme="light"]:root :is(.field .input-wrap,.hero-stat,.quick-tile,#tab-bench .quick-tile,#purityYieldPane .quick-tile,.mcx-strip,.bd-final,.seg,.stepper,.date-pill,.date-pill,.sync-btn,.input-wrap){background:linear-gradient(145deg,#FFFCFB,#FCE9E0)!important}
 html[data-metal="palladium"][data-theme="light"]:root :is(.field .input-wrap,.hero-stat,.quick-tile,#tab-bench .quick-tile,#purityYieldPane .quick-tile,.mcx-strip,.bd-final,.seg,.stepper,.date-pill,.date-pill,.sync-btn,.input-wrap){background:linear-gradient(145deg,#FEFDFC,#F2EFEA)!important}
 html[data-metal="silver"][data-theme="light"] .bottom-nav{background:rgba(252,252,253,.97)!important}
 html[data-metal="platinum"][data-theme="light"] .bottom-nav{background:rgba(247,251,255,.97)!important}
+html[data-metal="emerald"][data-theme="light"] .bottom-nav{background:rgba(209,230,219,.97)!important}
 html[data-metal="diamond"][data-theme="light"] .bottom-nav{background:rgba(249,251,253,.97)!important}
 html[data-metal="copper"][data-theme="light"] .bottom-nav{background:rgba(254,250,248,.97)!important}
 html[data-metal="palladium"][data-theme="light"] .bottom-nav{background:rgba(253,251,249,.97)!important}
@@ -11907,12 +12205,14 @@ html:root .hero .hero-stat::after{content:"";position:absolute;inset:-1px;border
 html:root{--gc-rim:linear-gradient(135deg,#FFF4C8 0%,#E9B84E 24%,#8C6622 50%,#F8D97E 74%,#B98A30 100%)}
 html[data-metal="silver"]:root{--gc-rim:linear-gradient(135deg,#FFFFFF 0%,#CDD2DA 24%,#7E8590 50%,#F3F5F8 74%,#A4ABB6 100%)}
 html[data-metal="platinum"]:root{--gc-rim:linear-gradient(135deg,#F5F9FF 0%,#B8C7DB 24%,#687B94 50%,#E4EDF9 74%,#90A3BD 100%)}
+html[data-metal="emerald"]:root{--gc-rim:linear-gradient(135deg,#D1E6DB 0%,#9FCBB5 24%,#548F71 50%,#CBE3D7 74%,#76B596 100%)}
 html[data-metal="diamond"]:root{--gc-rim:linear-gradient(135deg,#F9FBFD 0%,#CAD3D9 24%,#78858E 50%,#F6F8FA 74%,#A3AFB8 100%)}
 html[data-metal="copper"]:root{--gc-rim:linear-gradient(135deg,#FEF9F6 0%,#F1BCA2 24%,#B76B45 50%,#FCEAE1 74%,#DC9571 100%)}
 html[data-metal="palladium"]:root{--gc-rim:linear-gradient(135deg,#FCFAF8 0%,#D1CBC2 24%,#878075 50%,#F3EFEA 74%,#B0A89D 100%)}
 html[data-theme="light"]:root{--gc-rim:linear-gradient(135deg,#F3D27A 0%,#B8862E 26%,#7A5718 50%,#D9AE4E 74%,#9C7224 100%)}
 html[data-metal="silver"][data-theme="light"]:root{--gc-rim:linear-gradient(135deg,#E2E6EC 0%,#9DA4AF 26%,#5F6672 50%,#BFC5CE 74%,#7E8692 100%)}
 html[data-metal="platinum"][data-theme="light"]:root{--gc-rim:linear-gradient(135deg,#DCE6F3 0%,#93A6C0 26%,#536781 50%,#B7C7DC 74%,#748AA7 100%)}
+html[data-metal="emerald"][data-theme="light"]:root{--gc-rim:linear-gradient(135deg,#C2DED0 0%,#7AB799 26%,#437C5F 50%,#9FCBB5 74%,#59A67F 100%)}
 html[data-metal="diamond"][data-theme="light"]:root{--gc-rim:linear-gradient(135deg,#EDF1F4 0%,#A6B2BB 26%,#62707A 50%,#CAD3D9 74%,#87959F 100%)}
 html[data-metal="copper"][data-theme="light"]:root{--gc-rim:linear-gradient(135deg,#FBE1D4 0%,#DF9874 26%,#A25732 50%,#F3BCA0 74%,#CC794F 100%)}
 html[data-metal="palladium"][data-theme="light"]:root{--gc-rim:linear-gradient(135deg,#ECE8E3 0%,#B3ABA0 26%,#746C60 50%,#D1CBC2 74%,#989083 100%)}
@@ -11941,10 +12241,12 @@ html:root #updatedNote *{color:inherit!important;font-weight:inherit!important}
  background:var(--gc-rim);box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 2px 6px -2px rgba(0,0,0,.4)}
 html[data-metal="silver"] .gc-metal-toast{--gmt-bg:rgba(24,26,30,.86)}
 html[data-metal="platinum"] .gc-metal-toast{--gmt-bg:rgba(18,25,36,.86)}
+html[data-metal="emerald"] .gc-metal-toast{--gmt-bg:rgba(17,32,24,.86)}
 html[data-metal="diamond"] .gc-metal-toast{--gmt-bg:rgba(23,29,33,.86)}
 html[data-metal="copper"] .gc-metal-toast{--gmt-bg:rgba(47,20,7,.86)}
 html[data-metal="palladium"] .gc-metal-toast{--gmt-bg:rgba(31,28,23,.86)}
 html[data-metal="silver"] .gc-metal-toast .gmt-sym,html[data-metal="platinum"] .gc-metal-toast .gmt-sym{color:#0f1722}
+html[data-metal="emerald"] .gc-metal-toast .gmt-sym{color:#0F1D16}
 html[data-metal="diamond"] .gc-metal-toast .gmt-sym{color:#151A1E}
 html[data-metal="copper"] .gc-metal-toast .gmt-sym{color:#2D1204}
 html[data-metal="palladium"] .gc-metal-toast .gmt-sym{color:#1C1915}
@@ -11964,12 +12266,14 @@ html:root #shotPngStatus::after{content:"";position:absolute;inset:0;border-radi
 html:root #shotPngStatus a{color:var(--gmt-link,#ffd76a)!important}
 html[data-metal="silver"] #shotPngStatus{--gmt-bg:rgba(24,26,30,.86);--gmt-link:#e8edf4}
 html[data-metal="platinum"] #shotPngStatus{--gmt-bg:rgba(18,25,36,.86);--gmt-link:#cddcf1}
+html[data-metal="emerald"] #shotPngStatus{--gmt-bg:rgba(17,32,24,.86);--gmt-link:#B8D9C9}
 html[data-metal="diamond"] #shotPngStatus{--gmt-bg:rgba(23,29,33,.86);--gmt-link:#E1E9EE}
 html[data-metal="copper"] #shotPngStatus{--gmt-bg:rgba(47,20,7,.86);--gmt-link:#F9D6C5}
 html[data-metal="palladium"] #shotPngStatus{--gmt-bg:rgba(31,28,23,.86);--gmt-link:#E7E1D7}
 html[data-theme="light"]:root #shotPngStatus{background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,255,255,.82))!important;box-shadow:0 14px 30px -14px rgba(60,50,30,.35),inset 0 1px 0 #fff!important;--gmt-link:#8a5f12}
 html[data-theme="light"][data-metal="silver"] #shotPngStatus{--gmt-link:#4b535f}
 html[data-theme="light"][data-metal="platinum"] #shotPngStatus{--gmt-link:#3d5578}
+html[data-theme="light"][data-metal="emerald"] #shotPngStatus{--gmt-link:#396A51}
 html[data-theme="light"][data-metal="diamond"] #shotPngStatus{--gmt-link:#4F616D}
 html[data-theme="light"][data-metal="copper"] #shotPngStatus{--gmt-link:#9D4418}
 html[data-theme="light"][data-metal="palladium"] #shotPngStatus{--gmt-link:#675D4E}
@@ -11983,12 +12287,14 @@ html:root .rates-actions .sync-btn::before{content:""!important;position:absolut
 html:root{--ls-bg:linear-gradient(180deg,rgba(243,207,110,.17),rgba(140,102,34,.07));--ls-fg:#F3D27A}
 html[data-metal="silver"]:root{--ls-bg:linear-gradient(180deg,rgba(236,240,245,.15),rgba(126,133,144,.06));--ls-fg:#E8ECF2}
 html[data-metal="platinum"]:root{--ls-bg:linear-gradient(180deg,rgba(196,212,233,.16),rgba(104,123,148,.07));--ls-fg:#CBD9EC}
+html[data-metal="emerald"]:root{--ls-bg:linear-gradient(180deg,rgba(174,212,193,.16),rgba(84,143,113,.07));--ls-fg:#B4D7C6}
 html[data-metal="diamond"]:root{--ls-bg:linear-gradient(180deg,rgba(216,224,230,.16),rgba(120,133,142,.07));--ls-fg:#DEE5EA}
 html[data-metal="copper"]:root{--ls-bg:linear-gradient(180deg,rgba(248,203,181,.16),rgba(183,107,69,.07));--ls-fg:#F9D2BE}
 html[data-metal="palladium"]:root{--ls-bg:linear-gradient(180deg,rgba(222,216,207,.16),rgba(135,128,117,.07));--ls-fg:#E2DDD5}
 html[data-theme="light"]:root{--ls-bg:linear-gradient(180deg,rgba(255,255,255,.85),rgba(243,207,110,.22));--ls-fg:#7A5718}
 html[data-metal="silver"][data-theme="light"]:root{--ls-bg:linear-gradient(180deg,rgba(255,255,255,.85),rgba(190,197,207,.28));--ls-fg:#4B525D}
 html[data-metal="platinum"][data-theme="light"]:root{--ls-bg:linear-gradient(180deg,rgba(255,255,255,.85),rgba(170,189,214,.28));--ls-fg:#3C5373}
+html[data-metal="emerald"][data-theme="light"]:root{--ls-bg:linear-gradient(180deg,rgba(255,255,255,.85),rgba(148,197,173,.28));--ls-fg:#37664F}
 html[data-metal="diamond"][data-theme="light"]:root{--ls-bg:linear-gradient(180deg,rgba(255,255,255,.85),rgba(190,201,209,.28));--ls-fg:#4D5D69}
 html[data-metal="copper"][data-theme="light"]:root{--ls-bg:linear-gradient(180deg,rgba(255,255,255,.85),rgba(241,176,143,.28));--ls-fg:#964319}
 html[data-metal="palladium"][data-theme="light"]:root{--ls-bg:linear-gradient(180deg,rgba(255,255,255,.85),rgba(201,194,183,.28));--ls-fg:#635A4C}
@@ -12007,12 +12313,14 @@ html:root #customPurityEditor #customPuritySuffix{color:var(--cpe-caret)!importa
 html:root{--cpe-bg:linear-gradient(160deg,rgba(243,207,110,.12),rgba(140,102,34,.05));--cpe-field:rgba(233,184,78,.08);--cpe-line:rgba(233,184,78,.40);--cpe-line-on:rgba(243,207,110,.80);--cpe-ring:rgba(233,184,78,.18);--cpe-sheen:rgba(255,236,180,.20);--cpe-caret:#F3D27A}
 html[data-metal="silver"]:root{--cpe-bg:linear-gradient(160deg,rgba(236,240,245,.10),rgba(126,133,144,.04));--cpe-field:rgba(220,226,234,.07);--cpe-line:rgba(205,210,218,.40);--cpe-line-on:rgba(236,240,245,.80);--cpe-ring:rgba(205,210,218,.16);--cpe-sheen:rgba(255,255,255,.18);--cpe-caret:#E8ECF2}
 html[data-metal="platinum"]:root{--cpe-bg:linear-gradient(160deg,rgba(196,212,233,.12),rgba(104,123,148,.05));--cpe-field:rgba(184,199,219,.08);--cpe-line:rgba(160,180,206,.45);--cpe-line-on:rgba(205,220,240,.80);--cpe-ring:rgba(160,180,206,.18);--cpe-sheen:rgba(225,236,250,.20);--cpe-caret:#CBD9EC}
+html[data-metal="emerald"]:root{--cpe-bg:linear-gradient(160deg,rgba(174,212,193,.12),rgba(84,143,113,.05));--cpe-field:rgba(159,203,181,.08);--cpe-line:rgba(138,192,165,.45);--cpe-line-on:rgba(184,217,200,.80);--cpe-ring:rgba(138,192,165,.18);--cpe-sheen:rgba(201,226,214,.20);--cpe-caret:#B4D7C6}
 html[data-metal="diamond"]:root{--cpe-bg:linear-gradient(160deg,rgba(216,224,230,.12),rgba(120,133,142,.05));--cpe-field:rgba(202,211,217,.08);--cpe-line:rgba(180,192,201,.45);--cpe-line-on:rgba(225,232,238,.80);--cpe-ring:rgba(180,192,201,.18);--cpe-sheen:rgba(244,247,250,.20);--cpe-caret:#DEE5EA}
 html[data-metal="copper"]:root{--cpe-bg:linear-gradient(160deg,rgba(248,203,181,.12),rgba(183,107,69,.05));--cpe-field:rgba(241,188,162,.08);--cpe-line:rgba(235,166,131,.45);--cpe-line-on:rgba(249,214,196,.80);--cpe-ring:rgba(235,166,131,.18);--cpe-sheen:rgba(252,233,223,.20);--cpe-caret:#F9D2BE}
 html[data-metal="palladium"]:root{--cpe-bg:linear-gradient(160deg,rgba(222,216,207,.12),rgba(135,128,117,.05));--cpe-field:rgba(209,203,194,.08);--cpe-line:rgba(193,185,173,.45);--cpe-line-on:rgba(230,224,215,.80);--cpe-ring:rgba(193,185,173,.18);--cpe-sheen:rgba(243,239,232,.20);--cpe-caret:#E2DDD5}
 html[data-theme="light"]:root{--cpe-bg:linear-gradient(160deg,rgba(255,255,255,.80),rgba(243,207,110,.16));--cpe-field:rgba(255,255,255,.72);--cpe-line:rgba(185,138,48,.40);--cpe-line-on:rgba(156,114,36,.75);--cpe-ring:rgba(185,138,48,.16);--cpe-sheen:rgba(255,248,225,.55);--cpe-caret:#7A5718}
 html[data-metal="silver"][data-theme="light"]:root{--cpe-bg:linear-gradient(160deg,rgba(255,255,255,.80),rgba(190,197,207,.24));--cpe-line:rgba(110,118,130,.38);--cpe-line-on:rgba(80,88,100,.70);--cpe-ring:rgba(110,118,130,.16);--cpe-sheen:rgba(255,255,255,.6);--cpe-caret:#4B525D}
 html[data-metal="platinum"][data-theme="light"]:root{--cpe-bg:linear-gradient(160deg,rgba(255,255,255,.80),rgba(170,189,214,.24));--cpe-line:rgba(83,103,129,.38);--cpe-line-on:rgba(62,85,115,.70);--cpe-ring:rgba(83,103,129,.16);--cpe-sheen:rgba(240,246,255,.6);--cpe-caret:#3C5373}
+html[data-metal="emerald"][data-theme="light"]:root{--cpe-bg:linear-gradient(160deg,rgba(255,255,255,.80),rgba(148,197,173,.24));--cpe-line:rgba(67,124,95,.38);--cpe-line-on:rgba(56,104,80,.70);--cpe-ring:rgba(67,124,95,.16);--cpe-sheen:rgba(209,230,219,.6);--cpe-caret:#37664F}
 html[data-metal="diamond"][data-theme="light"]:root{--cpe-bg:linear-gradient(160deg,rgba(255,255,255,.80),rgba(190,201,209,.24));--cpe-line:rgba(98,112,122,.38);--cpe-line-on:rgba(78,94,106,.70);--cpe-ring:rgba(98,112,122,.16);--cpe-sheen:rgba(249,251,253,.6);--cpe-caret:#4D5D69}
 html[data-metal="copper"][data-theme="light"]:root{--cpe-bg:linear-gradient(160deg,rgba(255,255,255,.80),rgba(241,176,143,.24));--cpe-line:rgba(162,87,50,.38);--cpe-line-on:rgba(149,68,28,.70);--cpe-ring:rgba(162,87,50,.16);--cpe-sheen:rgba(254,245,241,.6);--cpe-caret:#964319}
 html[data-metal="palladium"][data-theme="light"]:root{--cpe-bg:linear-gradient(160deg,rgba(255,255,255,.80),rgba(201,194,183,.24));--cpe-line:rgba(116,108,96,.38);--cpe-line-on:rgba(100,91,77,.70);--cpe-ring:rgba(116,108,96,.16);--cpe-sheen:rgba(251,248,244,.6);--cpe-caret:#635A4C}
@@ -12033,18 +12341,21 @@ html:root .bottom-nav .demo-nav-indicator{border-color:transparent!important}
 {border-color:transparent!important}
 {border-color:transparent!important}
 {border-color:transparent!important}
+{border-color:transparent!important}
 html:root .bottom-nav .demo-nav-indicator::before{content:""!important;position:absolute;inset:0;border-radius:inherit;padding:.6px;pointer-events:none;z-index:2;display:block!important;
  background:var(--gc-rim)!important;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.95}
 /* Calculate › Quantity: Segment pill (34 px). − | value | + — tap or hold to step, drag sideways to scrub, tap the number to type; width follows the value length. */
 html:root{--qr-m1:#FFE7A6;--qr-m2:#E3A43A;--qr-m3:#8C6622;--qr-glass:rgba(243,207,110,.06);--qr-text:#F3D27A;--qr-line:rgba(243,207,110,.30);--qr-bg:#0e0b07}
 html[data-metal="silver"]:root{--qr-m1:#FFFFFF;--qr-m2:#C2C8D1;--qr-m3:#7E8590;--qr-glass:rgba(236,240,245,.05);--qr-text:#E8ECF2;--qr-line:rgba(220,226,234,.28);--qr-bg:#0c0d0f}
 html[data-metal="platinum"]:root{--qr-m1:#F2F7FF;--qr-m2:#A9BAD1;--qr-m3:#5F7591;--qr-glass:rgba(196,212,233,.06);--qr-text:#CBD9EC;--qr-line:rgba(184,199,219,.32);--qr-bg:#0a0d12}
+html[data-metal="emerald"]:root{--qr-m1:#D1E6DB;--qr-m2:#91C4AA;--qr-m3:#4C8C6C;--qr-glass:rgba(174,212,193,.06);--qr-text:#B4D7C6;--qr-line:rgba(159,203,181,.32);--qr-bg:#09100D}
 html[data-metal="diamond"]:root{--qr-m1:#F9FBFD;--qr-m2:#BCC6CD;--qr-m3:#707F8A;--qr-glass:rgba(216,224,230,.06);--qr-text:#DEE5EA;--qr-line:rgba(202,211,217,.32);--qr-bg:#0C0F11}
 html[data-metal="copper"]:root{--qr-m1:#FEF7F3;--qr-m2:#EBAE8F;--qr-m3:#B6633A;--qr-glass:rgba(248,203,181,.06);--qr-text:#F9D2BE;--qr-line:rgba(241,188,162,.32);--qr-bg:#170B05}
 html[data-metal="palladium"]:root{--qr-m1:#FBF9F6;--qr-m2:#C5BFB5;--qr-m3:#827A6E;--qr-glass:rgba(222,216,207,.06);--qr-text:#E2DDD5;--qr-line:rgba(209,203,194,.32);--qr-bg:#100E0C}
 html[data-theme="light"]:root{--qr-glass:rgba(255,255,255,.7);--qr-text:#7A5718;--qr-line:rgba(156,114,36,.28);--qr-bg:#ffffff}
 html[data-theme="light"][data-metal="silver"]:root{--qr-text:#4B525D;--qr-line:rgba(80,88,100,.25)}
 html[data-theme="light"][data-metal="platinum"]:root{--qr-text:#3C5373;--qr-line:rgba(62,85,115,.26)}
+html[data-theme="light"][data-metal="emerald"]:root{--qr-text:#37664F;--qr-line:rgba(56,104,80,.26)}
 html[data-theme="light"][data-metal="diamond"]:root{--qr-text:#4D5D69;--qr-line:rgba(78,94,106,.26)}
 html[data-theme="light"][data-metal="copper"]:root{--qr-text:#964319;--qr-line:rgba(149,68,28,.26)}
 html[data-theme="light"][data-metal="palladium"]:root{--qr-text:#635A4C;--qr-line:rgba(100,91,77,.26)}
@@ -12144,52 +12455,64 @@ html[data-metal="copper"] #tab-convert .purity-unified-card[data-purity-mode="wi
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger),
 html:root :is(#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger):is(:hover,:active,:focus){background:none!important;background-image:none!important;box-shadow:none!important;-webkit-tap-highlight-color:transparent}
 html[data-metal="platinum"] #mcxField,html[data-metal="platinum"] #ftbarField,html[data-metal="platinum"] #mcxStrip,html[data-metal="platinum"] #ftbarStrip,html[data-metal="platinum"] #mcxVsFtStrip{display:none!important}
+html[data-metal="emerald"] #mcxField,html[data-metal="emerald"] #ftbarField,html[data-metal="emerald"] #mcxStrip,html[data-metal="emerald"] #ftbarStrip,html[data-metal="emerald"] #mcxVsFtStrip{display:none!important}
 html[data-metal="diamond"] #mcxField,html[data-metal="diamond"] #ftbarField,html[data-metal="diamond"] #mcxStrip,html[data-metal="diamond"] #ftbarStrip,html[data-metal="diamond"] #mcxVsFtStrip{display:none!important}
 html[data-metal="copper"] #mcxField,html[data-metal="copper"] #ftbarField,html[data-metal="copper"] #mcxStrip,html[data-metal="copper"] #ftbarStrip,html[data-metal="copper"] #mcxVsFtStrip{display:none!important}
 html[data-metal="palladium"] #mcxField,html[data-metal="palladium"] #ftbarField,html[data-metal="palladium"] #mcxStrip,html[data-metal="palladium"] #ftbarStrip,html[data-metal="palladium"] #mcxVsFtStrip{display:none!important}
 html[data-metal="platinum"] #ftMakingRow.metal-empty-row{display:none!important}
+html[data-metal="emerald"] #ftMakingRow.metal-empty-row{display:none!important}
 html[data-metal="diamond"] #ftMakingRow.metal-empty-row{display:none!important}
 html[data-metal="copper"] #ftMakingRow.metal-empty-row{display:none!important}
 html[data-metal="palladium"] #ftMakingRow.metal-empty-row{display:none!important}
 html[data-metal="silver"] .metal-gold-only,html[data-metal="platinum"] .metal-gold-only{display:none!important}
+html[data-metal="emerald"] .metal-gold-only{display:none!important}
 html[data-metal="diamond"] .metal-gold-only{display:none!important}
 html[data-metal="copper"] .metal-gold-only{display:none!important}
 html[data-metal="palladium"] .metal-gold-only{display:none!important}
 html[data-metal="silver"] #purityDifferenceCard #purityAlloyPane .pdc-details,html[data-metal="platinum"] #purityDifferenceCard #purityAlloyPane .pdc-details{display:flex!important;justify-content:space-between!important;align-items:center}
+html[data-metal="emerald"] #purityDifferenceCard #purityAlloyPane .pdc-details{display:flex!important;justify-content:space-between!important;align-items:center}
 html[data-metal="diamond"] #purityDifferenceCard #purityAlloyPane .pdc-details{display:flex!important;justify-content:space-between!important;align-items:center}
 html[data-metal="copper"] #purityDifferenceCard #purityAlloyPane .pdc-details{display:flex!important;justify-content:space-between!important;align-items:center}
 html[data-metal="palladium"] #purityDifferenceCard #purityAlloyPane .pdc-details{display:flex!important;justify-content:space-between!important;align-items:center}
 html[data-metal="silver"] #purityDifferenceCard #purityAlloyPane .pdc-detail-item,html[data-metal="platinum"] #purityDifferenceCard #purityAlloyPane .pdc-detail-item{flex:0 0 auto!important;width:auto!important;max-width:50%;justify-content:flex-start;grid-column:auto!important}
+html[data-metal="emerald"] #purityDifferenceCard #purityAlloyPane .pdc-detail-item{flex:0 0 auto!important;width:auto!important;max-width:50%;justify-content:flex-start;grid-column:auto!important}
 html[data-metal="diamond"] #purityDifferenceCard #purityAlloyPane .pdc-detail-item{flex:0 0 auto!important;width:auto!important;max-width:50%;justify-content:flex-start;grid-column:auto!important}
 html[data-metal="copper"] #purityDifferenceCard #purityAlloyPane .pdc-detail-item{flex:0 0 auto!important;width:auto!important;max-width:50%;justify-content:flex-start;grid-column:auto!important}
 html[data-metal="palladium"] #purityDifferenceCard #purityAlloyPane .pdc-detail-item{flex:0 0 auto!important;width:auto!important;max-width:50%;justify-content:flex-start;grid-column:auto!important}
 .card.hero .hero-stat .k{white-space:nowrap!important}
 /* Making and Jewel keep their paired-row look in the platinum rows. */
 html[data-metal="platinum"] #ftGstRow #makingField .input-wrap{height:46px;width:100%;min-width:0}
+html[data-metal="emerald"] #ftGstRow #makingField .input-wrap{height:46px;width:100%;min-width:0}
 html[data-metal="diamond"] #ftGstRow #makingField .input-wrap{height:46px;width:100%;min-width:0}
 html[data-metal="copper"] #ftGstRow #makingField .input-wrap{height:46px;width:100%;min-width:0}
 html[data-metal="palladium"] #ftGstRow #makingField .input-wrap{height:46px;width:100%;min-width:0}
 html[data-metal="platinum"] #ftGstRow #makingField{border-top:0;padding-top:0;gap:6px}
+html[data-metal="emerald"] #ftGstRow #makingField{border-top:0;padding-top:0;gap:6px}
 html[data-metal="diamond"] #ftGstRow #makingField{border-top:0;padding-top:0;gap:6px}
 html[data-metal="copper"] #ftGstRow #makingField{border-top:0;padding-top:0;gap:6px}
 html[data-metal="palladium"] #ftGstRow #makingField{border-top:0;padding-top:0;gap:6px}
 html[data-metal="platinum"] #ftGstRow #makingField .field-top{min-height:30px}
+html[data-metal="emerald"] #ftGstRow #makingField .field-top{min-height:30px}
 html[data-metal="diamond"] #ftGstRow #makingField .field-top{min-height:30px}
 html[data-metal="copper"] #ftGstRow #makingField .field-top{min-height:30px}
 html[data-metal="palladium"] #ftGstRow #makingField .field-top{min-height:30px}
 html[data-metal="platinum"] #ftGstRow #makingField{flex:1 1 auto;min-width:0;gap:6px}
+html[data-metal="emerald"] #ftGstRow #makingField{flex:1 1 auto;min-width:0;gap:6px}
 html[data-metal="diamond"] #ftGstRow #makingField{flex:1 1 auto;min-width:0;gap:6px}
 html[data-metal="copper"] #ftGstRow #makingField{flex:1 1 auto;min-width:0;gap:6px}
 html[data-metal="palladium"] #ftGstRow #makingField{flex:1 1 auto;min-width:0;gap:6px}
 html[data-metal="platinum"] #ftGstRow #makingField .input-wrap{margin-top:auto}
+html[data-metal="emerald"] #ftGstRow #makingField .input-wrap{margin-top:auto}
 html[data-metal="diamond"] #ftGstRow #makingField .input-wrap{margin-top:auto}
 html[data-metal="copper"] #ftGstRow #makingField .input-wrap{margin-top:auto}
 html[data-metal="palladium"] #ftGstRow #makingField .input-wrap{margin-top:auto}
 html[data-metal="platinum"] #ftGstRow #makingField .input-wrap{padding:0 12px;border-radius:var(--radius-sm)}
+html[data-metal="emerald"] #ftGstRow #makingField .input-wrap{padding:0 12px;border-radius:var(--radius-sm)}
 html[data-metal="diamond"] #ftGstRow #makingField .input-wrap{padding:0 12px;border-radius:var(--radius-sm)}
 html[data-metal="copper"] #ftGstRow #makingField .input-wrap{padding:0 12px;border-radius:var(--radius-sm)}
 html[data-metal="palladium"] #ftGstRow #makingField .input-wrap{padding:0 12px;border-radius:var(--radius-sm)}
 html[data-metal="platinum"] #ftGstRow #makingField input{font-size:15px}
+html[data-metal="emerald"] #ftGstRow #makingField input{font-size:15px}
 html[data-metal="diamond"] #ftGstRow #makingField input{font-size:15px}
 html[data-metal="copper"] #ftGstRow #makingField input{font-size:15px}
 html[data-metal="palladium"] #ftGstRow #makingField input{font-size:15px}
@@ -12201,6 +12524,7 @@ html[data-metal="palladium"] #ftGstRow #makingField input{font-size:15px}
  background:linear-gradient(145deg,#FFF1C2,#E8B64C 55%,#9C6A1C);box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 3px 10px rgba(0,0,0,.35)}
 .metal-tile.is-silver{background:linear-gradient(145deg,#FFFFFF,#D3D8DE 55%,#8E959E);color:#15181c}
 .metal-tile.is-platinum{background:linear-gradient(145deg,#EEF3F8,#A9B9CB 55%,#5E7088);color:#0f1722}
+.metal-tile.is-emerald{background:linear-gradient(145deg,#D0E6DB,#8DC2A7 55%,#4B8468);color:#0F1D16}
 .metal-tile.is-diamond{background:linear-gradient(145deg,#FAFBFC,#BAC3C9 55%,#6D7983);color:#151A1E}
 .metal-tile.is-copper{background:linear-gradient(145deg,#FDF0E9,#E3AC91 55%,#A9613D);color:#2D1204}
 .metal-tile.is-palladium{background:linear-gradient(145deg,#F5F3F1,#C1BBB3 55%,#7C756A);color:#1C1915}
@@ -12214,6 +12538,7 @@ html[data-metal="palladium"] #ftGstRow #makingField input{font-size:15px}
  background:linear-gradient(150deg,#FFF3CC,#EBC062 42%,#B98325 78%,#7E5414);box-shadow:inset 0 1px 0 rgba(255,255,255,.7),inset 0 -10px 18px rgba(0,0,0,.18),0 10px 26px -12px rgba(0,0,0,.65)}
 html[data-metal="silver"] .mel-tile{background:linear-gradient(150deg,#FFFFFF,#E3E7EB 40%,#AEB5BE 78%,#7A828C);color:#14171b}
 html[data-metal="platinum"] .mel-tile{background:linear-gradient(150deg,#F1F5F9,#C3CFDC 40%,#8193A9 78%,#4F6077);color:#0e1520}
+html[data-metal="emerald"] .mel-tile{background:linear-gradient(150deg,#D1E6DB,#A6CFBB 40%,#64A886 78%,#3F7359);color:#0E1B15}
 html[data-metal="diamond"] .mel-tile{background:linear-gradient(150deg,#FAFBFC,#D3D9DD 40%,#929DA4 78%,#5D6971);color:#13191D}
 html[data-metal="copper"] .mel-tile{background:linear-gradient(150deg,#FDF2ED,#EDC6B2 40%,#C88462 78%,#955231);color:#2A1104}
 html[data-metal="palladium"] .mel-tile{background:linear-gradient(150deg,#F7F5F3,#D5D1CA 40%,#9D978D 78%,#6B655B);color:#1B1813}
@@ -12236,6 +12561,7 @@ html[data-metal="palladium"] .mel-tile{background:linear-gradient(150deg,#F7F5F3
  animation:gc-metal-sheen 9s ease-in-out infinite}
 html[data-metal="silver"] .card.hero .metal-sheen::before{width:26%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.10) 35%,rgba(255,255,255,.42) 50%,rgba(255,255,255,.10) 65%,transparent);animation-duration:5s}
 html[data-metal="platinum"] .card.hero .metal-sheen::before{width:60%;background:linear-gradient(90deg,transparent,rgba(205,220,240,.06) 30%,rgba(215,228,245,.17) 50%,rgba(205,220,240,.06) 70%,transparent);animation-duration:11s}
+html[data-metal="emerald"] .card.hero .metal-sheen::before{width:60%;background:linear-gradient(90deg,transparent,rgba(184,217,200,.06) 30%,rgba(193,221,207,.17) 50%,rgba(184,217,200,.06) 70%,transparent);animation-duration:11s}
 html[data-metal="diamond"] .card.hero .metal-sheen::before{width:60%;background:linear-gradient(90deg,transparent,rgba(225,232,238,.06) 30%,rgba(234,240,244,.17) 50%,rgba(225,232,238,.06) 70%,transparent);animation-duration:11s}
 html[data-metal="copper"] .card.hero .metal-sheen::before{width:60%;background:linear-gradient(90deg,transparent,rgba(249,214,196,.06) 30%,rgba(250,223,210,.17) 50%,rgba(249,214,196,.06) 70%,transparent);animation-duration:11s}
 html[data-metal="palladium"] .card.hero .metal-sheen::before{width:60%;background:linear-gradient(90deg,transparent,rgba(230,224,215,.06) 30%,rgba(236,231,224,.17) 50%,rgba(230,224,215,.06) 70%,transparent);animation-duration:11s}
@@ -12246,7 +12572,9 @@ html[data-metal="silver"] :is(.topbar,.bottom-nav)::after{animation-duration:3.6
 {animation-duration:3.6s!important}
 {animation-duration:3.6s!important}
 {animation-duration:3.6s!important}
+{animation-duration:3.6s!important}
 html[data-metal="platinum"] :is(.topbar,.bottom-nav)::after{animation-duration:8s!important}
+html[data-metal="emerald"] :is(.topbar,.bottom-nav)::after{animation-duration:8s!important}
 html[data-metal="diamond"] :is(.topbar,.bottom-nav)::after{animation-duration:8s!important}
 html[data-metal="copper"] :is(.topbar,.bottom-nav)::after{animation-duration:8s!important}
 html[data-metal="palladium"] :is(.topbar,.bottom-nav)::after{animation-duration:8s!important}
@@ -12255,12 +12583,15 @@ html[data-metal="silver"]:not([data-theme="light"]) .card{box-shadow:0 14px 34px
 {box-shadow:0 14px 34px -22px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.22),inset 0 0 0 1px rgba(255,255,255,.03)!important}
 {box-shadow:0 14px 34px -22px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.22),inset 0 0 0 1px rgba(255,255,255,.03)!important}
 {box-shadow:0 14px 34px -22px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.22),inset 0 0 0 1px rgba(255,255,255,.03)!important}
+{box-shadow:0 14px 34px -22px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.22),inset 0 0 0 1px rgba(255,255,255,.03)!important}
 html[data-metal="platinum"]:not([data-theme="light"]) .card{box-shadow:0 28px 62px -26px rgba(0,0,0,.9),inset 0 1px 0 rgba(205,222,245,.14),inset 0 -1px 0 rgba(0,0,0,.4)!important}
+html[data-metal="emerald"]:not([data-theme="light"]) .card{box-shadow:0 28px 62px -26px rgba(0,0,0,.9),inset 0 1px 0 rgba(187,218,202,.14),inset 0 -1px 0 rgba(0,0,0,.4)!important}
 html[data-metal="diamond"]:not([data-theme="light"]) .card{box-shadow:0 28px 62px -26px rgba(0,0,0,.9),inset 0 1px 0 rgba(227,235,241,.14),inset 0 -1px 0 rgba(0,0,0,.4)!important}
 html[data-metal="copper"]:not([data-theme="light"]) .card{box-shadow:0 28px 62px -26px rgba(0,0,0,.9),inset 0 1px 0 rgba(250,217,200,.14),inset 0 -1px 0 rgba(0,0,0,.4)!important}
 html[data-metal="palladium"]:not([data-theme="light"]) .card{box-shadow:0 28px 62px -26px rgba(0,0,0,.9),inset 0 1px 0 rgba(233,227,217,.14),inset 0 -1px 0 rgba(0,0,0,.4)!important}
 html[data-metal="silver"][data-theme="light"] .card{box-shadow:0 10px 26px -18px rgba(40,48,58,.28),inset 0 1px 0 rgba(255,255,255,.95)!important}
 html[data-metal="platinum"][data-theme="light"] .card{box-shadow:0 20px 44px -22px rgba(30,55,90,.42),inset 0 1px 0 rgba(255,255,255,.85)!important}
+html[data-metal="emerald"][data-theme="light"] .card{box-shadow:0 20px 44px -22px rgba(38,70,54,.42),inset 0 1px 0 rgba(255,255,255,.85)!important}
 html[data-metal="diamond"][data-theme="light"] .card{box-shadow:0 20px 44px -22px rgba(47,65,78,.42),inset 0 1px 0 rgba(255,255,255,.85)!important}
 html[data-metal="copper"][data-theme="light"] .card{box-shadow:0 20px 44px -22px rgba(109,44,11,.42),inset 0 1px 0 rgba(255,255,255,.85)!important}
 html[data-metal="palladium"][data-theme="light"] .card{box-shadow:0 20px 44px -22px rgba(73,63,47,.42),inset 0 1px 0 rgba(255,255,255,.85)!important}
@@ -12362,7 +12693,7 @@ html[data-metal="palladium"][data-theme="light"] .card{box-shadow:0 20px 44px -2
   var jewel=$('jewelField'), making=jSplit&&jSplit.querySelector('.making-only-row') || document.querySelector('.making-only-row');
   if(!jewel||!making||!mcxSplit||!gstSplit||!jSplit) return;
   if(!homes) homes={jewelNext:jewel.nextSibling, makingNext:making.nextSibling};
-  if(m==='platinum'||m==='palladium'||m==='copper'||m==='diamond'){
+  if(m==='platinum'||m==='palladium'||m==='copper'||m==='diamond'||m==='emerald'){
    if(jewel.parentNode!==mcxSplit) mcxSplit.insertBefore(jewel,mcxSplit.firstChild);
    if(making.parentNode!==gstSplit) gstSplit.appendChild(making);
    jRow.classList.add('metal-empty-row');
@@ -12401,7 +12732,7 @@ html[data-metal="palladium"][data-theme="light"] .card{box-shadow:0 20px 44px -2
   setText(document.querySelector('#jewelField .jewel-purity-text'),c.jewel);
   var jl=document.querySelector('#jewelVsSpotStrip .l');
   if(jl){ var tn=jvsNode; if(!tn) jl.childNodes.forEach(function(n){ if(n.nodeType===3 && /Jewel vs Spot/.test(n.textContent)) tn=n; }); jvsNode=tn; var t=c.jvsLabel||('Jewel vs Spot ₹ '+c.jvs); if(tn){ if(tn.textContent.trim()!==t) tn.textContent=t; } else { var lab=jl.querySelector('.strip-label,span'); if(lab && /Jewel vs Spot/.test(lab.textContent)) setText(lab,t); } }
-  document.title=document.title.replace(/^(Gold|Silver|Platinum|Palladium|Copper|Diamond)\b/,c.name);
+  document.title=document.title.replace(/^(Gold|Silver|Platinum|Palladium|Copper|Diamond|Emerald)\b/,c.name);
   layout(m);
   fitHero();
  }
@@ -12824,6 +13155,8 @@ html[data-metal="gold"] #mcxDhanOverlay .silver-hint-header{
   background:rgba(55,40,10,.10)}
 html[data-metal="gold"] #mcxDhanOverlay .mcx-source-actions{
   scrollbar-color:rgba(245,230,200,.32) transparent}
+html[data-metal="gold"][data-metal="diamond"] .mcx-dhan-overlay{background:rgba(13,10,4,.72)}
+html[data-metal="gold"][data-metal="emerald"] .mcx-dhan-overlay{background:rgba(13,10,4,.72)}
 html[data-metal="gold"] #mcxDhanOverlay .mcx-source-actions .mcx-dhan-open.silver-chip-active,html[data-metal="gold"] #ftSangamOverlay .ft-panel-link-groups .mcx-dhan-open.silver-chip-active{
   background:linear-gradient(145deg,rgba(254,252,248,.27),rgba(200,168,103,.14))!important;
   border-color:rgba(253,250,243,.86)!important;
@@ -12922,6 +13255,8 @@ html[data-metal="silver"] #mcxDhanOverlay .silver-hint-header{
   background:rgba(30,32,35,.10)}
 html[data-metal="silver"] #mcxDhanOverlay .mcx-source-actions{
   scrollbar-color:rgba(220,222,225,.32) transparent}
+html[data-metal="silver"][data-metal="diamond"] .mcx-dhan-overlay{background:rgba(8,8,9,.72)}
+html[data-metal="silver"][data-metal="emerald"] .mcx-dhan-overlay{background:rgba(8,8,9,.72)}
 html[data-metal="silver"] #mcxDhanOverlay .mcx-source-actions .mcx-dhan-open.silver-chip-active,html[data-metal="silver"] #ftSangamOverlay .ft-panel-link-groups .mcx-dhan-open.silver-chip-active{
   background:linear-gradient(145deg,rgba(250,251,252,.27),rgba(146,152,157,.14))!important;
   border-color:rgba(246,248,250,.86)!important;
@@ -13116,6 +13451,8 @@ html[data-metal="palladium"] #mcxDhanOverlay .silver-hint-header{
   background:rgba(38,34,27,.10)}
 html[data-metal="palladium"] #mcxDhanOverlay .mcx-source-actions{
   scrollbar-color:rgba(228,224,217,.32) transparent}
+html[data-metal="palladium"][data-metal="diamond"] .mcx-dhan-overlay{background:rgba(10,9,7,.72)}
+html[data-metal="palladium"][data-metal="emerald"] .mcx-dhan-overlay{background:rgba(10,9,7,.72)}
 html[data-metal="palladium"] #mcxDhanOverlay .mcx-source-actions .mcx-dhan-open.silver-chip-active,html[data-metal="palladium"] #ftSangamOverlay .ft-panel-link-groups .mcx-dhan-open.silver-chip-active{
   background:linear-gradient(145deg,rgba(253,251,249,.27),rgba(163,154,140,.14))!important;
   border-color:rgba(251,249,245,.86)!important;
@@ -13214,6 +13551,8 @@ html[data-metal="copper"] #mcxDhanOverlay .silver-hint-header{
   background:rgba(58,24,6,.10)}
 html[data-metal="copper"] #mcxDhanOverlay .mcx-source-actions{
   scrollbar-color:rgba(248,214,196,.32) transparent}
+html[data-metal="copper"][data-metal="diamond"] .mcx-dhan-overlay{background:rgba(14,7,3,.72)}
+html[data-metal="copper"][data-metal="emerald"] .mcx-dhan-overlay{background:rgba(14,7,3,.72)}
 html[data-metal="copper"] #mcxDhanOverlay .mcx-source-actions .mcx-dhan-open.silver-chip-active,html[data-metal="copper"] #ftSangamOverlay .ft-panel-link-groups .mcx-dhan-open.silver-chip-active{
   background:linear-gradient(145deg,rgba(254,250,248,.27),rgba(214,131,89,.14))!important;
   border-color:rgba(254,246,242,.86)!important;
@@ -13312,6 +13651,8 @@ html[data-metal="diamond"] #mcxDhanOverlay .silver-hint-header{
   background:rgba(26,34,39,.10)}
 html[data-metal="diamond"] #mcxDhanOverlay .mcx-source-actions{
   scrollbar-color:rgba(216,224,229,.32) transparent}
+html[data-metal="diamond"][data-metal="diamond"] .mcx-dhan-overlay{background:rgba(7,9,10,.72)}
+html[data-metal="diamond"][data-metal="emerald"] .mcx-dhan-overlay{background:rgba(7,9,10,.72)}
 html[data-metal="diamond"] #mcxDhanOverlay .mcx-source-actions .mcx-dhan-open.silver-chip-active,html[data-metal="diamond"] #ftSangamOverlay .ft-panel-link-groups .mcx-dhan-open.silver-chip-active{
   background:linear-gradient(145deg,rgba(249,251,253,.27),rgba(139,154,164,.14))!important;
   border-color:rgba(244,249,252,.86)!important;
@@ -13339,6 +13680,106 @@ html[data-metal="diamond"] #readyMadeOverlay .silver-tap-hint{border:1px solid r
 html[data-metal="diamond"] #readyMadeOverlay .mcx-preview-host{background:rgba(11,14,17,.13);border-top:1px solid rgba(227,235,240,.23)}
 html[data-metal="diamond"] #readyMadeOverlay .mcx-preview-placeholder{color:rgba(229,236,241,.8)}
 @media(prefers-reduced-transparency:reduce){html[data-metal="diamond"] #readyMadeOverlay .mcx-dhan-sheet{background:#272D32!important}
+}
+/* emerald */
+html[data-metal="emerald"] .mcx-dhan-overlay{background:rgba(4,7,6,.72)}
+html[data-metal="emerald"] #usdinrQuotePopup,html[data-metal="emerald"] #spotQuotePopup{
+  border:1.5px solid rgba(94,164,129,.95)!important;
+  background:linear-gradient(135deg,rgba(203,225,214,.24),rgba(99,167,133,.12) 55%,rgba(225,238,232,.20)),var(--bg-1)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.65),inset 0 -1px 0 rgba(68,122,95,.12),0 0 0 1px rgba(151,197,174,.18),0 12px 32px rgba(16,29,22,.24),0 0 14px rgba(92,163,128,.22)!important}
+html[data-metal="emerald"] #usdinrQuotePopup::before,html[data-metal="emerald"] #spotQuotePopup::before{
+  background:linear-gradient(115deg,transparent 30%,rgba(227,239,233,.25) 48%,transparent 65%)}
+html[data-metal="emerald"] #usdinrQuotePopup,html[data-metal="emerald"] #spotQuotePopup{
+  background:linear-gradient(155deg,rgba(91,141,116,.28),rgba(20,35,28,.63) 48%,rgba(13,24,18,.78))!important}
+html[data-metal="emerald"] #usdinrQuotePopup .usdinr-quote-embed,html[data-metal="emerald"] #spotQuotePopup .usdinr-quote-embed{
+  background:rgba(10,18,14,.66)!important}
+html[data-metal="emerald"] #usdinrQuotePopup .usdinr-quote-loading,html[data-metal="emerald"] #spotQuotePopup .usdinr-quote-loading{color:rgba(247,250,248,.8)!important}
+@media(prefers-reduced-transparency:reduce){html[data-metal="emerald"] #usdinrQuotePopup,html[data-metal="emerald"] #spotQuotePopup{background:#20392D!important}
+}html[data-metal="emerald"] #usdinrQuotePopup,html[data-metal="emerald"] #spotQuotePopup{
+ background:linear-gradient(145deg,rgba(127,183,155,.15),rgba(24,44,34,.28) 50%,rgba(12,21,16,.38))!important}
+html[data-metal="emerald"] #usdinrQuotePopup .usdinr-quote-embed,html[data-metal="emerald"] #spotQuotePopup .usdinr-quote-embed{
+ background:rgba(15,27,21,.20)!important}
+@media(prefers-reduced-transparency:reduce){html[data-metal="emerald"] #usdinrQuotePopup,html[data-metal="emerald"] #spotQuotePopup{background:#20392D!important}
+}html[data-metal="emerald"] #usdinrQuotePopup::after,html[data-metal="emerald"] #spotQuotePopup::after{
+  background:conic-gradient(from var(--silver-orbit),transparent 0deg,rgba(245,250,248,.08) 55deg,rgba(255,255,255,.90) 88deg,rgba(172,209,190,.90) 99deg,rgba(255,255,255,.28) 114deg,transparent 145deg,transparent 270deg,rgba(226,238,232,.30) 310deg,transparent 345deg)}
+html[data-metal="emerald"] #mcxDhanOverlay,html[data-metal="emerald"] #ftSangamOverlay{background:rgba(14,15,16,.53)}
+html[data-metal="emerald"] #mcxDhanOverlay .mcx-dhan-sheet,html[data-metal="emerald"] #ftSangamOverlay .mcx-dhan-sheet{
+  background:linear-gradient(145deg,rgba(127,183,155,.15),rgba(24,44,34,.28) 50%,rgba(12,21,16,.38))!important;
+  color:#EAF3EE}
+html[data-metal="emerald"] #mcxDhanOverlay .mcx-dhan-sheet::after,html[data-metal="emerald"] #ftSangamOverlay .mcx-dhan-sheet::after{
+  background:conic-gradient(from var(--silver-orbit),transparent 0deg,rgba(245,250,248,.08) 55deg,rgba(255,255,255,.90) 88deg,rgba(172,209,190,.90) 99deg,rgba(255,255,255,.28) 114deg,transparent 145deg,transparent 270deg,rgba(226,238,232,.30) 310deg,transparent 345deg)}
+html[data-metal="emerald"] #mcxDhanOverlay .mcx-dhan-title,html[data-metal="emerald"] #ftSangamOverlay .mcx-dhan-title{color:#F5FAF8}
+html[data-metal="emerald"] #mcxDhanOverlay .mcx-dhan-subtitle,html[data-metal="emerald"] #ftSangamOverlay .mcx-dhan-subtitle,html[data-metal="emerald"] #mcxDhanOverlay .mcx-dhan-hint,html[data-metal="emerald"] #ftSangamOverlay .mcx-dhan-hint,html[data-metal="emerald"] #ftSangamOverlay #ftActiveProvider{color:#C5DED2}
+html[data-metal="emerald"] #mcxDhanOverlay .mcx-dhan-header,html[data-metal="emerald"] #ftSangamOverlay .mcx-dhan-header,html[data-metal="emerald"] #mcxDhanOverlay .mcx-dhan-actions,html[data-metal="emerald"] #ftSangamOverlay .mcx-dhan-actions,html[data-metal="emerald"] #ftSangamOverlay .ft-panel-link-groups,html[data-metal="emerald"] #ftSangamOverlay .ft-provider-tools{
+ border-color:rgba(233,242,238,.17);background:rgba(23,42,32,.14)
+}
+html[data-metal="emerald"] #mcxDhanOverlay .mcx-dhan-open,html[data-metal="emerald"] #ftSangamOverlay .mcx-dhan-open,html[data-metal="emerald"] #mcxDhanOverlay .mcx-dhan-close,html[data-metal="emerald"] #ftSangamOverlay .mcx-dhan-close{
+ color:#EAF3EE!important;background:rgba(181,214,198,.12)!important;
+ border:1px solid rgba(238,246,242,.25)!important}
+html[data-metal="emerald"] #ftSangamOverlay .ft-source-actions .ft-source-tab[aria-selected="true"]{border-color:rgba(245,250,248,.68)!important;background:rgba(199,223,211,.25)!important
+}
+html[data-metal="emerald"] #mcxDhanOverlay .mcx-dhan-hint,html[data-metal="emerald"] #ftSangamOverlay .mcx-dhan-hint{background:rgba(23,42,32,.18)}
+@media(prefers-reduced-transparency:reduce){html[data-metal="emerald"] #mcxDhanOverlay .mcx-dhan-sheet,html[data-metal="emerald"] #ftSangamOverlay .mcx-dhan-sheet{background:#20392D!important}
+}html[data-metal="emerald"] #mcxDhanOverlay .silver-tap-icon,html[data-metal="emerald"] #ftSangamOverlay .silver-tap-icon{filter:drop-shadow(0 0 3px rgba(240,247,243,.35))}
+html[data-metal="emerald"] #ftSangamOverlay .ft-preview-tab[aria-pressed="true"]{ border-color:rgba(226,239,232,.75)!important; background:rgba(204,226,215,.19)!important; box-shadow:0 0 12px rgba(231,242,236,.22), inset 0 0 10px rgba(245,250,248,.1)}
+html[data-metal="emerald"] #usdinrQuotePopup,html[data-metal="emerald"] #spotQuotePopup,html[data-metal="emerald"] #mcxDhanOverlay .mcx-dhan-sheet,html[data-metal="emerald"] #ftSangamOverlay .mcx-dhan-sheet{
+ background:linear-gradient(140deg,rgba(241,247,244,.115) 0%,rgba(116,177,146,.075) 24%,rgba(24,44,34,.135) 60%,rgba(9,15,12,.20) 100%)!important;
+ border:1px solid rgba(243,248,246,.22)!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.42),inset 0 -1px 0 rgba(207,228,218,.11),0 13px 35px rgba(0,0,0,.13)!important}
+html[data-metal="emerald"] #mcxDhanOverlay,html[data-metal="emerald"] #ftSangamOverlay{background:rgba(10,11,12,.29)!important}
+html[data-metal="emerald"] #usdinrQuotePopup::after,html[data-metal="emerald"] #spotQuotePopup::after,html[data-metal="emerald"] #mcxDhanOverlay .mcx-dhan-sheet::after,html[data-metal="emerald"] #ftSangamOverlay .mcx-dhan-sheet::after{
+ background:conic-gradient(from var(--silver-orbit),
+ rgba(255,255,255,.06) 0deg,rgba(255,255,255,.15) 25deg,
+ rgba(244,249,246,.92) 46deg,#fff 49deg,rgba(203,226,214,.96) 52deg,
+ rgba(255,255,255,.12) 66deg,transparent 93deg,transparent 154deg,
+ rgba(233,242,238,.11) 177deg,rgba(255,255,255,.70) 189deg,
+ rgba(192,220,206,.88) 195deg,transparent 214deg,transparent 300deg,
+ rgba(249,252,251,.32) 337deg,rgba(255,255,255,.06) 360deg)!important;
+ filter:drop-shadow(0 0 2px rgba(244,249,246,.65))}
+html[data-metal="emerald"] #usdinrQuotePopup::before,html[data-metal="emerald"] #spotQuotePopup::before,html[data-metal="emerald"] #mcxDhanOverlay .mcx-dhan-sheet::before,html[data-metal="emerald"] #ftSangamOverlay .mcx-dhan-sheet::before{
+ background:linear-gradient(125deg,rgba(255,255,255,.18),transparent 23%,transparent 76%,rgba(240,247,243,.07))}
+html[data-metal="emerald"] #usdinrQuotePopup .usdinr-quote-embed,html[data-metal="emerald"] #spotQuotePopup .usdinr-quote-embed{
+ background:rgba(14,24,19,.08)!important;border-color:rgba(245,249,247,.14)!important}
+@media(prefers-reduced-transparency:reduce){html[data-metal="emerald"] #usdinrQuotePopup,html[data-metal="emerald"] #spotQuotePopup,html[data-metal="emerald"] #mcxDhanOverlay .mcx-dhan-sheet,html[data-metal="emerald"] #ftSangamOverlay .mcx-dhan-sheet{background:#20382C!important}
+}html[data-metal="emerald"] #mcxDhanOverlay .silver-tap-hint,html[data-metal="emerald"] #ftSangamOverlay .silver-tap-hint{border:1px solid rgba(226,239,233,.22);background:linear-gradient(115deg,rgba(241,247,244,.12),rgba(135,187,161,.055));color:rgba(235,244,240,.78)}
+html[data-metal="emerald"] #usdinrQuotePopup,html[data-metal="emerald"] #spotQuotePopup{
+  background:linear-gradient(145deg,rgba(154,198,176,.09),rgba(27,48,38,.18) 55%,rgba(13,23,18,.23))!important}
+html[data-metal="emerald"] #mcxDhanOverlay .silver-hint-footer{
+  border-top:1px solid rgba(233,242,238,.17);
+  background:rgba(23,42,32,.10)}
+html[data-metal="emerald"] #mcxDhanOverlay .silver-hint-header{
+  background:rgba(23,42,32,.10)}
+html[data-metal="emerald"] #mcxDhanOverlay .mcx-source-actions{
+  scrollbar-color:rgba(213,232,222,.32) transparent}
+html[data-metal="emerald"][data-metal="diamond"] .mcx-dhan-overlay{background:rgba(6,11,9,.72)}
+html[data-metal="emerald"][data-metal="emerald"] .mcx-dhan-overlay{background:rgba(6,11,9,.72)}
+html[data-metal="emerald"] #mcxDhanOverlay .mcx-source-actions .mcx-dhan-open.silver-chip-active,html[data-metal="emerald"] #ftSangamOverlay .ft-panel-link-groups .mcx-dhan-open.silver-chip-active{
+  background:linear-gradient(145deg,rgba(250,252,251,.27),rgba(123,180,152,.14))!important;
+  border-color:rgba(246,250,248,.86)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.48),inset 0 -1px 0 rgba(210,230,220,.16),0 0 13px rgba(229,240,235,.35),0 0 25px rgba(198,223,210,.15)!important}
+html[data-metal="emerald"] #mcxDhanOverlay .mcx-source-actions .mcx-dhan-open::after,html[data-metal="emerald"] #ftSangamOverlay .ft-panel-link-groups .mcx-dhan-open::after{
+  background:linear-gradient(90deg,transparent,rgba(245,249,247,.18) 23%,rgba(255,255,255,.86) 50%,rgba(238,246,242,.25) 76%,transparent)}
+html[data-metal="emerald"] #mcxDhanOverlay .mcx-preview-host{
+  background:rgba(10,18,14,.13);border-top:1px solid rgba(227,240,234,.23)}
+html[data-metal="emerald"] #mcxDhanOverlay .mcx-preview-placeholder{color:rgba(229,241,235,.8)}
+html[data-metal="emerald"] #mcxDhanOverlay .mcx-provider-tools-matched #mcxDhanClose,html[data-metal="emerald"] #ftSangamOverlay .ft-provider-tools #ftSangamClose{
+ color:#EBF3EF!important;
+ background:linear-gradient(135deg,rgba(255,255,255,.19),rgba(111,165,138,.09))!important;
+ border:1px solid rgba(236,244,240,.55)!important;
+ box-shadow:0 0 9px rgba(233,242,238,.15),inset 0 1px 0 rgba(255,255,255,.24)!important}
+html[data-metal="emerald"] #readyMadeOverlay{background:rgba(14,15,16,.53)}
+html[data-metal="emerald"] #readyMadeOverlay .mcx-dhan-sheet.mcx-shortcuts-sheet{
+ background:linear-gradient(145deg,rgba(127,183,155,.15),rgba(24,44,34,.28) 50%,rgba(12,21,16,.38))!important;color:#EAF3EE}
+html[data-metal="emerald"] #readyMadeOverlay .mcx-dhan-sheet::after{background:conic-gradient(from var(--silver-orbit),transparent 0deg,rgba(245,250,248,.08) 55deg,rgba(255,255,255,.90) 88deg,rgba(172,209,190,.90) 99deg,rgba(255,255,255,.28) 114deg,transparent 145deg,transparent 270deg,rgba(226,238,232,.30) 310deg,transparent 345deg)}
+html[data-metal="emerald"] #readyMadeOverlay .mcx-dhan-close{color:#EAF3EE!important;background:rgba(181,214,198,.12)!important;border:1px solid rgba(238,246,242,.25)!important}
+html[data-metal="emerald"] #readyMadeOverlay .mcx-source-actions{background:rgba(23,42,32,.14);border-color:rgba(233,242,238,.17)}
+html[data-metal="emerald"] #readyMadeOverlay .mcx-source-actions .mcx-dhan-open{color:#EAF3EE!important;background:rgba(181,214,198,.12)!important;border:1px solid rgba(238,246,242,.25)!important}
+html[data-metal="emerald"] #readyMadeOverlay .mcx-source-actions .mcx-dhan-open.silver-chip-active{border-color:rgba(245,250,248,.75)!important;background:rgba(199,223,211,.25)!important;box-shadow:0 0 9px rgba(239,246,242,.3),inset 0 1px 0 rgba(255,255,255,.25)!important}
+html[data-metal="emerald"] #readyMadeOverlay .mcx-provider-tools-matched{background:rgba(23,42,32,.14);border-bottom:1px solid rgba(233,242,238,.17)}
+html[data-metal="emerald"] #readyMadeOverlay .silver-tap-hint{border:1px solid rgba(226,239,233,.22);background:linear-gradient(115deg,rgba(241,247,244,.12),rgba(135,187,161,.055));color:rgba(235,244,240,.78)!important}
+html[data-metal="emerald"] #readyMadeOverlay .mcx-preview-host{background:rgba(10,18,14,.13);border-top:1px solid rgba(227,240,234,.23)}
+html[data-metal="emerald"] #readyMadeOverlay .mcx-preview-placeholder{color:rgba(229,241,235,.8)}
+@media(prefers-reduced-transparency:reduce){html[data-metal="emerald"] #readyMadeOverlay .mcx-dhan-sheet{background:#20392D!important}
 }</style>
 <script id="metal-theme-engine-20261120">
 /* Metal theme engine: every fixed gold colour in the stylesheets (and SVG paints) is re-tinted
@@ -13357,6 +13798,7 @@ html[data-metal="diamond"] #readyMadeOverlay .mcx-preview-placeholder{color:rgba
   else if(m==='palladium'){ h=36; s=.05+x[1]*.07; l=l*.97; }
   else if(m==='copper'){ h=20; s=Math.min(.82,.38+x[1]*.42); l=l*.97; }
   else if(m==='diamond'){ h=205; s=.06+x[1]*.12; l=Math.min(.985,l*1.03); }
+  else if(m==='emerald'){ h=150; s=Math.min(.30,.10+x[1]*.22); l=l*.93; }
   else { h=213; s=.13+x[1]*.17; l=l*.95; }
   return rgb(h,Math.min(1,s),Math.max(0,Math.min(1,l)));
  }
@@ -13466,14 +13908,16 @@ html[data-metal="diamond"] #readyMadeOverlay .mcx-preview-placeholder{color:rgba
    platinum:{rate:15.4,wef:'2026-05-13',ref:'Notif. 15/2026 & 16/2026-Customs'},
    palladium:{rate:15.4,wef:'2026-05-13',ref:'Heading 7110 (with platinum) · Notif. 15/2026 & 16/2026-Customs'},
    copper:{rate:5.5,wef:'',ref:'BCD 5% + SWS 10% of BCD · refined copper cathode (7403 11 00)'},
-   diamond:{rate:5.5,wef:'',ref:'BCD 5% + SWS 10% of BCD · cut & polished (7102 39) / lab-grown (7104 91)'}},
+   diamond:{rate:5.5,wef:'',ref:'BCD 5% + SWS 10% of BCD · cut & polished (7102 39) / lab-grown (7104 91)'},
+   emerald:{rate:5.5,wef:'',ref:'Natural: BCD 5% + SWS 10% (7103 91) · Synthetic: BCD 15% + SWS 10% (7104 91, Budget 2026)'}},
   gst:{
    gold:{rate:3,wef:'2017-07-01',ref:'GST 3% (HSN 7108)'},
    silver:{rate:3,wef:'2017-07-01',ref:'GST 3% (HSN 7106)'},
    platinum:{rate:3,wef:'2017-07-01',ref:'GST 3% (HSN 7110)'},
    palladium:{rate:3,wef:'2017-07-01',ref:'GST 3% (HSN 7110)'},
    copper:{rate:18,wef:'',ref:'GST 18% (HSN 7403)'},
-   diamond:{rate:1.5,wef:'2022-07-18',ref:'GST 1.5% natural cut & polished (HSN 7102) · lab-grown loose 0.25% (HSN 7104)'}}};
+   diamond:{rate:1.5,wef:'2022-07-18',ref:'GST 1.5% natural cut & polished (HSN 7102) · lab-grown loose 0.25% (HSN 7104)'},
+   emerald:{rate:0.25,wef:'2018-01-25',ref:'GST 0.25% cut & polished emerald (HSN 7103 91) · synthetic (7104) 0.25%'}}};
  var URL_REMOTE='https://goldau.vercel.app/duty.json', KEY='gcOfficialDuty';
  var KINDS={
   duty:{group:'metals',applied:'gcOfficialDutyApplied',input:'dutyInput',tag:'refDuty',toggle:'dutyToggle',label:'Import duty',icon:'₹',setter:'__gcSetDuty'},
@@ -13603,7 +14047,7 @@ html[data-metal="diamond"] #readyMadeOverlay .mcx-preview-placeholder{color:rgba
  };
  /* iPhone / iPad: no haptics (iOS Safari/Chrome give web pages no way to trigger them). Android only. */
  var TAP='.ios-toggle,.reset-toggle,#forceSyncBtn,#bullionThemeToggle,.bottom-nav [data-target],.live-check,#mcxWatchlistLink,#ftSangamShortcut,#readyMadeTrigger,.mcx-dhan-open,#metalSwitch,#datePill';
- var STRIPS=['puritySeg','purityGroupTabs','unitChips','weightGroupTabs','differencePresets','quickWeightGroupTabs','cwSizes','diaType','diaShape','diaColor','diaClarity','diaCut','diaPolish','diaSym','diaFluor','diaLabGrade','dsShape','diaGTabs'];
+ var STRIPS=['puritySeg','purityGroupTabs','unitChips','weightGroupTabs','differencePresets','quickWeightGroupTabs','cwSizes','diaType','diaShape','diaColor','diaClarity','diaCut','diaPolish','diaSym','diaFluor','diaLabGrade','dsShape','diaGTabs','emrType','emrShape','emrColor','emrClarity','emrCut','emrPolish','emrSym','emrLabGrade','esShape','emrGTabs'];
  document.addEventListener('click',function(e){
   var mm=e.target.closest&&e.target.closest('#metalMenu [data-metal]');
   if(mm){ window.__gcHaptic('click'); setTimeout(function(){ window.__gcHaptic('tick'); },110); return; } /* mode chosen: soft double "confirm" */
@@ -13696,14 +14140,14 @@ html[data-metal="diamond"] #readyMadeOverlay .mcx-preview-placeholder{color:rgba
  ['cwArea','cwLen','cwCores','cwQty'].forEach(function(id){ var e=document.getElementById(id); if(e) e.addEventListener('input',calc); });
  ['spotInput','usdinrInput'].forEach(function(id){ var e=document.getElementById(id); if(e){ e.addEventListener('input',calc); e.addEventListener('change',calc); } });
  var unitEl=document.querySelector('#spotInput ~ .market-unit'), unitOrig=unitEl?unitEl.textContent:'';
- function spotUnit(){ if(unitEl) unitEl.textContent = window.__gcMetal==='copper' ? '/lb' : window.__gcMetal==='diamond' ? '/ct' : unitOrig; }
+ function spotUnit(){ if(unitEl) unitEl.textContent = window.__gcMetal==='copper' ? '/lb' : /^(diamond|emerald)$/.test(window.__gcMetal) ? '/ct' : unitOrig; }
  /* Copper Market layout: Import duty | GST share one row (the Jewel, MCX and Premium strips are not used). */
  var gstF=document.getElementById('gstInput'); gstF=gstF&&gstF.closest('.field'); var gstHome=gstF&&gstF.parentNode, gstNext=gstF&&gstF.nextSibling;
  function arrange(){ var duty=document.getElementById('dutyInput'); duty=duty&&duty.closest('.field'); if(!gstF||!duty) return;
-  if(/^(copper|diamond)$/.test(window.__gcMetal)){ if(gstF.parentNode!==duty.parentNode) duty.parentNode.insertBefore(gstF,duty.nextSibling); }
+  if(/^(copper|diamond|emerald)$/.test(window.__gcMetal)){ if(gstF.parentNode!==duty.parentNode) duty.parentNode.insertBefore(gstF,duty.nextSibling); }
   else if(gstF.parentNode!==gstHome){ gstHome.insertBefore(gstF,gstNext&&gstNext.parentNode===gstHome?gstNext:null); } }
  /* Top cards: shrink the value just enough to fit (e.g. ₹11,79,667 per tonne on small phones). */
- function fitHero(){ document.querySelectorAll('.card.hero .hero-stat .v').forEach(function(v){ v.style.fontSize=''; if(!/^(copper|diamond)$/.test(window.__gcMetal)) return;
+ function fitHero(){ document.querySelectorAll('.card.hero .hero-stat .v').forEach(function(v){ v.style.fontSize=''; if(!/^(copper|diamond|emerald)$/.test(window.__gcMetal)) return;
    var fs=parseFloat(getComputedStyle(v).fontSize)||28, n=0; while(v.scrollWidth>v.clientWidth+1 && fs>14 && n++<20){ fs-=1; v.style.fontSize=fs+'px'; } });
   var a=document.getElementById('hero24k'), b=document.getElementById('hero22k'); if(a&&b&&a.style.fontSize!==b.style.fontSize){ var m=Math.min(parseFloat(getComputedStyle(a).fontSize),parseFloat(getComputedStyle(b).fontSize)); a.style.fontSize=b.style.fontSize=m+'px'; } }
  if(window.MutationObserver){ ['hero24k','hero22k'].forEach(function(id){ var e=document.getElementById(id); if(e) new MutationObserver(function(){ requestAnimationFrame(fitHero); }).observe(e,{childList:true,characterData:true,subtree:true}); }); }
@@ -13941,6 +14385,244 @@ html[data-metal="diamond"] #readyMadeOverlay .mcx-preview-placeholder{color:rgba
  ['usdinrInput','dutyInput','gstInput'].forEach(function(id){ var e=$(id); if(e) e.addEventListener('input',function(){ setTimeout(heroSync,0); }); });
  document.addEventListener('click',function(e){ if(e.target.closest&&e.target.closest('#dutyToggle,#gstToggle')) setTimeout(heroSync,30); },true);
  document.addEventListener('gc:metal',function(){ setPane(PANE,false); setTimeout(function(){ gstShow(true); engineSync(); heroSync(); },60); });
+ setPane(PANE,false);
+ render(); setInterval(function(){ if(isD()) render(); },3000);
+})();
+</script>
+<script id="emerald-mode-ui-20261125">
+/* Emerald mode: 4C grade picker with your own per-grade $/ct price list; size (mm) → carat estimate. */
+(function(){'use strict';
+ function isD(){ return window.__gcMetal==='emerald'; }
+ var G={type:'natural',shape:'Emerald',origin:'Colombia',color:'Vivid Green',clarity:'Eye Clean',treat:'Minor',cert:'GRS',lab:'Hydrothermal'}, R={}, DS={shape:'Emerald'};
+ try{ var g=JSON.parse(localStorage.getItem('gcEmrGrade')||'{}'); for(var k in g) if(g[k]) G[k]=g[k]; R=JSON.parse(localStorage.getItem('gcEmrRates')||'{}')||{}; }catch(_){}
+ function save(){ try{ localStorage.setItem('gcEmrGrade',JSON.stringify(G)); localStorage.setItem('gcEmrRates',JSON.stringify(R)); }catch(_){} }
+ function key(t){ t=t||G.type; return t==='lab' ? ['lab',G.shape,G.lab,G.color].join('|') : ['natural',G.shape,G.origin,G.color,G.clarity,G.treat,G.cert].join('|'); }
+ function ab(v){ return {'Excellent':'EX','Very Good':'VG','Good':'G','Fair':'F','Poor':'P'}[v]||v; }
+ function $(id){ return document.getElementById(id); }
+ function num(id){ var n=parseFloat(String(($(id)||{}).value||'').replace(/,/g,'')); return isFinite(n)?n:0; }
+ var SHAPE_IC={Emerald:'<path d="M10 5.5h8l3 3v11l-3 3h-8l-3-3v-11z"/><path d="M10.6 8.5h6.8v11h-6.8z" opacity=".45"/><path d="M7 8.5l3.6 0M21 8.5l-3.6 0M7 19.5h3.6M21 19.5h-3.6" opacity=".45"/>',
+  Oval:'<ellipse cx="14" cy="14" rx="5.6" ry="8.2"/><path d="M14 5.8v16.4M8.4 14h11.2" opacity=".45"/>',
+  Cushion:'<rect x="6.8" y="6.8" width="14.4" height="14.4" rx="4.6"/><path d="M9 9l10 10M19 9 9 19" opacity=".45"/>',
+  Pear:'<path d="M14 5c4 4.6 6.4 8.4 6.4 11.2a6.4 6.4 0 0 1-12.8 0C7.6 13.4 10 9.6 14 5z"/><path d="M14 5v17.6" opacity=".45"/>',
+  Round:'<circle cx="14" cy="14" r="7.5"/><path d="M14 6.5v15M6.5 14h15M8.7 8.7l10.6 10.6M19.3 8.7 8.7 19.3" opacity=".45"/>',
+  Heart:'<path d="M14 21.5s-7.2-4.6-7.2-9.4a3.9 3.9 0 0 1 7.2-2.1 3.9 3.9 0 0 1 7.2 2.1c0 4.8-7.2 9.4-7.2 9.4z"/>',
+  Princess:'<rect x="7" y="7" width="14" height="14" rx="1"/><path d="M7 7l14 14M21 7 7 21" opacity=".45"/>',
+  Cabochon:'<ellipse cx="14" cy="15.5" rx="8" ry="5.5"/><path d="M8.5 13.2c1.6-2.2 3.4-3 5.5-3s3.9.8 5.5 3" opacity=".55"/><path d="M11 12.4c.8-.7 1.8-1 3-1" stroke-linecap="round" opacity=".8"/>'};
+ function ic(path){ return '<svg class="emr-ic" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true">'+path+'</svg>'; }
+ var GEM='<path d="M9 10h10l3 3.3L14 22l-8-8.7z"/><path d="M6 13.3h16M11.4 10 14 13.3 16.6 10" opacity=".5"/>';
+ var FIVE=[['Excellent','Excellent','EX'],['Very Good','Very Good','VG'],['Good','Good','G'],['Fair','Fair','F'],['Poor','Poor','P']];
+ function stars(v){ var r={'Excellent':4,'Very Good':3,'Good':2,'Fair':1,'Poor':0}[v], d=''; for(var i=0;i<r;i++) d+='<path d="M'+(7.5+i*3.4)+' 6.2l1 1 1-1" opacity=".9"/>'; return ic('<path d="M9 11h10l3 3.1L14 22.5l-8-8.4z"/>'+d); }
+ var GREENS={'Vivid Green':.95,'Intense Green':.8,'Deep Green':.9,'Medium Green':.6,'Light Green':.35,'Bluish Green':.7,'Yellowish Green':.55};
+ var ROWS={
+  emrType:{f:'type',items:[['natural','Natural','Mined · 7103 91'],['lab','Synthetic','Hydrothermal / Flux · 7104']],icon:function(v){ return ic(v==='lab'?'<path d="M11 5.5h6M12 5.5v5.2L7.6 19a2 2 0 0 0 1.8 3h9.2a2 2 0 0 0 1.8-3L16 10.7V5.5"/><path d="M9.5 16.5h9" opacity=".5"/>':'<path d="M10 5.5h8l3 3v11l-3 3h-8l-3-3v-11z"/><path d="M10.6 8.5h6.8v11h-6.8z" opacity=".45"/>'); }},
+  emrShape:{f:'shape',items:Object.keys(SHAPE_IC).map(function(n){ return [n,n,({Emerald:'Step cut',Oval:'Mixed cut',Cushion:'Mixed cut',Pear:'Mixed cut',Round:'Brilliant',Heart:'Brilliant',Princess:'Square',Cabochon:'Domed'})[n]]; }),icon:function(v){ return ic(SHAPE_IC[v]); }},
+  emrColor:{f:'color',items:[['Vivid Green','Vivid','Muzo-type pure green'],['Intense Green','Intense','Strong saturation'],['Deep Green','Deep','Dark, rich tone'],['Medium Green','Medium','Commercial'],['Light Green','Light','Pale tone'],['Bluish Green','Bluish','Blue secondary hue'],['Yellowish Green','Yellowish','Yellow secondary hue']],icon:function(v){ var o=GREENS[v]||.6, hue=v==='Bluish Green'?'40,170,150':v==='Yellowish Green'?'120,190,60':'30,170,95'; return ic('<path d="M10 5.5h8l3 3v11l-3 3h-8l-3-3v-11z" fill="rgba('+hue+','+o+')"/>'); }},
+  emrClarity:{f:'clarity',items:[['Eye Clean','Eye Clean','No visible jardin'],['Very Slightly Included','VSI','Minute inclusions'],['Slightly Included','SI','Visible under loupe'],['Moderately Included','MI','Jardin to the eye'],['Heavily Included','HI','Heavily included']],icon:function(v){ var n={'Eye Clean':0,'Very Slightly Included':1,'Slightly Included':2,'Moderately Included':4,'Heavily Included':6}[v], d=''; var P=[[12,15],[16,14],[14,17.5],[11.5,12.2],[16.6,17.4],[13,19.4],[15.6,11.4]]; for(var i=0;i<n;i++) d+='<circle cx="'+P[i][0]+'" cy="'+P[i][1]+'" r=".9" fill="currentColor" stroke="none"/>'; return ic('<path d="M10 5.5h8l3 3v11l-3 3h-8l-3-3v-11z"/>'+d); }},
+  emrCut:{f:'origin',items:[['Colombia','Colombia','Muzo · Chivor · Coscuez'],['Zambia','Zambia','Kagem · Kafubu'],['Brazil','Brazil','Minas Gerais · Bahia'],['Afghanistan','Afghanistan','Panjshir'],['Ethiopia','Ethiopia','Shakiso'],['Zimbabwe','Zimbabwe','Sandawana'],['India','India','Rajasthan'],['Other','Other','Origin not stated']],icon:function(v){ return ic('<path d="M14 23s-6.2-6.6-6.2-11.2a6.2 6.2 0 0 1 12.4 0C20.2 16.4 14 23 14 23z"/><circle cx="14" cy="11.8" r="2.2" fill="currentColor" stroke="none" opacity=".75"/>'); }},
+  emrPolish:{f:'treat',items:[['None','None','No clarity enhancement'],['Insignificant','Insignificant','Trace oil'],['Minor','Minor','Light oil / resin'],['Moderate','Moderate','Noticeable filling'],['Significant','Significant','Heavy filling']],icon:function(v){ var r={'None':0,'Insignificant':.8,'Minor':1.6,'Moderate':2.6,'Significant':3.6}[v]; return ic('<path d="M14 5.5s-5.6 6.4-5.6 10.2a5.6 5.6 0 0 0 11.2 0C19.6 11.9 14 5.5 14 5.5z"/>'+(r>0?'<circle cx="14" cy="16" r="'+r+'" fill="currentColor" stroke="none" opacity=".75"/>':'<path d="M10.5 19.5l7-7" opacity=".7"/>')); }},
+  emrSym:{f:'cert',items:[['GRS','GRS','GemResearch Swisslab'],['Gübelin','Gübelin','Gem Lab, Lucerne'],['SSEF','SSEF','Swiss Gemmological Inst.'],['GIA','GIA','Gemological Inst. of America'],['IGI','IGI','Intl. Gemological Inst.'],['AGL','AGL','American Gemological Lab'],['None','None','No report']],icon:function(v){ return ic(v==='None'?'<rect x="7.5" y="5.5" width="13" height="17" rx="2"/><path d="M10.5 10h7M10.5 13.5h7" opacity=".5"/><path d="M8 21 20 7" opacity=".7"/>':'<rect x="7.5" y="5.5" width="13" height="17" rx="2"/><path d="M10.5 9.5h7M10.5 12.5h5" opacity=".55"/><circle cx="16.8" cy="17.4" r="2.4"/><path d="M15.8 19.4l-.6 2.6 1.6-.9 1.6.9-.6-2.6" opacity=".85"/>'); }},
+  emrFluor:{f:'fluor',items:[['None','None','—']],icon:function(){ return ic('<circle cx="14" cy="14" r="6"/>'); }},
+  emrLabGrade:{f:'lab',items:[['Hydrothermal','Hydrothermal','Grown in water + pressure'],['Flux','Flux','Grown from molten flux']],icon:function(v){ return ic(v==='Flux'?'<path d="M8 21h12M9.5 21l1.5-9h6l1.5 9"/><path d="M12 9c0-1.6 1-2.4 2-3.5 1 1.1 2 1.9 2 3.5" opacity=".8"/>':'<path d="M9 7.5h10v12a3 3 0 0 1-3 3h-4a3 3 0 0 1-3-3z"/><circle cx="12.5" cy="17" r="1.1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="14" r=".9" fill="currentColor" stroke="none"/><circle cx="13.6" cy="11.4" r=".7" fill="currentColor" stroke="none"/>'); }}
+ };
+ function isSeg(h){ return h.classList.contains('seg'); }
+ function IC(h){ return isSeg(h)?'purity-indicator':'unit-indicator'; }
+ function build(id,row,current,onPick){
+  var host=$(id); if(!host) return; var seg=isSeg(host); host.innerHTML='<span class="'+IC(host)+'" aria-hidden="true"></span>';
+  row.items.forEach(function(it){ var b=document.createElement('button'); b.type='button'; b.dataset.v=it[0];
+   if(seg){ b.innerHTML=it[1]+(it[2]?'<span class="sub">'+it[2]+'</span>':''); }
+   else { b.className='chip'; b.innerHTML=row.icon(it[0])+'<span class="chip-text">'+it[1]+(it[2]?'<span class="chip-sub">'+it[2]+'</span>':'')+'</span>'; }
+   b.addEventListener('click',function(){ onPick(it[0]); press(host,it[0],true); fire(host); }); host.appendChild(b); });
+  host.classList.remove('purity-indicator-ready','unit-indicator-ready');
+  press(host,current,false);
+  if(window.ResizeObserver) new ResizeObserver(function(){ ind(host,false); }).observe(host);
+ }
+ function press(host,v,scroll){ host.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed',String(b.dataset.v===v)); }); requestAnimationFrame(function(){ ind(host,scroll); }); }
+ function ind(host,scroll){ var a=host.querySelector('button[aria-pressed="true"]'), I=host.querySelector('.'+IC(host)); if(!a||!a.offsetWidth||!I) return;
+  if(scroll){ var l=a.offsetLeft, r=l+a.offsetWidth, vl=host.scrollLeft, vr=vl+host.clientWidth, m=8, t=vl; if(l<vl+m)t=Math.max(0,l-m); else if(r>vr-m)t=r-host.clientWidth+m; if(Math.abs(t-vl)>1) host.scrollTo({left:t,behavior:'smooth'}); }
+  var pre=isSeg(host)?'--purity-indicator':'--unit-indicator', rdy=isSeg(host)?'purity-indicator-ready':'unit-indicator-ready';
+  host.style.setProperty(pre+'-x',a.offsetLeft+'px'); host.style.setProperty(pre+'-width',a.offsetWidth+'px');
+  if(!host.classList.contains(rdy)){ void I.offsetWidth; host.classList.add(rdy); } }
+ function fire(host){ var I=host.querySelector('.'+IC(host)); if(!I) return; I.classList.remove('demo-chip-animate'); void I.offsetWidth; I.classList.add('demo-chip-animate'); }
+ function setSpot(v){ var e=$('spotInput'); if(!e) return; e.value=String(v); e.dispatchEvent(new Event('input',{bubbles:true})); }
+ function inr(usd){ var fx=num('usdinrInput'); return fx>0&&usd>0 ? '₹'+Math.round(usd*fx).toLocaleString('en-IN')+'/ct' : ''; }
+ function usd(v){ return v>0 ? '$'+Number(v).toLocaleString('en-US',{maximumFractionDigits:2})+'/ct' : '—'; }
+ window.__gcEmrRef=function(){ return G.type==='lab' ? G.shape+' · Synthetic · '+G.lab+' · '+G.color : G.shape+' · '+G.origin+' · '+G.color+' · '+G.clarity+' · '+G.treat+' oil'+(G.cert&&G.cert!=='None'?' · '+G.cert:''); };
+ var lbl=null; function stoneLabel(){ var row=$('rowPure'); if(!row) return; var w=document.createTreeWalker(row,NodeFilter.SHOW_TEXT),n; while(n=w.nextNode()){ var t=n.nodeValue.trim(); if(t==='Metal Value'||t==='Stone Value'){ if(isD()) n.nodeValue=n.nodeValue.replace(t,'Stone Value'); else if(!/^(diamond|emerald)$/.test(window.__gcMetal)) n.nodeValue=n.nodeValue.replace(t,'Metal Value'); } } }
+ function render(){
+  stoneLabel();
+  if(!$('emrGradeLine')) return;
+  var gb=$('emrGrade'); gb.dataset.type=G.type; gb.dataset.round=G.shape==='Round'?'1':'0';
+  $('emrGradeLine').textContent = G.type==='lab' ? 'Synthetic · '+G.shape+' · '+G.lab+' · '+G.color : 'Natural · '+G.shape+' · '+G.origin+' · '+G.color+' · '+G.clarity+' · '+G.treat+(G.treat==='None'?' (no oil)':' oil')+' · '+G.cert;
+  var rnd=G.shape==='Round';
+  $('emrCrit').textContent = G.lab==='Flux' ? 'Flux synthetic: grown from a molten flux; often wispy flux “fingerprints” and platinum platelets under magnification.' : 'Hydrothermal synthetic: grown in high-pressure water; often chevron / zig-zag growth lines under magnification.';
+  var n=R[key('natural')], l=R[key('lab')];
+  $('emrNat').textContent=usd(n); $('emrLab').textContent=usd(l);
+  $('emrNatInr').textContent=inr(n); $('emrLabInr').textContent=inr(l)+(n>0&&l>0?' · '+Math.round((1-l/n)*100)+'% below natural':'');
+  $('emrNat').parentNode.classList.toggle('is-on',G.type==='natural'); $('emrLab').parentNode.classList.toggle('is-on',G.type==='lab');
+  $('emrRateNote').textContent = R[key()]>0 ? 'Saved rate for this grade is loaded in Market → EMR → U$D. Change it there to update this grade.' : 'No rate saved for this grade yet — enter your $/ct in Market → EMR → U$D and it is kept for this grade.';
+  size();
+ }
+ function pick(f){ return function(v){ var cur=num('spotInput'); if(isD()&&cur>0) R[key()]=cur; G[f]=v; if(f==='type'||f==='shape') setTimeout(function(){ ['emrColor','emrClarity','emrCut','emrPolish','emrSym','emrFluor','emrLabGrade'].forEach(function(id){ var h=$(id); if(h) ind(h,false); }); },30); var nv=R[key()]; if(isD()&&nv>0) setSpot(nv); else if(isD()){ var e=$('spotInput'); if(e){ skip=true; e.dispatchEvent(new Event('input',{bubbles:true})); skip=false; } } save(); render(); }; }
+ Object.keys(ROWS).forEach(function(id){ build(id,ROWS[id],G[ROWS[id].f],pick(ROWS[id].f)); });
+ var sp=$('spotInput'); var skip=false; if(sp) sp.addEventListener('input',function(){ if(!isD()||skip) return; var v=num('spotInput'); if(v>0){ R[key()]=v; save(); } render(); });
+ var fx=$('usdinrInput'); if(fx) fx.addEventListener('input',render);
+ /* ---- size → carat ---- */
+ var K={Emerald:.0025,Oval:.0020,Cushion:.0022,Pear:.00175,Round:.0018,Heart:.0019,Princess:.0023,Cabochon:.0026};
+ build('esShape',{f:'shape',items:Object.keys(SHAPE_IC).map(function(n){ return [n,n,'']; }),icon:ROWS.emrShape.icon},DS.shape,function(v){ DS.shape=v; size(); });
+ function size(){
+  if(!$('esCt')) return;
+  var round=DS.shape==='Round'; $('esWidF').style.display=round?'none':''; $('esLenLbl').textContent=round?'Diameter':'Length';
+  var L=num('esLen'), W=round?L:num('esWid'), Dp=num('esDep'), q=Math.max(1,num('esQty')||1);
+  var SG=G.type==='lab'?2.68:2.72, ct = (round ? L*L*Dp*K.Round : L*W*Dp*(K[DS.shape]||.0022))*SG;
+  ct*=q;
+  if(!(ct>0)){ ['esCt','esG','esVal'].forEach(function(i){ $(i).textContent='—'; }); return; }
+  $('esCt').textContent=ct.toFixed(ct<1?3:2)+' ct'; $('esCents').textContent=(ct/0.91).toFixed(2)+' ratti · '+Math.round(ct*100)+' cents'+(q>1?' · '+q+' stones':'');
+  $('esG').textContent=(ct*.2).toFixed(3)+' g'; $('esMg').textContent=Math.round(ct*200)+' mg';
+  var rate=num('spotInput'), fxv=num('usdinrInput');
+  if(isD()&&rate>0&&fxv>0){ $('esVal').textContent='₹'+Math.round(ct*rate*fxv).toLocaleString('en-IN'); $('esValNote').textContent='At $'+rate+'/ct × ₹'+fxv+' for '+window.__gcEmrRef()+' (Calculate). Before duty and GST.'; }
+  else { $('esVal').textContent='—'; $('esValNote').textContent='Enter your $/ct in Market to see the value.'; }
+ }
+ ['esLen','esWid','esDep','esQty'].forEach(function(id){ var e=$(id); if(e) e.addEventListener('input',size); });
+ document.addEventListener('gc:metal',function(){ if(isD()){ var nv=R[key()]; if(nv>0 && Math.abs(nv-num('spotInput'))>1e-9) setSpot(nv); }
+  requestAnimationFrame(function(){ ['emrType','emrShape','emrColor','emrClarity','emrCut','emrPolish','emrSym','emrFluor','emrLabGrade','esShape'].forEach(function(id){ var h=$(id); if(h) ind(h,false); }); render(); }); });
+ document.addEventListener('click',function(e){ if(e.target.closest&&e.target.closest('[data-target="tab-calc"],[data-target="tab-convert"]')) setTimeout(function(){ ['emrType','emrShape','emrColor','emrClarity','emrCut','emrPolish','emrSym','emrFluor','emrLabGrade','esShape'].forEach(function(id){ var h=$(id); if(h) ind(h,true); }); },80); },true);
+
+ /* ===== Grading | Calculate split ===== */
+ var body=$('calculateBody'), gb=$('emrGrade'), PANE='grade', GT='shape';
+ try{ PANE=localStorage.getItem('gcEmrPane')||'grade'; }catch(_){}
+ var h1=document.createElement('div'); h1.className='eg-h'; h1.innerHTML='<svg class="icon icon-sm" viewBox="0 0 28 28" aria-hidden="true"><use href="#dropBase"/><path d="M9.5 10.5h9l2.6 3L14 21l-7.1-7.5z" fill="none" stroke="var(--glyph)" stroke-width="1.4" stroke-linejoin="round"/></svg> Emerald Type <small>Coloured-stone grade</small>';
+ gb.insertBefore(h1,$('emrType'));
+ var h2=document.createElement('div'); h2.className='eg-h eg-grad'; h2.innerHTML='<svg class="icon icon-sm" viewBox="0 0 28 28" aria-hidden="true"><use href="#dropBase"/><path d="M8 18.5h12M9.5 14.5h9M11 10.5h6" stroke="var(--glyph)" stroke-width="1.5" stroke-linecap="round"/></svg> Gradings <small id="egHint"></small>';
+ var tabs=document.createElement('div'); tabs.className='chip-row emr-chips'; tabs.id='emrGTabs'; tabs.setAttribute('role','tablist');
+ $('emrType').parentNode.insertBefore(h2,$('emrType').nextSibling); h2.parentNode.insertBefore(tabs,h2.nextSibling);
+ var TIC={origin:'<path d="M14 23s-6.2-6.6-6.2-11.2a6.2 6.2 0 0 1 12.4 0C20.2 16.4 14 23 14 23z"/><circle cx="14" cy="11.8" r="2.2"/>',treat:'<path d="M14 5.5s-5.6 6.4-5.6 10.2a5.6 5.6 0 0 0 11.2 0C19.6 11.9 14 5.5 14 5.5z"/><circle cx="14" cy="16" r="1.8" fill="currentColor" stroke="none" opacity=".7"/>',cert:'<rect x="7.5" y="5.5" width="13" height="17" rx="2"/><circle cx="16.8" cy="17.4" r="2.4"/><path d="M10.5 9.5h7M10.5 12.5h5" opacity=".55"/>',method:'<path d="M11 5.5h6M12 5.5v5.2L7.6 19a2 2 0 0 0 1.8 3h9.2a2 2 0 0 0 1.8-3L16 10.7V5.5"/>',shape:'<circle cx="14" cy="14" r="7.5"/><path d="M14 6.5v15M6.5 14h15M8.7 8.7l10.6 10.6M19.3 8.7 8.7 19.3" opacity=".45"/>',color:'<path d="M9 10h10l3 3.3L14 22l-8-8.7z" fill="rgba(236,196,120,.28)"/>',clarity:'<path d="M9 10h10l3 3.3L14 22l-8-8.7z"/><circle cx="12.8" cy="15" r=".9" fill="currentColor" stroke="none"/><circle cx="15.6" cy="13.8" r=".9" fill="currentColor" stroke="none"/>',cut:'<path d="M9 11h10l3 3.1L14 22.5l-8-8.4z"/><path d="M6 14.1h16M11.7 11 14 14.1l2.3-3.1" opacity=".55"/>',polish:'<path d="M9 11h10l3 3.1L14 22.5l-8-8.4z"/><path d="M8 7.2l1.3-1.3M12.3 7.2l1.3-1.3M16.6 7.2l1.3-1.3" opacity=".9"/>',sym:'<path d="M9 11h10l3 3.1L14 22.5l-8-8.4z"/><path d="M14 5.5v18" stroke-dasharray="1.6 1.6" opacity=".6"/>',fluor:'<circle cx="14" cy="14" r="9" fill="rgba(140,180,255,.3)" stroke="none"/><path d="M9.5 11h9l2.7 2.9L14 21.5l-7.2-7.6z"/>',gia:'<path d="M14 5.5l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.6-4.8 2.6.9-5.4-3.9-3.8 5.4-.8z"/>'};
+ function gItems(){ return G.type==='lab' ? [['shape','Shape',G.shape],['method','Method',G.lab],['color','Colour',G.color.replace(' Green','')]]
+   : [['shape','Shape',G.shape],['origin','Origin',G.origin],['color','Colour',G.color.replace(' Green','')],['clarity','Clarity',({'Eye Clean':'Eye Clean','Very Slightly Included':'VSI','Slightly Included':'SI','Moderately Included':'MI','Heavily Included':'HI'})[G.clarity]||G.clarity],['treat','Treatment',G.treat],['cert','Certificate',G.cert]]; }
+ var ROWID={shape:'emrShape',origin:'emrCut',color:'emrColor',clarity:'emrClarity',treat:'emrPolish',cert:'emrSym',method:'emrLabGrade'};
+ var HINT={shape:'Shape',origin:'Origin',color:'Colour',clarity:'Clarity',treat:'Treatment',cert:'Certificate',method:'Method'};
+ function drawTabs(){ var it=gItems(); if(!it.some(function(x){return x[0]===GT;})) GT='shape';
+   build('emrGTabs',{f:'gt',items:it,icon:function(v){ return ic(TIC[v]); }},GT,function(v){ GT=v; showRow(true); });
+   showRow(false); }
+ function showRow(scroll){ gb.dataset.gtab=GT; var lb=(gItems().filter(function(x){return x[0]===GT;})[0]||['',''])[1]; $('egHint').innerHTML=ic(TIC[GT])+'<span>'+lb+'</span>'; setTimeout(function(){ var h=$(ROWID[GT]); if(h) ind(h,scroll); },20); }
+ function setPane(p,anim){ if(!body) return; var prev=PANE; PANE=p; try{ localStorage.setItem('gcEmrPane',p); }catch(_){}
+   if(isD()) body.dataset.dpane=p; $('emrSplit').querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-selected',String(b.dataset.p===p)); });
+   if(anim&&prev!==p){ body.style.setProperty('--es-from',p==='calc'?'26px':'-26px'); body.classList.remove('es-anim'); void body.offsetWidth; body.classList.add('es-anim'); }
+   setTimeout(function(){ ['unitChips','emrGTabs',ROWID[GT],'emrType'].forEach(function(id){ var h=$(id); if(h) ind(h,false); }); window.dispatchEvent(new Event('resize')); },40); }
+ $('emrSplit').querySelectorAll('button').forEach(function(b){ b.addEventListener('click',function(){ setPane(b.dataset.p,true); if(window.__gcHaptic) window.__gcHaptic('click'); }); });
+ $('emrCalcSum').addEventListener('click',function(){ setPane('grade',true); if(window.__gcHaptic) window.__gcHaptic('click'); });
+ function sumSync(){ var r=R[key()], fx=num('usdinrInput'); $('ecsGrade').textContent=$('emrGradeLine').textContent;
+   $('ecsRate').textContent = r>0 ? '$'+Number(r).toLocaleString('en-US')+'/ct'+(fx>0?' · ₹'+Math.round(r*fx).toLocaleString('en-IN')+'/ct':'') : 'No rate for this grade yet — enter $/ct in Market'; }
+ var _rr=render; render=function(){ _rr();
+   $('emrGradeLine').textContent = G.type==='lab' ? 'Synthetic · '+G.shape+' · '+G.lab+' · '+G.color : 'Natural · '+G.shape+' · '+G.origin+' · '+G.color+' · '+G.clarity+' · '+G.treat+(G.treat==='None'?' (no oil)':' oil')+' · '+G.cert;
+   var sig=G.type+G.shape+G.origin+G.color+G.clarity+G.treat+G.cert+G.lab; if(render.sig!==sig){ render.sig=sig; drawTabs(); } sumSync(); gstShow(false); dutyShow(false); engineSync(); if(window.__gcEmrFields) window.__gcEmrFields(); heroSync(); };
+
+ /* icon motion trigger (diamond only) */
+ document.addEventListener('click',function(e){ if(!isD()||!e.target.closest) return; var b=e.target.closest('.emr-chips .chip,#unitChips .chip,#emrSplit button'); if(!b) return;
+   b.classList.remove('emr-play'); void b.offsetWidth; b.classList.add('emr-play'); clearTimeout(b._dp); b._dp=setTimeout(function(){ b.classList.remove('emr-play'); },1000); },true);
+
+
+ /* keep EMR → U$D editable with Rates ON (it is never fetched live) */
+ (function(){ var e=$('spotInput'); if(!e) return; var w=e.closest('.input-wrap'), busy=false;
+   function unlock(){ if(busy) return; busy=true;
+     if(isD()){ if(e.hasAttribute('readonly')) e.removeAttribute('readonly'); if(e.getAttribute('aria-readonly')) e.removeAttribute('aria-readonly'); if(w&&w.classList.contains('market-rate-locked')) w.classList.remove('market-rate-locked'); if(e.placeholder!=='Your $/ct') e.placeholder='Your $/ct'; if(e.title!=='Your price per carat for this grade') e.title='Your price per carat for this grade'; }
+     busy=false; }
+   if(window.MutationObserver){ new MutationObserver(unlock).observe(e,{attributes:true,attributeFilter:['readonly','placeholder','title']}); if(w) new MutationObserver(unlock).observe(w,{attributes:true,attributeFilter:['class']}); }
+   document.addEventListener('gc:metal',function(){ setTimeout(unlock,30); }); unlock(); })();
+
+ /* ===== Market: EMR → U$D · Natural and EMR → U$D · Lab ===== */
+ (function(){ var eng=$('spotInput'); if(!eng) return; var spF=eng.closest('.field'); if(!spF) return; spF.classList.add('emr-spot-engine');
+   function mk(id,label,t){ var f=spF.cloneNode(true); f.classList.remove('emr-spot-engine'); f.classList.add('emr-rate-field'); f.removeAttribute('id');
+     var act=f.querySelector('.field-top-actions'); if(act) act.remove();
+     var lb=f.querySelector('label'); lb.setAttribute('for',id); var tn=[].filter.call(lb.childNodes,function(n){return n.nodeType===3;}).pop(); if(tn) tn.nodeValue=label; else lb.appendChild(document.createTextNode(label));
+     var w=f.querySelector('.input-wrap'); if(w) w.classList.remove('market-rate-locked');
+     f.querySelectorAll('.market-unit').forEach(function(u){ u.className='prefix emr-unit'; u.textContent='/ct'; });
+     var inp=f.querySelector('input'); inp.id=id; inp.removeAttribute('readonly'); inp.removeAttribute('aria-readonly'); inp.removeAttribute('style'); inp.value=''; inp.placeholder='Your $/ct'; inp.title=label+' — your price per carat for the selected grade';
+     f.querySelectorAll('[id]').forEach(function(n){ if(n!==inp) n.removeAttribute('id'); });
+     inp.addEventListener('input',function(){ var v=parseFloat(String(inp.value).replace(/,/g,'')); var k=key(t);
+       if(v>0) R[k]=v; else delete R[k]; save(); if(G.type===t) setSpot(v>0?v:''); render(); });
+     spF.parentNode.insertBefore(f,spF); return inp; }
+   var nat=mk('emrNatSpot','EMR → U$D · Natural','natural'), lab=mk('emrLabSpot','EMR → U$D · Synthetic','lab');
+   /* Carat strip (sets the carat size of both top cards) with Index ↗ shortcut */
+   var cf=spF.cloneNode(true); cf.classList.remove('emr-spot-engine'); cf.classList.add('emr-rate-field'); cf.removeAttribute('id');
+   cf.querySelectorAll('[id]').forEach(function(n){ n.removeAttribute('id'); });
+   var cta=cf.querySelector('.field-top-actions'); if(cta) cta.innerHTML='';
+   var clb=cf.querySelector('label'); var ctn=[].filter.call(clb.childNodes,function(n){return n.nodeType===3;}).pop(); if(ctn) ctn.nodeValue='Carat'; clb.setAttribute('for','emrCaratIn'); var csv=clb.querySelector('svg'); if(csv) csv.outerHTML='<svg aria-hidden="true" class="icon icon-sm" viewBox="0 0 28 28"><use href="#dropBase"/><path d="M9.5 10.5h9l2.6 3L14 21l-7.1-7.5z" fill="none" stroke="var(--glyph)" stroke-width="1.4" stroke-linejoin="round"/><path d="M6.9 13.5h14.2" stroke="var(--glyph)" stroke-width="1" opacity=".6"/></svg>';
+   var cw=cf.querySelector('.input-wrap'); if(cw) cw.classList.remove('market-rate-locked');
+   cf.querySelectorAll('.prefix').forEach(function(u){ if(u.classList.contains('market-unit')){ u.className='prefix emr-unit'; u.textContent='ct'; } else u.textContent='◇'; });
+   var car=cf.querySelector('input'); car.id='emrCaratIn'; car.removeAttribute('style'); car.inputMode='decimal';
+   var CT=1; try{ CT=parseFloat(localStorage.getItem('gcEmrCarat'))||1; }catch(_){} car.value=String(CT);
+   car.addEventListener('input',function(){ var v=parseFloat(String(car.value).replace(/,/g,'')); CT=v>0?v:1; try{ localStorage.setItem('gcEmrCarat',String(CT)); }catch(_){} heroSync(); });
+   var fxF=($('usdinrInput')||{}).closest ? $('usdinrInput').closest('.field') : null;
+   if(fxF&&fxF.parentNode) fxF.parentNode.insertBefore(cf,fxF.nextSibling); else spF.parentNode.insertBefore(cf,spF);
+   window.__gcEmrCarat=function(){ return CT; };
+   /* Carat: pick 0.5 – 5 ct from a small glass list */
+   car.setAttribute('readonly',''); car.setAttribute('aria-readonly','true'); car.setAttribute('aria-haspopup','listbox'); car.title='Tap to choose carat';
+   var cw2=car.closest('.input-wrap'); if(cw2){ cw2.classList.add('emr-carat-pick'); var chev=document.createElement('span'); chev.className='prefix emr-chev'; chev.textContent='▾'; cw2.appendChild(chev); }
+   var pop=document.createElement('div'); pop.className='emr-carat-pop'; pop.setAttribute('role','listbox'); pop.hidden=true; document.body.appendChild(pop);
+   var CTS=[0.5,1,1.5,2,2.5,3,3.5,4,4.5,5];
+   function drawPop(){ pop.innerHTML=CTS.map(function(v){ return '<button type="button" role="option" data-v="'+v+'" aria-selected="'+(v===CT)+'">'+v+'<small>ct</small></button>'; }).join(''); }
+   function openPop(){ drawPop(); var r=(cw2||car).getBoundingClientRect(); pop.hidden=false; var w=Math.min(300,window.innerWidth-24); pop.style.width=w+'px';
+     pop.style.left=Math.max(12,Math.min(window.innerWidth-w-12,r.right-w))+'px'; var top=r.bottom+8; if(top+pop.offsetHeight>window.innerHeight-90) top=r.top-pop.offsetHeight-8; pop.style.top=top+'px';
+     requestAnimationFrame(function(){ pop.classList.add('open'); }); if(window.__gcHaptic) window.__gcHaptic('click'); }
+   function closePop(){ pop.classList.remove('open'); setTimeout(function(){ pop.hidden=true; },180); }
+   (cw2||car).addEventListener('click',function(e){ e.preventDefault(); car.blur(); pop.hidden?openPop():closePop(); });
+   pop.addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; CT=parseFloat(b.dataset.v); car.value=String(CT); try{ localStorage.setItem('gcEmrCarat',String(CT)); }catch(_){} heroSync(); if(window.__gcHaptic) window.__gcHaptic('tick'); drawPop(); setTimeout(closePop,120); });
+   document.addEventListener('click',function(e){ if(!pop.hidden && !pop.contains(e.target) && !(cw2||car).contains(e.target)) closePop(); },true);
+   window.addEventListener('scroll',function(){ if(!pop.hidden) closePop(); },{passive:true});
+   if(CTS.indexOf(CT)<0){ CT=1; car.value='1'; }
+   /* strips stay locked; double-tap a strip to type a value */
+   function ratesOn(){ var t=$('marketRatesToggle'); return !!t && t.getAttribute('aria-checked')==='true'; }
+   /* Emerald Market rule: Rates ON → every strip locked. Rates OFF → double-tap a strip to edit it. */
+   window.__gcEmrRatesOn=ratesOn;
+   ['emrNatSpot','emrLabSpot','usdinrInput','dutyInput','gstInput'].forEach(function(id){ var inp=$(id); if(!inp) return; var w=inp.closest('.input-wrap')||inp, last=0, open=false, busy=false;
+     function lock(){ if(!isD()) return; busy=true; open=false; if(!inp.hasAttribute('readonly')) inp.setAttribute('readonly',''); inp.setAttribute('aria-readonly','true'); w.classList.remove('emr-editing'); busy=false; }
+     function unlock(){ if(!isD()||ratesOn()) return; busy=true; open=true; inp.removeAttribute('readonly'); inp.removeAttribute('aria-readonly'); w.classList.add('emr-editing'); busy=false; inp.focus(); try{ inp.select(); }catch(_){}
+       try{ if(window.AndroidBridge&&AndroidBridge.showKeyboard) AndroidBridge.showKeyboard(); }catch(_){} if(window.__gcHaptic) window.__gcHaptic('click'); }
+     w.addEventListener('pointerup',function(e){ if(!isD()||open) return; var t=Date.now(); if(t-last<320){ e.preventDefault(); unlock(); last=0; } else last=t; });
+     w.addEventListener('dblclick',function(e){ if(isD()&&!open){ e.preventDefault(); unlock(); } });
+     inp.addEventListener('focus',function(){ if(isD()&&!open) inp.blur(); });
+     inp.addEventListener('blur',function(){ setTimeout(function(){ if(document.activeElement!==inp) lock(); },60); });
+     inp.addEventListener('keydown',function(e){ if(e.key==='Enter') inp.blur(); });
+     if(window.MutationObserver) new MutationObserver(function(){ if(!busy&&isD()&&!open&&!inp.hasAttribute('readonly')) lock(); }).observe(inp,{attributes:true,attributeFilter:['readonly']});
+     inp.title='Rates OFF: double-tap to edit';
+     document.addEventListener('gc:metal',function(){ setTimeout(function(){ if(isD()) lock(); },40); });
+     document.addEventListener('click',function(e){ if(e.target.closest&&e.target.closest('#marketRatesToggle')) setTimeout(function(){ if(isD()){ if(open) inp.blur(); lock(); } },40); },true);
+     lock(); });
+   function fmt(v){ return v>0?Number(v).toLocaleString('en-US',{maximumFractionDigits:2}):''; }
+   [nat,lab].forEach(function(i){ i.addEventListener('blur',function(){ setTimeout(function(){ if(window.__gcEmrFields) window.__gcEmrFields(); },80); }); i.addEventListener('focus',function(){ if(!i.hasAttribute('readonly')) i.value=String(i.value).replace(/,/g,''); }); });
+   window.__gcEmrFields=function(){ if(document.activeElement!==nat) nat.value=fmt(R[key('natural')]); if(document.activeElement!==lab) lab.value=fmt(R[key('lab')]); };
+ })();
+ /* Index ↗: double-tap opens StoneAlgo diamond price index */
+ (function(){ var lastI=0; document.addEventListener('click',function(e){ var btn=e.target.closest&&e.target.closest('#emrIndexBtn'); if(!btn) return; e.preventDefault(); var t=Date.now();
+   if(t-lastI<350){ lastI=0; if(window.__gcHaptic) window.__gcHaptic('click'); window.open('https://www.stonealgo.com/diamond-prices/','_blank','noopener'); } else { lastI=t; if(window.__gcHaptic) window.__gcHaptic('tick'); } }); })();
+
+ /* GST by type: natural cut & polished 1.5% (HSN 7102), lab-grown loose 0.25% (HSN 7104) — each type keeps its own value */
+ var GSTD={natural:0.25,lab:0.25}, GS={natural:0.25,lab:0.25}; try{ var gq=JSON.parse(localStorage.getItem('gcEmrGst')||'null'); if(gq){ if(gq.natural>=0) GS.natural=+gq.natural; if(gq.lab>=0) GS.lab=+gq.lab; } }catch(_){}
+ var gstT=null, gIn=$('gstInput');
+ function gstShow(force){ if(!isD()||!gIn) return; if(gstT===G.type&&!force) return; gstT=G.type; var v=GS[G.type];
+   if(Math.abs(num('gstInput')-v)>1e-9){ var ro=gIn.hasAttribute('readonly'); gIn.removeAttribute('readonly'); gIn.value=String(v); gIn.dispatchEvent(new Event('input',{bubbles:true})); if(ro) gIn.setAttribute('readonly',''); } }
+ if(gIn) gIn.addEventListener('input',function(){ if(!isD()||gstT!==G.type) return; var v=num('gstInput'); if(v>=0&&gIn.value!==''){ GS[G.type]=v; try{ localStorage.setItem('gcEmrGst',JSON.stringify(GS)); }catch(_){} } setTimeout(heroSync,0); });
+
+ /* Import duty by type: natural emerald 5% + SWS (≈5.5%) · synthetic gemstones 15% + SWS (≈16.5%, Budget 2026) */
+ var DTY={natural:5.5,lab:16.5}; try{ var dq=JSON.parse(localStorage.getItem('gcEmrDuty')||'null'); if(dq){ if(dq.natural>=0) DTY.natural=+dq.natural; if(dq.lab>=0) DTY.lab=+dq.lab; } }catch(_){}
+ var dutyT=null, dIn=$('dutyInput');
+ function dutyShow(force){ if(!isD()||!dIn) return; if(dutyT===G.type&&!force) return; dutyT=G.type; var v=DTY[G.type];
+   if(Math.abs(num('dutyInput')-v)>1e-9){ var ro=dIn.hasAttribute('readonly'); dIn.removeAttribute('readonly'); dIn.value=String(v); dIn.dispatchEvent(new Event('input',{bubbles:true})); if(ro) dIn.setAttribute('readonly',''); } }
+ if(dIn) dIn.addEventListener('input',function(){ if(!isD()||dutyT!==G.type) return; var v=num('dutyInput'); if(v>=0&&dIn.value!==''){ DTY[G.type]=v; try{ localStorage.setItem('gcEmrDuty',JSON.stringify(DTY)); }catch(_){} } setTimeout(heroSync,0); });
+ window.__gcEmrDuty=function(t){ return DTY[t]; };
+ window.__gcEmrGst=function(t){ return GS[t]; };
+ /* engine spot always equals the selected type's saved rate */
+ function engineSync(){ if(!isD()) return; var want=R[key()]||0, cur=num('spotInput'); if(Math.abs(cur-want)>1e-9){ skip=true; setSpot(want>0?want:''); skip=false; } }
+ /* top cards: Natural → IN₹ • 1 ct and Lab → IN₹ • 1 ct */
+ function heroSync(){ if(!isD()) return; var fx=num('usdinrInput'), d=num('dutyInput'), g=num('gstInput');
+   var dOn=($('dutyToggle')||{getAttribute:function(){return 'true';}}).getAttribute('aria-checked')!=='false', gOn=($('gstToggle')||{getAttribute:function(){return 'false';}}).getAttribute('aria-checked')==='true';
+   var c=(window.__gcEmrCarat?window.__gcEmrCarat():1), fb=fx*c, dN=dOn?1+((window.__gcEmrDuty?window.__gcEmrDuty('natural'):d))/100:1, dL=dOn?1+((window.__gcEmrDuty?window.__gcEmrDuty('lab'):d))/100:1, gN=gOn?1+((window.__gcEmrGst?window.__gcEmrGst('natural'):g))/100:1, gL=gOn?1+((window.__gcEmrGst?window.__gcEmrGst('lab'):g))/100:1;
+   var ks=document.querySelectorAll('.card.hero .hero-stat .k'); var cl=(+c.toFixed(3))+' ct'; if(ks[0]&&ks[0].textContent!=='Natural → IN₹ • '+cl) ks[0].textContent='Natural → IN₹ • '+cl; if(ks[1]){ var sp=ks[1].querySelector('span')||ks[1]; if(sp.textContent!=='Synthetic → IN₹ • '+cl) sp.textContent='Synthetic → IN₹ • '+cl; }
+   [['hero24k',R[key('natural')],gN,dN],['hero22k',R[key('lab')],gL,dL]].forEach(function(x){ var el=$(x[0]); if(!el) return; var t=(x[1]>0&&fx>0)?'₹'+Math.round(x[1]*fb*x[2]*x[3]).toLocaleString('en-IN'):'—'; if(el.textContent!==t) el.textContent=t; }); }
+ ['hero24k','hero22k'].forEach(function(id){ var el=$(id); if(el&&window.MutationObserver) new MutationObserver(function(){ if(isD()) heroSync(); }).observe(el,{childList:true,characterData:true,subtree:true}); });
+ ['usdinrInput','dutyInput','gstInput'].forEach(function(id){ var e=$(id); if(e) e.addEventListener('input',function(){ setTimeout(heroSync,0); }); });
+ document.addEventListener('click',function(e){ if(e.target.closest&&e.target.closest('#dutyToggle,#gstToggle')) setTimeout(heroSync,30); },true);
+ document.addEventListener('gc:metal',function(){ setPane(PANE,false); setTimeout(function(){ gstShow(true); dutyShow(true); engineSync(); heroSync(); },60); });
  setPane(PANE,false);
  render(); setInterval(function(){ if(isD()) render(); },3000);
 })();

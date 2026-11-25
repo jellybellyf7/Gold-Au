@@ -32,6 +32,12 @@
    "rate": 5.5,
    "wef": "",
    "ref": "BCD 5% + SWS 10% of BCD · cut & polished (7102 39) / lab-grown (7104 91)"
+  },
+  "emerald": {
+   "rate": 5.5,
+   "wef": "",
+   "ref": "Natural: BCD 5% + SWS 10% (7103 91) · Synthetic: BCD 15% + SWS 10% (7104 91, Budget 2026)",
+   "synthetic": 16.5
   }
  },
  "gst": {
@@ -65,6 +71,12 @@
    "wef": "2022-07-18",
    "ref": "GST 1.5% natural cut & polished (HSN 7102) · lab-grown loose 0.25% (HSN 7104)",
    "lab": 0.25
+  },
+  "emerald": {
+   "rate": 0.25,
+   "wef": "2018-01-25",
+   "ref": "GST 0.25% cut & polished emerald (HSN 7103 91) · synthetic (7104) 0.25%",
+   "synthetic": 0.25
   }
  }
 }
