@@ -14094,6 +14094,19 @@ html[data-metal="emerald"] #readyMadeOverlay .mcx-preview-placeholder{color:rgba
  hookAll(); document.addEventListener('DOMContentLoaded',hookAll); setTimeout(hookAll,1500);
 })();
 </script>
+<script id="insights-rail-haptics-20261126">
+/* Insights widget lists (Metal_INR, XAU_FX and the other five-visible lists): one faint tick per widget card scrolled past.
+   The widgets are TradingView frames, so a finger on them never reaches the page's touch listeners — tick on the list's own scroll instead. */
+(function(){'use strict';
+ function hookRail(el){ if(!el||el.__gcHapRail) return; el.__gcHapRail=1; var idx=null, h=0;
+   function step(){ var c=el.querySelector(':scope > .compare-market-widget'); var g=parseFloat(getComputedStyle(el).rowGap||getComputedStyle(el).gap)||0; return c?Math.max(24,c.getBoundingClientRect().height+g):80; }
+   el.addEventListener('scroll',function(){ if(el.scrollHeight<=el.clientHeight+2) return; if(!h) h=step(); var i=Math.round(el.scrollTop/h); if(idx===null){ idx=i; return; } if(i!==idx){ idx=i; if(window.__gcHaptic) window.__gcHaptic('tick'); } },{passive:true});
+   window.addEventListener('resize',function(){ h=0; },{passive:true}); }
+ function all(){ document.querySelectorAll('#tab-insights .compare-market-widgets').forEach(hookRail); }
+ all(); document.addEventListener('DOMContentLoaded',all); setTimeout(all,1500);
+})();
+</script>
+
 <script id="tamil-tab-indicator-20261124">document.addEventListener("gc:metal",function(){try{window.__gcQuickTamilReset&&window.__gcQuickTamilReset();}catch(_){}setTimeout(function(){try{window.__gcQuickTamilReset&&window.__gcQuickTamilReset();}catch(_){}},60);requestAnimationFrame(function(){requestAnimationFrame(function(){window.dispatchEvent(new Event("resize"));});});});</script>
 <script id="copper-mode-ui-20261124">
 /* Copper mode extras: /lb unit on the XCU strip; wire weight calculator. */
